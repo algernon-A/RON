@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Language UniqueName="en" ReadableName="English">
+  <Translations>
+    <Translation ID="RON_NAM" String="RON, the network replacer" />
+    <Translation ID="RON_DESC" String="UNDER DEVELOPMENT: Replaces networks.  With other networks." />
+    <Translation ID="RON_PNL_REP" String="Replace" />
+    <Translation ID="RON_PNL_TYP" String="Network type" />
+    <Translation ID="RON_PNL_ROA" String="Roads" />
+    <Translation ID="RON_PNL_RAI" String="Rail" />
+    <Translation ID="RON_PNL_PAT" String="Paths" />
+    <Translation ID="RON_PNL_DEC" String="Decoration" />
+    <Translation ID="RON_PNL_WID" String="Same width only" />
+    <Translation ID="RON_PNL_RIP" String="Replacement in progress" />
+    <Translation ID="RON_FIL_NAME" String="Search:" />
+    <Translation ID="TRN_CHOICE" String="Set language" />
+    <Translation ID="TRN_SYS" String="Use game language" />
+  </Translations>
+</Language>
