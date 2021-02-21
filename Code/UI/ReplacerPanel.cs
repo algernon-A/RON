@@ -24,8 +24,9 @@ namespace RON
 		protected const float MenuY = 50f;
 		protected const float ReplaceX = RightWidth + Margin - 100f;
 		protected const float ReplaceY = 50f;
+		protected const float GoToY = MenuY + 30f;
 		protected const float ProgressY = ReplaceY + 35f;
-		protected const float ToolbarHeight = 60f;
+		protected const float ToolbarHeight = 70f;
 
 
 		// Instance references.
@@ -37,17 +38,18 @@ namespace RON
 		private NetInfo selectedTarget, selectedReplacement;
 
 		// Panel components.
-		private UIFastList targetList, loadedList;
-		private UIButton replaceButton;
-		private UITextField nameFilter;
-		private UIDropDown typeDropDown;
-		private UILabel replacingLabel, progressLabel;
-		private UICheckBox sameWidthCheck;
+		private readonly UIFastList targetList, loadedList;
+		private readonly UIButton replaceButton, goToButton;
+		private readonly UITextField nameFilter;
+		private readonly UIDropDown typeDropDown;
+		private readonly UILabel replacingLabel, progressLabel;
+		private readonly UICheckBox sameWidthCheck;
 
 		// Status.
 		private bool replacing, replacingDone;
 		private float timer;
 		private int timerStep;
+		private ushort lastShownSegment;
 
 		// Nework type list.
 		private const int NumTypes = 10;
@@ -138,15 +140,22 @@ namespace RON
 		{
 			set
 			{
-				selectedTarget = value;
+				// Don't do anything if the target hasn't changed.
+				if (selectedTarget != value)
+				{
+					selectedTarget = value;
 
-				// Update loaded list if we're only showing networks of the same width.
-				if (sameWidthCheck.isChecked)
-                {
-					LoadedList();
-                }
+					// Reset last shown segment counter.
+					lastShownSegment = 0;
 
-				UpdateButtonStates();
+					// Update loaded list if we're only showing networks of the same width.
+					if (sameWidthCheck.isChecked)
+					{
+						LoadedList();
+					}
+
+					UpdateButtonStates();
+				}
 			}
 		}
 
@@ -171,19 +180,16 @@ namespace RON
 		{
 			try
 			{
-				// If no instance already set, create one.
+				// If no GameObject instance already set, create one.
 				if (uiGameObject == null)
 				{
-					// A building prefab is selected; create a BuildingInfo panel.
 					// Give it a unique name for easy finding with ModTools.
 					uiGameObject = new GameObject("RONPanel");
 					uiGameObject.transform.parent = UIView.GetAView().transform;
 
+					// Create new panel instance and add it to GameObject.
 					panel = uiGameObject.AddComponent<ReplacerPanel>();
 					panel.transform.parent = uiGameObject.transform.parent;
-
-					// Set up panel with selected prefab.
-					panel.Setup();
 				}
 			}
 			catch (Exception e)
@@ -200,9 +206,9 @@ namespace RON
 		{
 			// Don't do anything if no panel, or if we're in the middle of replacing.
 			if (panel == null || panel.replacing)
-            {
+			{
 				return;
-            }
+			}
 
 			// Destroy game objects.
 			GameObject.Destroy(panel);
@@ -215,9 +221,9 @@ namespace RON
 
 
 		/// <summary>
-		/// Performs initial setup.
+		/// Constructor.
 		/// </summary>
-		private void Setup()
+		internal ReplacerPanel()
 		{
 			// Basic behaviour.
 			autoLayout = false;
@@ -280,6 +286,10 @@ namespace RON
 			replaceButton = UIControls.AddButton(this, ReplaceX, ReplaceY, Translations.Translate("RON_PNL_REP"));
 			replaceButton.eventClicked += Replace;
 
+			// Goto button.
+			goToButton = UIControls.AddButton(this, Margin, GoToY, Translations.Translate("RON_PNL_GOT"));
+			goToButton.eventClicked += GoToSegment;
+
 			// Name filter.
 			nameFilter = UIControls.LabelledTextField(this, width - 200f - Margin, ReplaceY, Translations.Translate("RON_FIL_NAME"));
 			// Event handlers for name filter textbox.
@@ -323,15 +333,25 @@ namespace RON
 		/// </summary>
 		private void UpdateButtonStates()
 		{
+			// Enable go to segment button if we have a valid target, disable it otherwise.
+			if (selectedTarget != null)
+			{
+				goToButton.Enable();
+			}
+			else
+			{
+				goToButton.Disable();
+			}
+
 			// Enable replace button if we have both a valid target and replacement, disable it otherwise.
 			if (selectedTarget != null && selectedReplacement != null)
-            {
+			{
 				replaceButton.Enable();
-            }
+			}
 			else
-            {
+			{
 				replaceButton.Disable();
-            }
+			}
 		}
 
 
@@ -341,7 +361,7 @@ namespace RON
 		/// <param name="mouseEvent">Mouse event (unused)</param>
 		/// </summary>
 		private void Replace(UIComponent control, UIMouseEventParameter mouseEvent)
-        {
+		{
 			// Set flags and reset timer.
 			replacing = true;
 			replacingDone = false;
@@ -360,12 +380,59 @@ namespace RON
 
 
 		/// <summary>
+		/// Go to segment button change handler.
+		/// </summary>
+		/// <param name="control">Calling component (unused)</param>
+		/// <param name="mouseEvent">Mouse event (unused)</param>
+		private void GoToSegment(UIComponent control, UIMouseEventParameter mouseEvent)
+		{
+			ushort targetSegment = 0;
+
+			// Find first segment matching current selection.
+			// Need to do this for each segment instance, so iterate through all segments.
+			NetSegment[] segments = NetManager.instance.m_segments.m_buffer;
+			for (ushort segmentID = 0; segmentID < segments.Length; ++segmentID)
+			{
+				// Check for match with selected target.
+				if (segments[segmentID].Info == selectedTarget)
+				{
+					// Got a match - set target if it isn't already set (first instance found).
+					if (targetSegment == 0)
+					{
+						targetSegment = segmentID;
+					}
+
+					// Is the previously-shown segment counter ahead of this?
+					if (segmentID > lastShownSegment)
+                    {
+						// 'Fresh' segment - update target to this and finish looping, since we've found our taget.
+						targetSegment = segmentID;
+						break;
+					}
+                }
+			}
+
+			// Did we find a valid target?
+			if (targetSegment != 0)
+			{
+				// Yes - set camera position.
+				Vector3 cameraPosition = segments[targetSegment].m_middlePosition;
+				cameraPosition.y = Camera.main.transform.position.y;
+				ToolsModifierControl.cameraController.SetTarget(new InstanceID { NetSegment = targetSegment }, cameraPosition, true);
+
+				// Update last shown segment to this one.
+				lastShownSegment = targetSegment;
+			}
+		}
+
+
+		/// <summary>
 		/// Perform actual network replacement.
 		/// </summary>
 		private void ReplaceNets()
-        {
+		{
 			if (selectedTarget != null && selectedReplacement != null)
-            {
+			{
 				// Local references.
 				NetManager netManager = Singleton<NetManager>.instance;
 				string targetName = selectedTarget.name;
@@ -401,9 +468,9 @@ namespace RON
 								segments[segmentID].Info = selectedReplacement;
 							}
 							else
-                            {
+							{
 								Logging.Message("skipping outside connection segment ", segmentID.ToString(), " - ", segmentInfo.name);
-                            }
+							}
 						}
 					}
 				}
@@ -411,7 +478,7 @@ namespace RON
 
 			// All done - set status flag.
 			replacingDone = true;
-        }
+		}
 
 
 		/// <summary>
@@ -419,7 +486,7 @@ namespace RON
 		/// </summary>
 		/// <returns>Populated fastlist of networks on map</returns>
 		private void TargetList()
-        {
+		{
 			// List of prefabs.
 			List<NetInfo> netList = new List<NetInfo>();
 
@@ -474,18 +541,18 @@ namespace RON
 					if (StringExtensions.IsNullOrWhiteSpace(nameFilter.text.Trim()) || UINetRow.GetDisplayName(network.name).ToLower().Contains(nameFilter.text.Trim().ToLower()))
 					{
 						// Apply network type filter.
-						if(MatchType(network))
+						if (MatchType(network))
 						{
 							// Apply width filter.
 							if (sameWidthCheck.isChecked && selectedTarget != null)
-                            {
+							{
 								// Check if this network has the same half-width.
 								if (network.m_halfWidth != selectedTarget.m_halfWidth)
-                                {
+								{
 									// No match; skip this one.
 									continue;
-                                }
-                            }
+								}
+							}
 
 							// Passed filtering; add this one to the list.
 							netList.Add(network);
@@ -513,7 +580,7 @@ namespace RON
 		/// <param name="network">Net prefab to test</param>
 		/// <returns>True if it matches the filter, false otherwise</returns>
 		private bool MatchType(NetInfo network)
-        {
+		{
 			// Check for match.
 			if (network.GetAI().GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]))
 			{
