@@ -12,8 +12,9 @@ namespace RON
         public static bool hotAlt = true;
         public static bool hotShift = false;
 
-        // Flag.
-        private bool _processed = false;
+        // Flags.
+        internal static bool ignore = true;
+        private bool processed = false;
 
 
         /// <summary>
@@ -23,8 +24,8 @@ namespace RON
         /// <param name="simulationTimeDelta"></param>
         public override void OnUpdate(float realTimeDelta, float simulationTimeDelta)
         {
-            // Has hotkey been pressed?
-            if (hotKey != KeyCode.None && Input.GetKey(hotKey))
+            // Has hotkey been pressed while we're not ignoring input?
+            if (!ignore && hotKey != KeyCode.None && Input.GetKey(hotKey))
             {
                 // Check modifier keys according to settings.
                 bool altPressed = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.AltGr);
@@ -40,10 +41,10 @@ namespace RON
                 if (altOkay && ctrlOkay && shiftOkay)
                 {
                     // Only process if we're not already doing so.
-                    if (!_processed)
+                    if (!processed)
                     {
                         // Set processed flag.
-                        _processed = true;
+                        processed = true;
 
                         // Is a replacer panel already open?
                         if (ReplacerPanel.Panel == null)
@@ -61,13 +62,13 @@ namespace RON
                 else
                 {
                     // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
-                    _processed = false;
+                    processed = false;
                 }
             }
             else
             {
                 // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
-                _processed = false;
+                processed = false;
             }
         }
     }

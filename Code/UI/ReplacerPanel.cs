@@ -309,6 +309,7 @@ namespace RON
 
 			// Vanilla filter.
 			hideVanilla = UIControls.AddCheckBox((UIComponent)(object)this, FilterX, HideVanillaY, Translations.Translate("RON_PNL_HDV"));
+			hideVanilla.isChecked = true;
 			hideVanilla.eventCheckChanged += (control, isChecked) => LoadedList();
 
 			// Same width only check.

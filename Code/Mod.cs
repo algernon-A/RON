@@ -16,6 +16,15 @@ namespace RON
         public string Description => Translations.Translate("RON_DESC");
 
 
+        /// <summary>
+        /// Called by the game when the mod is enabled.
+        /// </summary>
+        public void OnEnabled()
+        {
+            // Load the settings file.
+            SettingsUtils.LoadSettings();
+        }
+
 
         /// <summary>
         /// Called by the game when the mod options panel is setup.
@@ -26,6 +35,9 @@ namespace RON
             UIDropDown languageDropDown = (UIDropDown)helper.AddDropdown(Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index, (index) => { Translations.Index = index; SettingsUtils.SaveSettings(); });
             languageDropDown.autoSize = false;
             languageDropDown.width = 270f;
+
+            // Hotkey control.
+            languageDropDown.parent.parent.gameObject.AddComponent<OptionsKeymapping>();
         }
     }
 }

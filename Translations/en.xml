@@ -23,5 +23,7 @@
     <Translation ID="RON_FIL_NAME" String="Search:" />
     <Translation ID="TRN_CHOICE" String="Set language" />
     <Translation ID="TRN_SYS" String="Use game language" />
+    <Translation ID="KEY_KEY" String="Hotkey" />
+    <Translation ID="KEY_PRS" String="Press any key" />
   </Translations>
 </Language>
