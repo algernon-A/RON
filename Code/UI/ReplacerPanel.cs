@@ -50,18 +50,31 @@ namespace RON
 		private int timerStep;
 
 		// Nework type list.
-		private readonly string[] netDescriptions = new string[]
+		private const int NumTypes = 10;
+		private readonly string[] netDescriptions = new string[NumTypes]
 		{
 			Translations.Translate("RON_PNL_ROA"),
+			Translations.Translate("RON_PNL_ROB"),
+			Translations.Translate("RON_PNL_ROT"),
 			Translations.Translate("RON_PNL_RAI"),
-			Translations.Translate("RON_PNL_PAT"),
+			Translations.Translate("RON_PNL_RAB"),
+			Translations.Translate("RON_PNL_RAT"),
+			Translations.Translate("RON_PNL_PED"),
+			Translations.Translate("RON_PNL_PEB"),
+			Translations.Translate("RON_PNL_PET"),
 			Translations.Translate("RON_PNL_DEC")
 		};
-		private readonly Type[] netTypes = new Type[]
+		private readonly Type[] netTypes = new Type[NumTypes]
 		{
 			typeof(RoadAI),
+			typeof(RoadBridgeAI),
+			typeof(RoadTunnelAI),
 			typeof(TrainTrackAI),
+			typeof(TrainTrackBridgeAI),
+			typeof(TrainTrackTunnelAI),
 			typeof(PedestrianPathAI),
+			typeof(PedestrianBridgeAI),
+			typeof(PedestrianTunnelAI),
 			typeof(DecorationWallAI)
 		};
 
@@ -242,7 +255,7 @@ namespace RON
 			closeButton.eventClick += (component, clickEvent) => Close();
 
 			// Network type dropdown.
-			typeDropDown = UIControls.AddLabelledDropDown(this, Margin, MenuY, Translations.Translate("RON_PNL_TYP"), 150f);
+			typeDropDown = UIControls.AddLabelledDropDown(this, Margin, MenuY, Translations.Translate("RON_PNL_TYP"), 170f);
 			typeDropDown.items = netDescriptions;
 			typeDropDown.selectedIndex = 0;
 			typeDropDown.eventSelectedIndexChanged += TypeChanged;
@@ -421,7 +434,7 @@ namespace RON
 				if (!netList.Contains(segmentInfo))
 				{
 					// No - apply network type filter.
-					if (segmentInfo.GetAI().GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]))
+					if (MatchType(segmentInfo))
 					{
 						netList.Add(segmentInfo);
 					}
@@ -461,7 +474,7 @@ namespace RON
 					if (StringExtensions.IsNullOrWhiteSpace(nameFilter.text.Trim()) || UINetRow.GetDisplayName(network.name).ToLower().Contains(nameFilter.text.Trim().ToLower()))
 					{
 						// Apply network type filter.
-						if(network.GetAI().GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]))
+						if(MatchType(network))
 						{
 							// Apply width filter.
 							if (sameWidthCheck.isChecked && selectedTarget != null)
@@ -491,6 +504,25 @@ namespace RON
 			// Clear current selection.
 			loadedList.selectedIndex = -1;
 			SelectedReplacement = null;
+		}
+
+
+		/// <summary>
+		/// Determines if the given net prefab matches the current net type filter.
+		/// </summary>
+		/// <param name="network">Net prefab to test</param>
+		/// <returns>True if it matches the filter, false otherwise</returns>
+		private bool MatchType(NetInfo network)
+        {
+			// Check for match.
+			if (network.GetAI().GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]))
+			{
+				// Match - return true.
+				return true;
+			}
+
+			// If we got here, we didn't get a match.
+			return false;
 		}
 
 

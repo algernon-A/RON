@@ -6,8 +6,14 @@
     <Translation ID="RON_PNL_REP" String="Replace" />
     <Translation ID="RON_PNL_TYP" String="Network type" />
     <Translation ID="RON_PNL_ROA" String="Roads" />
+    <Translation ID="RON_PNL_ROB" String="Road bridges" />
+    <Translation ID="RON_PNL_ROT" String="Road tunnels" />
     <Translation ID="RON_PNL_RAI" String="Rail" />
-    <Translation ID="RON_PNL_PAT" String="Paths" />
+    <Translation ID="RON_PNL_RAB" String="Rail bridges" />
+    <Translation ID="RON_PNL_RAT" String="Rail tunnels" />
+    <Translation ID="RON_PNL_PED" String="Pedestrian paths" />
+    <Translation ID="RON_PNL_PEB" String="Pedestrian bridges" />
+    <Translation ID="RON_PNL_PET" String="Pedestrian tunnels" />
     <Translation ID="RON_PNL_DEC" String="Decoration" />
     <Translation ID="RON_PNL_WID" String="Same width only" />
     <Translation ID="RON_PNL_RIP" String="Replacement in progress" />
