@@ -9,7 +9,7 @@ namespace RON
     /// </summary>
     public class RONMod : IUserMod
     {
-        public static string ModName => "RON, the network replacer";
+        public static string ModName => "RON - the network replacer";
         public static string Version => "0.1";
 
         public string Name => ModName + " " + Version;
