@@ -16,17 +16,25 @@ namespace RON
 	{
 		// Layout constants.
 		private const float LeftWidth = 450f;
-		protected const float RightWidth = 450f;
-		protected const float PanelHeight = 490f;
-		protected const float TitleHeight = 45f;
-		protected const float Margin = 5f;
-		protected const float MiddleContentWidth = 190f;
-		protected const float MenuY = 50f;
-		protected const float ReplaceX = RightWidth + Margin - 100f;
-		protected const float ReplaceY = 50f;
-		protected const float GoToY = MenuY + 30f;
-		protected const float ProgressY = ReplaceY + 35f;
-		protected const float ToolbarHeight = 70f;
+		private const float RightWidth = 450f;
+		private const float PanelHeight = 490f;
+		private const float TitleHeight = 45f;
+		private const float Margin = 5f;
+		private const float MiddleContentWidth = 190f;
+		private const float MenuY = 50f;
+		private const float ReplaceX = LeftWidth + (Margin * 3);
+		private const float ReplaceY = 50f;
+		private const float ReplaceWidth = 150f;
+		private const float ReplaceHeight = ToolbarHeight + TitleHeight - ReplaceY - Margin;
+		private const float GoToY = MenuY + 35f;
+		private const float ProgressY = ReplaceY + 35f;
+		private const float ToolbarHeight = 75f;
+		private const float FilterX = (LeftWidth + RightWidth + Margin * 3) - 200f;
+		private const float HideVanillaY = ReplaceY + 30f;
+		private const float SameWidthY = HideVanillaY + 20f;
+		private const float ButtonWidth = 220f;
+		private const float PrevX = Margin;
+		private const float NextX = LeftWidth + Margin - ButtonWidth;
 
 
 		// Instance references.
@@ -39,17 +47,17 @@ namespace RON
 
 		// Panel components.
 		private readonly UIFastList targetList, loadedList;
-		private readonly UIButton replaceButton, goToButton;
+		private readonly UIButton replaceButton, prevButton, nextButton;
 		private readonly UITextField nameFilter;
 		private readonly UIDropDown typeDropDown;
 		private readonly UILabel replacingLabel, progressLabel;
-		private readonly UICheckBox sameWidthCheck;
+		private readonly UICheckBox sameWidthCheck, hideVanilla;
 
 		// Status.
 		private bool replacing, replacingDone;
 		private float timer;
 		private int timerStep;
-		private ushort lastShownSegment;
+		private ushort lastViewedSegment;
 
 		// Nework type list.
 		private const int NumTypes = 10;
@@ -145,8 +153,8 @@ namespace RON
 				{
 					selectedTarget = value;
 
-					// Reset last shown segment counter.
-					lastShownSegment = 0;
+					// Reset last viewed segment counter.
+					lastViewedSegment = 0;
 
 					// Update loaded list if we're only showing networks of the same width.
 					if (sameWidthCheck.isChecked)
@@ -283,21 +291,28 @@ namespace RON
 			ListSetup(loadedList);
 
 			// Replace button.
-			replaceButton = UIControls.AddButton(this, ReplaceX, ReplaceY, Translations.Translate("RON_PNL_REP"));
+			replaceButton = UIControls.AddButton(this, ReplaceX, ReplaceY, Translations.Translate("RON_PNL_REP"), ReplaceWidth, ReplaceHeight, scale: 1.0f);
 			replaceButton.eventClicked += Replace;
 
-			// Goto button.
-			goToButton = UIControls.AddButton(this, Margin, GoToY, Translations.Translate("RON_PNL_GOT"));
-			goToButton.eventClicked += GoToSegment;
+			// View previous segment button.
+			prevButton = UIControls.AddSmallerButton(this, PrevX, GoToY, Translations.Translate("RON_PNL_VPS"), ButtonWidth);
+			prevButton.eventClicked += PreviousSegment;
+
+			// View next segment button.
+			nextButton = UIControls.AddSmallerButton(this, NextX, GoToY, Translations.Translate("RON_PNL_VNS"), ButtonWidth);
+			nextButton.eventClicked += NextSegment;
 
 			// Name filter.
-			nameFilter = UIControls.LabelledTextField(this, width - 200f - Margin, ReplaceY, Translations.Translate("RON_FIL_NAME"));
-			// Event handlers for name filter textbox.
+			nameFilter = UIControls.LabelledTextField(this, FilterX, ReplaceY, Translations.Translate("RON_FIL_NAME"));
 			nameFilter.eventTextChanged += (control, text) => LoadedList();
 			nameFilter.eventTextSubmitted += (control, text) => LoadedList();
 
+			// Vanilla filter.
+			hideVanilla = UIControls.AddCheckBox((UIComponent)(object)this, FilterX, HideVanillaY, Translations.Translate("RON_PNL_HDV"));
+			hideVanilla.eventCheckChanged += (control, isChecked) => LoadedList();
+
 			// Same width only check.
-			sameWidthCheck = UIControls.AddCheckBox(this, width - 200f - Margin, ProgressY, Translations.Translate("RON_PNL_WID"));
+			sameWidthCheck = UIControls.AddCheckBox(this, FilterX, SameWidthY, Translations.Translate("RON_PNL_WID"));
 			sameWidthCheck.isChecked = true;
 			sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
 
@@ -333,14 +348,16 @@ namespace RON
 		/// </summary>
 		private void UpdateButtonStates()
 		{
-			// Enable go to segment button if we have a valid target, disable it otherwise.
+			// Enable go to segment buttons if we have a valid target, disable it otherwise.
 			if (selectedTarget != null)
 			{
-				goToButton.Enable();
+				prevButton.Enable();
+				nextButton.Enable();
 			}
 			else
 			{
-				goToButton.Disable();
+				prevButton.Disable();
+				nextButton.Disable();
 			}
 
 			// Enable replace button if we have both a valid target and replacement, disable it otherwise.
@@ -380,11 +397,11 @@ namespace RON
 
 
 		/// <summary>
-		/// Go to segment button change handler.
+		/// Next segment button change handler.
 		/// </summary>
 		/// <param name="control">Calling component (unused)</param>
 		/// <param name="mouseEvent">Mouse event (unused)</param>
-		private void GoToSegment(UIComponent control, UIMouseEventParameter mouseEvent)
+		private void NextSegment(UIComponent control, UIMouseEventParameter mouseEvent)
 		{
 			ushort targetSegment = 0;
 
@@ -403,7 +420,7 @@ namespace RON
 					}
 
 					// Is the previously-shown segment counter ahead of this?
-					if (segmentID > lastShownSegment)
+					if (segmentID > lastViewedSegment)
                     {
 						// 'Fresh' segment - update target to this and finish looping, since we've found our taget.
 						targetSegment = segmentID;
@@ -415,14 +432,65 @@ namespace RON
 			// Did we find a valid target?
 			if (targetSegment != 0)
 			{
-				// Yes - set camera position.
-				Vector3 cameraPosition = segments[targetSegment].m_middlePosition;
-				cameraPosition.y = Camera.main.transform.position.y;
-				ToolsModifierControl.cameraController.SetTarget(new InstanceID { NetSegment = targetSegment }, cameraPosition, true);
-
-				// Update last shown segment to this one.
-				lastShownSegment = targetSegment;
+				ViewSegement(targetSegment);
 			}
+		}
+
+
+		/// <summary>
+		/// Previous segment button change handler.
+		/// </summary>
+		/// <param name="control">Calling component (unused)</param>
+		/// <param name="mouseEvent">Mouse event (unused)</param>
+		private void PreviousSegment(UIComponent control, UIMouseEventParameter mouseEvent)
+		{
+			ushort targetSegment = 0;
+
+			// Find first segment matching current selection.
+			// Need to do this for each segment instance, so iterate through all segments.
+			NetSegment[] segments = NetManager.instance.m_segments.m_buffer;
+			for (ushort segmentID = (ushort)(segments.Length - 1); segmentID > 0; --segmentID)
+			{
+				// Check for match with selected target.
+				if (segments[segmentID].Info == selectedTarget)
+				{
+					// Got a match - set target if it isn't already set (first instance found).
+					if (targetSegment == 0)
+					{
+						targetSegment = segmentID;
+					}
+
+					// Is the previously-shown segment counter ahead of this?
+					if (segmentID < lastViewedSegment)
+					{
+						// 'Fresh' segment - update target to this and finish looping, since we've found our taget.
+						targetSegment = segmentID;
+						break;
+					}
+				}
+			}
+
+			// Did we find a valid target?
+			if (targetSegment != 0)
+			{
+				ViewSegement(targetSegment);
+			}
+		}
+
+
+		/// <summary>
+		/// Moves the camera to view the given segment.
+		/// </summary>
+		/// <param name="segmentID">Segment ID of target segment</param>
+		private void ViewSegement(ushort segmentID)
+        {
+			// Yes - set camera position.
+			Vector3 cameraPosition = NetManager.instance.m_segments.m_buffer[segmentID].m_middlePosition;
+			cameraPosition.y = Camera.main.transform.position.y;
+			ToolsModifierControl.cameraController.SetTarget(new InstanceID { NetSegment = segmentID }, cameraPosition, true);
+
+			// Update last viewed segment to this one.
+			lastViewedSegment = segmentID;
 		}
 
 
@@ -511,7 +579,7 @@ namespace RON
 			// Create return fastlist from our filtered list, ordering by name.
 			targetList.rowsData = new FastList<object>
 			{
-				m_buffer = netList.OrderBy(item => UINetRow.GetDisplayName(item.name)).ToArray(),
+				m_buffer = netList.OrderBy(item => PrefabUtils.GetDisplayName(item)).ToArray(),
 				m_size = netList.Count
 			};
 
@@ -537,8 +605,16 @@ namespace RON
 				NetInfo network = PrefabCollection<NetInfo>.GetLoaded(i);
 				if (network?.name != null)
 				{
+					// Apply vanilla filter.
+					// Find any leading period (Steam package number).
+					if (hideVanilla.isChecked && network.name.IndexOf('.') < 0)
+					{
+						// No leading period - it's vanilla.  Skip.
+						continue;
+					}
+
 					// Apply name filter.
-					if (StringExtensions.IsNullOrWhiteSpace(nameFilter.text.Trim()) || UINetRow.GetDisplayName(network.name).ToLower().Contains(nameFilter.text.Trim().ToLower()))
+					if (StringExtensions.IsNullOrWhiteSpace(nameFilter.text.Trim()) || PrefabUtils.GetDisplayName(network.name).ToLower().Contains(nameFilter.text.Trim().ToLower()))
 					{
 						// Apply network type filter.
 						if (MatchType(network))
@@ -564,7 +640,7 @@ namespace RON
 			// Create return fastlist from our filtered list, ordering by name.
 			loadedList.rowsData = new FastList<object>
 			{
-				m_buffer = netList.OrderBy(item => UINetRow.GetDisplayName(item.name)).ToArray(),
+				m_buffer = netList.OrderBy(item => PrefabUtils.GetDisplayName(item)).ToArray(),
 				m_size = netList.Count
 			};
 
