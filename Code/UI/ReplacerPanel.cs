@@ -658,11 +658,15 @@ namespace RON
 		/// <returns>True if it matches the filter, false otherwise</returns>
 		private bool MatchType(NetInfo network)
 		{
-			// Check for match.
-			if (network.GetAI().GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]))
+			// Make sure we have a valid net and AI.
+			if (network?.GetAI() is  NetAI ai)
 			{
-				// Match - return true.
-				return true;
+				// Check for match.
+				if (ai.GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]))
+				{
+					// Match - return true.
+					return true;
+				}
 			}
 
 			// If we got here, we didn't get a match.
