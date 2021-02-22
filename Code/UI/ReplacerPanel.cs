@@ -386,7 +386,7 @@ namespace RON
 			timer = 0;
 
 			// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
-			Singleton<SimulationManager>.instance.AddAction(delegate { ReplaceNets(); });
+			Singleton<SimulationManager>.instance.AddAction(delegate { ReplaceNets(selectedTarget, selectedReplacement); });
 
 			// Set UI to 'replacing' state.
 			replaceButton.Disable();
@@ -498,13 +498,13 @@ namespace RON
 		/// <summary>
 		/// Perform actual network replacement.
 		/// </summary>
-		private void ReplaceNets()
+		private void ReplaceNets(NetInfo target, NetInfo replacement)
 		{
-			if (selectedTarget != null && selectedReplacement != null)
+			if (target != null && replacement != null)
 			{
 				// Local references.
 				NetManager netManager = Singleton<NetManager>.instance;
-				string targetName = selectedTarget.name;
+				string targetName = target.name;
 				Randomizer randomizer = new Randomizer();
 
 				// Need to do this for each segment instance, so iterate through all segments.
@@ -528,13 +528,13 @@ namespace RON
 								segment.Info.m_netAI.ManualDeactivation(segmentID, ref segment);
 
 								// Create new segment, duplication location, direction, etc. as current segment.
-								netManager.CreateSegment(out ushort newSegmentID, ref randomizer, selectedReplacement, segment.m_startNode, segment.m_endNode, segment.m_startDirection, segment.m_endDirection, segment.m_buildIndex, Singleton<SimulationManager>.instance.m_currentBuildIndex, (segment.m_flags & NetSegment.Flags.Invert) != NetSegment.Flags.None);
+								netManager.CreateSegment(out ushort newSegmentID, ref randomizer, replacement, segment.m_startNode, segment.m_endNode, segment.m_startDirection, segment.m_endDirection, segment.m_buildIndex, Singleton<SimulationManager>.instance.m_currentBuildIndex, (segment.m_flags & NetSegment.Flags.Invert) != NetSegment.Flags.None);
 
 								// Remove old segment.
 								netManager.ReleaseSegment(segmentID, false);
 
 								// Ensure old segment info reference updated to this.
-								segments[segmentID].Info = selectedReplacement;
+								segments[segmentID].Info = replacement;
 							}
 							else
 							{
