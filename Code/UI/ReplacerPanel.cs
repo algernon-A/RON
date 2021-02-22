@@ -24,7 +24,8 @@ namespace RON
 		private const float ReplaceX = LeftWidth + (Margin * 3);
 		private const float ReplaceY = 50f;
 		private const float ReplaceWidth = 150f;
-		private const float ReplaceHeight = ToolbarHeight + TitleHeight - ReplaceY - Margin;
+		private const float UndoY = ToolbarHeight + TitleHeight - Margin - 30f;
+		private const float ReplaceHeight = UndoY - ReplaceY - Margin;
 		private const float GoToY = MenuY + 35f;
 		private const float ProgressY = ReplaceY + 35f;
 		private const float ToolbarHeight = 75f;
@@ -46,7 +47,7 @@ namespace RON
 
 		// Panel components.
 		private readonly UIFastList targetList, loadedList;
-		private readonly UIButton replaceButton, prevButton, nextButton;
+		private readonly UIButton replaceButton, undoButton, prevButton, nextButton;
 		private readonly UITextField nameFilter;
 		private readonly UIDropDown typeDropDown;
 		private readonly UILabel replacingLabel, progressLabel;
@@ -111,6 +112,7 @@ namespace RON
 					replacingLabel.Hide();
 					progressLabel.Hide();
 					replaceButton.Show();
+					undoButton.Show();
 
 					// Rebuild target list.
 					TargetList();
@@ -294,6 +296,10 @@ namespace RON
 			replaceButton = UIControls.AddButton(this, ReplaceX, ReplaceY, Translations.Translate("RON_PNL_REP"), ReplaceWidth, ReplaceHeight, scale: 1.0f);
 			replaceButton.eventClicked += Replace;
 
+			// Undo button.
+			undoButton = UIControls.AddButton(this, ReplaceX, UndoY, Translations.Translate("RON_PNL_UND"), ReplaceWidth);
+			undoButton.eventClicked += Undo;
+
 			// View previous segment button.
 			prevButton = UIControls.AddSmallerButton(this, PrevX, GoToY, Translations.Translate("RON_PNL_VPS"), ButtonWidth);
 			prevButton.eventClicked += PreviousSegment;
@@ -362,14 +368,10 @@ namespace RON
 			}
 
 			// Enable replace button if we have both a valid target and replacement, disable it otherwise.
-			if (selectedTarget != null && selectedReplacement != null)
-			{
-				replaceButton.Enable();
-			}
-			else
-			{
-				replaceButton.Disable();
-			}
+			replaceButton.isEnabled = selectedTarget != null && selectedReplacement != null;
+
+			// Enable undo button if we have a valid undo buffer.
+			undoButton.isEnabled = Replacer.HasUndo;
 		}
 
 
@@ -383,21 +385,52 @@ namespace RON
 			// Only do stuff if we've got valid selections.
 			if (selectedTarget != null & selectedReplacement != null)
 			{
-				// Set flags and reset timer.
-				replacing = true;
-				replacingDone = false;
-				timer = 0;
+				// Set panel to replacing state.
+				SetReplacing();
 
 				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
 				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(selectedTarget, selectedReplacement); });
-
-				// Set UI to 'replacing' state.
-				replaceButton.Disable();
-				replaceButton.Hide();
-				replacingLabel.Show();
-				progressLabel.text = ".";
-				progressLabel.Show();
 			}
+		}
+
+
+		/// <summary>
+		/// Undo button event handler.
+		/// <param name="control">Calling component (unused)</param>
+		/// <param name="mouseEvent">Mouse event (unused)</param>
+		/// </summary>
+		private void Undo(UIComponent control, UIMouseEventParameter mouseEvent)
+		{
+			// Only do stuff if we've got a valid undo state.
+			if (Replacer.HasUndo)
+			{
+				// Set panel to replacing state.
+				SetReplacing();
+
+				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
+				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.Undo(); });
+			}
+		}
+
+
+		/// <summary>
+		/// Initializes the 'replacing' state - sets flags, timers, UI state.
+		/// </summary>
+		private void SetReplacing()
+        {
+			// Set flags and reset timer.
+			replacing = true;
+			replacingDone = false;
+			timer = 0;
+
+			// Set UI to 'replacing' state.
+			replaceButton.Disable();
+			undoButton.Disable();
+			replaceButton.Hide();
+			undoButton.Hide();
+			replacingLabel.Show();
+			progressLabel.text = ".";
+			progressLabel.Show();
 		}
 
 
