@@ -542,19 +542,24 @@ namespace RON
 			List<NetInfo> netList = new List<NetInfo>();
 
 			// Iterate through all segments in map.
-			NetSegment[] segments = NetManager.instance.m_segments.m_buffer;
+			NetManager netManager = Singleton<NetManager>.instance;
+			NetSegment[] segments = netManager.m_segments.m_buffer;
 			for (ushort i = 0; i < segments.Length; ++i)
 			{
-				// Local reference.
+				// Local references.
 				NetInfo segmentInfo = segments[i].Info;
 
-				// See if this net info is already in our list.
-				if (!netList.Contains(segmentInfo))
+				// Ignore segments with outside connections.
+				if (((netManager.m_nodes.m_buffer[segments[i].m_startNode].m_flags & NetNode.Flags.Outside) == 0) && ((netManager.m_nodes.m_buffer[segments[i].m_endNode].m_flags & NetNode.Flags.Outside) == 0))
 				{
-					// No - apply network type filter.
-					if (MatchType(segmentInfo))
+					// See if this net info is already in our list.
+					if (!netList.Contains(segmentInfo))
 					{
-						netList.Add(segmentInfo);
+						// No - apply network type filter.
+						if (MatchType(segmentInfo))
+						{
+							netList.Add(segmentInfo);
+						}
 					}
 				}
 			}
