@@ -380,20 +380,24 @@ namespace RON
 		/// </summary>
 		private void Replace(UIComponent control, UIMouseEventParameter mouseEvent)
 		{
-			// Set flags and reset timer.
-			replacing = true;
-			replacingDone = false;
-			timer = 0;
+			// Only do stuff if we've got valid selections.
+			if (selectedTarget != null & selectedReplacement != null)
+			{
+				// Set flags and reset timer.
+				replacing = true;
+				replacingDone = false;
+				timer = 0;
 
-			// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
-			Singleton<SimulationManager>.instance.AddAction(delegate { ReplaceNets(selectedTarget, selectedReplacement); });
+				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
+				Singleton<SimulationManager>.instance.AddAction(delegate { ReplaceNets(selectedTarget, selectedReplacement); });
 
-			// Set UI to 'replacing' state.
-			replaceButton.Disable();
-			replaceButton.Hide();
-			replacingLabel.Show();
-			progressLabel.text = ".";
-			progressLabel.Show();
+				// Set UI to 'replacing' state.
+				replaceButton.Disable();
+				replaceButton.Hide();
+				replacingLabel.Show();
+				progressLabel.text = ".";
+				progressLabel.Show();
+			}
 		}
 
 
@@ -500,7 +504,7 @@ namespace RON
 		/// </summary>
 		private void ReplaceNets(NetInfo target, NetInfo replacement)
 		{
-			if (target != null && replacement != null)
+			try
 			{
 				// Local references.
 				NetManager netManager = Singleton<NetManager>.instance;
@@ -544,6 +548,11 @@ namespace RON
 					}
 				}
 			}
+			catch (Exception e)
+            {
+				// Don't care too much - just want to make sure that we set the status flag correctly and not hang in the 'processing' state indefinitely.
+				Logging.LogException(e, "network replacement exception");
+            }
 
 			// All done - set status flag.
 			replacingDone = true;
