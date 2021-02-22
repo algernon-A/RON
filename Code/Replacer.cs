@@ -88,8 +88,6 @@ namespace RON
         {
 			try
 			{
-				Logging.Message("undoing");
-
 				// Local references.
 				NetSegment[] segments = Singleton<NetManager>.instance.m_segments.m_buffer;
 				Randomizer randomizer = new Randomizer();
@@ -97,7 +95,6 @@ namespace RON
 				// Replace each segment in undo buffer.
 				foreach(ushort segmentID in undoBuffer)
                 {
-					Logging.Message("undoing segment ", segmentID.ToString());
 					ReplaceNet(segmentID, segments, undoPrefab, ref randomizer);
                 }
 			}
@@ -129,8 +126,6 @@ namespace RON
 		/// <returns>New segment ID</returns>
 		private static ushort ReplaceNet(ushort segmentID, NetSegment[] segments, NetInfo replacement, ref Randomizer randomizer)
         {
-			Logging.Message("replacing segment ", segmentID.ToString(), " with ", replacement.name);
-
 			// Local references.
 			NetManager netManager = Singleton<NetManager>.instance;
 			NetSegment segment = segments[segmentID];
