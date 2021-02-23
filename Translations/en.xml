@@ -2,24 +2,26 @@
 <Language UniqueName="en" ReadableName="English">
   <Translations>
     <Translation ID="RON_NAM" String="RON: the network replacer" />
-    <Translation ID="RON_DESC" String="UNDER DEVELOPMENT: Replaces networks.  With other networks." />
+    <Translation ID="RON_DESC" String="UNDER DEVELOPMENT: provides bulk replacement of networks." />
+    <Translation ID="RON_PNL_MAP" String="Networks in map" />
+    <Translation ID="RON_PNL_AVA" String="Available replacements" />
     <Translation ID="RON_PNL_REP" String="REPLACE" />
     <Translation ID="RON_PNL_UND" String="Undo" />
     <Translation ID="RON_PNL_VPS" String="View previous segment" />
     <Translation ID="RON_PNL_VNS" String="View next segment" />
-    <Translation ID="RON_PNL_TYP" String="Network type" />
-    <Translation ID="RON_PNL_ROA" String="Roads" />
-    <Translation ID="RON_PNL_ROB" String="Road bridges" />
-    <Translation ID="RON_PNL_ROT" String="Road tunnels" />
-    <Translation ID="RON_PNL_RAI" String="Rail" />
-    <Translation ID="RON_PNL_RAB" String="Rail bridges" />
-    <Translation ID="RON_PNL_RAT" String="Rail tunnels" />
-    <Translation ID="RON_PNL_PED" String="Pedestrian paths" />
-    <Translation ID="RON_PNL_PEB" String="Pedestrian bridges" />
-    <Translation ID="RON_PNL_PET" String="Pedestrian tunnels" />
-    <Translation ID="RON_PNL_DEC" String="Decoration" />
     <Translation ID="RON_PNL_HDV" String="Hide vanilla and NExt" />
     <Translation ID="RON_PNL_WID" String="Same width only" />
+    <Translation ID="RON_PNL_TYP" String="Network type" />
+    <Translation ID="RON_PNL_ROA" String="Roads - surface only" />
+    <Translation ID="RON_PNL_ROB" String="Roads - elevated and bridge" />
+    <Translation ID="RON_PNL_ROT" String="Roads - tunnels" />
+    <Translation ID="RON_PNL_RAI" String="Rail - surface only" />
+    <Translation ID="RON_PNL_RAB" String="Rail - elevated and bridge" />  
+    <Translation ID="RON_PNL_RAT" String="Rail - tunnels" />
+    <Translation ID="RON_PNL_PED" String="Paths - surface only" />
+    <Translation ID="RON_PNL_PEB" String="Paths - elevated and bridge" />
+    <Translation ID="RON_PNL_PET" String="Paths - tunnels" />
+    <Translation ID="RON_PNL_DEC" String="Decoration" />
     <Translation ID="RON_PNL_RIP" String="Replacement in progress" />
     <Translation ID="RON_FIL_NAME" String="Search:" />
     <Translation ID="TRN_CHOICE" String="Set language" />

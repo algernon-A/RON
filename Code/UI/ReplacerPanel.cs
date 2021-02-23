@@ -13,25 +13,29 @@ namespace RON
 	/// </summary>
 	internal class ReplacerPanel : UIPanel
 	{
-		// Layout constants.
+		// Layout constants - general.
+		private const float Margin = 5f;
+
+		// Layout constants - Y.
+		private const float TitleHeight = 45f;
+		private const float ToolbarHeight = 75f;
+		private const float ListHeight = 420f;
+		private const float ToolRow1Y = TitleHeight + Margin;
+		private const float ToolRow2Y = ToolRow1Y + 35f;
+		private const float SpacerBarY = TitleHeight + ToolbarHeight + Margin;
+		private const float ListTitleY = SpacerBarY + 15f;
+		private const float ListY = ListTitleY + 20f;
+		private const float PanelHeight = ListY + ListHeight + Margin;
+		private const float HideVanillaY = ToolRow1Y + 30f;
+		private const float SameWidthY = HideVanillaY + 20f;
+
+		// Layout constants - X.
 		private const float LeftWidth = 450f;
 		private const float RightWidth = 450f;
-		private const float PanelHeight = 490f;
-		private const float TitleHeight = 45f;
-		private const float Margin = 5f;
-		private const float MiddleContentWidth = 190f;
-		private const float MenuY = 50f;
-		private const float ReplaceX = LeftWidth + (Margin * 3);
-		private const float ReplaceY = 50f;
+		private const float RightPanelX = LeftWidth + (Margin * 3);
+		private const float PanelWidth = RightPanelX + RightWidth + Margin;
 		private const float ReplaceWidth = 150f;
-		private const float UndoY = ToolbarHeight + TitleHeight - Margin - 30f;
-		private const float ReplaceHeight = UndoY - ReplaceY - Margin;
-		private const float GoToY = MenuY + 35f;
-		private const float ProgressY = ReplaceY + 35f;
-		private const float ToolbarHeight = 75f;
 		private const float FilterX = (LeftWidth + RightWidth + Margin * 3) - 200f;
-		private const float HideVanillaY = ReplaceY + 30f;
-		private const float SameWidthY = HideVanillaY + 20f;
 		private const float ButtonWidth = 220f;
 		private const float PrevX = Margin;
 		private const float NextX = LeftWidth + Margin - ButtonWidth;
@@ -245,7 +249,7 @@ namespace RON
 			opacity = 1f;
 
 			// Size.
-			size = new Vector2(LeftWidth + RightWidth + (Margin * 4), PanelHeight + TitleHeight + ToolbarHeight + (Margin * 3));
+			size = new Vector2(PanelWidth, PanelHeight);
 
 			// Default position - centre in screen.
 			relativePosition = new Vector2(Mathf.Floor((GetUIView().fixedWidth - width) / 2), Mathf.Floor((GetUIView().fixedHeight - height) / 2));
@@ -271,45 +275,56 @@ namespace RON
 			closeButton.eventClick += (component, clickEvent) => Close();
 
 			// Network type dropdown.
-			typeDropDown = UIControls.AddLabelledDropDown(this, Margin, MenuY, Translations.Translate("RON_PNL_TYP"), 170f);
+			typeDropDown = UIControls.AddLabelledDropDown(this, Margin, ToolRow1Y, Translations.Translate("RON_PNL_TYP"), 250f);
 			typeDropDown.items = netDescriptions;
 			typeDropDown.selectedIndex = 0;
 			typeDropDown.eventSelectedIndexChanged += TypeChanged;
 
+			// Spacer panel.
+			UIPanel spacerPanel = AddUIComponent<UIPanel>();
+			spacerPanel.width = LeftWidth + RightWidth + (Margin * 2);
+			spacerPanel.height = 5f;
+			spacerPanel.relativePosition = new Vector2(Margin, ToolRow2Y + 35f);
+			spacerPanel.backgroundSprite = "WhiteRect";
+
 			// Target network list.
 			UIPanel leftPanel = AddUIComponent<UIPanel>();
 			leftPanel.width = LeftWidth;
-			leftPanel.height = PanelHeight;
-			leftPanel.relativePosition = new Vector2(Margin, TitleHeight + ToolbarHeight);
+			leftPanel.height = ListHeight;
+			leftPanel.relativePosition = new Vector2(Margin, ListY);
 			targetList = UIFastList.Create<UITargetNetRow>(leftPanel);
 			ListSetup(targetList);
 
 			// Loaded network list.
 			UIPanel rightPanel = AddUIComponent<UIPanel>();
 			rightPanel.width = RightWidth;
-			rightPanel.height = PanelHeight;
-			rightPanel.relativePosition = new Vector2(LeftWidth + (Margin * 3), TitleHeight + ToolbarHeight);
+			rightPanel.height = ListHeight;
+			rightPanel.relativePosition = new Vector2(RightPanelX, ListY);
 			loadedList = UIFastList.Create<UIReplacementNetRow>(rightPanel);
 			ListSetup(loadedList);
 
+			// List titles.
+			UIControls.AddLabel(this, Margin, ListTitleY, Translations.Translate("RON_PNL_MAP"), LeftWidth);
+			UIControls.AddLabel(this, RightPanelX, ListTitleY, Translations.Translate("RON_PNL_AVA"), RightWidth);
+
 			// Replace button.
-			replaceButton = UIControls.AddButton(this, ReplaceX, ReplaceY, Translations.Translate("RON_PNL_REP"), ReplaceWidth, ReplaceHeight, scale: 1.0f);
+			replaceButton = UIControls.AddButton(this, RightPanelX, ToolRow1Y, Translations.Translate("RON_PNL_REP"), ReplaceWidth, scale: 1.0f);
 			replaceButton.eventClicked += Replace;
 
 			// Undo button.
-			undoButton = UIControls.AddButton(this, ReplaceX, UndoY, Translations.Translate("RON_PNL_UND"), ReplaceWidth);
+			undoButton = UIControls.AddButton(this, RightPanelX, ToolRow2Y, Translations.Translate("RON_PNL_UND"), ReplaceWidth);
 			undoButton.eventClicked += Undo;
 
 			// View previous segment button.
-			prevButton = UIControls.AddSmallerButton(this, PrevX, GoToY, Translations.Translate("RON_PNL_VPS"), ButtonWidth);
+			prevButton = UIControls.AddSmallerButton(this, PrevX, ToolRow2Y, Translations.Translate("RON_PNL_VPS"), ButtonWidth);
 			prevButton.eventClicked += PreviousSegment;
 
 			// View next segment button.
-			nextButton = UIControls.AddSmallerButton(this, NextX, GoToY, Translations.Translate("RON_PNL_VNS"), ButtonWidth);
+			nextButton = UIControls.AddSmallerButton(this, NextX, ToolRow2Y, Translations.Translate("RON_PNL_VNS"), ButtonWidth);
 			nextButton.eventClicked += NextSegment;
 
 			// Name filter.
-			nameFilter = UIControls.LabelledTextField(this, FilterX, ReplaceY, Translations.Translate("RON_FIL_NAME"));
+			nameFilter = UIControls.LabelledTextField(this, FilterX, ToolRow1Y, Translations.Translate("RON_FIL_NAME"));
 			nameFilter.eventTextChanged += (control, text) => LoadedList();
 			nameFilter.eventTextSubmitted += (control, text) => LoadedList();
 
@@ -324,11 +339,11 @@ namespace RON
 			sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
 
 			// Replacing label (starts hidden).
-			replacingLabel = UIControls.AddLabel(this, ReplaceX, ReplaceY, Translations.Translate("RON_PNL_RIP"), MiddleContentWidth);
+			replacingLabel = UIControls.AddLabel(this, RightPanelX, ToolRow1Y, Translations.Translate("RON_PNL_RIP"), ReplaceWidth);
 			replacingLabel.Hide();
 
 			// Progress label (starts hidden).
-			progressLabel = UIControls.AddLabel(this, ReplaceX, ProgressY, ".", MiddleContentWidth);
+			progressLabel = UIControls.AddLabel(this, RightPanelX, ToolRow2Y, ".", ReplaceWidth);
 			progressLabel.Hide();
 
 			// Populate lists.
@@ -435,7 +450,7 @@ namespace RON
 
 
 		/// <summary>
-		/// Next segment button change handler.
+		/// Next segment button event handler.
 		/// </summary>
 		/// <param name="control">Calling component (unused)</param>
 		/// <param name="mouseEvent">Mouse event (unused)</param>
@@ -476,7 +491,7 @@ namespace RON
 
 
 		/// <summary>
-		/// Previous segment button change handler.
+		/// Previous segment button event handler.
 		/// </summary>
 		/// <param name="control">Calling component (unused)</param>
 		/// <param name="mouseEvent">Mouse event (unused)</param>
