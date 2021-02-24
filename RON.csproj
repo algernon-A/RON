@@ -66,14 +66,19 @@
     <Compile Include="Code\UI\UIFastList\UINetRowTypes.cs" />
     <Compile Include="Code\UI\UIFastList\UINetRow.cs" />
     <Compile Include="Code\UI\UIThreading.cs" />
+    <Compile Include="Code\Utils\ModUtils.cs" />
     <Compile Include="Code\Utils\PrefabUtils.cs" />
+    <Compile Include="Code\Utils\Textures.cs" />
+    <Compile Include="Code\Utils\TextureUtils.cs" />
     <Compile Include="Code\Utils\UIControls.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\PreviewImage.png" />
+    <Content Include="Resources\RonButton.png" />
     <Content Include="Translations\en.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)"
@@ -82,6 +87,9 @@ xcopy /y "$(TargetPath)" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addo
 mkdir "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations"
 del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations\*"
 xcopy /y "$(ProjectDir)\Translations\" "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations" /s /e
+mkdir "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Resources"
+del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Resources\*"
+xcopy /y "$(ProjectDir)\Resources\" "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Resources" /s /e
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

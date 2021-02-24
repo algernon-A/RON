@@ -274,6 +274,14 @@ namespace RON
 			closeButton.pressedBgSprite = "buttonclosepressed";
 			closeButton.eventClick += (component, clickEvent) => Close();
 
+			// Decorative icon (top-left).
+			UISprite iconSprite = AddUIComponent<UISprite>();
+			iconSprite.relativePosition = new Vector2(5, 5);
+			iconSprite.height = 32f;
+			iconSprite.width = 32f;
+			iconSprite.atlas = Textures.RonButtonSprites;
+			iconSprite.spriteName = "normal";
+
 			// Network type dropdown.
 			typeDropDown = UIControls.AddLabelledDropDown(this, Margin, ToolRow1Y, Translations.Translate("RON_PNL_TYP"), 250f);
 			typeDropDown.items = netDescriptions;
@@ -284,7 +292,7 @@ namespace RON
 			UIPanel spacerPanel = AddUIComponent<UIPanel>();
 			spacerPanel.width = LeftWidth + RightWidth + (Margin * 2);
 			spacerPanel.height = 5f;
-			spacerPanel.relativePosition = new Vector2(Margin, ToolRow2Y + 35f);
+			spacerPanel.relativePosition = new Vector2(Margin, SpacerBarY);
 			spacerPanel.backgroundSprite = "WhiteRect";
 
 			// Target network list.
