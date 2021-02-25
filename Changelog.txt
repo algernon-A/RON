@@ -1,0 +1,4 @@
+﻿Vesion 0.2 -
+
+- Add network thumbnail previews
+- Fix 'replaced' networks still showing as valid targets in some cases
