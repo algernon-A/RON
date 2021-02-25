@@ -17,7 +17,7 @@ namespace RON
 
         // Panel components.
         private UIPanel panelBackground;
-        private UILabel objectName;
+        protected UILabel objectName;
 
         // ObjectData.
         protected NetInfo thisPrefab;
@@ -79,11 +79,11 @@ namespace RON
 
 
         /// <summary>
-        /// Generates and displays a building row.
+        /// Generates and displays a network row.
         /// </summary>
         /// <param name="data">Object to list</param>
         /// <param name="isRowOdd">If the row is an odd-numbered row (for background banding)</param>
-        public void Display(object data, bool isRowOdd)
+        public virtual void Display(object data, bool isRowOdd)
         {
             // Perform initial setup for new rows.
             if (objectName == null)

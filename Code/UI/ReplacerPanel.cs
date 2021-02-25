@@ -49,6 +49,9 @@ namespace RON
 		// Current selections.
 		private NetInfo selectedTarget, selectedReplacement;
 
+		// Segment info record.
+		internal readonly Dictionary<NetInfo, List<ushort>> segmentDict = new Dictionary<NetInfo, List<ushort>>();
+
 		// Panel components.
 		private readonly UIFastList targetList, loadedList;
 		private readonly UIButton replaceButton, undoButton, prevButton, nextButton;
@@ -561,6 +564,9 @@ namespace RON
 		/// <returns>Populated fastlist of networks on map</returns>
 		private void TargetList()
 		{
+			// Clear dictionary.
+			segmentDict.Clear();
+
 			// List of prefabs.
 			List<NetInfo> netList = new List<NetInfo>();
 
@@ -583,6 +589,18 @@ namespace RON
 						{
 							netList.Add(segmentInfo);
 						}
+					}
+
+					// Add segment to segment dictionary.
+					if (segmentDict.ContainsKey(segmentInfo))
+					{
+						// Net already exists - add segment to existing entry.
+						segmentDict[segmentInfo].Add(i);
+					}
+					else
+					{
+						// Net entry doesn't exist yet; create it with this segment as first segment entry.
+						segmentDict.Add(segmentInfo, new List<ushort> { i });
 					}
 				}
 			}

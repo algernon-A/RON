@@ -30,39 +30,59 @@ namespace RON
 		{
 			try
 			{
+				// Input checks.
+				if (target?.name == null || replacement?.name == null)
+                {
+					Logging.Error("null parameter passed to ReplaceNets");
+                }
+
+				// Ensure segment dictionary exists.
+				Dictionary<NetInfo, List<ushort>> segmentDict = ReplacerPanel.Panel?.segmentDict;
+				if (segmentDict == null)
+                {
+					Logging.Error("null reference for segment dictionary when replacing nets");
+                }
+
+				// Ensure segment dictionary has this key.
+				if (!segmentDict.ContainsKey(target))
+				{
+					Logging.Error("no segment dictionary entry for target network ", target.name);
+				}
+
+				// Copy segment IDs from segment dictionary to avoid concurrency issues while repacing.
+				ushort[] segmentIDs = new ushort[segmentDict[target].Count];
+				segmentDict[target].CopyTo(segmentIDs);
+
 				// Local references.
 				NetManager netManager = Singleton<NetManager>.instance;
-				string targetName = target.name;
 				Randomizer randomizer = new Randomizer();
+				NetSegment[] segments = netManager.m_segments.m_buffer;
 
 				// Initialize undo buffer.
 				undoBuffer = new List<ushort>();
 				undoPrefab = target;
 
-				// Need to do this for each segment instance, so iterate through all segments.
-				NetSegment[] segments = NetManager.instance.m_segments.m_buffer;
-				for (ushort segmentID = 0; segmentID < segments.Length; ++segmentID)
+				// Iterate through each segment ID in our prepared list. 
+				for (int i = 0; i < segmentIDs.Length; ++i)
 				{
-					// Local reference.
+					// Local references.
+					ushort segmentID = segmentIDs[i];
 					NetSegment segment = segments[segmentID];
 
-					// Check that this is a valid network.
-					if (segment.m_flags != NetSegment.Flags.None)
+					// Null check, just in case.
+					NetInfo segmentInfo = segment.Info;
+					if (segmentInfo != null)
 					{
-						NetInfo segmentInfo = segment.Info;
-
-						if (segmentInfo != null && segmentInfo.name.Equals(targetName))
+						// Check that this is an active network before we do actual replacement.
+						if (segment.m_flags != NetSegment.Flags.None)
 						{
-							// Found a match.  Perform a safety check for outside connections.
-							if (((netManager.m_nodes.m_buffer[segment.m_startNode].m_flags & NetNode.Flags.Outside) == 0) && ((netManager.m_nodes.m_buffer[segment.m_endNode].m_flags & NetNode.Flags.Outside) == 0))
-							{
-								// Replace segment, adding new segment ID to undo buffer.
-								undoBuffer.Add(ReplaceNet(segmentID, segments, replacement, ref randomizer));
-							}
-							else
-							{
-								Logging.Message("skipping outside connection segment ", segmentID.ToString(), " - ", segmentInfo.name);
-							}
+							// Active network segment - replace segment, adding new segment ID to undo buffer.
+							undoBuffer.Add(ReplaceNet(segmentID, segments, replacement, ref randomizer));
+						}
+						else
+						{
+							// Inactive network segment - just replace info directly..
+							segments[segmentID].Info = replacement;
 						}
 					}
 				}
