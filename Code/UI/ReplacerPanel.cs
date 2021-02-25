@@ -20,6 +20,7 @@ namespace RON
 		private const float TitleHeight = 45f;
 		private const float ToolbarHeight = 75f;
 		private const float ListHeight = 420f;
+		private const float PreviewHeight = 100f;
 		private const float ToolRow1Y = TitleHeight + Margin;
 		private const float ToolRow2Y = ToolRow1Y + 35f;
 		private const float SpacerBarY = TitleHeight + ToolbarHeight + Margin;
@@ -28,14 +29,19 @@ namespace RON
 		private const float PanelHeight = ListY + ListHeight + Margin;
 		private const float HideVanillaY = ToolRow1Y + 30f;
 		private const float SameWidthY = HideVanillaY + 20f;
+		private const float ReplacementSpriteY = ListY + (PreviewHeight * 2f);
 
 		// Layout constants - X.
 		private const float LeftWidth = 450f;
+		private const float PreviewWidth = 109f;
+		private const float PreviewArrowWidth = 32f;
+		private const float MiddleWidth = PreviewWidth + PreviewArrowWidth;
 		private const float RightWidth = 450f;
-		private const float RightPanelX = LeftWidth + (Margin * 3);
+		private const float MiddlePanelX = Margin + LeftWidth + Margin;
+		private const float RightPanelX = MiddlePanelX + MiddleWidth + Margin;
 		private const float PanelWidth = RightPanelX + RightWidth + Margin;
 		private const float ReplaceWidth = 150f;
-		private const float FilterX = (LeftWidth + RightWidth + Margin * 3) - 200f;
+		private const float FilterX = (PanelWidth - Margin) - 200f;
 		private const float ButtonWidth = 220f;
 		private const float PrevX = Margin;
 		private const float NextX = LeftWidth + Margin - ButtonWidth;
@@ -59,6 +65,7 @@ namespace RON
 		private readonly UIDropDown typeDropDown;
 		private readonly UILabel replacingLabel, progressLabel;
 		private readonly UICheckBox sameWidthCheck, hideVanilla;
+		private readonly UISprite targetPreviewSprite, targetArrowSprite, replacementPreviewSprite, replacementArrowSprite;
 
 		// Status.
 		internal bool replacingDone;
@@ -171,6 +178,26 @@ namespace RON
 						LoadedList();
 					}
 
+					// Update preview image; check if this prefab has a valid thumbnail.
+					if (selectedTarget != null && selectedTarget.m_Thumbnail != null && selectedTarget.m_Atlas != null)
+					{
+						Logging.Message("showing target preview");
+						// Valid thumbnail - preview it.
+						targetPreviewSprite.atlas = selectedTarget.m_Atlas;
+						targetPreviewSprite.spriteName = selectedTarget.m_Thumbnail;
+						targetPreviewSprite.Show();
+						targetArrowSprite.Show();
+					}
+					else
+					{
+						Logging.Message("hiding target preview");
+						// No valid thumbnail - hide preview.
+						targetPreviewSprite.atlas = Textures.RonButtonSprites;
+						targetPreviewSprite.spriteName = "normal";
+						targetPreviewSprite.Hide();
+						targetArrowSprite.Hide();
+					}
+
 					UpdateButtonStates();
 				}
 			}
@@ -185,6 +212,25 @@ namespace RON
 			set
 			{
 				selectedReplacement = value;
+
+				// Update preview image; check if this prefab has a valid thumbnail.
+				if (selectedReplacement != null && selectedReplacement.m_Thumbnail != null && selectedReplacement.m_Atlas != null)
+                {
+					// Valid thumbnail - preview it.
+					replacementPreviewSprite.atlas = selectedReplacement.m_Atlas;
+					replacementPreviewSprite.spriteName = selectedReplacement.m_Thumbnail;
+					replacementPreviewSprite.Show();
+					replacementArrowSprite.Show();
+                }
+				else
+                {
+					// No valid thumbnail - hide preview.
+					replacementPreviewSprite.atlas = Textures.RonButtonSprites;
+					replacementPreviewSprite.spriteName = "normal";
+					replacementPreviewSprite.Hide();
+					replacementArrowSprite.Hide();
+				}
+
 				UpdateButtonStates();
 			}
 		}
@@ -293,7 +339,7 @@ namespace RON
 
 			// Spacer panel.
 			UIPanel spacerPanel = AddUIComponent<UIPanel>();
-			spacerPanel.width = LeftWidth + RightWidth + (Margin * 2);
+			spacerPanel.width = PanelWidth - (Margin * 2);
 			spacerPanel.height = 5f;
 			spacerPanel.relativePosition = new Vector2(Margin, SpacerBarY);
 			spacerPanel.backgroundSprite = "WhiteRect";
@@ -319,11 +365,11 @@ namespace RON
 			UIControls.AddLabel(this, RightPanelX, ListTitleY, Translations.Translate("RON_PNL_AVA"), RightWidth);
 
 			// Replace button.
-			replaceButton = UIControls.AddButton(this, RightPanelX, ToolRow1Y, Translations.Translate("RON_PNL_REP"), ReplaceWidth, scale: 1.0f);
+			replaceButton = UIControls.AddButton(this, MiddlePanelX, ToolRow1Y, Translations.Translate("RON_PNL_REP"), ReplaceWidth, scale: 1.0f);
 			replaceButton.eventClicked += Replace;
 
 			// Undo button.
-			undoButton = UIControls.AddButton(this, RightPanelX, ToolRow2Y, Translations.Translate("RON_PNL_UND"), ReplaceWidth);
+			undoButton = UIControls.AddButton(this, MiddlePanelX, ToolRow2Y, Translations.Translate("RON_PNL_UND"), ReplaceWidth);
 			undoButton.eventClicked += Undo;
 
 			// View previous segment button.
@@ -356,6 +402,24 @@ namespace RON
 			// Progress label (starts hidden).
 			progressLabel = UIControls.AddLabel(this, RightPanelX, ToolRow2Y, ".", ReplaceWidth);
 			progressLabel.Hide();
+
+			// Target preview sprite.
+			targetPreviewSprite = AddUIComponent<UISprite>();
+			targetPreviewSprite.relativePosition = new Vector2(MiddlePanelX + PreviewArrowWidth, ListY);
+			targetPreviewSprite.height = PreviewHeight;
+			targetPreviewSprite.width = PreviewWidth;
+			targetPreviewSprite.Hide();
+
+			// Replacement preview sprite.
+			replacementPreviewSprite = AddUIComponent<UISprite>();
+			replacementPreviewSprite.relativePosition = new Vector2(MiddlePanelX, ReplacementSpriteY);
+			replacementPreviewSprite.height = PreviewHeight;
+			replacementPreviewSprite.width = PreviewWidth;
+			replacementPreviewSprite.Hide();
+
+			// Arrow sprites.
+			targetArrowSprite = AddArrowSprite(MiddlePanelX, ListY, "ArrowLeft");
+			replacementArrowSprite = AddArrowSprite(MiddlePanelX + PreviewWidth, ReplacementSpriteY, "ArrowRight");
 
 			// Populate lists.
 			TargetList();
@@ -725,6 +789,27 @@ namespace RON
 			// Data.
 			fastList.rowsData = new FastList<object>();
 			fastList.selectedIndex = -1;
+		}
+
+
+		/// <summary>
+		/// Adds a preview arrow sprite at the specified coordinates with the specified 
+		/// </summary>
+		/// <param name="xPos">Relative X position</param>
+		/// <param name="yPos">Relative Y position</param>
+		/// <param name="spriteName">Sprite name</param>
+		/// <returns></returns>
+		private UISprite AddArrowSprite(float xPos, float yPos, string spriteName)
+		{
+			UISprite arrowSprite = AddUIComponent<UISprite>();
+			arrowSprite.relativePosition = new Vector2(xPos, yPos);
+			arrowSprite.height = PreviewHeight;
+			arrowSprite.width = PreviewArrowWidth;
+			arrowSprite.atlas = TextureUtils.InGameAtlas;
+			arrowSprite.spriteName = spriteName;
+			arrowSprite.Hide();
+
+			return arrowSprite;
 		}
 	}
 }

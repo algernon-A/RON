@@ -46,6 +46,35 @@ namespace RON
 
 
 		/// <summary>
+		/// Returns the "ingame" atlas.
+		/// </summary>
+		internal static UITextureAtlas InGameAtlas
+		{
+			get
+			{
+				// If we haven't already got a reference, we need to get one.
+				if (inGameAtlas == null)
+				{
+					// Get game atlases and iterate through, looking for a name match.
+					UITextureAtlas[] atlases = Resources.FindObjectsOfTypeAll(typeof(UITextureAtlas)) as UITextureAtlas[];
+					for (int i = 0; i < atlases.Length; ++i)
+					{
+						if (atlases[i].name.Equals("ingame"))
+						{
+							// Got it - set cached value and stop looping.
+							inGameAtlas = atlases[i];
+							break;
+						}
+					}
+				}
+
+				return inGameAtlas;
+			}
+		}
+		private static UITextureAtlas inGameAtlas;
+
+
+		/// <summary>
 		/// Loads a 2D texture from file.
 		/// </summary>
 		/// <param name="fileName">Texture file to load</param>
