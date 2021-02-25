@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Language UniqueName="ru" ReadableName="Русский">
+  <Translations>
+    <Translation ID="RON_NAM" String="RON: the network replacer" />
+    <Translation ID="RON_DESC" String="В РАЗРАБОТКЕ: обеспечивает массовую замену дорог." />
+    <Translation ID="RON_PNL_MAP" String="Дороги на карте" />
+    <Translation ID="RON_PNL_AVA" String="Доступные замены" />
+    <Translation ID="RON_PNL_REP" String="ЗАМЕНИТЬ" />
+    <Translation ID="RON_PNL_UND" String="Отменить" />
+    <Translation ID="RON_PNL_VPS" String="Посмотреть предыдущий сегмент" />
+    <Translation ID="RON_PNL_VNS" String="Посмотреть следующий сегмент " />
+    <Translation ID="RON_PNL_HDV" String="Скрыть ванильные и из NExt" />
+    <Translation ID="RON_PNL_WID" String="Только одинаковая ширина" />
+    <Translation ID="RON_PNL_TYP" String="Тип дороги" />
+    <Translation ID="RON_PNL_ROA" String="Дороги - только наземные" />
+    <Translation ID="RON_PNL_ROB" String="Дороги - эстакадные и мосты" />
+    <Translation ID="RON_PNL_ROT" String="Дороги - туннели" />
+    <Translation ID="RON_PNL_RAI" String="Ж/д - только наземные" />
+    <Translation ID="RON_PNL_RAB" String="Ж/д - эстакадные и мосты" />
+    <Translation ID="RON_PNL_RAT" String="Ж/д - туннели" />
+    <Translation ID="RON_PNL_PED" String="Пешеходные дороги - только наземные" />
+    <Translation ID="RON_PNL_PEB" String="Пешеходные дороги - эстакадные и мосты" />
+    <Translation ID="RON_PNL_PET" String="Пешеходные дороги - туннели" />
+    <Translation ID="RON_PNL_DEC" String="Декорации" />
+    <Translation ID="RON_PNL_RIP" String="Выполняется замена" />
+    <Translation ID="RON_FIL_NAME" String="Поиск:" />
+    <Translation ID="TRN_CHOICE" String="Установить язык" />
+    <Translation ID="TRN_SYS" String="Использ. системный" />
+    <Translation ID="KEY_KEY" String="Горячая клавиша" />
+    <Translation ID="KEY_PRS" String="Нажмите любую клавишу" />
+  </Translations>
+</Language>
