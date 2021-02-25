@@ -57,6 +57,7 @@ namespace RON
 							if (((netManager.m_nodes.m_buffer[segment.m_startNode].m_flags & NetNode.Flags.Outside) == 0) && ((netManager.m_nodes.m_buffer[segment.m_endNode].m_flags & NetNode.Flags.Outside) == 0))
 							{
 								// Replace segment, adding new segment ID to undo buffer.
+								Logging.Message("replacing segment ID ", segmentID.ToString());
 								undoBuffer.Add(ReplaceNet(segmentID, segments, replacement, ref randomizer));
 							}
 							else

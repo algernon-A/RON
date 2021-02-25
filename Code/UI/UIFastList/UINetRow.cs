@@ -107,6 +107,20 @@ namespace RON
                 // Display its (cleaned-up) name.
                 objectName.text = PrefabUtils.GetDisplayName(thisPrefab);
                 labelX = 10f;
+
+                // Tooltip.
+                string segmentList = "Segments:" + System.Environment.NewLine;
+
+                if (ReplacerPanel.Panel?.segmentDict != null && ReplacerPanel.Panel.segmentDict.ContainsKey(thisPrefab)) 
+                {
+                    foreach (ushort segment in ReplacerPanel.Panel.segmentDict[thisPrefab])
+                    {
+                        segmentList += segment.ToString() + System.Environment.NewLine;
+                    }
+                }
+
+                objectName.tooltip = segmentList;
+                //panelBackground.tooltip = segmentList;
             }
 
             // Set label position

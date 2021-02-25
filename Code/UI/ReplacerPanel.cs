@@ -94,6 +94,10 @@ namespace RON
 		};
 
 
+		// TODO - temporary debugging.
+		internal Dictionary<NetInfo, List<ushort>> segmentDict = new Dictionary<NetInfo, List<ushort>>();
+
+
 		/// <summary>
 		/// Called by Unity every tick.  Used here to track state of any in-progress replacments.
 		/// </summary>
@@ -564,6 +568,9 @@ namespace RON
 			// List of prefabs.
 			List<NetInfo> netList = new List<NetInfo>();
 
+			segmentDict = new Dictionary<NetInfo, List<ushort>>();
+
+
 			// Iterate through all segments in map.
 			NetManager netManager = Singleton<NetManager>.instance;
 			NetSegment[] segments = netManager.m_segments.m_buffer;
@@ -584,6 +591,15 @@ namespace RON
 							netList.Add(segmentInfo);
 						}
 					}
+
+					if (segmentDict.ContainsKey(segmentInfo))
+                    {
+						segmentDict[segmentInfo].Add(i);
+                    }
+					else
+                    {
+						segmentDict.Add(segmentInfo, new List<ushort> { i });
+                    }
 				}
 			}
 
