@@ -597,6 +597,9 @@ namespace RON
 			// Clear current selection.
 			targetList.selectedIndex = -1;
 			SelectedTarget = null;
+
+			// Force list update.
+			targetList.Refresh();
 		}
 
 
