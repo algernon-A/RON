@@ -21,7 +21,7 @@
             if (num < 0)
             {
                 // Check for prefab class beginning with NExt.
-                if (prefab.m_class.name.StartsWith("NExt"))
+                if (prefab.m_class.name.StartsWith("NExt") || prefab.m_class.name.StartsWith("NEXT"))
                 {
                     // It's a NExt asset; return full name preceeded by NExt flag.
                     return "[n] " + fullName;

@@ -2,7 +2,7 @@
 <Language UniqueName="en" ReadableName="English">
   <Translations>
     <Translation ID="RON_NAM" String="RON: the network replacer" />
-    <Translation ID="RON_DESC" String="UNDER DEVELOPMENT: provides bulk replacement of networks." />
+    <Translation ID="RON_DESC" String="a tool for replacing networks." />
     <Translation ID="RON_PNL_MAP" String="Networks in map" />
     <Translation ID="RON_PNL_AVA" String="Available replacements" />
     <Translation ID="RON_PNL_REP" String="REPLACE" />
