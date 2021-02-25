@@ -2,3 +2,4 @@
 
 - Add network thumbnail previews
 - Fix 'replaced' networks still showing as valid targets in some cases
+- Fix several NExt roads being tagged as 'Vanilla'
