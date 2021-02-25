@@ -39,7 +39,7 @@ namespace RON
 		/// </summary>
 		/// <param name="data">Object to list</param>
 		/// <param name="isRowOdd">If the row is an odd-numbered row (for background banding)</param>
-		public override void Display(object data, bool isRowOdd)
+		/*public override void Display(object data, bool isRowOdd)
         {
 			// Same setup as usual first.
 			base.Display(data, isRowOdd);
@@ -61,6 +61,6 @@ namespace RON
 				// Set tooltip.
 				objectName.tooltip = segmentList.ToString();
 			}
-		}
+		}*/
 	}
 }
