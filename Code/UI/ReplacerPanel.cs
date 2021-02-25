@@ -41,7 +41,7 @@ namespace RON
 		private const float RightPanelX = MiddlePanelX + MiddleWidth + Margin;
 		private const float PanelWidth = RightPanelX + RightWidth + Margin;
 		private const float ReplaceWidth = 150f;
-		private const float FilterX = (PanelWidth - Margin) - 200f;
+		private const float FilterX = (PanelWidth - Margin) - 240f;
 		private const float ButtonWidth = 220f;
 		private const float PrevX = Margin;
 		private const float NextX = LeftWidth + Margin - ButtonWidth;

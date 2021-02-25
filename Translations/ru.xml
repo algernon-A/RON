@@ -2,7 +2,7 @@
 <Language UniqueName="ru" ReadableName="Русский">
   <Translations>
     <Translation ID="RON_NAM" String="RON: the network replacer" />
-    <Translation ID="RON_DESC" String="В РАЗРАБОТКЕ: обеспечивает массовую замену дорог." />
+    <Translation ID="RON_DESC" String="обеспечивает массовую замену дорог." />
     <Translation ID="RON_PNL_MAP" String="Дороги на карте" />
     <Translation ID="RON_PNL_AVA" String="Доступные замены" />
     <Translation ID="RON_PNL_REP" String="ЗАМЕНИТЬ" />
