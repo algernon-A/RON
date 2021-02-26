@@ -76,8 +76,26 @@ namespace RON
 						// Check that this is an active network before we do actual replacement.
 						if (segment.m_flags != NetSegment.Flags.None)
 						{
-							// Active network segment - replace segment, adding new segment ID to undo buffer.
-							undoBuffer.Add(ReplaceNet(segmentID, segments, replacement, ref randomizer));
+							// Get segment name and prority.
+							string segmentName = netManager.GetSegmentName(segmentID);
+							bool priority = netManager.IsPriorityRoad(segmentID, out bool _);
+							ushort nameSeed = segment.m_nameSeed;
+
+							// Active network segment - replace segment.
+							ushort newSegmentID = ReplaceNet(segmentID, segments, replacement, ref randomizer);
+
+							// Set name and priority of new segment to match original.
+							if (segmentName != null)
+							{
+								netManager.SetSegmentName(newSegmentID, segmentName);
+							}
+							segments[newSegmentID].m_nameSeed = nameSeed;
+							netManager.SetPriorityRoad(newSegmentID, priority);
+
+							// Add new segment ID to undo buffer.
+							undoBuffer.Add(newSegmentID);
+
+							// 
 						}
 						else
 						{

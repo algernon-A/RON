@@ -1,4 +1,7 @@
-﻿- Attempt to find and use matched surface network thumbnails if no thumbnail assigned for slope/elevated/bridge/tunnel network.
+﻿Version 0.2.1 -
+
+- Attempt to find and use matched surface network thumbnails if no thumbnail assigned for slope/elevated/bridge/tunnel network
+- Preserve priority and and street name of old segment when replacing
 
 
 Version 0.2 -
