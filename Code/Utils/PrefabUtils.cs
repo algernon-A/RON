@@ -23,8 +23,16 @@ namespace RON
             // If no period, assume it's either vanilla or NExt
             if (num < 0)
             {
-                // Check for prefab class beginning with NExt.
-                if (prefab.m_class.name.StartsWith("NExt") || prefab.m_class.name.StartsWith("NEXT"))
+                // Check for NEext prefabs.  NExt prefabs aren't as consistent as would be ideal....
+                if (
+                    prefab.m_class.name.StartsWith("NExt") ||
+                    prefab.m_class.name.StartsWith("NEXT") ||
+                    prefab.name.StartsWith("Small Busway") ||
+                    prefab.name.EndsWith("With Bus Lanes") ||
+                    prefab.name.Equals("PlainStreet2L") ||
+                    prefab.name.Equals("Highway2L2W") ||
+                    prefab.name.Equals("AsymHighwayL1R2")
+                )
                 {
                     // It's a NExt asset; return full name preceeded by NExt flag.
                     return "[n] " + fullName;
