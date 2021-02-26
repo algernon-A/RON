@@ -1,4 +1,7 @@
-﻿Vesion 0.2 -
+﻿- Attempt to find and use matched surface network thumbnails if no thumbnail assigned for slope/elevated/bridge/tunnel network.
+
+
+Version 0.2 -
 
 - Add network thumbnail previews
 - Fix 'replaced' networks still showing as valid targets in some cases

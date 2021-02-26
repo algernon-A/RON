@@ -58,6 +58,12 @@ namespace RON
 		// Segment info record.
 		internal readonly Dictionary<NetInfo, List<ushort>> segmentDict = new Dictionary<NetInfo, List<ushort>>();
 
+		// Parent-child network relation dictionaries.
+		internal readonly Dictionary<NetInfo, NetInfo> slopeParents = new Dictionary<NetInfo, NetInfo>();
+		internal readonly Dictionary<NetInfo, NetInfo> elevatedParents = new Dictionary<NetInfo, NetInfo>();
+		internal readonly Dictionary<NetInfo, NetInfo> bridgeParents = new Dictionary<NetInfo, NetInfo>();
+		internal readonly Dictionary<NetInfo, NetInfo> tunnelParents = new Dictionary<NetInfo, NetInfo>();
+
 		// Panel components.
 		private readonly UIFastList targetList, loadedList;
 		private readonly UIButton replaceButton, undoButton, prevButton, nextButton;
@@ -65,7 +71,7 @@ namespace RON
 		private readonly UIDropDown typeDropDown;
 		private readonly UILabel replacingLabel, progressLabel;
 		private readonly UICheckBox sameWidthCheck, hideVanilla;
-		private readonly UISprite targetPreviewSprite, targetArrowSprite, replacementPreviewSprite, replacementArrowSprite;
+		private readonly UISprite targetPreviewSprite, replacementPreviewSprite;
 
 		// Status.
 		internal bool replacingDone;
@@ -178,27 +184,8 @@ namespace RON
 						LoadedList();
 					}
 
-					// Update preview image; check if this prefab has a valid thumbnail.
-					if (selectedTarget != null && selectedTarget.m_Thumbnail != null && selectedTarget.m_Atlas != null)
-					{
-						Logging.Message("showing target preview");
-						// Valid thumbnail - preview it.
-						targetPreviewSprite.atlas = selectedTarget.m_Atlas;
-						targetPreviewSprite.spriteName = selectedTarget.m_Thumbnail;
-						targetPreviewSprite.Show();
-						targetArrowSprite.Show();
-					}
-					else
-					{
-						Logging.Message("hiding target preview");
-						// No valid thumbnail - hide preview.
-						targetPreviewSprite.atlas = Textures.RonButtonSprites;
-						targetPreviewSprite.spriteName = "normal";
-						targetPreviewSprite.Hide();
-						targetArrowSprite.Hide();
-					}
-
-					UpdateButtonStates();
+					// Update display (preview and button states).
+					DisplayNetwork(selectedTarget, targetPreviewSprite);
 				}
 			}
 		}
@@ -211,27 +198,11 @@ namespace RON
 		{
 			set
 			{
+				// Assign new replacement.
 				selectedReplacement = value;
 
-				// Update preview image; check if this prefab has a valid thumbnail.
-				if (selectedReplacement != null && selectedReplacement.m_Thumbnail != null && selectedReplacement.m_Atlas != null)
-                {
-					// Valid thumbnail - preview it.
-					replacementPreviewSprite.atlas = selectedReplacement.m_Atlas;
-					replacementPreviewSprite.spriteName = selectedReplacement.m_Thumbnail;
-					replacementPreviewSprite.Show();
-					replacementArrowSprite.Show();
-                }
-				else
-                {
-					// No valid thumbnail - hide preview.
-					replacementPreviewSprite.atlas = Textures.RonButtonSprites;
-					replacementPreviewSprite.spriteName = "normal";
-					replacementPreviewSprite.Hide();
-					replacementArrowSprite.Hide();
-				}
-
-				UpdateButtonStates();
+				// Update display (preview and button states).
+				DisplayNetwork(selectedReplacement, replacementPreviewSprite);
 			}
 		}
 
@@ -403,27 +374,20 @@ namespace RON
 			progressLabel = UIControls.AddLabel(this, RightPanelX, ToolRow2Y, ".", ReplaceWidth);
 			progressLabel.Hide();
 
-			// Target preview sprite.
-			targetPreviewSprite = AddUIComponent<UISprite>();
-			targetPreviewSprite.relativePosition = new Vector2(MiddlePanelX + PreviewArrowWidth, ListY);
-			targetPreviewSprite.height = PreviewHeight;
-			targetPreviewSprite.width = PreviewWidth;
-			targetPreviewSprite.Hide();
-
-			// Replacement preview sprite.
-			replacementPreviewSprite = AddUIComponent<UISprite>();
-			replacementPreviewSprite.relativePosition = new Vector2(MiddlePanelX, ReplacementSpriteY);
-			replacementPreviewSprite.height = PreviewHeight;
-			replacementPreviewSprite.width = PreviewWidth;
-			replacementPreviewSprite.Hide();
+			// Preview sprites.
+			targetPreviewSprite = AddPreviewSprite(MiddlePanelX + PreviewArrowWidth, ListY);
+			replacementPreviewSprite = AddPreviewSprite(MiddlePanelX, ReplacementSpriteY);
 
 			// Arrow sprites.
-			targetArrowSprite = AddArrowSprite(MiddlePanelX, ListY, "ArrowLeft");
-			replacementArrowSprite = AddArrowSprite(MiddlePanelX + PreviewWidth, ReplacementSpriteY, "ArrowRight");
+			AddArrowSprite(targetPreviewSprite, -PreviewArrowWidth, "ArrowLeft");
+			AddArrowSprite(replacementPreviewSprite, PreviewWidth, "ArrowRight");
 
 			// Populate lists.
 			TargetList();
 			LoadedList();
+
+			// Populate parent dictionaries.
+			PrefabUtils.GetParents(slopeParents, elevatedParents, bridgeParents, tunnelParents);
 		}
 
 
@@ -793,21 +757,123 @@ namespace RON
 
 
 		/// <summary>
-		/// Adds a preview arrow sprite at the specified coordinates with the specified 
+		/// Updates the display to the specified network (displaying thumbnail and setting button states).
+		/// </summary>
+		/// <param name="network">Network to display</param>
+		/// <param name="previewSprite">Preview sprite to display network thumbnail</param>
+		private void DisplayNetwork(NetInfo network, UISprite previewSprite)
+        {
+			// Try to get preview sprite components.
+			FindThumbnail(network, out UITextureAtlas previewAtlas, out string previewThumb);
+
+			// Update preview image; check if this prefab has a valid thumbnail.
+			if (network != null && previewAtlas != null && previewThumb != null)
+			{
+				// Valid thumbnail - preview it.
+				previewSprite.atlas = previewAtlas;
+				previewSprite.spriteName = previewThumb;
+				previewSprite.Show();
+			}
+			else
+			{
+				// No valid thumbnail - hide preview.
+				previewSprite.atlas = Textures.RonButtonSprites;
+				previewSprite.spriteName = "normal";
+				previewSprite.Hide();
+			}
+
+			UpdateButtonStates();
+		}
+
+
+		/// <summary>
+		/// Finds a thumbnail image for the selected prefab.
+		/// </summary>
+		/// <param name="network">Network prefab to find thumbnail for</param>
+		/// <param name="atlas">Thumbnail atlas</param>
+		/// <param name="thumbnail">Thumbnail sprite name</param>
+		private void FindThumbnail(NetInfo network, out UITextureAtlas atlas, out string thumbnail)
+		{
+			// Null check - quite possible.
+			if (network == null)
+            {
+				atlas = null;
+				thumbnail = null;
+				return;
+            }
+
+			// Try original info first.
+			UITextureAtlas thumbAtlas = network.m_Atlas;
+			string thumbName = network.m_Thumbnail;
+
+			// If we didn't get a valid thumbnail directly, then try to find a parent and use its thumbnail.
+			if (thumbAtlas == null || thumbName == null)
+			{
+				// Try slope parent.
+				if (slopeParents.ContainsKey(network))
+				{
+					thumbAtlas = slopeParents[network].m_Atlas;
+					thumbName = slopeParents[network].m_Thumbnail;
+				}
+				// Try elevated parent.
+				else if (elevatedParents.ContainsKey(network))
+				{
+					thumbAtlas = elevatedParents[network].m_Atlas;
+					thumbName = elevatedParents[network].m_Thumbnail;
+				}
+				// Try bridge parent.
+				else if (bridgeParents.ContainsKey(selectedReplacement))
+				{
+					thumbAtlas = bridgeParents[selectedReplacement].m_Atlas;
+					thumbName = bridgeParents[selectedReplacement].m_Thumbnail;
+				}
+				// Try tunnel parent.
+				else if (tunnelParents.ContainsKey(selectedReplacement))
+				{
+					thumbAtlas = tunnelParents[selectedReplacement].m_Atlas;
+					thumbName = tunnelParents[selectedReplacement].m_Thumbnail;
+				}
+			}
+
+			// Whatever we got, that's the best we can do.
+			atlas = thumbAtlas;
+			thumbnail = thumbName;
+		}
+
+
+		/// <summary>
+		/// Adds a preview image sprite at the specified coordinates (starts hidden).
 		/// </summary>
 		/// <param name="xPos">Relative X position</param>
 		/// <param name="yPos">Relative Y position</param>
-		/// <param name="spriteName">Sprite name</param>
-		/// <returns></returns>
-		private UISprite AddArrowSprite(float xPos, float yPos, string spriteName)
+		/// <returns>New UI sprite</returns>
+		private UISprite AddPreviewSprite(float xPos, float yPos)
 		{
-			UISprite arrowSprite = AddUIComponent<UISprite>();
-			arrowSprite.relativePosition = new Vector2(xPos, yPos);
+			UISprite previewSprite = AddUIComponent<UISprite>();
+			previewSprite.relativePosition = new Vector2(xPos, yPos);
+			previewSprite.height = PreviewHeight;
+			previewSprite.width = PreviewWidth;
+			previewSprite.Hide();
+
+			return previewSprite;
+		}
+
+
+		/// <summary>
+		/// Adds a preview arrow sprite at the specified coordinates with the specified thumbnail from "ingame" atlas.
+		/// </summary>
+		/// <param name="parent">Parent component</param>
+		/// <param name="xPos">Relative X position</param>
+		/// <param name="spriteName">Sprite name</param>
+		/// <returns>Nw UI sprite</returns>
+		private UISprite AddArrowSprite(UIComponent parent, float xPos, string spriteName)
+		{
+			UISprite arrowSprite = parent.AddUIComponent<UISprite>();
+			arrowSprite.relativePosition = new Vector2(xPos, 0f);
 			arrowSprite.height = PreviewHeight;
 			arrowSprite.width = PreviewArrowWidth;
 			arrowSprite.atlas = TextureUtils.InGameAtlas;
 			arrowSprite.spriteName = spriteName;
-			arrowSprite.Hide();
 
 			return arrowSprite;
 		}

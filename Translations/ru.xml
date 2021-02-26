@@ -7,8 +7,8 @@
     <Translation ID="RON_PNL_AVA" String="Доступные замены" />
     <Translation ID="RON_PNL_REP" String="ЗАМЕНИТЬ" />
     <Translation ID="RON_PNL_UND" String="Отменить" />
-    <Translation ID="RON_PNL_VPS" String="Посмотреть предыдущий сегмент" />
-    <Translation ID="RON_PNL_VNS" String="Посмотреть следующий сегмент " />
+    <Translation ID="RON_PNL_VPS" String="предыдущий сегмент" />
+    <Translation ID="RON_PNL_VNS" String="следующий сегмент " />
     <Translation ID="RON_PNL_HDV" String="Скрыть ванильные и из NExt" />
     <Translation ID="RON_PNL_WID" String="Только одинаковая ширина" />
     <Translation ID="RON_PNL_TYP" String="Тип дороги" />
