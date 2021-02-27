@@ -10,7 +10,7 @@ namespace RON
     public class RONMod : IUserMod
     {
         public static string ModName => "RON - the network replacer";
-        public static string Version => "0.2.1";
+        public static string Version => "0.2.2";
 
         public string Name => ModName + " " + Version;
         public string Description => Translations.Translate("RON_DESC");
