@@ -807,7 +807,7 @@ namespace RON
 			string thumbName = network.m_Thumbnail;
 
 			// If we didn't get a valid thumbnail directly, then try to find a parent and use its thumbnail.
-			if (thumbAtlas == null || thumbName == null)
+			if (thumbAtlas == null || thumbName.IsNullOrWhiteSpace())
 			{
 				// Try slope parent.
 				if (slopeParents.ContainsKey(network))
@@ -822,16 +822,16 @@ namespace RON
 					thumbName = elevatedParents[network].m_Thumbnail;
 				}
 				// Try bridge parent.
-				else if (bridgeParents.ContainsKey(selectedReplacement))
+				else if (bridgeParents.ContainsKey(network))
 				{
-					thumbAtlas = bridgeParents[selectedReplacement].m_Atlas;
-					thumbName = bridgeParents[selectedReplacement].m_Thumbnail;
+					thumbAtlas = bridgeParents[network].m_Atlas;
+					thumbName = bridgeParents[network].m_Thumbnail;
 				}
 				// Try tunnel parent.
-				else if (tunnelParents.ContainsKey(selectedReplacement))
+				else if (tunnelParents.ContainsKey(network))
 				{
-					thumbAtlas = tunnelParents[selectedReplacement].m_Atlas;
-					thumbName = tunnelParents[selectedReplacement].m_Thumbnail;
+					thumbAtlas = tunnelParents[network].m_Atlas;
+					thumbName = tunnelParents[network].m_Thumbnail;
 				}
 			}
 

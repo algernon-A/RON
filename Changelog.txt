@@ -1,6 +1,7 @@
 ﻿Version 0.2.3 -
 
 - Preserve custom street names when replacing
+- Fix some vanilla bridge and tunnel thumbnails not displaying correctly
 
 
 Version 0.2.2 -
