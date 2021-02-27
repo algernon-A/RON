@@ -1,4 +1,9 @@
-﻿Version 0.2.2 -
+﻿Version 0.2.3 -
+
+- Preserve custom street names when replacing
+
+
+Version 0.2.2 -
 
 - Fix some more NExt roads being tagged as 'Vanilla'
 

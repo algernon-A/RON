@@ -77,25 +77,26 @@ namespace RON
 						if (segment.m_flags != NetSegment.Flags.None)
 						{
 							// Get segment name and prority.
-							string segmentName = netManager.GetSegmentName(segmentID);
 							bool priority = netManager.IsPriorityRoad(segmentID, out bool _);
 							ushort nameSeed = segment.m_nameSeed;
+							bool customNameFlag = (segment.m_flags & NetSegment.Flags.CustomName) != 0;
+							string segmentName = netManager.GetSegmentName(segmentID);
 
 							// Active network segment - replace segment.
 							ushort newSegmentID = ReplaceNet(segmentID, segments, replacement, ref randomizer);
 
-							// Set name and priority of new segment to match original.
-							if (segmentName != null)
-							{
-								netManager.SetSegmentName(newSegmentID, segmentName);
-							}
+							// Set nameseed and priority of new segment to match original.
 							segments[newSegmentID].m_nameSeed = nameSeed;
 							netManager.SetPriorityRoad(newSegmentID, priority);
 
+							// Restore any custom name.
+							if (customNameFlag && segmentName != null)
+							{
+								netManager.SetSegmentNameImpl(newSegmentID, segmentName);
+							}
+
 							// Add new segment ID to undo buffer.
 							undoBuffer.Add(newSegmentID);
-
-							// 
 						}
 						else
 						{
