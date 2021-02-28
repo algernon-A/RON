@@ -1,4 +1,4 @@
-﻿- Map generic vanilla elevated and bridge thumbnails to appropriate surface thumbnails
+﻿- Map generic vanilla thumbnails to appropriate network-specific thumbnails
 
 
 Version 0.2.3 -

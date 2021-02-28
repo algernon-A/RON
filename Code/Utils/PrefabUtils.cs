@@ -27,16 +27,19 @@ namespace RON
             { "Industry Road Small 01 Oneway Bridge", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmallOneway") },
             { "Industry Road Medium 01 Elevated", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustryMedium") },
             { "Industry Road Medium 01 Bridge", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustryMedium") },
+
             { "Basic Road Elevated Bike", new KeyValuePair<string, string> ("Thumbnails", "RoadBasicBikelane") },
             { "Basic Road Bridge Bike", new KeyValuePair<string, string> ("Thumbnails", "RoadBasicBikelane") },
             { "Medium Road Elevated Bike", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadMediumBike") },
             { "Medium Road Bridge Bike", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadMediumBike") },
             { "Large Road Elevated Bike", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadLArgeBike") },
             { "Large Road Bridge Bike", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadLArgeBike") },
+
             { "Medium Road Elevated Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadMediumBus") },
             { "Medium Road Bridge Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadMediumBus") },
             { "Large Road Elevated Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadLargeBus") },
             { "Large Road Bridge Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadLargeBus") },
+
             { "Basic Road Elevated Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeTwolaneTram") },
             { "Basic Road Bridge Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeTwolaneTram") },
             { "Oneway Road Elevated Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTyperTwolaneOnewayTram") },
@@ -47,13 +50,56 @@ namespace RON
             { "Tram Track Bridge", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeTramTracks") },
             { "Oneway Tram Track Elevated", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadtypeTramtrackOneway") },
             { "Oneway Tram Track Bridge", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadtypeTramtrackOneway") },
+
             { "Medium Road Monorail Elevated", new KeyValuePair<string, string> ("ThumbnailsExpansion4", "ThumbMonotrackRoad") },
+
             { "Basic Road Elevated Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneTrolleybus") },
             { "Basic Road Bridge Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneTrolleybus") },
             { "Oneway Road Bridge Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneOnewayTrolleybus") },
             { "Oneway Road Elevated Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneOnewayTrolleybus") },
             { "Medium Road Elevated Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeFourlaneTrolleybus") },
             { "Medium Road Bridge Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeFourlaneTrolleybus") },
+
+            { "Oneway Road Slope", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeOneway") },
+            { "Oneway Road Tunnel", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeOneway") },
+            { "Asymmetrical Three Lane Road Slope", new KeyValuePair<string, string> ("ThumbnailsExpansion4", "ThumbnailRoadTypeAsymmetrical3lane") },
+            { "Asymmetrical Three Lane Road Tunnel", new KeyValuePair<string, string> ("ThumbnailsExpansion4", "ThumbnailRoadTypeAsymmetrical3lane") },
+            { "Large Oneway Slope", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeLargeOneway") },
+            { "Large Oneway Tunnel", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeLargeOneway") },
+            { "Highway Slope", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeHighway") },
+            { "Highway Tunnel", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeHighway") },
+            { "HighwayRamp Slope", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeHighwayramp") },
+            { "HighwayRamp Tunnel", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeHighwayramp") },
+
+            { "Industry Road Small 01 Slope", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmall") },
+            { "Industry Road Small 01 Tunnel", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmall") },
+            { "Industry Road Small 01 Oneway Slope", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmallOneway") },
+            { "Industry Road Small 01 Oneway Tunnel", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmallOneway") },
+            { "Industry Road Medium 01 Slope", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustryMedium") },
+            { "Industry Road Medium 01 Tunnel", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustryMedium") },
+
+            { "Medium Road Slope Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadMediumBus") },
+            { "Medium Road Tunnel Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadMediumBus") },
+            { "Large Road Slope Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadLargeBus") },
+            { "Large Road Tunnel Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadLargeBus") },
+
+            { "Basic Road Slope Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeTwolaneTram") },
+            { "Basic Road Tunnel Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeTwolaneTram") },
+            { "Oneway Road Slope Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTyperTwolaneOnewayTram") },
+            { "Oneway Road Tunnel Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTyperTwolaneOnewayTram") },
+            { "Medium Road Slope Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeFourlaneTram") },
+            { "Medium Road Tunnel Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeFourlaneTram") },
+            { "Tram Track Slope", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeTramTracks") },
+            { "Tram Track Tunnel", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeTramTracks") },
+            { "Oneway Tram Track Slope", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadtypeTramtrackOneway") },
+            { "Oneway Tram Track Tunnel", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadtypeTramtrackOneway") },
+
+            { "Basic Road Slope Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneTrolleybus") },
+            { "Basic Road Tunnel Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneTrolleybus") },
+            { "Oneway Road Slope Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneOnewayTrolleybus") },
+            { "Oneway Road Tunnel Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneOnewayTrolleybus") },
+            { "Medium Road Slope Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeFourlaneTrolleybus") },
+            { "Medium Road Tunnel Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeFourlaneTrolleybus") },
         };
 
 
