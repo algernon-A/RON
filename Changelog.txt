@@ -1,4 +1,6 @@
-﻿- Map generic vanilla thumbnails to appropriate network-specific thumbnails
+﻿Version 0.2.4 -
+
+- Map generic vanilla thumbnails to appropriate network-specific thumbnails
 
 
 Version 0.2.3 -
