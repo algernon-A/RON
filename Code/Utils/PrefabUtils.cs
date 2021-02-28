@@ -8,6 +8,55 @@ namespace RON
     /// </summary>
     internal static class PrefabUtils
     {
+        // Manual thumbnail mapping for vanilla elevated/bridge networks using generic thumbnails.
+        // Dictionary format is <network name <atlas name, thumbnail name>>
+        internal readonly static Dictionary<string, KeyValuePair<string, string>> thumbnailMaps = new Dictionary<string, KeyValuePair<string, string>>
+        {
+            { "Oneway Road Elevated", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeOneway") },
+            { "Oneway Road Bridge", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeOneway") },
+            { "Large Oneway Elevated", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeLargeOneway") },
+            { "Large Oneway Bridge", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeLargeOneway") },
+            { "Highway Elevated", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeHighway") },
+            { "Highway Bridge", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeHighway") },
+            { "HighwayRampElevated", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeHighwayramp") },
+            { "Asymmetrical Three Lane Road Elevated", new KeyValuePair<string, string> ("ThumbnailsExpansion4", "ThumbnailRoadTypeAsymmetrical3lane") },
+            { "Asymmetrical Three Lane Road Bridge", new KeyValuePair<string, string> ("ThumbnailsExpansion4", "ThumbnailRoadTypeAsymmetrical3lane") },
+            { "Industry Road Small 01 Elevated", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmall") },
+            { "Industry Road Small 01 Bridge", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmall") },
+            { "Industry Road Small 01 Oneway Elevated", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmallOneway") },
+            { "Industry Road Small 01 Oneway Bridge", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmallOneway") },
+            { "Industry Road Medium 01 Elevated", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustryMedium") },
+            { "Industry Road Medium 01 Bridge", new KeyValuePair<string, string> ("ThumbnailsExpansion7", "ThumbRoadtypeIndustryMedium") },
+            { "Basic Road Elevated Bike", new KeyValuePair<string, string> ("Thumbnails", "RoadBasicBikelane") },
+            { "Basic Road Bridge Bike", new KeyValuePair<string, string> ("Thumbnails", "RoadBasicBikelane") },
+            { "Medium Road Elevated Bike", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadMediumBike") },
+            { "Medium Road Bridge Bike", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadMediumBike") },
+            { "Large Road Elevated Bike", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadLArgeBike") },
+            { "Large Road Bridge Bike", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadLArgeBike") },
+            { "Medium Road Elevated Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadMediumBus") },
+            { "Medium Road Bridge Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadMediumBus") },
+            { "Large Road Elevated Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadLargeBus") },
+            { "Large Road Bridge Bus", new KeyValuePair<string, string> ("Thumbnails", "ThumbRoadLargeBus") },
+            { "Basic Road Elevated Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeTwolaneTram") },
+            { "Basic Road Bridge Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeTwolaneTram") },
+            { "Oneway Road Elevated Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTyperTwolaneOnewayTram") },
+            { "Oneway Road Bridge Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTyperTwolaneOnewayTram") },
+            { "Medium Road Elevated Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeFourlaneTram") },
+            { "Medium Road Bridge Tram", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeFourlaneTram") },
+            { "Tram Track Elevated", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeTramTracks") },
+            { "Tram Track Bridge", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadTypeTramTracks") },
+            { "Oneway Tram Track Elevated", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadtypeTramtrackOneway") },
+            { "Oneway Tram Track Bridge", new KeyValuePair<string, string> ("Thumbnails", "ThumbnailRoadtypeTramtrackOneway") },
+            { "Medium Road Monorail Elevated", new KeyValuePair<string, string> ("ThumbnailsExpansion4", "ThumbMonotrackRoad") },
+            { "Basic Road Elevated Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneTrolleybus") },
+            { "Basic Road Bridge Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneTrolleybus") },
+            { "Oneway Road Bridge Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneOnewayTrolleybus") },
+            { "Oneway Road Elevated Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneOnewayTrolleybus") },
+            { "Medium Road Elevated Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeFourlaneTrolleybus") },
+            { "Medium Road Bridge Trolleybus", new KeyValuePair<string, string> ("ThumbnailsExpansion9", "ThumbnailRoadTypeFourlaneTrolleybus") },
+        };
+
+
         /// <summary>
         /// Returns a cleaned-up display name for the given prefab.
         /// </summary>
@@ -127,10 +176,6 @@ namespace RON
             {
                 // No existing entry - add.
                 dictionary.Add(child, parent);
-            }
-            else
-            {
-                Logging.Message("parent network ", parent.name, " has duplicate child ", child.name);
             }
         }
     }

@@ -806,6 +806,18 @@ namespace RON
 			UITextureAtlas thumbAtlas = network.m_Atlas;
 			string thumbName = network.m_Thumbnail;
 
+			// Check for any overrides.
+			if (PrefabUtils.thumbnailMaps.ContainsKey(network.name))
+            {
+				KeyValuePair<string, string> entry = PrefabUtils.thumbnailMaps[network.name];
+				if (!entry.Key.Equals(thumbAtlas.name))
+                {
+					thumbAtlas = TextureUtils.GetTextureAtlas(entry.Key); 
+                }
+
+				thumbName = entry.Value;
+            }
+			else 
 			// If we didn't get a valid thumbnail directly, then try to find a parent and use its thumbnail.
 			if (thumbAtlas == null || thumbName.IsNullOrWhiteSpace())
 			{

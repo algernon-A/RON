@@ -1,4 +1,7 @@
-﻿Version 0.2.3 -
+﻿- Map generic vanilla elevated and bridge thumbnails to appropriate surface thumbnails
+
+
+Version 0.2.3 -
 
 - Preserve custom street names when replacing
 - Fix some vanilla bridge and tunnel thumbnails not displaying correctly
