@@ -53,20 +53,7 @@ namespace RON
 		/// <summary>
 		/// Returns the "ingame" atlas.
 		/// </summary>
-		internal static UITextureAtlas InGameAtlas
-		{
-			get
-			{
-				// If we haven't already got a reference, we need to get one.
-				if (inGameAtlas == null)
-				{
-					inGameAtlas = GetTextureAtlas("ingame");
-				}
-
-				return inGameAtlas;
-			}
-		}
-		private static UITextureAtlas inGameAtlas;
+		internal static UITextureAtlas InGameAtlas => GetTextureAtlas("ingame");
 
 
 		/// <summary>

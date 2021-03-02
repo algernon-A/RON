@@ -1,4 +1,7 @@
-﻿Version 0.2.4 -
+﻿- Map generic NExt2 thumbnails to NExt2 preview images
+
+
+Version 0.2.4 -
 
 - Map generic vanilla thumbnails to appropriate network-specific thumbnails
 
