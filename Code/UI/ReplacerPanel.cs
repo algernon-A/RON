@@ -606,8 +606,8 @@ namespace RON
 				// Local references.
 				NetInfo segmentInfo = segments[i].Info;
 
-				// Ignore segments with outside connections.
-				if (((netManager.m_nodes.m_buffer[segments[i].m_startNode].m_flags & NetNode.Flags.Outside) == 0) && ((netManager.m_nodes.m_buffer[segments[i].m_endNode].m_flags & NetNode.Flags.Outside) == 0))
+				// Ignore segments null infos or with outside connections.
+				if (segmentInfo != null && ((netManager.m_nodes.m_buffer[segments[i].m_startNode].m_flags & NetNode.Flags.Outside) == 0) && ((netManager.m_nodes.m_buffer[segments[i].m_endNode].m_flags & NetNode.Flags.Outside) == 0))
 				{
 					// See if this net info is already in our list.
 					if (!netList.Contains(segmentInfo))
