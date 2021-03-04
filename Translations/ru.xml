@@ -2,15 +2,15 @@
 <Language UniqueName="ru" ReadableName="Русский">
   <Translations>
     <Translation ID="RON_NAM" String="RON: the network replacer" />
-    <Translation ID="RON_DESC" String="обеспечивает массовую замену дорог." />
+    <Translation ID="RON_DESC" String="инструмент для замены дорог." />
     <Translation ID="RON_PNL_MAP" String="Дороги на карте" />
     <Translation ID="RON_PNL_AVA" String="Доступные замены" />
     <Translation ID="RON_PNL_REP" String="ЗАМЕНИТЬ" />
     <Translation ID="RON_PNL_UND" String="Отменить" />
-    <Translation ID="RON_PNL_VPS" String="предыдущий сегмент" />
-    <Translation ID="RON_PNL_VNS" String="следующий сегмент " />
+    <Translation ID="RON_PNL_VPS" String="Предыдущий сегмент" />
+    <Translation ID="RON_PNL_VNS" String="Следующий сегмент " />
     <Translation ID="RON_PNL_HDV" String="Скрыть ванильные и из NExt" />
-    <Translation ID="RON_PNL_WID" String="Только одинаковая ширина" />
+    <Translation ID="RON_PNL_WID" String="Только с одинаковой шириной" />
     <Translation ID="RON_PNL_TYP" String="Тип дороги" />
     <Translation ID="RON_PNL_ROA" String="Дороги - только наземные" />
     <Translation ID="RON_PNL_ROB" String="Дороги - эстакадные и мосты" />
