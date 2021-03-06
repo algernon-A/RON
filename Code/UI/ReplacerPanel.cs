@@ -383,6 +383,7 @@ namespace RON
 			AddArrowSprite(replacementPreviewSprite, PreviewWidth, "ArrowRight");
 
 			// Populate lists.
+			PrefabUtils.GetCreators();
 			TargetList();
 			LoadedList();
 
@@ -592,11 +593,11 @@ namespace RON
 		/// <returns>Populated fastlist of networks on map</returns>
 		private void TargetList()
 		{
-			// Clear dictionary.
+			// Clear segment dictionary.
 			segmentDict.Clear();
 
-			// List of prefabs.
-			List<NetInfo> netList = new List<NetInfo>();
+			// List of prefabs to display.
+			Dictionary<NetInfo, NetRowItem> netList = new Dictionary<NetInfo, NetRowItem>();
 
 			// Iterate through all segments in map.
 			NetManager netManager = Singleton<NetManager>.instance;
@@ -610,12 +611,17 @@ namespace RON
 				if (segmentInfo != null && ((netManager.m_nodes.m_buffer[segments[i].m_startNode].m_flags & NetNode.Flags.Outside) == 0) && ((netManager.m_nodes.m_buffer[segments[i].m_endNode].m_flags & NetNode.Flags.Outside) == 0))
 				{
 					// See if this net info is already in our list.
-					if (!netList.Contains(segmentInfo))
+					if (!netList.ContainsKey(segmentInfo))
 					{
 						// No - apply network type filter.
 						if (MatchType(segmentInfo))
 						{
-							netList.Add(segmentInfo);
+							netList.Add(segmentInfo, new NetRowItem
+							{
+								prefab = segmentInfo,
+								displayName = PrefabUtils.GetDisplayName(segmentInfo),
+								creator = PrefabUtils.GetCreator(segmentInfo)
+							});
 						}
 					}
 
@@ -633,10 +639,11 @@ namespace RON
 				}
 			}
 
-			// Create return fastlist from our filtered list, ordering by name.
+
+			// Create return network fastlist from our filtered network list, ordering by name.
 			targetList.rowsData = new FastList<object>
 			{
-				m_buffer = netList.OrderBy(item => PrefabUtils.GetDisplayName(item)).ToArray(),
+				m_buffer = netList.Values.OrderBy(item => item.displayName).ToArray(),
 				m_size = netList.Count
 			};
 
@@ -655,8 +662,8 @@ namespace RON
 		/// <returns>Populated fastlist of networks on map</returns>
 		private void LoadedList()
 		{
-			// List of prefabs.
-			List<NetInfo> netList = new List<NetInfo>();
+			// List of prefabs to display.
+			List<NetRowItem> netList = new List<NetRowItem>();
 
 			// Iterate through all loaded networks.
 			for (uint i = 0u; i < PrefabCollection<NetInfo>.LoadedCount(); ++i)
@@ -673,8 +680,11 @@ namespace RON
 						continue;
 					}
 
+					// Get display name.
+					string displayName = PrefabUtils.GetDisplayName(network);
+
 					// Apply name filter.
-					if (StringExtensions.IsNullOrWhiteSpace(nameFilter.text.Trim()) || PrefabUtils.GetDisplayName(network.name).ToLower().Contains(nameFilter.text.Trim().ToLower()))
+					if (StringExtensions.IsNullOrWhiteSpace(nameFilter.text.Trim()) || displayName.ToLower().Contains(nameFilter.text.Trim().ToLower()))
 					{
 						// Apply network type filter.
 						if (MatchType(network))
@@ -691,7 +701,12 @@ namespace RON
 							}
 
 							// Passed filtering; add this one to the list.
-							netList.Add(network);
+							netList.Add(new NetRowItem
+							{
+								prefab = network,
+								displayName = displayName,
+								creator = PrefabUtils.GetCreator(network)
+							});
 						}
 					}
 				}
@@ -700,7 +715,7 @@ namespace RON
 			// Create return fastlist from our filtered list, ordering by name.
 			loadedList.rowsData = new FastList<object>
 			{
-				m_buffer = netList.OrderBy(item => PrefabUtils.GetDisplayName(item)).ToArray(),
+				m_buffer = netList.OrderBy(item => item.displayName).ToArray(),
 				m_size = netList.Count
 			};
 

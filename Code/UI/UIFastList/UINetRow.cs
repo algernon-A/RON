@@ -12,15 +12,12 @@ namespace RON
         // Layout constants.
         private const float RowHeight = 30f;
 
-        // Layout variables.
-        private float labelX;
-
         // Panel components.
         private UIPanel panelBackground;
         protected UILabel objectName;
 
         // ObjectData.
-        protected NetInfo thisPrefab;
+        protected NetRowItem thisItem;
         protected int index;
 
 
@@ -54,7 +51,7 @@ namespace RON
             if (objectName != null)
             {
                 Background.width = width;
-                objectName.relativePosition = new Vector2(labelX, 5f);
+                objectName.relativePosition = new Vector2(10f, 5f);
             }
         }
 
@@ -99,18 +96,23 @@ namespace RON
                 objectName.width = this.width - 10f;
             }
 
-
             // See if our attached data is a raw PropInfo (e.g an available prop item as opposed to a PropListItem replacment record).
-            thisPrefab = data as NetInfo;
-            if (thisPrefab != null)
+            thisItem = data as NetRowItem;
+            if (thisItem?.prefab != null)
             {
                 // Display its (cleaned-up) name.
-                objectName.text = PrefabUtils.GetDisplayName(thisPrefab);
-                labelX = 10f;
+                thisItem.displayName = PrefabUtils.GetDisplayName(thisItem.prefab);
+                thisItem.creator = PrefabUtils.GetCreator(thisItem.prefab);
+
+                objectName.text = thisItem.displayName;
+                if (thisItem.creator != null)
+                {
+                    objectName.text += " by " + thisItem.creator;
+                }
             }
 
             // Set label position
-            objectName.relativePosition = new Vector2(labelX, 5f);
+            objectName.relativePosition = new Vector2(10f, 5f);
 
             // Set initial background as deselected state.
             Deselect(isRowOdd);

@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using ColossalFramework;
+using ColossalFramework.PlatformServices;
+using ColossalFramework.Packaging;
 
 
 namespace RON
@@ -8,6 +12,10 @@ namespace RON
     /// </summary>
     internal static class PrefabUtils
     {
+        // Dictionary to hold asset creators.
+        internal readonly static Dictionary<ulong, string> creators = new Dictionary<ulong, string>();
+        internal readonly static Dictionary<ulong, ulong> creatorMaps = new Dictionary<ulong, ulong>();
+
         // Manual thumbnail mapping for vanilla elevated/bridge networks using generic thumbnails.
         // Dictionary format is <network name <atlas name, thumbnail name>>
         internal readonly static Dictionary<string, KeyValuePair<string, string>> thumbnailMaps = new Dictionary<string, KeyValuePair<string, string>>
@@ -227,10 +235,10 @@ namespace RON
             string fullName = prefab.name;
 
             // Find any leading period (Steam package number).
-            int num = fullName.IndexOf('.');
+            int period = fullName.IndexOf('.');
 
             // If no period, assume it's either vanilla or NExt
-            if (num < 0)
+            if (period < 0)
             {
                 // Check for NEext prefabs.  NExt prefabs aren't as consistent as would be ideal....
                 if (
@@ -252,29 +260,63 @@ namespace RON
             }
 
             // Otherwise, omit the package number, and trim off any trailing _Data.
-            return fullName.Substring(num + 1).Replace("_Data", "");
+            return fullName.Substring(period + 1).Replace("_Data", "");
         }
 
 
         /// <summary>
-        /// Sanitises a raw prefab name for display.
-        /// Called by the settings panel fastlist.
+        /// Populates the creators dictionary.
         /// </summary>
-        /// <param name="fullName">Original (raw) prefab name</param>
-        /// <returns>Cleaned display name</returns>
-        internal static string GetDisplayName(string fullName)
+        internal static void GetCreators()
         {
-            // Find any leading period (Steam package number).
-            int num = fullName.IndexOf('.');
-
-            // If no period, assume vanilla asset; return full name preceeded by vanilla flag.
-            if (num < 0)
+            // Iterate through all loaded packages.
+            foreach (Package.Asset asset in PackageManager.FilterAssets(new Package.AssetType[] { UserAssetType.CustomAssetMetaData }))
             {
-                return "[v] " + fullName;
+                if (asset?.package != null)
+                {
+                    // Try to get steam ID of this package.
+                    if (UInt64.TryParse(asset.package.packageName, out ulong steamID) && !asset.package.packageAuthor.IsNullOrWhiteSpace())
+                    {
+                        // Check to see if we already have a record for the steam ID.
+                        if (!creators.ContainsKey(steamID))
+                        {
+                            // No existing record - get package author name and add to dictionary.
+                            if (UInt64.TryParse(asset.package.packageAuthor.Substring("steamid:".Length), out ulong authorID))
+                            {
+                                creators.Add(steamID, new Friend(new UserID(authorID)).personaName);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        /// <summary>
+        /// Gets the name of the creator of the given network.
+        /// </summary>
+        /// <param name="network">Network to check</param>
+        /// <returns>Creator name</returns>
+        internal static string GetCreator(NetInfo network)
+        {
+            // See if we can parse network workshop number from network name (number before period).
+            int period = network.name.IndexOf(".");
+            if (period > 0)
+            {
+                // Attempt to parse substring before period.
+                if (UInt64.TryParse(network.name.Substring(0, period), out ulong steamID))
+                {
+                    // Check to see if we have an entry.
+                    if (creators.ContainsKey(steamID))
+                    {
+                        return creators[steamID];
+                    }
+                }
             }
 
-            // Otherwise, omit the package number, and trim off any trailing _Data.
-            return fullName.Substring(num + 1).Replace("_Data", "");
+            // If we got here, we didn't find a valid creator.
+            return null;
         }
 
 
@@ -329,7 +371,7 @@ namespace RON
             if (child == null || parent == null || dictionary == null)
             {
                 return;
-            }    
+            }
 
             // Check for existing entry.
             if (!dictionary.ContainsKey(child))

@@ -14,7 +14,7 @@ namespace RON
 		public override void UpdateSelection()
 		{
 			// Update currently selected replacement prefab.
-			ReplacerPanel.Panel.SelectedReplacement = thisPrefab;
+			ReplacerPanel.Panel.SelectedReplacement = thisItem.prefab;
 		}
 	}
 
@@ -30,7 +30,7 @@ namespace RON
 		public override void UpdateSelection()
 		{
 			// Update currently selected target prefab.
-			ReplacerPanel.Panel.SelectedTarget = thisPrefab;
+			ReplacerPanel.Panel.SelectedTarget = thisItem.prefab;
 		}
 
 
@@ -63,4 +63,20 @@ namespace RON
 			}
 		}*/
 	}
+
+
+	/// <summary>
+	/// Data structure class for individual net row display lines.
+	/// </summary>
+	public class NetRowItem
+    {
+		// Network prefab.
+		public NetInfo prefab;
+
+		// Display name.
+		public string displayName;
+
+		// Creator name.
+		public string creator;
+    }
 }
