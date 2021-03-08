@@ -11,10 +11,13 @@ namespace RON
     {
         // Layout constants.
         private const float RowHeight = 30f;
+        private const float NameX = 5f;
+        private const float NameWidth = 300f;
+        private const float CreatorX = NameX + NameWidth + 10f;
 
         // Panel components.
         private UIPanel panelBackground;
-        protected UILabel objectName;
+        protected UILabel objectName, creatorName;
 
         // ObjectData.
         protected NetRowItem thisItem;
@@ -51,7 +54,8 @@ namespace RON
             if (objectName != null)
             {
                 Background.width = width;
-                objectName.relativePosition = new Vector2(10f, 5f);
+                objectName.relativePosition = new Vector2(NameX, 5f);
+                creatorName.relativePosition = new Vector2(CreatorX, 5f);
             }
         }
 
@@ -93,7 +97,16 @@ namespace RON
 
                 // Add object name label.
                 objectName = AddUIComponent<UILabel>();
-                objectName.width = this.width - 10f;
+                objectName.width = NameWidth;
+                objectName.relativePosition = new Vector2(NameX, 5f);
+            }
+
+            if (creatorName == null)
+            {
+                // Add object name label.
+                creatorName = AddUIComponent<UILabel>();
+                creatorName.width = this.width - CreatorX;
+                creatorName.relativePosition = new Vector2(CreatorX, 5f);
             }
 
             // See if our attached data is a raw PropInfo (e.g an available prop item as opposed to a PropListItem replacment record).
@@ -105,14 +118,14 @@ namespace RON
                 thisItem.creator = PrefabUtils.GetCreator(thisItem.prefab);
 
                 objectName.text = thisItem.displayName;
-                if (thisItem.creator != null)
-                {
-                    objectName.text += " by " + thisItem.creator;
-                }
+                creatorName.text = thisItem.creator;
             }
-
-            // Set label position
-            objectName.relativePosition = new Vector2(10f, 5f);
+            else
+            {
+                // Null reference; clear text.
+                objectName.text = null;
+                creatorName.text = null;
+            }
 
             // Set initial background as deselected state.
             Deselect(isRowOdd);
