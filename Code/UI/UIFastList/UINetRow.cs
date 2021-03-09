@@ -10,10 +10,10 @@ namespace RON
     public class UINetRow : UIPanel, IUIFastListRow
     {
         // Layout constants.
-        private const float RowHeight = 30f;
-        private const float NameX = 5f;
-        private const float NameWidth = 300f;
-        private const float CreatorX = NameX + NameWidth + 10f;
+        public const float RowHeight = 30f;
+        public const float NameX = 5f;
+        public const float NameWidth = 300f;
+        public const float CreatorX = NameX + NameWidth + 10f;
 
         // Panel components.
         private UIPanel panelBackground;

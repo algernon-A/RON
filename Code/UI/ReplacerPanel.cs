@@ -8,6 +8,15 @@ using UnityEngine;
 
 namespace RON
 {
+	internal enum OrderBy
+    {
+		NameAscending = 0,
+		NameDescending = 1,
+		CreatorAscending = 2,
+		CreatorDescending = 3
+    }
+
+
 	/// <summary>
 	/// Static class to manage the BOB info panel.
 	/// </summary>
@@ -19,13 +28,14 @@ namespace RON
 		// Layout constants - Y.
 		private const float TitleHeight = 45f;
 		private const float ToolbarHeight = 75f;
-		private const float ListHeight = 420f;
+		private const float ListHeight = 390f;
 		private const float PreviewHeight = 100f;
 		private const float ToolRow1Y = TitleHeight + Margin;
 		private const float ToolRow2Y = ToolRow1Y + 35f;
 		private const float SpacerBarY = TitleHeight + ToolbarHeight + Margin;
 		private const float ListTitleY = SpacerBarY + 15f;
-		private const float ListY = ListTitleY + 20f;
+		private const float ListHeaderY = ListTitleY + 30f;
+		private const float ListY = ListHeaderY + 20f;
 		private const float PanelHeight = ListY + ListHeight + Margin;
 		private const float HideVanillaY = ToolRow1Y + 30f;
 		private const float SameWidthY = HideVanillaY + 20f;
@@ -33,6 +43,7 @@ namespace RON
 
 		// Layout constants - X.
 		private const float LeftWidth = 450f;
+		private const float OrderArrowWidth = 32f;
 		private const float PreviewWidth = 109f;
 		private const float PreviewArrowWidth = 32f;
 		private const float MiddleWidth = PreviewWidth + PreviewArrowWidth;
@@ -67,6 +78,7 @@ namespace RON
 		// Panel components.
 		private readonly UIFastList targetList, loadedList;
 		private readonly UIButton replaceButton, undoButton, prevButton, nextButton;
+		private readonly UIButton targetNameButton, targetCreatorButton, loadedNameButton, loadedCreatorButton;
 		private readonly UITextField nameFilter;
 		private readonly UIDropDown typeDropDown;
 		private readonly UILabel replacingLabel, progressLabel;
@@ -79,6 +91,11 @@ namespace RON
 		private float timer;
 		private int timerStep;
 		private ushort lastViewedSegment;
+
+		// Search settings.
+		private int targetSearchStatus, loadedSearchStatus;
+
+
 
 		// Nework type list.
 		private const int NumTypes = 10;
@@ -335,6 +352,27 @@ namespace RON
 			UIControls.AddLabel(this, Margin, ListTitleY, Translations.Translate("RON_PNL_MAP"), LeftWidth);
 			UIControls.AddLabel(this, RightPanelX, ListTitleY, Translations.Translate("RON_PNL_AVA"), RightWidth);
 
+			// List headers.
+			UIControls.AddLabel(this, Margin + UINetRow.NameX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_NET"), UINetRow.CreatorX - UINetRow.NameX);
+			UIControls.AddLabel(this, Margin + UINetRow.CreatorX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_CRE"), LeftWidth - UINetRow.CreatorX);
+			UIControls.AddLabel(this, RightPanelX + UINetRow.NameX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_NET"), UINetRow.CreatorX - UINetRow.NameX);
+			UIControls.AddLabel(this, RightPanelX + UINetRow.CreatorX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_CRE"), RightWidth - UINetRow.CreatorX);
+
+			// Order buttons.
+			targetNameButton = ArrowButton(this, Margin + UINetRow.NameX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
+			targetCreatorButton = ArrowButton(this, Margin + UINetRow.CreatorX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
+			loadedNameButton = ArrowButton(this, RightPanelX + UINetRow.NameX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
+			loadedCreatorButton = ArrowButton(this, RightPanelX + UINetRow.CreatorX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
+
+			targetNameButton.eventClicked += SortTargets;
+			targetCreatorButton.eventClicked += SortTargets;
+			loadedNameButton.eventClicked += SortLoaded;
+			loadedCreatorButton.eventClicked += SortLoaded;
+			
+			// Default is name ascending.
+			SetFgSprites(targetNameButton, "IconUpArrow2Focused");
+			SetFgSprites(loadedNameButton, "IconUpArrow2Focused");
+
 			// Replace button.
 			replaceButton = UIControls.AddButton(this, MiddlePanelX, ToolRow1Y, Translations.Translate("RON_PNL_REP"), ReplaceWidth, scale: 1.0f);
 			replaceButton.eventClicked += Replace;
@@ -406,31 +444,6 @@ namespace RON
 
 
 		/// <summary>
-		/// Updates button states (enabled/disabled) according to current control states.
-		/// </summary>
-		private void UpdateButtonStates()
-		{
-			// Enable go to segment buttons if we have a valid target, disable it otherwise.
-			if (selectedTarget != null)
-			{
-				prevButton.Enable();
-				nextButton.Enable();
-			}
-			else
-			{
-				prevButton.Disable();
-				nextButton.Disable();
-			}
-
-			// Enable replace button if we have both a valid target and replacement, disable it otherwise.
-			replaceButton.isEnabled = selectedTarget != null && selectedReplacement != null;
-
-			// Enable undo button if we have a valid undo buffer.
-			undoButton.isEnabled = Replacer.HasUndo;
-		}
-
-
-		/// <summary>
 		/// Replace button event handler.
 		/// <param name="control">Calling component (unused)</param>
 		/// <param name="mouseEvent">Mouse event (unused)</param>
@@ -465,27 +478,6 @@ namespace RON
 				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
 				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.Undo(); });
 			}
-		}
-
-
-		/// <summary>
-		/// Initializes the 'replacing' state - sets flags, timers, UI state.
-		/// </summary>
-		private void SetReplacing()
-        {
-			// Set flags and reset timer.
-			replacing = true;
-			replacingDone = false;
-			timer = 0;
-
-			// Set UI to 'replacing' state.
-			replaceButton.Disable();
-			undoButton.Disable();
-			replaceButton.Hide();
-			undoButton.Hide();
-			replacingLabel.Show();
-			progressLabel.text = ".";
-			progressLabel.Show();
 		}
 
 
@@ -572,6 +564,106 @@ namespace RON
 
 
 		/// <summary>
+		/// Loaded list sort button event handler.
+		/// <param name="control">Calling component</param>
+		/// <param name="mouseEvent">Mouse event (unused)</param>
+		/// </summary>
+		private void SortLoaded(UIComponent control, UIMouseEventParameter mouseEvent)
+		{
+			// Check if we are using the name or creator button.
+			if (control == loadedNameButton)
+			{
+				// Name button.
+				// Toggle status (set to descending if we're currently ascending, otherwise set to ascending).
+				if (loadedSearchStatus == (int)OrderBy.NameAscending)
+				{
+					// Order by name descending.
+					loadedSearchStatus = (int)OrderBy.NameDescending;
+				}
+				else
+				{
+					// Order by name ascending.
+					loadedSearchStatus = (int)OrderBy.NameAscending;
+				}
+
+				// Reset name order buttons.
+				SetSortButton(loadedNameButton, loadedCreatorButton, loadedSearchStatus);
+			}
+			else if (control == loadedCreatorButton)
+			{
+				// Creator button.
+				// Toggle status (set to descending if we're currently ascending, otherwise set to ascending).
+				if (loadedSearchStatus == (int)OrderBy.CreatorAscending)
+				{
+					// Order by creator descending.
+					loadedSearchStatus = (int)OrderBy.CreatorDescending;
+				}
+				else
+				{
+					// Order by name ascending.
+					loadedSearchStatus = (int)OrderBy.CreatorAscending;
+				}
+
+				// Reset name order buttons.
+				SetSortButton(loadedCreatorButton, loadedNameButton, loadedSearchStatus);
+			}
+
+			// Regenerate loaded list.
+			LoadedList();
+		}
+
+
+		/// <summary>
+		/// Target list sort button event handler.
+		/// <param name="control">Calling component</param>
+		/// <param name="mouseEvent">Mouse event (unused)</param>
+		/// </summary>
+		private void SortTargets(UIComponent control, UIMouseEventParameter mouseEvent)
+		{
+			// Check if we are using the name or creator button.
+			if (control == targetNameButton)
+			{
+				// Name button.
+				// Toggle status (set to descending if we're currently ascending, otherwise set to ascending).
+				if (targetSearchStatus == (int)OrderBy.NameAscending)
+				{
+					// Order by name descending.
+					targetSearchStatus = (int)OrderBy.NameDescending;
+				}
+				else
+				{
+					// Order by name ascending.
+					targetSearchStatus = (int)OrderBy.NameAscending;
+				}
+
+				// Reset name order buttons.
+				SetSortButton(targetNameButton, targetCreatorButton, targetSearchStatus);
+			}
+			else if (control == targetCreatorButton)
+			{
+				// Creator button.
+				// Toggle status (set to descending if we're currently ascending, otherwise set to ascending).
+				if (targetSearchStatus == (int)OrderBy.CreatorAscending)
+				{
+					// Order by creator descending.
+					targetSearchStatus = (int)OrderBy.CreatorDescending;
+				}
+				else
+				{
+					// Order by name ascending.
+					targetSearchStatus = (int)OrderBy.CreatorAscending;
+				}
+
+				// Reset name order buttons.
+				SetSortButton(targetCreatorButton, targetNameButton, targetSearchStatus);
+			}
+
+			// Regenerate loaded list.
+			TargetList();
+		}
+
+
+		/// <summary>
 		/// Moves the camera to view the given segment.
 		/// </summary>
 		/// <param name="segmentID">Segment ID of target segment</param>
@@ -584,6 +676,52 @@ namespace RON
 
 			// Update last viewed segment to this one.
 			lastViewedSegment = segmentID;
+		}
+
+
+		/// <summary>
+		/// Updates button states (enabled/disabled) according to current control states.
+		/// </summary>
+		private void UpdateButtonStates()
+		{
+			// Enable go to segment buttons if we have a valid target, disable it otherwise.
+			if (selectedTarget != null)
+			{
+				prevButton.Enable();
+				nextButton.Enable();
+			}
+			else
+			{
+				prevButton.Disable();
+				nextButton.Disable();
+			}
+
+			// Enable replace button if we have both a valid target and replacement, disable it otherwise.
+			replaceButton.isEnabled = selectedTarget != null && selectedReplacement != null;
+
+			// Enable undo button if we have a valid undo buffer.
+			undoButton.isEnabled = Replacer.HasUndo;
+		}
+
+
+		/// <summary>
+		/// Initializes the 'replacing' state - sets flags, timers, UI state.
+		/// </summary>
+		private void SetReplacing()
+		{
+			// Set flags and reset timer.
+			replacing = true;
+			replacingDone = false;
+			timer = 0;
+
+			// Set UI to 'replacing' state.
+			replaceButton.Disable();
+			undoButton.Disable();
+			replaceButton.Hide();
+			undoButton.Hide();
+			replacingLabel.Show();
+			progressLabel.text = ".";
+			progressLabel.Show();
 		}
 
 
@@ -639,12 +777,29 @@ namespace RON
 				}
 			}
 
+			// Create new object list for fastlist, ordering as approprite.
+			object[] objectArray;
+			switch (targetSearchStatus)
+			{
+				case (int)OrderBy.NameDescending:
+					objectArray = netList.Values.OrderByDescending(item => item.displayName).ToArray();
+					break;
+				case (int)OrderBy.CreatorAscending:
+					objectArray = netList.Values.OrderBy(item => item.creator).ToArray();
+					break;
+				case (int)OrderBy.CreatorDescending:
+					objectArray = netList.Values.OrderByDescending(item => item.creator).ToArray();
+					break;
+				default:
+					objectArray = netList.Values.OrderBy(item => item.displayName).ToArray();
+					break;
+			}
 
-			// Create return network fastlist from our filtered network list, ordering by name.
+			// Create return fastlist from our filtered list, ordering by name.
 			targetList.rowsData = new FastList<object>
 			{
-				m_buffer = netList.Values.OrderBy(item => item.displayName).ToArray(),
-				m_size = netList.Count
+				m_buffer = objectArray,
+				m_size = objectArray.Length
 			};
 
 			// Clear current selection.
@@ -712,10 +867,29 @@ namespace RON
 				}
 			}
 
+
+			// Create new object list for fastlist, ordering as approprite.
+			object[] objectArray;
+			switch (loadedSearchStatus)
+			{
+				case (int)OrderBy.NameDescending:
+					objectArray = netList.OrderByDescending(item => item.displayName).ToArray();
+					break;
+				case (int)OrderBy.CreatorAscending:
+					objectArray = netList.OrderBy(item => item.creator).ToArray();
+					break;
+				case (int)OrderBy.CreatorDescending:
+					objectArray = netList.OrderByDescending(item => item.creator).ToArray();
+					break;
+				default:
+					objectArray = netList.OrderBy(item => item.displayName).ToArray();
+					break;
+			}
+
 			// Create return fastlist from our filtered list, ordering by name.
 			loadedList.rowsData = new FastList<object>
 			{
-				m_buffer = netList.OrderBy(item => item.displayName).ToArray(),
+				m_buffer = objectArray,
 				m_size = netList.Count
 			};
 
@@ -798,6 +972,33 @@ namespace RON
 			}
 
 			UpdateButtonStates();
+		}
+
+
+		/// <summary>
+		/// Sets the states of the two given sort buttons to match the given search status.
+		/// </summary>
+		/// <param name="activeButton">Currently active sort button</param>
+		/// <param name="inactiveButton">Inactive button (other sort button for same list)</param>
+		/// <param name="searchStatus">Search status to apply</param>
+		private void SetSortButton(UIButton activeButton, UIButton inactiveButton, int searchStatus)
+		{
+			bool ascending = searchStatus == (int)OrderBy.CreatorAscending || searchStatus == (int)OrderBy.NameAscending;
+
+			// Toggle status (set to descending if we're currently ascending, otherwise set to ascending).
+			if (ascending)
+			{
+				// Order ascending.
+				SetFgSprites(activeButton, "IconUpArrow2Focused");
+			}
+			else
+			{
+				// Order descending.
+				SetFgSprites(activeButton, "IconDownArrow2Focused");
+			}
+
+			// Reset name order button.
+			SetFgSprites(inactiveButton, "IconUpArrow2");
 		}
 
 
@@ -903,6 +1104,42 @@ namespace RON
 			arrowSprite.spriteName = spriteName;
 
 			return arrowSprite;
+		}
+
+
+		/// <summary>
+		/// Adds an arrow button.
+		/// </summary>
+		/// <param name="parent">Parent component</param>
+		/// <param name="posX">Relative X postion</param>
+		/// <param name="posY">Relative Y position</param>
+		/// <param name="width">Button width (default 200)</param>
+		/// <param name="height">Button height (default 30)</param>
+		/// <returns>New arrow button</returns>
+		private UIButton ArrowButton(UIComponent parent, float posX, float posY, float width = 200f, float height = 30f)
+		{
+			UIButton button = parent.AddUIComponent<UIButton>();
+
+			// Size and position.
+			button.size = new Vector2(width, height);
+			button.relativePosition = new Vector2(posX, posY);
+
+			// Appearance.
+			SetFgSprites(button, "IconUpArrow2");
+			button.canFocus = false;
+
+			return button;
+		}
+
+
+		/// <summary>
+		/// Sets the foreground sprites for the given button to the specified sprite.
+		/// </summary>
+		/// <param name="button">Targeted button</param>
+		/// <param name="spriteName">Sprite name</param>
+		private void SetFgSprites(UIButton button, string spriteName)
+		{
+			button.normalFgSprite = button.hoveredFgSprite = button.pressedFgSprite = button.focusedFgSprite = spriteName;
 		}
 	}
 }
