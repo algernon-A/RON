@@ -1,4 +1,6 @@
-﻿- Display creator names (where available) alongside network names
+﻿Version 0.3 -
+
+- Display creator names (where available) alongside network names
 - Add selectable newtwork list sorting modes (network name/creator, ascending/descending)
 
 
