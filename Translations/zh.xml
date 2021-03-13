@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Language UniqueName="zh" ReadableName="中文">
+  <Translations>
+    <Translation ID="RON_NAM" String="RON: 道路(軌道)替換器(RON: The Network Replacer)" />
+    <Translation ID="RON_DESC" String="持續開發中： 一個替換道路(軌道)的工具。" />
+    <Translation ID="RON_PNL_MAP" String="在地圖中的道路(軌道)" />
+    <Translation ID="RON_PNL_AVA" String="可替換" />
+    <Translation ID="RON_PNL_REP" String="替換所有" />
+    <Translation ID="RON_PNL_UND" String="還原" />
+    <Translation ID="RON_PNL_VPS" String="查看上一個路段" />
+    <Translation ID="RON_PNL_VNS" String="查看下一個路段" />
+    <Translation ID="RON_PNL_HDV" String="隱藏遊戲默認和”Network Extensions 2“道路(軌道)" />
+    <Translation ID="RON_PNL_WID" String="僅相同寬度" />
+    <Translation ID="RON_PNL_TYP" String="道路(軌道)類型" />
+    <Translation ID="RON_PNL_ROA" String="道路 - 僅表面" />
+    <Translation ID="RON_PNL_ROB" String="道路 - 高架和橋梁" />
+    <Translation ID="RON_PNL_ROT" String="道路 - 隧道" />
+    <Translation ID="RON_PNL_RAI" String="軌道 - 僅表面" />
+    <Translation ID="RON_PNL_RAB" String="軌道 - 高架和橋梁" />
+    <Translation ID="RON_PNL_RAT" String="軌道 - 隧道" />
+    <Translation ID="RON_PNL_PED" String="路徑 - 僅表面" />
+    <Translation ID="RON_PNL_PEB" String="路徑 - 高架和橋梁" />
+    <Translation ID="RON_PNL_PET" String="路徑 - 隧道" />
+    <Translation ID="RON_PNL_DEC" String="裝飾" />
+    <Translation ID="RON_PNL_RIP" String="替換中......" />
+    <Translation ID="RON_FIL_NAME" String="搜尋:" />
+    <Translation ID="TRN_CHOICE" String="語言設置" />
+    <Translation ID="TRN_SYS" String="使用遊戲默認語言" />
+    <Translation ID="KEY_KEY" String="快鍵" />
+    <Translation ID="KEY_PRS" String="按任意鍵" />
+  </Translations>
+</Language>
