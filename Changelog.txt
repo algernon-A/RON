@@ -1,7 +1,8 @@
 ﻿Version 0.3 -
 
 - Display creator names (where available) alongside network names
-- Add selectable newtwork list sorting modes (network name/creator, ascending/descending)
+- Add selectable network list sorting modes (network name/creator, ascending/descending)
+- Name search filter selectable for either network or creator name
 
 
 Version 0.2.5 -

@@ -8,12 +8,21 @@ using UnityEngine;
 
 namespace RON
 {
+	// Display order state.
 	internal enum OrderBy
     {
 		NameAscending = 0,
-		NameDescending = 1,
-		CreatorAscending = 2,
-		CreatorDescending = 3
+		NameDescending,
+		CreatorAscending,
+		CreatorDescending
+    }
+
+	// String search type state.
+	internal enum SearchTypes
+    {
+		SearchNetwork = 0,
+		SearchCreator,
+		NumTypes
     }
 
 
@@ -52,7 +61,10 @@ namespace RON
 		private const float RightPanelX = MiddlePanelX + MiddleWidth + Margin;
 		private const float PanelWidth = RightPanelX + RightWidth + Margin;
 		private const float ReplaceWidth = 150f;
-		private const float FilterX = (PanelWidth - Margin) - 240f;
+		private const float FilterX = (PanelWidth - Margin) - 360f;
+		private const float FilterWidth = 220;
+		private const float FilterMenuxX = FilterX + FilterWidth + Margin;
+		private const float FilterMenuWidth = PanelWidth - FilterMenuxX - Margin;
 		private const float ButtonWidth = 220f;
 		private const float PrevX = Margin;
 		private const float NextX = LeftWidth + Margin - ButtonWidth;
@@ -80,7 +92,7 @@ namespace RON
 		private readonly UIButton replaceButton, undoButton, prevButton, nextButton;
 		private readonly UIButton targetNameButton, targetCreatorButton, loadedNameButton, loadedCreatorButton;
 		private readonly UITextField nameFilter;
-		private readonly UIDropDown typeDropDown;
+		private readonly UIDropDown typeDropDown, searchTypeMenu;
 		private readonly UILabel replacingLabel, progressLabel;
 		private readonly UICheckBox sameWidthCheck, hideVanilla;
 		private readonly UISprite targetPreviewSprite, replacementPreviewSprite;
@@ -390,9 +402,15 @@ namespace RON
 			nextButton.eventClicked += NextSegment;
 
 			// Name filter.
-			nameFilter = UIControls.LabelledTextField(this, FilterX, ToolRow1Y, Translations.Translate("RON_FIL_NAME"));
+			nameFilter = UIControls.LabelledTextField(this, FilterX, ToolRow1Y, Translations.Translate("RON_FIL_NAME"), FilterWidth, 25f, vertPad: 5);
 			nameFilter.eventTextChanged += (control, text) => LoadedList();
 			nameFilter.eventTextSubmitted += (control, text) => LoadedList();
+
+			// Search by name/author dropdown.
+			searchTypeMenu = UIControls.AddDropDown(this, FilterMenuxX, ToolRow1Y, FilterMenuWidth);
+			searchTypeMenu.items = new string[(int)SearchTypes.NumTypes] { Translations.Translate("RON_PNL_NET"), Translations.Translate("RON_PNL_CRE") };
+			searchTypeMenu.selectedIndex = (int)SearchTypes.SearchNetwork;
+			searchTypeMenu.eventSelectedIndexChanged += (control, isChecked) => LoadedList();
 
 			// Vanilla filter.
 			hideVanilla = UIControls.AddCheckBox((UIComponent)(object)this, FilterX, HideVanillaY, Translations.Translate("RON_PNL_HDV"));
@@ -835,11 +853,17 @@ namespace RON
 						continue;
 					}
 
-					// Get display name.
+					// Get display name and creator name.
 					string displayName = PrefabUtils.GetDisplayName(network);
+					string creator = PrefabUtils.GetCreator(network);
 
-					// Apply name filter.
-					if (StringExtensions.IsNullOrWhiteSpace(nameFilter.text.Trim()) || displayName.ToLower().Contains(nameFilter.text.Trim().ToLower()))
+					// Apply text filter.
+					string trimmedText = nameFilter.text.Trim();
+					if (
+						StringExtensions.IsNullOrWhiteSpace(trimmedText) ||
+						(searchTypeMenu.selectedIndex == (int)SearchTypes.SearchNetwork && displayName.ToLower().Contains(trimmedText.ToLower())) ||
+						(searchTypeMenu.selectedIndex == (int)SearchTypes.SearchCreator && creator.ToLower().Contains(trimmedText.ToLower()))
+						)
 					{
 						// Apply network type filter.
 						if (MatchType(network))
@@ -860,7 +884,7 @@ namespace RON
 							{
 								prefab = network,
 								displayName = displayName,
-								creator = PrefabUtils.GetCreator(network)
+								creator = creator
 							});
 						}
 					}
