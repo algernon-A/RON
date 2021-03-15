@@ -10,10 +10,12 @@ namespace RON
     public class UINetRow : UIPanel, IUIFastListRow
     {
         // Layout constants.
-        public const float RowHeight = 30f;
+        public const float RowHeight = 23f;
+        public const float PaddingY = 5f;
         public const float NameX = 5f;
         public const float NameWidth = 300f;
         public const float CreatorX = NameX + NameWidth + 10f;
+        public const float TextScale = 0.8f;
 
         // Panel components.
         private UIPanel panelBackground;
@@ -54,8 +56,8 @@ namespace RON
             if (objectName != null)
             {
                 Background.width = width;
-                objectName.relativePosition = new Vector2(NameX, 5f);
-                creatorName.relativePosition = new Vector2(CreatorX, 5f);
+                objectName.relativePosition = new Vector2(NameX, PaddingY);
+                creatorName.relativePosition = new Vector2(CreatorX, PaddingY);
             }
         }
 
@@ -97,16 +99,22 @@ namespace RON
 
                 // Add object name label.
                 objectName = AddUIComponent<UILabel>();
+                objectName.textScale = TextScale;
+                objectName.autoSize = false;
+                objectName.autoHeight = true;
                 objectName.width = NameWidth;
-                objectName.relativePosition = new Vector2(NameX, 5f);
+                objectName.relativePosition = new Vector2(NameX, PaddingY);
             }
 
             if (creatorName == null)
             {
                 // Add object name label.
                 creatorName = AddUIComponent<UILabel>();
+                creatorName.textScale = TextScale;
+                creatorName.autoSize = false;
+                creatorName.autoHeight = true;
                 creatorName.width = this.width - CreatorX;
-                creatorName.relativePosition = new Vector2(CreatorX, 5f);
+                creatorName.relativePosition = new Vector2(CreatorX, PaddingY);
             }
 
             // See if our attached data is a raw PropInfo (e.g an available prop item as opposed to a PropListItem replacment record).

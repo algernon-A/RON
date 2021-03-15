@@ -43,7 +43,7 @@ namespace RON
             }
 
             // If we got here, then we didn't find the assembly.
-            Logging.Message("assembly path not found");
+            Logging.Error("assembly path not found");
             throw new FileNotFoundException(RONMod.ModName + ": assembly path not found!");
         }
     }

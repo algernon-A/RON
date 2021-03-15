@@ -37,7 +37,7 @@ namespace RON
 		// Layout constants - Y.
 		private const float TitleHeight = 45f;
 		private const float ToolbarHeight = 75f;
-		private const float ListHeight = 390f;
+		private const float ListHeight = 15 * UINetRow.RowHeight;
 		private const float PreviewHeight = 100f;
 		private const float ToolRow1Y = TitleHeight + Margin;
 		private const float ToolRow2Y = ToolRow1Y + 35f;
@@ -957,7 +957,7 @@ namespace RON
 			fastList.width = fastList.parent.width;
 			fastList.height = fastList.parent.height;
 			fastList.relativePosition = Vector2.zero;
-			fastList.rowHeight = 30f;
+			fastList.rowHeight = UINetRow.RowHeight;
 
 			// Behaviour.
 			fastList.canSelect = true;

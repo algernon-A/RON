@@ -1,4 +1,7 @@
-﻿Version 0.3 -
+﻿ - Reduce list font size and overall panel height
+
+
+Version 0.3 -
 
 - Display creator names (where available) alongside network names
 - Add selectable network list sorting modes (network name/creator, ascending/descending)
