@@ -1,4 +1,6 @@
-﻿ - Reduce list font size and overall panel height
+﻿- Reduce list font size and overall panel height
+- Ensure that network names don't overlap creator names
+- Add [m] tag for networks from "Extra Train Station Tracks ( ETST )" mod
 
 
 Version 0.3 -

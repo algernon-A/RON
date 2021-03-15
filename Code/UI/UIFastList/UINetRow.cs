@@ -117,14 +117,10 @@ namespace RON
                 creatorName.relativePosition = new Vector2(CreatorX, PaddingY);
             }
 
-            // See if our attached data is a raw PropInfo (e.g an available prop item as opposed to a PropListItem replacment record).
+            // Set display text.
             thisItem = data as NetRowItem;
             if (thisItem?.prefab != null)
             {
-                // Display its (cleaned-up) name.
-                thisItem.displayName = PrefabUtils.GetDisplayName(thisItem.prefab);
-                thisItem.creator = PrefabUtils.GetCreator(thisItem.prefab);
-
                 objectName.text = thisItem.displayName;
                 creatorName.text = thisItem.creator;
             }

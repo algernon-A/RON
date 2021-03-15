@@ -775,7 +775,7 @@ namespace RON
 							netList.Add(segmentInfo, new NetRowItem
 							{
 								prefab = segmentInfo,
-								displayName = PrefabUtils.GetDisplayName(segmentInfo),
+								displayName = PrefabUtils.GetDisplayName(segmentInfo, out bool _),
 								creator = PrefabUtils.GetCreator(segmentInfo)
 							});
 						}
@@ -845,16 +845,16 @@ namespace RON
 				NetInfo network = PrefabCollection<NetInfo>.GetLoaded(i);
 				if (network?.name != null)
 				{
-					// Apply vanilla filter.
-					// Find any leading period (Steam package number).
-					if (hideVanilla.isChecked && network.name.IndexOf('.') < 0)
+					// Get display name and creator name.
+					string displayName = PrefabUtils.GetDisplayName(network, out bool vaNext);
+
+					// Apply 'hide vanilla and Next' filter.
+					if (hideVanilla.isChecked && vaNext)
 					{
-						// No leading period - it's vanilla.  Skip.
+						// It's vanilla/NExt.  Skip.
 						continue;
 					}
 
-					// Get display name and creator name.
-					string displayName = PrefabUtils.GetDisplayName(network);
 					string creator = PrefabUtils.GetCreator(network);
 
 					// Apply text filter.
