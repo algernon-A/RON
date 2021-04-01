@@ -5,6 +5,8 @@
     <Translation ID="RON_DESC" String="инструмент для замены дорог." />
     <Translation ID="RON_PNL_MAP" String="Дороги на карте" />
     <Translation ID="RON_PNL_AVA" String="Доступные замены" />
+    <Translation ID="RON_PNL_NET" String="Дорога" />
+    <Translation ID="RON_PNL_CRE" String="Автор" />
     <Translation ID="RON_PNL_REP" String="ЗАМЕНИТЬ" />
     <Translation ID="RON_PNL_UND" String="Отменить" />
     <Translation ID="RON_PNL_VPS" String="Предыдущий сегмент" />
