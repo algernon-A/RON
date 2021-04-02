@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Language UniqueName="de" ReadableName="Deutsch">
+  <Translations>
+    <Translation ID="RON_NAM" String="RON: the network replacer" />
+    <Translation ID="RON_DESC" String="ein Werkzeug um Netzwerke zu ersetzen." />
+    <Translation ID="RON_PNL_MAP" String="Netzwerke dieser Karte" />
+    <Translation ID="RON_PNL_AVA" String="Verfügbare Ersetzungen" />
+    <Translation ID="RON_PNL_NET" String="Netzwerk" />
+    <Translation ID="RON_PNL_CRE" String="Ersteller" />
+    <Translation ID="RON_PNL_REP" String="ERSETZE ALLE" />
+    <Translation ID="RON_PNL_UND" String="Rückgängig machen" />
+    <Translation ID="RON_PNL_VPS" String="Vorheriges Segment zeigen" />
+    <Translation ID="RON_PNL_VNS" String="Nächstes Segment zeigen" />
+    <Translation ID="RON_PNL_HDV" String="Vanilla und NExt ausblenden" />
+    <Translation ID="RON_PNL_WID" String="Nur mit gleicher Breite" />
+    <Translation ID="RON_PNL_TYP" String="Netzwerk-Typ" />
+    <Translation ID="RON_PNL_ROA" String="Straßen - Ebenerdige" />
+    <Translation ID="RON_PNL_ROB" String="Straßen - Erhöhte und Brücken" />
+    <Translation ID="RON_PNL_ROT" String="Straßen - Tunnel" />
+    <Translation ID="RON_PNL_RAI" String="Gleise - Ebenerdige" />
+    <Translation ID="RON_PNL_RAB" String="Gleise - Erhöhte und Brücken" />
+    <Translation ID="RON_PNL_RAT" String="Gleise - Tunnel" />
+    <Translation ID="RON_PNL_PED" String="Wege - Ebenerdige" />
+    <Translation ID="RON_PNL_PEB" String="Wege - Erhöhte und Brücken" />
+    <Translation ID="RON_PNL_PET" String="Wege - Tunnel" />
+    <Translation ID="RON_PNL_DEC" String="Dekorationen" />
+    <Translation ID="RON_PNL_RIP" String="Austausch wird vorgenommen " />
+    <Translation ID="RON_FIL_NAME" String="Suche:" />
+    <Translation ID="TRN_CHOICE" String="Sprache einstellen" />
+    <Translation ID="TRN_SYS" String="erwende die Spiel-Sprache" />
+    <Translation ID="KEY_KEY" String="Tastenkürzel" />
+    <Translation ID="KEY_PRS" String="Drücke eine Taste" />
+  </Translations>
+</Language>
