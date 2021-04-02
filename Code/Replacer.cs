@@ -82,12 +82,20 @@ namespace RON
 							bool customNameFlag = (segment.m_flags & NetSegment.Flags.CustomName) != 0;
 							string segmentName = netManager.GetSegmentName(segmentID);
 
+							NetSegment.Flags flags = segment.m_flags & NetSegment.Flags.Original;
+
+							// Get segment 'original' status.
+							NetSegment.Flags originalFlag = segment.m_flags & NetSegment.Flags.Original;
+
 							// Active network segment - replace segment.
 							ushort newSegmentID = ReplaceNet(segmentID, segments, replacement, ref randomizer);
 
 							// Set nameseed and priority of new segment to match original.
 							segments[newSegmentID].m_nameSeed = nameSeed;
 							netManager.SetPriorityRoad(newSegmentID, priority);
+
+							// Set 'original' status of new segment.
+							segments[newSegmentID].m_flags |= originalFlag;
 
 							// Restore any custom name.
 							if (customNameFlag && segmentName != null)
