@@ -1,4 +1,10 @@
-﻿Version 0.3.1 -
+﻿Version 0.3.2 -
+
+- Preserve segment 'original' status (i.e. not paying for upkeep) when replacing
+- Adjust position of replacing status text
+
+
+Version 0.3.1 -
 
 - Reduce list font size and overall panel height
 - Ensure that network names don't overlap creator names

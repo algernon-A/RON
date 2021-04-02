@@ -423,11 +423,11 @@ namespace RON
 			sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
 
 			// Replacing label (starts hidden).
-			replacingLabel = UIControls.AddLabel(this, RightPanelX, ToolRow1Y, Translations.Translate("RON_PNL_RIP"), ReplaceWidth);
+			replacingLabel = UIControls.AddLabel(this, MiddlePanelX, ToolRow1Y, Translations.Translate("RON_PNL_RIP"), ReplaceWidth);
 			replacingLabel.Hide();
 
 			// Progress label (starts hidden).
-			progressLabel = UIControls.AddLabel(this, RightPanelX, ToolRow2Y, ".", ReplaceWidth);
+			progressLabel = UIControls.AddLabel(this, MiddlePanelX, ToolRow2Y, ".", ReplaceWidth);
 			progressLabel.Hide();
 
 			// Preview sprites.
