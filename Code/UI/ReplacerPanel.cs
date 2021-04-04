@@ -443,6 +443,9 @@ namespace RON
 			TargetList();
 			LoadedList();
 
+			// Force loaded list refresh.
+			loadedList.Refresh();
+
 			// Populate parent dictionaries.
 			PrefabUtils.GetParents(slopeParents, elevatedParents, bridgeParents, tunnelParents);
 		}

@@ -1,4 +1,9 @@
-﻿Version 0.3.2 -
+﻿Version 0.3.2.1 -
+
+- Force refresh of network list display on panel open
+
+
+Version 0.3.2 -
 
 - Preserve segment 'original' status (i.e. not paying for upkeep) when replacing
 - Adjust position of replacing status text
