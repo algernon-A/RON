@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Language UniqueName="es" ReadableName="Español">
+  <Translations>
+    <Translation ID="RON_NAM" String="RON: the network replacer" />
+    <Translation ID="RON_DESC" String="una herramienta para reemplazar redes." />
+    <Translation ID="RON_PNL_MAP" String="Redes en el mapa" />
+    <Translation ID="RON_PNL_AVA" String="Reemplazos disponibles" />
+    <Translation ID="RON_PNL_NET" String="La red" />
+    <Translation ID="RON_PNL_CRE" String="Creador" />
+    <Translation ID="RON_PNL_REP" String="REEMPLAZA TODO" />
+    <Translation ID="RON_PNL_UND" String="Anular" />
+    <Translation ID="RON_PNL_VPS" String="Ver segmento anterior" />
+    <Translation ID="RON_PNL_VNS" String="Ver siguiente segmento" />
+    <Translation ID="RON_PNL_HDV" String="Oculta vainilla y NExt" />
+    <Translation ID="RON_PNL_WID" String="Solamente mismo ancho "/>
+    <Translation ID="RON_PNL_TYP" String="Tipo de red" />
+    <Translation ID="RON_PNL_ROA" String="Carreteras - solo superficie" />
+    <Translation ID="RON_PNL_ROB" String="Carreteras - elevadas y puente" />
+    <Translation ID="RON_PNL_ROT" String="Carreteras - túneles" />
+    <Translation ID="RON_PNL_RAI" String="Ferrocarril - solo superficie" />
+    <Translation ID="RON_PNL_RAB" String="Ferrocarril - elevadas y puente" />
+    <Translation ID="RON_PNL_RAT" String="Ferrocarril - túneles" />
+    <Translation ID="RON_PNL_PED" String="Senderos - solo superficie" />
+    <Translation ID="RON_PNL_PEB" String="Senderos - elevadas y puente" />
+    <Translation ID="RON_PNL_PET" String="Senderos - túneles" />
+    <Translation ID="RON_PNL_DEC" String="Decoración" />
+    <Translation ID="RON_PNL_RIP" String="Reemplazo en progreso" />
+    <Translation ID="RON_FIL_NAME" String="Búsqueda:" />
+    <Translation ID="TRN_CHOICE" String="Elegir idioma" />
+    <Translation ID="TRN_SYS" String="Usa el idioma del juego" />
+    <Translation ID="KEY_KEY" String="Tecla de acceso rápido" />
+    <Translation ID="KEY_PRS" String="Presiona cualquier tecla" />
+  </Translations>
+</Language>

@@ -1140,10 +1140,10 @@ namespace RON
 		/// <param name="parent">Parent component</param>
 		/// <param name="posX">Relative X postion</param>
 		/// <param name="posY">Relative Y position</param>
-		/// <param name="width">Button width (default 200)</param>
-		/// <param name="height">Button height (default 30)</param>
+		/// <param name="width">Button width (default 32)</param>
+		/// <param name="height">Button height (default 20)</param>
 		/// <returns>New arrow button</returns>
-		private UIButton ArrowButton(UIComponent parent, float posX, float posY, float width = 200f, float height = 30f)
+		private UIButton ArrowButton(UIComponent parent, float posX, float posY, float width = 32f, float height = 20f)
 		{
 			UIButton button = parent.AddUIComponent<UIButton>();
 
