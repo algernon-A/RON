@@ -8,9 +8,13 @@
     <Translation ID="RON_PNL_NET" String="Network" />
     <Translation ID="RON_PNL_CRE" String="Creator" />
     <Translation ID="RON_PNL_REP" String="REPLACE ALL" />
+    <Translation ID="RON_PNL_RES" String="REPLACE" />
     <Translation ID="RON_PNL_UND" String="Undo" />
     <Translation ID="RON_PNL_VPS" String="View previous segment" />
     <Translation ID="RON_PNL_VNS" String="View next segment" />
+    <Translation ID="RON_PNL_GLB" String="Replace globally" />
+    <Translation ID="RON_PNL_DIS" String="Replace in same district only" />
+    <Translation ID="RON_PNL_SEG" String="Replace individual segment" />
     <Translation ID="RON_PNL_HDV" String="Hide vanilla and NExt" />
     <Translation ID="RON_PNL_WID" String="Same width only" />
     <Translation ID="RON_PNL_TYP" String="Network type" />

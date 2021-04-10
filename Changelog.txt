@@ -1,4 +1,7 @@
-﻿Version 0.3.2.1 -
+﻿- Implement global, same-district, and single-segment replacement modes.
+
+
+Version 0.3.2.1 -
 
 - Force refresh of network list display on panel open
 

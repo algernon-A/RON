@@ -94,7 +94,7 @@ namespace RON
 		private readonly UITextField nameFilter;
 		private readonly UIDropDown typeDropDown, searchTypeMenu;
 		private readonly UILabel replacingLabel, progressLabel;
-		private readonly UICheckBox sameWidthCheck, hideVanilla;
+		private readonly UICheckBox sameWidthCheck, hideVanilla, globalCheck, districtCheck, segmentCheck;
 		private readonly UISprite targetPreviewSprite, replacementPreviewSprite;
 
 		// Status.
@@ -438,6 +438,15 @@ namespace RON
 			AddArrowSprite(targetPreviewSprite, -PreviewArrowWidth, "ArrowLeft");
 			AddArrowSprite(replacementPreviewSprite, PreviewWidth, "ArrowRight");
 
+			// Tree/Prop checkboxes.
+			globalCheck = IconToggleCheck(this, typeDropDown.relativePosition.x + typeDropDown.width + Margin, ToolRow1Y, "ToolbarIconZoomOutGlobeDisabled", "ToolbarIconZoomOutGlobe", "Ingame", "RON_PNL_GLB");
+			districtCheck = IconToggleCheck(this, globalCheck.relativePosition.x + globalCheck.width, ToolRow1Y, "DistrictPaintDisabled", "DistrictPaint", "Thumbnails", "RON_PNL_DIS");
+			segmentCheck = IconToggleCheck(this, districtCheck.relativePosition.x + districtCheck.width, ToolRow1Y, "ThumbnailRoadTypeSmallRoadDisabled", "ThumbnailRoadTypeSmallRoad", "Thumbnails", "RON_PNL_SEG");
+			globalCheck.isChecked = true;
+			globalCheck.eventCheckChanged += CheckChanged;
+			districtCheck.eventCheckChanged += CheckChanged;
+			segmentCheck.eventCheckChanged += CheckChanged;
+
 			// Populate lists.
 			PrefabUtils.GetCreators();
 			TargetList();
@@ -449,6 +458,48 @@ namespace RON
 			// Populate parent dictionaries.
 			PrefabUtils.GetParents(slopeParents, elevatedParents, bridgeParents, tunnelParents);
 		}
+
+
+		/// <summary>
+		/// Network type dropdown change handler.
+		/// </summary>
+		/// <param name="control">Calling component</param>
+		/// <param name="index">New selected index</param>
+		private void CheckChanged(UIComponent control, bool isChecked)
+        {
+			if (isChecked)
+            {
+				if (control == globalCheck)
+                {
+					districtCheck.isChecked = false;
+					segmentCheck.isChecked = false;
+				}
+				else if (control == districtCheck)
+				{
+					globalCheck.isChecked = false;
+					segmentCheck.isChecked = false;
+				}
+				else if (control == segmentCheck)
+				{
+					globalCheck.isChecked = false;
+					districtCheck.isChecked = false;
+				}
+			}
+			else if (!globalCheck.isChecked && !districtCheck.isChecked && !segmentCheck.isChecked)
+            {
+				(control as UICheckBox).isChecked = true;
+            }
+
+			// Ensure correct checkbox label.
+			if (segmentCheck.isChecked)
+            {
+				replaceButton.text = Translations.Translate("RON_PNL_RES");
+            }
+			else
+            {
+				replaceButton.text = Translations.Translate("RON_PNL_REP");
+			}
+        }
 
 
 		/// <summary>
@@ -477,8 +528,21 @@ namespace RON
 				// Set panel to replacing state.
 				SetReplacing();
 
+				// Create list of replacement segments.
+				List<ushort> segments;
+				if (segmentCheck.isChecked)
+                {
+					// Single replacement only.
+					segments = new List<ushort> { lastViewedSegment };
+                }
+				else
+                {
+					// Multiple replacements - get list from segment dictionary.
+					segments = segmentDict[selectedTarget];
+                }
+
 				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
-				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(selectedTarget, selectedReplacement); });
+				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(selectedTarget, selectedReplacement, segments,  globalCheck.isChecked ? (ushort)0 : lastViewedSegment, districtCheck.isChecked ); });
 			}
 		}
 
@@ -1167,6 +1231,47 @@ namespace RON
 		private void SetFgSprites(UIButton button, string spriteName)
 		{
 			button.normalFgSprite = button.hoveredFgSprite = button.pressedFgSprite = button.focusedFgSprite = spriteName;
+		}
+
+
+		/// <summary>
+		/// Adds an icon toggle checkbox.
+		/// </summary>
+		/// <param name="parent">Parent component</param>
+		/// <param name="xPos">Relative X position</param>
+		/// <param name="yPos">Relative Y position</param>
+		/// <param name="defaultSprite">Default (unchecked) sprite name</param>
+		/// <param name="checkedSprite">Checked sprite name</param>
+		/// <param name="atlasName">Atlas name</param>
+		/// <param name="tooltipKey">Tooltip translation key</param>
+		/// <returns>New checkbox</returns>
+		private UICheckBox IconToggleCheck(UIComponent parent, float xPos, float yPos, string defaultSprite, string checkedSprite, string atlasName, string tooltipKey)
+		{
+			const float ToggleSpriteSize = 24f;
+
+			// Size and position.
+			UICheckBox checkBox = parent.AddUIComponent<UICheckBox>();
+			checkBox.width = ToggleSpriteSize;
+			checkBox.height = ToggleSpriteSize;
+			checkBox.clipChildren = true;
+			checkBox.relativePosition = new Vector2(xPos, yPos);
+
+			// Checkbox sprites.
+			UISprite sprite = checkBox.AddUIComponent<UISprite>();
+			sprite.atlas = TextureUtils.GetTextureAtlas(atlasName);
+			sprite.spriteName = defaultSprite;
+			sprite.size = new Vector2(ToggleSpriteSize, ToggleSpriteSize);
+			sprite.relativePosition = Vector3.zero;
+
+			checkBox.checkedBoxObject = sprite.AddUIComponent<UISprite>();
+			((UISprite)checkBox.checkedBoxObject).atlas = TextureUtils.GetTextureAtlas(atlasName);
+			((UISprite)checkBox.checkedBoxObject).spriteName = checkedSprite;
+			checkBox.checkedBoxObject.size = new Vector2(ToggleSpriteSize, ToggleSpriteSize);
+			checkBox.checkedBoxObject.relativePosition = Vector3.zero;
+
+			checkBox.tooltip = Translations.Translate(tooltipKey);
+
+			return checkBox;
 		}
 	}
 }
