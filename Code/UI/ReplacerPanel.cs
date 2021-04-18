@@ -73,6 +73,7 @@ namespace RON
 		// Instance references.
 		private static GameObject uiGameObject;
 		private static ReplacerPanel panel;
+		private static ToolBase previousTool;
 		internal static ReplacerPanel Panel => panel;
 
 		// Current selections.
@@ -124,6 +125,7 @@ namespace RON
 			Translations.Translate("RON_PNL_PET"),
 			Translations.Translate("RON_PNL_DEC")
 		};
+
 		private readonly Type[] netTypes = new Type[NumTypes]
 		{
 			typeof(RoadAI),
@@ -273,6 +275,9 @@ namespace RON
 				return;
 			}
 
+			// Restore previous tool.
+			ToolsModifierControl.toolController.CurrentTool = previousTool;
+
 			// Destroy game objects.
 			GameObject.Destroy(panel);
 			GameObject.Destroy(uiGameObject);
@@ -281,6 +286,39 @@ namespace RON
 			panel = null;
 			uiGameObject = null;
 		}
+
+
+		/// <summary>
+		/// Sets the target segment and updates the display and selection accordingly.
+		/// </summary>
+		/// <param name="segmentID">Target segment ID</param>
+		internal void SetTarget(ushort segmentID)
+        {
+			// Get selected network info and AI.
+			NetInfo selectedNet = Singleton<NetManager>.instance.m_segments.m_buffer[segmentID].Info;
+			Type aiType = selectedNet.GetAI().GetType();
+
+			for (int i = 0; i < NumTypes; ++i)
+            {
+				if (aiType.Equals(netTypes[i]))
+                {
+					// Set dropdown menu.
+					typeDropDown.selectedIndex = i;
+
+					// Set new target info.
+					SelectedTarget = selectedNet;
+
+					// Set target list position.
+					targetList.FindItem(selectedNet);
+
+					// Set laset veiewed segment to the selected one (reset to zero by SetTarget)
+					lastViewedSegment = segmentID;
+
+					// All done here.
+					return;
+				}
+			}
+        }
 
 
 		/// <summary>
@@ -457,6 +495,10 @@ namespace RON
 
 			// Populate parent dictionaries.
 			PrefabUtils.GetParents(slopeParents, elevatedParents, bridgeParents, tunnelParents);
+
+			// Activate RON tool.
+			previousTool = ToolsModifierControl.toolController.CurrentTool;
+			ToolsModifierControl.toolController.CurrentTool = RONTool.Instance;
 		}
 
 

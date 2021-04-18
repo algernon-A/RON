@@ -1,7 +1,8 @@
 ﻿using System.IO;
 using System.Collections.Generic;
-using ColossalFramework.UI;
 using UnityEngine;
+using ColossalFramework;
+using ColossalFramework.UI;
 
 
 namespace RON
@@ -10,6 +11,22 @@ namespace RON
 	{
 		// Dictionary to cache texture atlas lookups.
 		private readonly static Dictionary<string, UITextureAtlas> textureCache = new Dictionary<string, UITextureAtlas>();
+
+
+		/// <summary>
+		/// Loads a cursor texture.
+		/// </summary>
+		/// <param name="cursorName">Cursor texture file name</param>
+		/// <returns>New cursor</returns>
+		internal static CursorInfo LoadCursor(string cursorName)
+		{
+			CursorInfo cursor = ScriptableObject.CreateInstance<CursorInfo>();
+
+			cursor.m_texture = LoadTexture(cursorName);
+			cursor.m_hotspot = new Vector2(5f, 0f);
+
+			return cursor;
+		}
 
 
 		/// <summary>
@@ -22,7 +39,7 @@ namespace RON
 			// Create new texture atlas for button.
 			UITextureAtlas newAtlas = ScriptableObject.CreateInstance<UITextureAtlas>();
 			newAtlas.name = atlasName;
-			newAtlas.material = UnityEngine.Object.Instantiate<Material>(UIView.GetAView().defaultAtlas.material);
+			newAtlas.material = Object.Instantiate(UIView.GetAView().defaultAtlas.material);
 
 			// Load texture from file.
 			Texture2D newTexture = LoadTexture(atlasName + ".png");

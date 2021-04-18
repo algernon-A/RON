@@ -16,6 +16,9 @@ namespace RON
             // Set up options panel event handler and prime input key.
             OptionsPanel.OptionsEventHook();
             UIThreading.ignore = false;
+
+            // Initialise select tool.
+            ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
         }
     }
 }

@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Loading.cs" />
+    <Compile Include="Code\UI\RONTool.cs" />
     <Compile Include="Code\Utils\Logging.cs" />
     <Compile Include="Code\Mod.cs" />
     <Compile Include="Code\Replacer.cs" />
@@ -77,6 +78,8 @@
     <Content Include="Changelog.txt" />
     <Content Include="Images\PreviewImage.png" />
     <Content Include="Resources\RonButton.png" />
+    <Content Include="Resources\RonCursorDark.png" />
+    <Content Include="Resources\RonCursorLight.png" />
     <Content Include="Translations\de.xml" />
     <Content Include="Translations\en.xml" />
     <Content Include="Translations\es.xml" />
