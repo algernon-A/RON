@@ -477,9 +477,9 @@ namespace RON
 			AddArrowSprite(replacementPreviewSprite, PreviewWidth, "ArrowRight");
 
 			// Tree/Prop checkboxes.
-			globalCheck = IconToggleCheck(this, typeDropDown.relativePosition.x + typeDropDown.width + Margin, ToolRow1Y, "ToolbarIconZoomOutGlobeDisabled", "ToolbarIconZoomOutGlobe", "Ingame", "RON_PNL_GLB");
-			districtCheck = IconToggleCheck(this, globalCheck.relativePosition.x + globalCheck.width, ToolRow1Y, "DistrictPaintDisabled", "DistrictPaint", "Thumbnails", "RON_PNL_DIS");
-			segmentCheck = IconToggleCheck(this, districtCheck.relativePosition.x + districtCheck.width, ToolRow1Y, "ThumbnailRoadTypeSmallRoadDisabled", "ThumbnailRoadTypeSmallRoad", "Thumbnails", "RON_PNL_SEG");
+			globalCheck = IconToggleCheck(this, typeDropDown.relativePosition.x + typeDropDown.width + Margin, ToolRow1Y, "ron_global_small", "RON_PNL_GLB");
+			districtCheck = IconToggleCheck(this, globalCheck.relativePosition.x + globalCheck.width, ToolRow1Y, "ron_district_small", "RON_PNL_DIS");
+			segmentCheck = IconToggleCheck(this, districtCheck.relativePosition.x + districtCheck.width, ToolRow1Y, "ron_segment_small", "RON_PNL_SEG");
 			globalCheck.isChecked = true;
 			globalCheck.eventCheckChanged += CheckChanged;
 			districtCheck.eventCheckChanged += CheckChanged;
@@ -1282,12 +1282,10 @@ namespace RON
 		/// <param name="parent">Parent component</param>
 		/// <param name="xPos">Relative X position</param>
 		/// <param name="yPos">Relative Y position</param>
-		/// <param name="defaultSprite">Default (unchecked) sprite name</param>
-		/// <param name="checkedSprite">Checked sprite name</param>
-		/// <param name="atlasName">Atlas name</param>
+		/// <param name="fileName">Sprite atlas file name (without .png)</param>
 		/// <param name="tooltipKey">Tooltip translation key</param>
 		/// <returns>New checkbox</returns>
-		private UICheckBox IconToggleCheck(UIComponent parent, float xPos, float yPos, string defaultSprite, string checkedSprite, string atlasName, string tooltipKey)
+		private UICheckBox IconToggleCheck(UIComponent parent, float xPos, float yPos, string fileName, string tooltipKey)
 		{
 			const float ToggleSpriteSize = 24f;
 
@@ -1298,20 +1296,27 @@ namespace RON
 			checkBox.clipChildren = true;
 			checkBox.relativePosition = new Vector2(xPos, yPos);
 
-			// Checkbox sprites.
-			UISprite sprite = checkBox.AddUIComponent<UISprite>();
-			sprite.atlas = TextureUtils.GetTextureAtlas(atlasName);
-			sprite.spriteName = defaultSprite;
-			sprite.size = new Vector2(ToggleSpriteSize, ToggleSpriteSize);
-			sprite.relativePosition = Vector3.zero;
+			try
+			{
+				// Checkbox sprites.
+				UISprite sprite = checkBox.AddUIComponent<UISprite>();
+				sprite.atlas = TextureUtils.LoadSpriteAtlas(fileName);
+				sprite.spriteName = "normal";
+				sprite.size = new Vector2(ToggleSpriteSize, ToggleSpriteSize);
+				sprite.relativePosition = Vector3.zero;
 
-			checkBox.checkedBoxObject = sprite.AddUIComponent<UISprite>();
-			((UISprite)checkBox.checkedBoxObject).atlas = TextureUtils.GetTextureAtlas(atlasName);
-			((UISprite)checkBox.checkedBoxObject).spriteName = checkedSprite;
-			checkBox.checkedBoxObject.size = new Vector2(ToggleSpriteSize, ToggleSpriteSize);
-			checkBox.checkedBoxObject.relativePosition = Vector3.zero;
+				checkBox.checkedBoxObject = sprite.AddUIComponent<UISprite>();
+				((UISprite)checkBox.checkedBoxObject).atlas = sprite.atlas;
+				((UISprite)checkBox.checkedBoxObject).spriteName = "pressed";
+				checkBox.checkedBoxObject.size = new Vector2(ToggleSpriteSize, ToggleSpriteSize);
+				checkBox.checkedBoxObject.relativePosition = Vector3.zero;
 
-			checkBox.tooltip = Translations.Translate(tooltipKey);
+				checkBox.tooltip = Translations.Translate(tooltipKey);
+			}
+			catch (Exception e)
+            {
+				Logging.LogException(e, "exception creating icon toggle check");
+            }
 
 			return checkBox;
 		}

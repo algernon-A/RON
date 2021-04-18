@@ -36,7 +36,7 @@ namespace RON
 		{
 			base.Awake();
 			lightCursor = TextureUtils.LoadCursor("RonCursorLight.png");
-			darkCursor = TextureUtils.LoadCursor("RonCursorDark.png");
+			darkCursor = TextureUtils.LoadCursor("ron_cursor_dark.png");
 			m_cursor = darkCursor;
 		}
 

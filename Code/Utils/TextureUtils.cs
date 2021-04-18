@@ -12,6 +12,9 @@ namespace RON
 		// Dictionary to cache texture atlas lookups.
 		private readonly static Dictionary<string, UITextureAtlas> textureCache = new Dictionary<string, UITextureAtlas>();
 
+		// Dictionary to cache texture file lookups.
+		private readonly static Dictionary<string, UITextureAtlas> fileCache = new Dictionary<string, UITextureAtlas>();
+
 
 		/// <summary>
 		/// Loads a cursor texture.
@@ -32,17 +35,24 @@ namespace RON
 		/// <summary>
 		/// Loads a four-sprite texture atlas from a given .png file.
 		/// </summary>
-		/// <param name="atlasName">Atlas name (".png" will be appended fto make the filename)</param>
+		/// <param name="fileName">Atlas file name (".png" will be appended fto make the filename)</param>
 		/// <returns>New texture atlas</returns>
-		internal static UITextureAtlas LoadSpriteAtlas(string atlasName)
+		internal static UITextureAtlas LoadSpriteAtlas(string fileName)
 		{
+			// Check if we've already cached this file.
+			if (fileCache.ContainsKey(fileName))
+			{
+				// Cached - return cached result.
+				return fileCache[fileName];
+			}
+
 			// Create new texture atlas for button.
 			UITextureAtlas newAtlas = ScriptableObject.CreateInstance<UITextureAtlas>();
-			newAtlas.name = atlasName;
+			newAtlas.name = fileName;
 			newAtlas.material = Object.Instantiate(UIView.GetAView().defaultAtlas.material);
 
 			// Load texture from file.
-			Texture2D newTexture = LoadTexture(atlasName + ".png");
+			Texture2D newTexture = LoadTexture(fileName + ".png");
 			newAtlas.material.mainTexture = newTexture;
 
 			// Setup sprites.
@@ -63,6 +73,8 @@ namespace RON
 				newAtlas.AddSprite(sprite);
 			}
 
+			// Add atlas to cache and return.
+			fileCache.Add(fileName, newAtlas);
 			return newAtlas;
 		}
 
