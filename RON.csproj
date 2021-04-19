@@ -78,8 +78,8 @@
     <Content Include="Changelog.txt" />
     <Content Include="Images\PreviewImage.png" />
     <Content Include="Resources\RonButton.png" />
-    <Content Include="Resources\RonCursorLight.png" />
     <Content Include="Resources\ron_cursor_dark.png" />
+    <Content Include="Resources\ron_cursor_light.png" />
     <Content Include="Resources\ron_district_small.png" />
     <Content Include="Resources\ron_global_small.png" />
     <Content Include="Resources\ron_segment_small.png" />

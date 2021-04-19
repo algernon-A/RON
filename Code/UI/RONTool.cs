@@ -35,7 +35,7 @@ namespace RON
 		protected override void Awake()
 		{
 			base.Awake();
-			lightCursor = TextureUtils.LoadCursor("RonCursorLight.png");
+			lightCursor = TextureUtils.LoadCursor("ron_cursor_light.png");
 			darkCursor = TextureUtils.LoadCursor("ron_cursor_dark.png");
 			m_cursor = darkCursor;
 		}
@@ -107,6 +107,9 @@ namespace RON
 			ToolErrors errors = ToolErrors.None;
 			RaycastOutput output;
 
+			// Cursor is dark by default.
+			m_cursor = darkCursor;
+
 			// Is the base mouse ray valid?
 			if (m_mouseRayValid)
 			{
@@ -122,8 +125,9 @@ namespace RON
 						// Networks.
 						if (CheckSegment(output.m_netSegment, ref errors))
 						{
-							// CheckSegment passed - record hit position.
+							// CheckSegment passed - record hit position and set cursor to light cursor.
 							output.m_hitPos = Singleton<NetManager>.instance.m_segments.m_buffer[output.m_netSegment].GetClosestPosition(output.m_hitPos);
+							m_cursor = lightCursor;
 						}
 						else
 						{
@@ -199,9 +203,6 @@ namespace RON
 			ushort segment = m_hoverInstance.NetSegment;
 			if (segment != 0)
 			{
-				// We have a hovered network; set the cursor to the light cursor.
-				m_cursor = lightCursor;
-
 				// Check for mousedown events with button zero.
 				if (e.type == EventType.MouseDown && e.button == 0)
 				{
@@ -211,7 +212,6 @@ namespace RON
 					// Send the result to the panel.
 					ReplacerPanel.Panel?.SetTarget(segment);
 				}
-			}
 		}
 	}
 }
