@@ -8,9 +8,13 @@
     <Translation ID="RON_PNL_NET" String="Netzwerk" />
     <Translation ID="RON_PNL_CRE" String="Ersteller" />
     <Translation ID="RON_PNL_REP" String="ERSETZE ALLE" />
+    <Translation ID="RON_PNL_RES" String="ERSETZE" />
     <Translation ID="RON_PNL_UND" String="Rückgängig machen" />
     <Translation ID="RON_PNL_VPS" String="Vorheriges Segment zeigen" />
     <Translation ID="RON_PNL_VNS" String="Nächstes Segment zeigen" />
+    <Translation ID="RON_PNL_GLB" String="Ersetze alle" />
+    <Translation ID="RON_PNL_DIS" String="Ersetze alle im gleichen Bezirk" />
+    <Translation ID="RON_PNL_SEG" String="Ersetze das einzelne Segment" />
     <Translation ID="RON_PNL_HDV" String="Vanilla und NExt ausblenden" />
     <Translation ID="RON_PNL_WID" String="Nur mit gleicher Breite" />
     <Translation ID="RON_PNL_TYP" String="Netzwerk-Typ" />

@@ -212,6 +212,7 @@ namespace RON
 					// Send the result to the panel.
 					ReplacerPanel.Panel?.SetTarget(segment);
 				}
+			}
 		}
 	}
 }

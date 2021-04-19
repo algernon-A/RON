@@ -8,9 +8,13 @@
     <Translation ID="RON_PNL_NET" String="Дорога" />
     <Translation ID="RON_PNL_CRE" String="Автор" />
     <Translation ID="RON_PNL_REP" String="ЗАМЕНИТЬ" />
+    <Translation ID="RON_PNL_RES" String="Заменить" />
     <Translation ID="RON_PNL_UND" String="Отменить" />
     <Translation ID="RON_PNL_VPS" String="Предыдущий сегмент" />
     <Translation ID="RON_PNL_VNS" String="Следующий сегмент " />
+    <Translation ID="RON_PNL_GLB" String="Заменить все" />
+    <Translation ID="RON_PNL_DIS" String="Заменить только в текущем районе" />
+    <Translation ID="RON_PNL_SEG" String="Заменить индивидуальный отрезок" />
     <Translation ID="RON_PNL_HDV" String="Скрыть ванильные и из NExt" />
     <Translation ID="RON_PNL_WID" String="Только с одинаковой шириной" />
     <Translation ID="RON_PNL_TYP" String="Тип дороги" />

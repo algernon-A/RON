@@ -8,9 +8,13 @@
     <Translation ID="RON_PNL_NET" String="La red" />
     <Translation ID="RON_PNL_CRE" String="Creador" />
     <Translation ID="RON_PNL_REP" String="REEMPLAZA TODO" />
+    <Translation ID="RON_PNL_RES" String="REEMPLAZA" />
     <Translation ID="RON_PNL_UND" String="Anular" />
     <Translation ID="RON_PNL_VPS" String="Ver segmento anterior" />
     <Translation ID="RON_PNL_VNS" String="Ver siguiente segmento" />
+    <Translation ID="RON_PNL_GLB" String="Reemplazar globalmente" />
+    <Translation ID="RON_PNL_DIS" String="Reemplazar solo en el mismo distrito" />
+    <Translation ID="RON_PNL_SEG" String="Reemplazar segmento individual" />
     <Translation ID="RON_PNL_HDV" String="Oculta vainilla y NExt" />
     <Translation ID="RON_PNL_WID" String="Solamente mismo ancho "/>
     <Translation ID="RON_PNL_TYP" String="Tipo de red" />
