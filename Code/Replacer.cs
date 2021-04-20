@@ -29,63 +29,33 @@ namespace RON
 		/// <param name="target">Target netInfo</param>
 		/// <param name="replacement">Replacement netInfo</param>
 		/// <param name="segmentList">Array of segment IDs</param>
-		/// <param name="selectedSegment">Selected segment for individual or district replacement (set to 0 for global replacement)</param>
-		/// <param name="districtOnly">Set to true if replacement should be only within the same district, false otherwise</param>
-		internal static void ReplaceNets(NetInfo target, NetInfo replacement, List<ushort> segmentList, ushort selectedSegment, bool districtOnly)
+		internal static void ReplaceNets(NetInfo target, NetInfo replacement, List<ushort> segmentList)
 		{
 			try
 			{
-				// Input checks.
-				if (target?.name == null || replacement?.name == null)
-                {
-					Logging.Error("null parameter passed to ReplaceNets");
-					return;
-                }
-
 				// Ensure segment list is valid..
 				if (segmentList == null || segmentList.Count == 0)
-                {
-					Logging.Error("null reference for segment dictionary when replacing nets");
+				{
+					Logging.Message("no selected networks for replacing");
 					return;
-                }
+				}
+
+				// Input checks.
+				if (target?.name == null || replacement?.name == null)
+				{
+					Logging.Error("null parameter passed to ReplaceNets");
+					return;
+				}
 
 				// Local references.
 				NetManager netManager = Singleton<NetManager>.instance;
 				Randomizer randomizer = new Randomizer();
 				NetSegment[] segmentBuffer = netManager.m_segments.m_buffer;
-				DistrictManager districtManager = Singleton<DistrictManager>.instance;
 
-				// Ensure we have a selected segment when we're doing district replacement.
-				ushort districtID = 0;
-				if (districtOnly)
-                {
-					if (selectedSegment == 0)
-                    {
-						Logging.Error("no selected segment passed to ReplaceNets for district replacement");
-						return;
-                    }
-
-					// Get district of selected segment.
-					districtID = districtManager.GetDistrict(segmentBuffer[selectedSegment].m_middlePosition);
-
-					Logging.Message("set to district replacement with district ", districtManager.GetDistrictName(districtID));
-                }
-
-				// Determine target segment(s).
-				ushort[] segmentIDs;
-
-				// If single segment replacement only (selectedSegment isn't zero and district replacement isn't set), just create an array with only the single segment in the list.
-				if (!districtOnly && selectedSegment != 0)
-				{
-					segmentIDs = new ushort[] { selectedSegment };
-				}
-				else
-				{
-					// Not a single-segment replacement: copy segment IDs from segment list to avoid concurrency issues while replacing.
-					segmentIDs = new ushort[segmentList.Count];
-					segmentList.CopyTo(segmentIDs, 0);
-				}
-
+				// Copy segment IDs from segment list to avoid concurrency issues while replacing.
+				ushort[] segmentIDs = new ushort[segmentList.Count];
+				segmentList.CopyTo(segmentIDs, 0);
+							
 				// Initialize undo buffer.
 				undoBuffer = new List<ushort>();
 				undoPrefab = target;
@@ -104,16 +74,6 @@ namespace RON
 						// Check that this is an active network before we do actual replacement.
 						if (segment.m_flags != NetSegment.Flags.None)
 						{
-							// Check for district match, if applicable.
-							if (districtOnly)
-                            {
-								if (districtManager.GetDistrict(netManager.m_nodes.m_buffer[segment.m_startNode].m_position) != districtID || districtManager.GetDistrict(netManager.m_nodes.m_buffer[segment.m_endNode].m_position) != districtID)
-                                {
-									// No district match - skip this segment.
-									continue;
-                                }
-                            }
-
 							// Get segment name and prority.
 							bool priority = netManager.IsPriorityRoad(segmentID, out bool _);
 							ushort nameSeed = segment.m_nameSeed;

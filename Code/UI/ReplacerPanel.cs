@@ -33,6 +33,9 @@ namespace RON
 	{
 		// Layout constants - general.
 		private const float Margin = 5f;
+		private const float ToggleSpriteSize = 24f;
+		private const float ReplaceButtonHeight = 30f;
+
 
 		// Layout constants - Y.
 		private const float TitleHeight = 45f;
@@ -49,6 +52,7 @@ namespace RON
 		private const float HideVanillaY = ToolRow1Y + 30f;
 		private const float SameWidthY = HideVanillaY + 20f;
 		private const float ReplacementSpriteY = ListY + (PreviewHeight * 2f);
+		private const float CheckY = ToolRow1Y + ((ReplaceButtonHeight - ToggleSpriteSize) / 2f);
 
 		// Layout constants - X.
 		private const float LeftWidth = 450f;
@@ -68,47 +72,6 @@ namespace RON
 		private const float ButtonWidth = 220f;
 		private const float PrevX = Margin;
 		private const float NextX = LeftWidth + Margin - ButtonWidth;
-
-
-		// Instance references.
-		private static GameObject uiGameObject;
-		private static ReplacerPanel panel;
-		private static ToolBase previousTool;
-		internal static ReplacerPanel Panel => panel;
-
-		// Current selections.
-		private NetInfo selectedTarget, selectedReplacement;
-
-		// Segment info record.
-		internal readonly Dictionary<NetInfo, List<ushort>> segmentDict = new Dictionary<NetInfo, List<ushort>>();
-
-		// Parent-child network relation dictionaries.
-		internal readonly Dictionary<NetInfo, NetInfo> slopeParents = new Dictionary<NetInfo, NetInfo>();
-		internal readonly Dictionary<NetInfo, NetInfo> elevatedParents = new Dictionary<NetInfo, NetInfo>();
-		internal readonly Dictionary<NetInfo, NetInfo> bridgeParents = new Dictionary<NetInfo, NetInfo>();
-		internal readonly Dictionary<NetInfo, NetInfo> tunnelParents = new Dictionary<NetInfo, NetInfo>();
-
-		// Panel components.
-		private readonly UIFastList targetList, loadedList;
-		private readonly UIButton replaceButton, undoButton, prevButton, nextButton;
-		private readonly UIButton targetNameButton, targetCreatorButton, loadedNameButton, loadedCreatorButton;
-		private readonly UITextField nameFilter;
-		private readonly UIDropDown typeDropDown, searchTypeMenu;
-		private readonly UILabel replacingLabel, progressLabel;
-		private readonly UICheckBox sameWidthCheck, hideVanilla, globalCheck, districtCheck, segmentCheck;
-		private readonly UISprite targetPreviewSprite, replacementPreviewSprite;
-
-		// Status.
-		internal bool replacingDone;
-		private bool replacing;
-		private float timer;
-		private int timerStep;
-		private ushort lastViewedSegment;
-
-		// Search settings.
-		private int targetSearchStatus, loadedSearchStatus;
-
-
 
 		// Nework type list.
 		private const int NumTypes = 10;
@@ -140,6 +103,45 @@ namespace RON
 			typeof(DecorationWallAI)
 		};
 
+
+		// Instance references.
+		private static GameObject uiGameObject;
+		private static ReplacerPanel panel;
+		private static ToolBase previousTool;
+		internal static ReplacerPanel Panel => panel;
+
+		// Current selections.
+		internal List<ushort> selectedSegments;
+		private ushort currentSegment;
+		private NetInfo selectedTarget, selectedReplacement;
+
+		// Segment info record.
+		internal readonly Dictionary<NetInfo, List<ushort>> segmentDict = new Dictionary<NetInfo, List<ushort>>();
+
+		// Parent-child network relation dictionaries.
+		internal readonly Dictionary<NetInfo, NetInfo> slopeParents = new Dictionary<NetInfo, NetInfo>();
+		internal readonly Dictionary<NetInfo, NetInfo> elevatedParents = new Dictionary<NetInfo, NetInfo>();
+		internal readonly Dictionary<NetInfo, NetInfo> bridgeParents = new Dictionary<NetInfo, NetInfo>();
+		internal readonly Dictionary<NetInfo, NetInfo> tunnelParents = new Dictionary<NetInfo, NetInfo>();
+
+		// Panel components.
+		private readonly UIFastList targetList, loadedList;
+		private readonly UIButton replaceButton, undoButton, prevButton, nextButton;
+		private readonly UIButton targetNameButton, targetCreatorButton, loadedNameButton, loadedCreatorButton;
+		private readonly UITextField nameFilter;
+		private readonly UIDropDown typeDropDown, searchTypeMenu;
+		private readonly UILabel replacingLabel, progressLabel;
+		private readonly UICheckBox sameWidthCheck, hideVanilla, globalCheck, districtCheck, segmentCheck;
+		private readonly UISprite targetPreviewSprite, replacementPreviewSprite;
+
+		// Status.
+		internal bool replacingDone;
+		private bool replacing;
+		private float timer;
+		private int timerStep;
+
+		// Search settings.
+		private int targetSearchStatus, loadedSearchStatus;
 
 		/// <summary>
 		/// Called by Unity every tick.  Used here to track state of any in-progress replacments.
@@ -206,8 +208,8 @@ namespace RON
 				{
 					selectedTarget = value;
 
-					// Reset last viewed segment counter.
-					lastViewedSegment = 0;
+					// Reset selected segment.
+					currentSegment = 0;
 
 					// Update loaded list if we're only showing networks of the same width.
 					if (sameWidthCheck.isChecked)
@@ -311,14 +313,59 @@ namespace RON
 					// Set target list position.
 					targetList.FindItem(selectedNet);
 
-					// Set laset veiewed segment to the selected one (reset to zero by SetTarget)
-					lastViewedSegment = segmentID;
+					// Set selected network segement.
+					currentSegment = segmentID;
+
+					// Set selected segments.
+					SetSelectedSegments();
 
 					// All done here.
 					return;
 				}
 			}
         }
+
+
+		/// <summary>
+		/// Sets the list of currently selected segments.
+		/// </summary>
+		private void SetSelectedSegments()
+        {
+			// Create list of replacement segments.
+			if (segmentCheck.isChecked)
+			{
+				// Single replacement only.
+				selectedSegments = new List<ushort> { currentSegment };
+			}
+			else if (districtCheck.isChecked)
+			{
+				// District replacement.
+				selectedSegments = new List<ushort>();
+
+				// Local references.
+				NetManager netManager = Singleton<NetManager>.instance;
+				NetSegment[] segmentBuffer = netManager.m_segments.m_buffer;
+				NetNode[] nodeBuffer = netManager.m_nodes.m_buffer;
+				DistrictManager districtManager = Singleton<DistrictManager>.instance;
+
+				// Get district of selected segment.
+				ushort districtID = districtManager.GetDistrict(segmentBuffer[currentSegment].m_middlePosition);
+
+				// Iterate through each segment of this type in our dictionary, adding to our list of selected segments if both start and end nodes are in the same district as the initial segement.
+				foreach (ushort districtSegment in segmentDict[selectedTarget])
+				{
+					if (districtManager.GetDistrict(nodeBuffer[segmentBuffer[districtSegment].m_startNode].m_position) == districtID && districtManager.GetDistrict(nodeBuffer[segmentBuffer[districtSegment].m_endNode].m_position) == districtID)
+					{
+						selectedSegments.Add(districtSegment);
+					}
+				}
+			}
+			else
+			{
+				// Global replacements - just use list from segment dictionary.
+				selectedSegments = segmentDict[selectedTarget];
+			}
+		}
 
 
 		/// <summary>
@@ -424,11 +471,11 @@ namespace RON
 			SetFgSprites(loadedNameButton, "IconUpArrow2Focused");
 
 			// Replace button.
-			replaceButton = UIControls.AddButton(this, MiddlePanelX, ToolRow1Y, Translations.Translate("RON_PNL_REP"), ReplaceWidth, scale: 1.0f);
+			replaceButton = UIControls.AddButton(this, MiddlePanelX, ToolRow1Y, Translations.Translate("RON_PNL_REP"), ReplaceWidth, ReplaceButtonHeight, scale: 1.0f);
 			replaceButton.eventClicked += Replace;
 
 			// Undo button.
-			undoButton = UIControls.AddButton(this, MiddlePanelX, ToolRow2Y, Translations.Translate("RON_PNL_UND"), ReplaceWidth);
+			undoButton = UIControls.AddButton(this, MiddlePanelX, ToolRow2Y, Translations.Translate("RON_PNL_UND"), ReplaceWidth, ReplaceButtonHeight);
 			undoButton.eventClicked += Undo;
 
 			// View previous segment button.
@@ -476,10 +523,10 @@ namespace RON
 			AddArrowSprite(targetPreviewSprite, -PreviewArrowWidth, "ArrowLeft");
 			AddArrowSprite(replacementPreviewSprite, PreviewWidth, "ArrowRight");
 
-			// Tree/Prop checkboxes.
-			globalCheck = IconToggleCheck(this, typeDropDown.relativePosition.x + typeDropDown.width + Margin, ToolRow1Y, "ron_global_small", "RON_PNL_GLB");
-			districtCheck = IconToggleCheck(this, globalCheck.relativePosition.x + globalCheck.width, ToolRow1Y, "ron_district_small", "RON_PNL_DIS");
-			segmentCheck = IconToggleCheck(this, districtCheck.relativePosition.x + districtCheck.width, ToolRow1Y, "ron_segment_small", "RON_PNL_SEG");
+			// Global/district/segment checkboxes
+			segmentCheck = IconToggleCheck(this, LeftWidth + Margin - ToggleSpriteSize, CheckY, "ron_segment_small", "RON_PNL_SEG");
+			districtCheck = IconToggleCheck(this, LeftWidth + Margin - (ToggleSpriteSize * 2f), CheckY, "ron_district_small", "RON_PNL_DIS");
+			globalCheck = IconToggleCheck(this, LeftWidth + Margin - (ToggleSpriteSize * 3f), CheckY, "ron_global_small", "RON_PNL_GLB");
 			globalCheck.isChecked = true;
 			globalCheck.eventCheckChanged += CheckChanged;
 			districtCheck.eventCheckChanged += CheckChanged;
@@ -509,6 +556,7 @@ namespace RON
 		/// <param name="index">New selected index</param>
 		private void CheckChanged(UIComponent control, bool isChecked)
         {
+			// If this checkbox is checked, unselect others.
 			if (isChecked)
             {
 				if (control == globalCheck)
@@ -529,7 +577,9 @@ namespace RON
 			}
 			else if (!globalCheck.isChecked && !districtCheck.isChecked && !segmentCheck.isChecked)
             {
+				// No checkbox is selected - re-select this one and don't do anything else.
 				(control as UICheckBox).isChecked = true;
+				return;
             }
 
 			// Ensure correct checkbox label.
@@ -541,6 +591,9 @@ namespace RON
             {
 				replaceButton.text = Translations.Translate("RON_PNL_REP");
 			}
+
+			// Update selected segements.
+			SetSelectedSegments();
         }
 
 
@@ -570,21 +623,8 @@ namespace RON
 				// Set panel to replacing state.
 				SetReplacing();
 
-				// Create list of replacement segments.
-				List<ushort> segments;
-				if (segmentCheck.isChecked)
-                {
-					// Single replacement only.
-					segments = new List<ushort> { lastViewedSegment };
-                }
-				else
-                {
-					// Multiple replacements - get list from segment dictionary.
-					segments = segmentDict[selectedTarget];
-                }
-
 				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
-				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(selectedTarget, selectedReplacement, segments,  globalCheck.isChecked ? (ushort)0 : lastViewedSegment, districtCheck.isChecked ); });
+				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(selectedTarget, selectedReplacement, selectedSegments); } );
 			}
 		}
 
@@ -631,8 +671,8 @@ namespace RON
 						targetSegment = segmentID;
 					}
 
-					// Is the previously-shown segment counter ahead of this?
-					if (segmentID > lastViewedSegment)
+					// Is the selected segment ahead of this?
+					if (segmentID > currentSegment)
                     {
 						// 'Fresh' segment - update target to this and finish looping, since we've found our taget.
 						targetSegment = segmentID;
@@ -673,7 +713,7 @@ namespace RON
 					}
 
 					// Is the previously-shown segment counter ahead of this?
-					if (segmentID < lastViewedSegment)
+					if (segmentID < currentSegment)
 					{
 						// 'Fresh' segment - update target to this and finish looping, since we've found our taget.
 						targetSegment = segmentID;
@@ -802,7 +842,10 @@ namespace RON
 			ToolsModifierControl.cameraController.SetTarget(new InstanceID { NetSegment = segmentID }, cameraPosition, true);
 
 			// Update last viewed segment to this one.
-			lastViewedSegment = segmentID;
+			currentSegment = segmentID;
+
+			// Updated selected segments.
+			SetSelectedSegments();
 		}
 
 
@@ -1287,8 +1330,6 @@ namespace RON
 		/// <returns>New checkbox</returns>
 		private UICheckBox IconToggleCheck(UIComponent parent, float xPos, float yPos, string fileName, string tooltipKey)
 		{
-			const float ToggleSpriteSize = 24f;
-
 			// Size and position.
 			UICheckBox checkBox = parent.AddUIComponent<UICheckBox>();
 			checkBox.width = ToggleSpriteSize;

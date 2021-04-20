@@ -1,4 +1,5 @@
-﻿- Implement global, same-district, and single-segment replacement modes.
+﻿- Implement global, same-district, and single-segment replacement modes
+- Implement highlighting for selected segment(s)
 
 
 Version 0.3.2.1 -

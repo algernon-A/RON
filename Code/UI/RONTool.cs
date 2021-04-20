@@ -166,6 +166,32 @@ namespace RON
 
 
 		/// <summary>
+		/// Called by game when overlay is to be rendered.
+		/// </summary>
+		/// <param name="cameraInfo">Current camera instance</param>
+		public override void RenderOverlay(RenderManager.CameraInfo cameraInfo)
+		{
+			// Colors for rendering.
+			Color segmentColor = GetToolColor(false, false);
+
+			// Local references.
+			ToolManager toolManager = Singleton<ToolManager>.instance;
+			NetSegment[] segmentBuffer = Singleton<NetManager>.instance.m_segments.m_buffer;
+
+			base.RenderOverlay(cameraInfo);
+
+			if (ReplacerPanel.Panel?.selectedSegments != null)
+			{
+				foreach (ushort segmentID in ReplacerPanel.Panel.selectedSegments)
+				{
+					toolManager.m_drawCallData.m_overlayCalls++;
+					NetTool.RenderOverlay(cameraInfo, ref segmentBuffer[segmentID], segmentColor, segmentColor);
+				}
+			}
+		}
+
+
+		/// <summary>
 		/// Unity late update handling.
 		/// Called by game every late update.
 		/// </summary>
@@ -214,5 +240,5 @@ namespace RON
 				}
 			}
 		}
-	}
+    }
 }
