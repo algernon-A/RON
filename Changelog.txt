@@ -1,7 +1,8 @@
 ﻿Version 0.4 -
 
-- Implement global, same-district, and single-segment replacement modes
-- Implement highlighting for selected segment(s)
+- Add network selection tool
+- Add global, same-district, and single-segment replacement modes
+- Add highlighting for selected segment(s)
 
 
 Version 0.3.2.1 -
