@@ -211,6 +211,9 @@ namespace RON
 					// Reset selected segment.
 					currentSegment = 0;
 
+					// Update selected segments.
+					SetSelectedSegments();
+
 					// Update loaded list if we're only showing networks of the same width.
 					if (sameWidthCheck.isChecked)
 					{
