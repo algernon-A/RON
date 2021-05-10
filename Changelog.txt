@@ -1,4 +1,8 @@
-﻿Version 0.4 -
+﻿- Add support for monorails
+- Add support for power lines
+
+
+Version 0.4 -
 
 - Add network selection tool
 - Add global, same-district, and single-segment replacement modes
