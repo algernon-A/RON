@@ -58,8 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Loading.cs" />
-    <Compile Include="Code\Patches\Patcher.cs" />
-    <Compile Include="Code\Patches\ResolveLegacyPrefab.cs" />
     <Compile Include="Code\UI\RONTool.cs" />
     <Compile Include="Code\Utils\Logging.cs" />
     <Compile Include="Code\Mod.cs" />
