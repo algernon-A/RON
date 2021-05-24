@@ -83,6 +83,7 @@
   <ItemGroup>
     <Content Include="Changelog.txt" />
     <Content Include="Images\PreviewImage.png" />
+    <Content Include="License.txt" />
     <Content Include="Resources\RonButton.png" />
     <Content Include="Resources\ron_cursor_dark.png" />
     <Content Include="Resources\ron_cursor_light.png" />
