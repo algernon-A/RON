@@ -28,6 +28,7 @@
     <Translation ID="RON_PNL_PED" String="Paths - surface only" />
     <Translation ID="RON_PNL_PEB" String="Paths - elevated and bridge" />
     <Translation ID="RON_PNL_PET" String="Paths - tunnels" />
+    <Translation ID="RON_PNL_PEA" String="Paths - campus and park areas" />
     <Translation ID="RON_PNL_DEC" String="Decoration" />
     <Translation ID="RON_PNL_ELI" String="Power lines" />
     <Translation ID="RON_PNL_RIP" String="Replacement in progress" />

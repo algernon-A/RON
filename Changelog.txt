@@ -1,5 +1,6 @@
 ﻿- Add support for monorails
 - Add support for power lines
+- Add support for Campus and Parklife area paths
 
 
 Version 0.4 -
