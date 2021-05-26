@@ -24,10 +24,13 @@
     <Translation ID="RON_PNL_RAI" String="Gleise - Ebenerdige" />
     <Translation ID="RON_PNL_RAB" String="Gleise - Erhöhte und Brücken" />
     <Translation ID="RON_PNL_RAT" String="Gleise - Tunnel" />
+    <Translation ID="RON_PNL_MOI" String="Schwebebahn" />
     <Translation ID="RON_PNL_PED" String="Wege - Ebenerdige" />
     <Translation ID="RON_PNL_PEB" String="Wege - Erhöhte und Brücken" />
     <Translation ID="RON_PNL_PET" String="Wege - Tunnel" />
+    <Translation ID="RON_PNL_PEA" String="Wege - Campus- und Parkflächen " />
     <Translation ID="RON_PNL_DEC" String="Dekorationen" />
+    <Translation ID="RON_PNL_ELI" String="Stromleitungen" />
     <Translation ID="RON_PNL_RIP" String="Austausch wird vorgenommen " />
     <Translation ID="RON_FIL_NAME" String="Suche:" />
     <Translation ID="TRN_CHOICE" String="Sprache einstellen" />
