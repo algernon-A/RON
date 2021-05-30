@@ -24,10 +24,13 @@
     <Translation ID="RON_PNL_RAI" String="Ж/д - только наземные" />
     <Translation ID="RON_PNL_RAB" String="Ж/д - эстакадные и мосты" />
     <Translation ID="RON_PNL_RAT" String="Ж/д - туннели" />
+    <Translation ID="RON_PNL_MOI" String="Монорельс" />
     <Translation ID="RON_PNL_PED" String="Пешеходные дороги - только наземные" />
     <Translation ID="RON_PNL_PEB" String="Пешеходные дороги - эстакадные и мосты" />
     <Translation ID="RON_PNL_PET" String="Пешеходные дороги - туннели" />
+    <Translation ID="RON_PNL_PEA" String="Пешеходные дороги - кампусы и парковые зоны" />
     <Translation ID="RON_PNL_DEC" String="Декорации" />
+    <Translation ID="RON_PNL_ELI" String="Линии электропередач" />
     <Translation ID="RON_PNL_RIP" String="Выполняется замена" />
     <Translation ID="RON_FIL_NAME" String="Поиск:" />
     <Translation ID="TRN_CHOICE" String="Установить язык" />
