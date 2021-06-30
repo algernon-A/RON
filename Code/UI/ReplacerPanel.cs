@@ -39,7 +39,7 @@ namespace RON
 
 		// Layout constants - Y.
 		private const float TitleHeight = 45f;
-		private const float ToolbarHeight = 75f;
+		private const float ToolbarHeight = 100f;
 		private const float ListHeight = 15 * UINetRow.RowHeight;
 		private const float PreviewHeight = 100f;
 		private const float ToolRow1Y = TitleHeight + Margin;
@@ -51,6 +51,7 @@ namespace RON
 		private const float PanelHeight = ListY + ListHeight + Margin;
 		private const float HideVanillaY = ToolRow1Y + 30f;
 		private const float SameWidthY = HideVanillaY + 20f;
+		private const float AdvancedY = SameWidthY + 20f;
 		private const float ReplacementSpriteY = ListY + (PreviewHeight * 2f);
 		private const float CheckY = ToolRow1Y + ((ReplaceButtonHeight - ToggleSpriteSize) / 2f);
 
@@ -137,7 +138,7 @@ namespace RON
 		private readonly UITextField nameFilter;
 		private readonly UIDropDown typeDropDown, searchTypeMenu;
 		private readonly UILabel replacingLabel, progressLabel;
-		private readonly UICheckBox sameWidthCheck, hideVanilla, globalCheck, districtCheck, segmentCheck;
+		private readonly UICheckBox sameWidthCheck, hideVanilla, advancedCheck, globalCheck, districtCheck, segmentCheck;
 		private readonly UISprite targetPreviewSprite, replacementPreviewSprite;
 
 		// Status.
@@ -155,7 +156,6 @@ namespace RON
 		public override void Update()
 		{
 			base.Update();
-
 
 			// Is a replacement underway?
 			if (replacing)
@@ -369,7 +369,7 @@ namespace RON
 					}
 				}
 			}
-			else
+			else if (selectedTarget != null && segmentDict != null)
 			{
 				// Global replacements - just use list from segment dictionary.
 				selectedSegments = segmentDict[selectedTarget];
@@ -515,6 +515,10 @@ namespace RON
 			sameWidthCheck = UIControls.AddCheckBox(this, FilterX, SameWidthY, Translations.Translate("RON_PNL_WID"));
 			sameWidthCheck.isChecked = true;
 			sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
+
+			// Advanced mode check.
+			advancedCheck = UIControls.AddCheckBox(this, FilterX, AdvancedY, Translations.Translate("RON_PNL_ADV"));
+			advancedCheck.eventCheckChanged += (control, isChecked) => LoadedList();
 
 			// Replacing label (starts hidden).
 			replacingLabel = UIControls.AddLabel(this, MiddlePanelX, ToolRow1Y, Translations.Translate("RON_PNL_RIP"), ReplaceWidth);
@@ -1026,8 +1030,8 @@ namespace RON
 						(searchTypeMenu.selectedIndex == (int)SearchTypes.SearchCreator && creator.ToLower().Contains(trimmedText.ToLower()))
 						)
 					{
-						// Apply network type filter.
-						if (MatchType(network))
+						// Apply network type filter or advanced mode, as applicable.
+						if (advancedCheck.isChecked || MatchType(network))
 						{
 							// Apply width filter.
 							if (sameWidthCheck.isChecked && selectedTarget != null)
