@@ -1,6 +1,8 @@
-﻿using ColossalFramework;
+﻿using System.IO;
+using ColossalFramework;
 using ColossalFramework.UI;
 using UnityEngine;
+using UnifiedUI.Helpers;
 
 
 namespace RON
@@ -14,6 +16,13 @@ namespace RON
 		private CursorInfo lightCursor;
 		private CursorInfo darkCursor;
 
+		// Previous tool references.
+		private static ToolBase previousTool;
+
+		// UUI hotkey - currently not working.
+		public static SavedInputKey Hotkey = new SavedInputKey("RON", "RON",
+					key: KeyCode.T, control: true, shift: true, alt: true, true);
+
 
 		public enum Mode
 		{
@@ -22,10 +31,57 @@ namespace RON
 			Building,
 			PropOrTree
 		}
+
+
 		/// <summary>
 		/// Instance reference.
 		/// </summary>
 		public static RONTool Instance => ToolsModifierControl.toolController?.gameObject?.GetComponent<RONTool>();
+
+
+		/// <summary>
+		/// Call to activate the RON tool; also activates the replacer panel.
+		/// </summary>
+		public static void ActivateRON()
+		{
+			// Display panel.
+			ReplacerPanel.Create();
+
+			// If the RON tool isn't already set, set it after recording the currently used tool.
+			if (ToolsModifierControl.toolController.CurrentTool != Instance)
+			{
+				previousTool = ToolsModifierControl.toolController.CurrentTool;
+				ToolsModifierControl.toolController.CurrentTool = Instance;
+			}
+		}
+
+
+		/// <summary>
+		/// Call to deactivate the RON tool; also closes the replacer panel.
+		/// </summary>
+		public static void DeactivateRON()
+		{
+			// Close panel.
+			ReplacerPanel.Close();
+
+			// If the RON tool is active, restore the previous tool (or default tool if no previous tool recorded).
+			if (ToolsModifierControl.toolController.CurrentTool == Instance)
+			{
+				if (previousTool != null)
+				{
+					// Restore previous tool.
+					ToolsModifierControl.toolController.CurrentTool = previousTool;
+				}
+				else
+				{
+					// Restore default tool.
+					ToolsModifierControl.toolController.CurrentTool = ToolsModifierControl.toolController?.gameObject?.GetComponent<DefaultTool>();
+				}
+			}
+
+			// Clear previous tool reference now that we've used it.
+			previousTool = null;
+		}
 
 
 		/// <summary>
@@ -35,9 +91,22 @@ namespace RON
 		protected override void Awake()
 		{
 			base.Awake();
+
+			// Set cursors.
 			lightCursor = TextureUtils.LoadCursor("ron_cursor_light.png");
 			darkCursor = TextureUtils.LoadCursor("ron_cursor_dark.png");
 			m_cursor = darkCursor;
+
+
+			// Register UUI button.
+			UUIHelpers.RegisterToolButton(
+				name: "RON",
+				groupName: null, // default group
+				tooltip: Translations.Translate("RON_NAM"),
+				spritefile: Path.Combine(Path.Combine(ModUtils.GetAssemblyPath(), "Resources"), "RonButton.png"),
+				tool: this,
+				activationKey: Hotkey
+				);
 		}
 
 		// Ignore nodes, citizens, disasters, districts, transport lines, and vehicles.
@@ -240,5 +309,35 @@ namespace RON
 				}
 			}
 		}
-    }
+
+
+		/// <summary>
+		/// Called by Unity when the tool is enabled.
+		/// </summary>
+		protected override void OnEnable()
+		{
+			base.OnEnable();
+
+			// Open replacer panel if it isn't already.
+			if (ReplacerPanel.Panel == null)
+			{
+				ReplacerPanel.Create();
+			}
+		}
+
+
+		/// <summary>
+		/// Called by Unity when the tool is disabled.
+		/// </summary>
+		protected override void OnDisable()
+		{
+			base.OnDisable();
+
+			// Open replacer panel if it isn't already.
+			if (ReplacerPanel.Panel != null)
+			{
+				ReplacerPanel.Close();
+			}
+		}
+	}
 }

@@ -114,7 +114,6 @@ namespace RON
 		// Instance references.
 		private static GameObject uiGameObject;
 		private static ReplacerPanel panel;
-		private static ToolBase previousTool;
 		internal static ReplacerPanel Panel => panel;
 
 		// Current selections.
@@ -287,7 +286,7 @@ namespace RON
 			}
 
 			// Restore previous tool.
-			ToolsModifierControl.toolController.CurrentTool = previousTool;
+			//ToolsModifierControl.toolController.CurrentTool = previousTool;
 
 			// Destroy game objects.
 			GameObject.Destroy(panel);
@@ -474,7 +473,7 @@ namespace RON
 			targetCreatorButton.eventClicked += SortTargets;
 			loadedNameButton.eventClicked += SortLoaded;
 			loadedCreatorButton.eventClicked += SortLoaded;
-			
+
 			// Default is name ascending.
 			SetFgSprites(targetNameButton, "IconUpArrow2Focused");
 			SetFgSprites(loadedNameButton, "IconUpArrow2Focused");
@@ -555,10 +554,6 @@ namespace RON
 
 			// Populate parent dictionaries.
 			PrefabUtils.GetParents(slopeParents, elevatedParents, bridgeParents, tunnelParents);
-
-			// Activate RON tool.
-			previousTool = ToolsModifierControl.toolController.CurrentTool;
-			ToolsModifierControl.toolController.CurrentTool = RONTool.Instance;
 		}
 
 
