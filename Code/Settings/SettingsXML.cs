@@ -38,6 +38,15 @@ namespace RON
 				UIThreading.hotAlt = value.alt;
 			}
 		}
+
+		// Advanced mode.
+		[XmlElement("AdvancedMode")]
+		public bool AdvancedMode
+        {
+			get => ModSettings.enableAdvanced;
+
+			set => ModSettings.enableAdvanced = value;
+        }
 	}
 
 

@@ -38,6 +38,9 @@ namespace RON
 
             // Hotkey control.
             languageDropDown.parent.parent.gameObject.AddComponent<OptionsKeymapping>();
+
+            // Enable advanced mode.
+            helper.AddCheckbox(Translations.Translate("RON_OPT_ADV"), ModSettings.enableAdvanced, (value) => { ModSettings.enableAdvanced = value; SettingsUtils.SaveSettings(); });
         }
     }
 }

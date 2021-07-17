@@ -516,8 +516,11 @@ namespace RON
 			sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
 
 			// Advanced mode check.
-			advancedCheck = UIControls.AddCheckBox(this, FilterX, AdvancedY, Translations.Translate("RON_PNL_ADV"));
-			advancedCheck.eventCheckChanged += (control, isChecked) => LoadedList();
+			if (ModSettings.enableAdvanced)
+			{
+				advancedCheck = UIControls.AddCheckBox(this, FilterX, AdvancedY, Translations.Translate("RON_PNL_ADV"));
+				advancedCheck.eventCheckChanged += (control, isChecked) => LoadedList();
+			}
 
 			// Replacing label (starts hidden).
 			replacingLabel = UIControls.AddLabel(this, MiddlePanelX, ToolRow1Y, Translations.Translate("RON_PNL_RIP"), ReplaceWidth);
@@ -1026,7 +1029,7 @@ namespace RON
 						)
 					{
 						// Apply network type filter or advanced mode, as applicable.
-						if (advancedCheck.isChecked || MatchType(network))
+						if ((advancedCheck != null && advancedCheck.isChecked) || MatchType(network))
 						{
 							// Apply width filter.
 							if (sameWidthCheck.isChecked && selectedTarget != null)

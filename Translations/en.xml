@@ -17,7 +17,7 @@
     <Translation ID="RON_PNL_SEG" String="Replace individual segment" />
     <Translation ID="RON_PNL_HDV" String="Hide vanilla and NExt" />
     <Translation ID="RON_PNL_WID" String="Same width only" />
-    <Translation ID="RON_PNL_ADV" String="Show all network types" />
+    <Translation ID="RON_PNL_ADV" String="Show all network types (ADVANCED)" />
     <Translation ID="RON_PNL_TYP" String="Network type" />
     <Translation ID="RON_PNL_ROA" String="Roads - surface only" />
     <Translation ID="RON_PNL_ROB" String="Roads - elevated and bridge" />
@@ -34,6 +34,7 @@
     <Translation ID="RON_PNL_ELI" String="Power lines" />
     <Translation ID="RON_PNL_RIP" String="Replacement in progress" />
     <Translation ID="RON_FIL_NAME" String="Search:" />
+    <Translation ID="RON_OPT_ADV" String="Enable advanced mode (enables replacement with different network types)" />
     <Translation ID="TRN_CHOICE" String="Set language" />
     <Translation ID="TRN_SYS" String="Use game language" />
     <Translation ID="KEY_KEY" String="Hotkey" />

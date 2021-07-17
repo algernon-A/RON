@@ -1,4 +1,8 @@
-﻿Version 0.5 -
+﻿- Add 'advanced mode' to allow replacement with different network types
+- Add UUI button
+
+
+Version 0.5 -
 
 - Add support for monorails
 - Add support for power lines
