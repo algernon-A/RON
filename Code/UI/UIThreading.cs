@@ -49,13 +49,13 @@ namespace RON
                         // Is a replacer panel already open?
                         if (ReplacerPanel.Panel == null)
                         {
-                            // No - activate RON.
-                            RONTool.ActivateRON();
+                            // No - open it.
+                            ReplacerPanel.Create();
                         }
                         else
                         {
-                            // Yes - deactivate RON.
-                            RONTool.DeactivateRON();
+                            // Yes - close it.
+                            ReplacerPanel.Close();
                         }
                     }
                 }
