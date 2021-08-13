@@ -17,6 +17,7 @@
     <Translation ID="RON_PNL_SEG" String="Ersetze das einzelne Segment" />
     <Translation ID="RON_PNL_HDV" String="Vanilla und NExt ausblenden" />
     <Translation ID="RON_PNL_WID" String="Nur mit gleicher Breite" />
+    <Translation ID="RON_PNL_ADV" String="Zeige alle Netzwerk-Arten (Profi-Modus)" />
     <Translation ID="RON_PNL_TYP" String="Netzwerk-Typ" />
     <Translation ID="RON_PNL_ROA" String="Straßen - Ebenerdige" />
     <Translation ID="RON_PNL_ROB" String="Straßen - Erhöhte und Brücken" />
@@ -33,6 +34,7 @@
     <Translation ID="RON_PNL_ELI" String="Stromleitungen" />
     <Translation ID="RON_PNL_RIP" String="Austausch wird vorgenommen " />
     <Translation ID="RON_FIL_NAME" String="Suche:" />
+    <Translation ID="RON_OPT_ADV" String="Schalte den Profi-Modus ein (ermöglicht den Austausch mit anderen Netzwerk-Arten)" />
     <Translation ID="TRN_CHOICE" String="Sprache einstellen" />
     <Translation ID="TRN_SYS" String="erwende die Spiel-Sprache" />
     <Translation ID="KEY_KEY" String="Tastenkürzel" />

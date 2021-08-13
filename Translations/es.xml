@@ -17,6 +17,7 @@
     <Translation ID="RON_PNL_SEG" String="Reemplazar segmento individual" />
     <Translation ID="RON_PNL_HDV" String="Oculta vainilla y NExt" />
     <Translation ID="RON_PNL_WID" String="Solamente mismo ancho "/>
+    <Translation ID="RON_PNL_ADV" String="Mostrar todos los tipos de redes (AVANZADO)" />
     <Translation ID="RON_PNL_TYP" String="Tipo de red" />
     <Translation ID="RON_PNL_ROA" String="Carreteras - solo superficie" />
     <Translation ID="RON_PNL_ROB" String="Carreteras - elevadas y puente" />
@@ -24,12 +25,16 @@
     <Translation ID="RON_PNL_RAI" String="Ferrocarril - solo superficie" />
     <Translation ID="RON_PNL_RAB" String="Ferrocarril - elevadas y puente" />
     <Translation ID="RON_PNL_RAT" String="Ferrocarril - túneles" />
+    <Translation ID="RON_PNL_MOI" String="Monorail" />
     <Translation ID="RON_PNL_PED" String="Senderos - solo superficie" />
     <Translation ID="RON_PNL_PEB" String="Senderos - elevadas y puente" />
     <Translation ID="RON_PNL_PET" String="Senderos - túneles" />
+    <Translation ID="RON_PNL_PEA" String="Paths - campus and park areas" />
     <Translation ID="RON_PNL_DEC" String="Decoración" />
+    <Translation ID="RON_PNL_ELI" String="Power lines" />
     <Translation ID="RON_PNL_RIP" String="Reemplazo en progreso" />
     <Translation ID="RON_FIL_NAME" String="Búsqueda:" />
+    <Translation ID="RON_OPT_ADV" String="Activar el modo avanzado (se permite el reemplazo con diferentes tipos de redes)" />
     <Translation ID="TRN_CHOICE" String="Elegir idioma" />
     <Translation ID="TRN_SYS" String="Usa el idioma del juego" />
     <Translation ID="KEY_KEY" String="Tecla de acceso rápido" />
