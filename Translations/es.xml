@@ -25,13 +25,13 @@
     <Translation ID="RON_PNL_RAI" String="Ferrocarril - solo superficie" />
     <Translation ID="RON_PNL_RAB" String="Ferrocarril - elevadas y puente" />
     <Translation ID="RON_PNL_RAT" String="Ferrocarril - túneles" />
-    <Translation ID="RON_PNL_MOI" String="Monorail" />
+    <Translation ID="RON_PNL_MOI" String="Monorraíl" />
     <Translation ID="RON_PNL_PED" String="Senderos - solo superficie" />
     <Translation ID="RON_PNL_PEB" String="Senderos - elevadas y puente" />
     <Translation ID="RON_PNL_PET" String="Senderos - túneles" />
-    <Translation ID="RON_PNL_PEA" String="Paths - campus and park areas" />
+    <Translation ID="RON_PNL_PEA" String="Senderos: áreas del campus y parque" />
     <Translation ID="RON_PNL_DEC" String="Decoración" />
-    <Translation ID="RON_PNL_ELI" String="Power lines" />
+    <Translation ID="RON_PNL_ELI" String="Líneas de alta tensión" />
     <Translation ID="RON_PNL_RIP" String="Reemplazo en progreso" />
     <Translation ID="RON_FIL_NAME" String="Búsqueda:" />
     <Translation ID="RON_OPT_ADV" String="Activar el modo avanzado (se permite el reemplazo con diferentes tipos de redes)" />

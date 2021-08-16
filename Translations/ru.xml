@@ -20,18 +20,18 @@
     <Translation ID="RON_PNL_ADV" String="Показать все типы путей (РАСШИРЕННЫЙ)" />
     <Translation ID="RON_PNL_TYP" String="Тип дороги" />
     <Translation ID="RON_PNL_ROA" String="Дороги - только наземные" />
-    <Translation ID="RON_PNL_ROB" String="Дороги - эстакадные и мосты" />
+    <Translation ID="RON_PNL_ROB" String="Дороги - эстакады и мосты" />
     <Translation ID="RON_PNL_ROT" String="Дороги - туннели" />
     <Translation ID="RON_PNL_RAI" String="Ж/д - только наземные" />
-    <Translation ID="RON_PNL_RAB" String="Ж/д - эстакадные и мосты" />
+    <Translation ID="RON_PNL_RAB" String="Ж/д - эстакады и мосты" />
     <Translation ID="RON_PNL_RAT" String="Ж/д - туннели" />
     <Translation ID="RON_PNL_MOI" String="Монорельс" />
     <Translation ID="RON_PNL_PED" String="Пешеходные дороги - только наземные" />
-    <Translation ID="RON_PNL_PEB" String="Пешеходные дороги - эстакадные и мосты" />
+    <Translation ID="RON_PNL_PEB" String="Пешеходные дороги - эстакады и мосты" />
     <Translation ID="RON_PNL_PET" String="Пешеходные дороги - туннели" />
     <Translation ID="RON_PNL_PEA" String="Пешеходные дороги - кампусы и парковые зоны" />
     <Translation ID="RON_PNL_DEC" String="Декорации" />
-    <Translation ID="RON_PNL_ELI" String="Линии электропередач" />
+    <Translation ID="RON_PNL_ELI" String="Линии электропередачи" />
     <Translation ID="RON_PNL_RIP" String="Выполняется замена" />
     <Translation ID="RON_FIL_NAME" String="Поиск:" />
     <Translation ID="RON_OPT_ADV" String="Включить расширенный режим (позволяет заменять на другие типы путей)" />
