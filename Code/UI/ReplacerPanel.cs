@@ -75,7 +75,7 @@ namespace RON
 		private const float NextX = LeftWidth + Margin - ButtonWidth;
 
 		// Nework type list.
-		private const int NumTypes = 13;
+		private const int NumTypes = 14;
 		private readonly string[] netDescriptions = new string[NumTypes]
 		{
 			Translations.Translate("RON_PNL_ROA"),
@@ -90,7 +90,8 @@ namespace RON
 			Translations.Translate("RON_PNL_PET"),
 			Translations.Translate("RON_PNL_DEC"),
 			Translations.Translate("RON_PNL_ELI"),
-			Translations.Translate("RON_PNL_PEA")
+			Translations.Translate("RON_PNL_PEA"),
+			Translations.Translate("RON_PNL_QUA")
 		};
 
 		private readonly Type[] netTypes = new Type[NumTypes]
@@ -107,7 +108,8 @@ namespace RON
 			typeof(PedestrianTunnelAI),
 			typeof(DecorationWallAI),
 			typeof(PowerLineAI),
-			typeof(PedestrianWayAI)
+			typeof(PedestrianWayAI),
+			typeof(QuayAI)
 		};
 
 
