@@ -32,6 +32,7 @@
     <Translation ID="RON_PNL_PEA" String="Wege - Campus- und Parkflächen " />
     <Translation ID="RON_PNL_DEC" String="Dekorationen" />
     <Translation ID="RON_PNL_ELI" String="Stromleitungen" />
+    <Translation ID="RON_PNL_QUA" String="Kaimauern" />
     <Translation ID="RON_PNL_RIP" String="Austausch wird vorgenommen " />
     <Translation ID="RON_FIL_NAME" String="Suche:" />
     <Translation ID="RON_OPT_ADV" String="Schalte den Profi-Modus ein (ermöglicht den Austausch mit anderen Netzwerk-Arten)" />
