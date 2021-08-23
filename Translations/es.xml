@@ -32,6 +32,7 @@
     <Translation ID="RON_PNL_PEA" String="Senderos: áreas del campus y parque" />
     <Translation ID="RON_PNL_DEC" String="Decoración" />
     <Translation ID="RON_PNL_ELI" String="Líneas de alta tensión" />
+    <Translation ID="RON_PNL_QUA" String="Muelles" />
     <Translation ID="RON_PNL_RIP" String="Reemplazo en progreso" />
     <Translation ID="RON_FIL_NAME" String="Búsqueda:" />
     <Translation ID="RON_OPT_ADV" String="Activar el modo avanzado (se permite el reemplazo con diferentes tipos de redes)" />
