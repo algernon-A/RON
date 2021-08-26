@@ -1,4 +1,10 @@
-﻿Version 0.6 -
+﻿Version 0.6.1 -
+
+- Add support for quays
+- Add support for canals
+
+
+Version 0.6 -
 
 - Add 'advanced mode' to allow replacement with different network types
 - Add UUI button
