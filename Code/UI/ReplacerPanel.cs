@@ -75,7 +75,7 @@ namespace RON
 		private const float NextX = LeftWidth + Margin - ButtonWidth;
 
 		// Nework type list.
-		private const int NumTypes = 15;
+		private const int NumTypes = 16;
 		private readonly string[] netDescriptions = new string[NumTypes]
 		{
 			Translations.Translate("RON_PNL_ROA"),
@@ -92,9 +92,11 @@ namespace RON
 			Translations.Translate("RON_PNL_ELI"),
 			Translations.Translate("RON_PNL_PEA"),
 			Translations.Translate("RON_PNL_QUA"),
-			Translations.Translate("RON_PNL_CAN")
+			Translations.Translate("RON_PNL_CAN"),
+			Translations.Translate("RON_PNL_PIP")
 		};
 
+		// AI type for each network type.
 		private readonly Type[] netTypes = new Type[NumTypes]
 		{
 			typeof(RoadAI),
@@ -111,7 +113,50 @@ namespace RON
 			typeof(PowerLineAI),
 			typeof(PedestrianWayAI),
 			typeof(QuayAI),
-			typeof(CanalAI)
+			typeof(CanalAI),
+			typeof(WaterPipeAI)
+		};
+
+		// InfoManager view modes for each network type.
+		private readonly InfoManager.InfoMode[] netInfoModes = new InfoManager.InfoMode[NumTypes]
+		{
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.Underground, // RoadTunnelAI
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.Underground, // TrainTrackTunnelAI
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.Underground, // PedestrianTunnelAI
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.Water // WaterPipeAI
+		};
+
+		// InfoManager view submodes for each network type.
+		private readonly InfoManager.SubInfoMode[] netSubInfoModes = new InfoManager.SubInfoMode[NumTypes]
+		{
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.MaintenanceDepots, // Per game implementation.
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.MaintenanceDepots, // Per game implementation.
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.MaintenanceDepots, // Per game implementation.
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.Oil		// Yes, that's right - follows game implementation ('Water' also shows surface water)
 		};
 
 
@@ -627,6 +672,9 @@ namespace RON
 			// Rebuild target and replacement lists.
 			TargetList();
 			LoadedList();
+
+			// Set info view mode.
+			Singleton<InfoManager>.instance.SetCurrentMode(netInfoModes[index], netSubInfoModes[index]);
 		}
 
 
