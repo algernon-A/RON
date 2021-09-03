@@ -2,6 +2,7 @@
 
 - Add support for quays
 - Add support for canals
+- Add support for pipes
 
 
 Version 0.6 -
