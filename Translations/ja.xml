@@ -34,12 +34,13 @@
     <Translation ID="RON_PNL_ELI" String="送電線"/>
     <Translation ID="RON_PNL_QUA" String="護岸・岸壁"/>
     <Translation ID="RON_PNL_CAN" String="水路・運河"/>
+    <Translation ID="RON_PNL_PIP" String="水道管"/>
     <Translation ID="RON_PNL_RIP" String="置換中"/>
     <Translation ID="RON_FIL_NAME" String="検索:"/>
     <Translation ID="RON_OPT_ADV" String="Advanced Modeを有効 (異なるネットワークに置換が可能)"/>
     <Translation ID="TRN_CHOICE" String="言語設定"/>
     <Translation ID="TRN_SYS" String="ゲームの言語を使用"/>
     <Translation ID="KEY_KEY" String="ホットキー"/>
-    <Translation ID="KEY_PRS" String="任意のキーを押してください"/>
+    <Translation ID="KEY_PRS" String="何かキーを押してください"/>
   </Translations>
 </Language>
