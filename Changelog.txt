@@ -1,8 +1,13 @@
-﻿Version 0.6.1 -
+﻿Version 0.6.2 -
+
+- Add support for pipes
+- Automatically change view mode (surface/underground tunnel/underground pipes) based on current network type selection
+
+
+Version 0.6.1 -
 
 - Add support for quays
 - Add support for canals
-- Add support for pipes
 
 
 Version 0.6 -
