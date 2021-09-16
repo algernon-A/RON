@@ -59,6 +59,9 @@ namespace RON
 
             // Enable advanced mode.
             helper.AddCheckbox(Translations.Translate("RON_OPT_ADV"), ModSettings.enableAdvanced, (value) => { ModSettings.enableAdvanced = value; SettingsUtils.SaveSettings(); });
+
+            // Auto-replace NExt2 roads.
+            helper.AddCheckbox(Translations.Translate("RON_OPT_NEX"), ModSettings.replaceNExt2, (value) => { ModSettings.replaceNExt2 = value; SettingsUtils.SaveSettings(); });
         }
     }
 }

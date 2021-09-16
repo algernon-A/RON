@@ -22,39 +22,43 @@ namespace RON
 		/// <returns>False (don't execute original method) if a replacement was found, true (continue on to original method) otherwise</returns>
 		public static bool Prefix(ref string __result, string name)
 		{
-			// Ensure that we're only looking for networks.
-			if (!new StackTrace().GetFrame(2).GetMethod().DeclaringType.ToString().Contains("[NetInfo]"))
+			// Don't do anything without being enabled.
+			if (ModSettings.replaceNExt2)
 			{
-				// Not a network - continue on to original method.
-				return true;
+				// Ensure that we're only looking for networks.
+				if (!new StackTrace().GetFrame(2).GetMethod().DeclaringType.ToString().Contains("[NetInfo]"))
+				{
+					// Not a network - continue on to original method.
+					return true;
+				}
+
+				// If we haven't attempted to read the auto replace file already, do so.
+				if (!attemptedRead)
+				{
+					// Load configuration file and set flag to indicate attempt.
+					autoReplaceXML = AutoReplaceXML.LoadSettings();
+					attemptedRead = true;
+				}
+
+				// Did we sucessfully read the auto replace file?
+				if (autoReplaceXML != null)
+				{
+					// Yes - iterate through replacements looking for name match.
+					foreach (ReplaceEntry entry in autoReplaceXML.AutoReplacements)
+					{
+						if (entry.targetName.Equals(name))
+						{
+							// Found a target name match; replace.
+							__result = entry.replacementName;
+
+							Logging.Message("replacing prefab ", name, " with ", __result);
+
+							// Don't execute original method.
+							return false;
+						}
+					}
+				}
 			}
-
-			// If we haven't attempted to read the auto replace file already, do so.
-			if (!attemptedRead )
-            {
-				// Load configuration file and set flag to indicate attempt.
-				autoReplaceXML = AutoReplaceXML.LoadSettings();
-				attemptedRead = true;
-            }
-
-			// Did we sucessfully read the auto replace file?
-			if (autoReplaceXML != null)
-            {
-				// Yes - iterate through replacements looking for name match.
-				foreach (ReplaceEntry entry in autoReplaceXML.AutoReplacements)
-                {
-					if (entry.targetName.Equals(name))
-                    {
-						// Found a target name match; replace.
-						__result = entry.replacementName;
-
-						Logging.Message("replacing prefab ", name, " with ", __result);
-
-						// Don't execute original method.
-						return false;
-                    }
-                }
-            }
 
 			// If we got here, no substitution was performed; continue on to original method.
 			return true;

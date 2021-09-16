@@ -38,6 +38,7 @@
     <Translation ID="RON_PNL_RIP" String="Replacement in progress" />
     <Translation ID="RON_FIL_NAME" String="Search:" />
     <Translation ID="RON_OPT_ADV" String="Enable advanced mode (enables replacement with different network types)" />
+    <Translation ID="RON_OPT_NEX" String="Auto-replace Network Extension 2 roads on load" />
     <Translation ID="TRN_CHOICE" String="Set language" />
     <Translation ID="TRN_SYS" String="Use game language" />
     <Translation ID="KEY_KEY" String="Hotkey" />

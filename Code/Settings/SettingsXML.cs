@@ -46,7 +46,17 @@ namespace RON
 			get => ModSettings.enableAdvanced;
 
 			set => ModSettings.enableAdvanced = value;
-        }
+		}
+
+
+		// Advanced mode.
+		[XmlElement("ReplaceNExt2")]
+		public bool ReplaceNExt2
+		{
+			get => ModSettings.replaceNExt2;
+
+			set => ModSettings.replaceNExt2 = value;
+		}
 	}
 
 
