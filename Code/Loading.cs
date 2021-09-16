@@ -3,6 +3,9 @@
 
 namespace RON
 {
+    /// <summary>
+    /// Main loading class: the mod runs from here.
+    /// </summary>
     public class Loading : LoadingExtensionBase
     {
         /// <summary>
@@ -19,6 +22,9 @@ namespace RON
 
             // Initialise select tool.
             ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
+
+            // Record list of loaded networks.
+            //AutoReplaceXML.SaveFile();
         }
     }
 }

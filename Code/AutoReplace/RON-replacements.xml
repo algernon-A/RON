@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RONAutoReplace xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <autoreplace>
+    <replace type="RoadAI" target="Zonable Pedestrian Gravel Tiny" replacement="2576527216.Zonable Pedestrian Gravel Road_Data" filename="NPG.crp" />
+    <replace type="RoadBridgeAI" target="Zonable Pedestrian Gravel Tiny Elevated" replacement="2576527216.Zonable Pedestrian Gravel Road Elevated0" filename="NPG.crp" />
+    <replace type="RoadAI" target="Zonable Pedestrian Boardwalk Tiny" replacement="2576526949.Zonable Pedestrian Boardwalk_Data" filename="NPB.crp" />
+    <replace type="RoadBridgeAI" target="Zonable Pedestrian Boardwalk Tiny Elevated" replacement="2576526949.Zonable Pedestrian Boardwalk Elevated1" filename="NPB.crp" />
+    <replace type="RoadAI" target="Zonable Pedestrian Gravel" replacement="2576527216.Zonable Pedestrian Gravel Road_Data" filename="NPG.crp" />
+    <replace type="RoadBridgeAI" target="Zonable Pedestrian Gravel Elevated" replacement="2576527216.Zonable Pedestrian Gravel Road Elevated0" filename="NPG.crp" />
+    <replace type="RoadAI" target="Zonable Pedestrian Pavement Tiny" replacement="2576527859.Zonable Pedestrian Paved Road_Data" filename="NPP.crp" />
+    <replace type="RoadBridgeAI" target="Zonable Pedestrian Pavement Tiny Elevated" replacement="2576527859.Zonable Pedestrian Paved Road Elevated0" filename="NPP.crp" />
+    <replace type="RoadAI" target="Zonable Pedestrian Pavement" replacement="2576527859.Zonable Pedestrian Paved Road_Data" filename="NPP.crp" />
+    <replace type="RoadBridgeAI" target="Zonable Pedestrian Elevated" replacement="2576527859.Zonable Pedestrian Paved Road Elevated0" filename="NPP.crp" />
+    <replace type="RoadAI" target="Zonable Pedestrian Stone Tiny Road" replacement="2576528620.Zonable Pedestrian Stone Road_Data" filename="NPS.crp" />
+    <replace type="RoadBridgeAI" target="Zonable Pedestrian Stone Tiny Road Elevated" replacement="2576528620.Zonable Pedestrian Stone Road Elevated0" filename="NPS.crp" />
+    <replace type="RoadBridgeAI" target="Zonable Pedestrian Stone Tiny Road Bridge" replacement="2576528620.Zonable Pedestrian Stone Road Elevated0" filename="NPS.crp" />
+    <replace type="RoadAI" target="Zonable Promenade" replacement="2576528203.Zonable Pedestrian Promenade_Data" filename="NPPR.crp" />
+    <replace type="RoadBridgeAI" target="Zonable Promenade Elevated" replacement="2576528203.Zonable Pedestrian Promenade Elevated0" filename="NPPR.crp" />
+    <replace type="RoadAI" target="BasicRoadMdn Decoration Grass" replacement="2555135939.Basic Road with Grass Median_Data" filename="NS2L2WMG.crp" />
+    <replace type="RoadBridgeAI" target="BasicRoadMdn Elevated" replacement="2555135939.Basic Road with Grass Median Elevated0" filename="NS2L2WMG.crp" />
+    <replace type="RoadBridgeAI" target="BasicRoadMdn Bridge" replacement="2555135939.Basic Road with Grass Median Bridge0" filename="NS2L2WMG.crp" />
+    <replace type="RoadTunnelAI" target="BasicRoadMdn Slope" replacement="2555135939.Basic Road with Grass Median Slope0" filename="NS2L2WMG.crp" />
+    <replace type="RoadTunnelAI" target="BasicRoadMdn Tunnel" replacement="2555135939.Basic Road with Grass Median Tunnel0" filename="NS2L2WMG.crp" />
+    <replace type="RoadAI" target="BasicRoadMdn Decoration Trees" replacement="2555133659.Basic Road w Grass Med and Trees_Data" filename="NS2L2WMT.crp" />
+    <replace type="RoadBridgeAI" target="BasicRoadMdn Elevated" replacement="2555133659.Basic Road w Grass Med and Trees Elevated0" filename="NS2L2WMT.crp" />
+    <replace type="RoadBridgeAI" target="BasicRoadMdn Bridge" replacement="2555133659.Basic Road w Grass Med and Trees Bridge0" filename="NS2L2WMT.crp" />
+    <replace type="RoadTunnelAI" target="BasicRoadMdn Slope" replacement="2555133659.Basic Road w Grass Med and Trees Slope0" filename="NS2L2WMT.crp" />
+    <replace type="RoadTunnelAI" target="BasicRoadMdn Tunnel" replacement="2555133659.Basic Road w Grass Med and Trees Tunnel0" filename="NS2L2WMT.crp" />
+    <replace type="RoadAI" target="BasicRoadMdn" replacement="2555137185.Basic Road with Median_Data" filename="NS2L2WM.crp" />
+    <replace type="RoadBridgeAI" target="BasicRoadMdn Elevated" replacement="2555137185.Basic Road with Median Elevated0" filename="NS2L2WM.crp" />
+    <replace type="RoadBridgeAI" target="BasicRoadMdn Bridge" replacement="2555137185.Basic Road with Median Bridge0" filename="NS2L2WM.crp" />
+    <replace type="RoadTunnelAI" target="BasicRoadMdn Slope" replacement="2555137185.Basic Road with Median Slope0" filename="NS2L2WM.crp" />
+    <replace type="RoadTunnelAI" target="BasicRoadMdn Tunnel" replacement="2555137185.Basic Road with Median Tunnel0" filename="NS2L2WM.crp" />
+    <replace type="RoadAI" target="BasicRoadPntMdn" replacement="2555138288.Basic Road with Painted Median_Data" filename="NS2L2WMP.crp" />
+    <replace type="RoadBridgeAI" target="BasicRoadPntMdn Elevated" replacement="2555138288.Basic Road with Painted Median Elevated0" filename="NS2L2WMP.crp" />
+    <replace type="RoadBridgeAI" target="BasicRoadPntMdn Bridge" replacement="2555138288.Basic Road with Painted Median Bridge0" filename="NS2L2WMP.crp" />
+    <replace type="RoadTunnelAI" target="BasicRoadPntMdn Slope" replacement="2555138288.Basic Road with Painted Median Slope0" filename="NS2L2WMP.crp" />
+    <replace type="RoadTunnelAI" target="BasicRoadPntMdn Tunnel" replacement="2555138288.Basic Road with Painted Median Tunnel0" filename="NS2L2WMP.crp" />
+    <replace type="RoadAI" target="BasicRoadTL" replacement="2584874917.Basic Road with Turning Lane_Data" filename="NSH3L2WT.crp" />
+    <replace type="RoadBridgeAI" target="BasicRoadTL Elevated" replacement="2584874917.Basic Road with Turning Lane Elevated0" filename="NSH3L2WT.crp" />
+    <replace type="RoadBridgeAI" target="BasicRoadTL Bridge" replacement="2584874917.Basic Road with Turning Lane Bridge0" filename="NSH3L2WT.crp" />
+    <replace type="RoadTunnelAI" target="BasicRoadTL Slope" replacement="2584874917.Basic Road with Turning Lane Slope0" filename="NSH3L2WT.crp" />
+    <replace type="RoadTunnelAI" target="BasicRoadTL Tunnel" replacement="2584874917.Basic Road with Turning Lane Tunnel0" filename="NSH3L2WT.crp" />
+    <replace type="RoadAI" target="Small Busway" replacement="2486222368.Busway_Data" filename="NB2L2W.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway Elevated" replacement="2486222368.Busway Elevated0" filename="NB2L2W.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway Bridge" replacement="2486222368.Busway Bridge0" filename="NB2L2W.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway Slope" replacement="2486222368.Busway Slope0" filename="NB2L2W.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway Tunnel" replacement="2486222368.Busway Tunnel0" filename="NB2L2W.crp" />
+    <replace type="RoadAI" target="Small Busway Decoration Grass" replacement="2486223323.Busway with Grass_Data" filename="NB2L2WG.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway Elevated" replacement="2486223323.Busway Elevated1" filename="NB2L2WG.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway Bridge" replacement="2486223323.Busway Bridge1" filename="NB2L2WG.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway Slope" replacement="2486223323.Busway Slope1" filename="NB2L2WG.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway Tunnel" replacement="2486223323.Busway Tunnel1" filename="NB2L2WG.crp" />
+    <replace type="RoadAI" target="Small Busway Decoration Trees" replacement="2486224264.Busway with Trees_Data" filename="NB2L2WT.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway Elevated" replacement="2486224264.Busway Elevated0" filename="NB2L2WT.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway Bridge" replacement="2486224264.Busway Bridge0" filename="NB2L2WT.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway Slope" replacement="2486224264.Busway Slope0" filename="NB2L2WT.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway Tunnel" replacement="2486224264.Busway Tunnel0" filename="NB2L2WT.crp" />
+    <replace type="RoadAI" target="Small Busway OneWay" replacement="2486228489.Oneway Busway_Data" filename="NB2L1W.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway OneWay Elevated" replacement="2486228489.Oneway Busway Elevated0" filename="NB2L1W.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway OneWay Bridge" replacement="2486228489.Oneway Busway Bridge0" filename="NB2L1W.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway OneWay Slope" replacement="2486228489.Oneway Busway Slope0" filename="NB2L1W.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway OneWay Tunnel" replacement="2486228489.Oneway Busway Tunnel0" filename="NB2L1W.crp" />
+    <replace type="RoadAI" target="Small Busway OneWay Decoration Grass" replacement="2486229244.Oneway Busway with Grass_Data" filename="NB2L1WG.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway OneWay Elevated" replacement="2486229244.Oneway Busway Elevated0" filename="NB2L1WG.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway OneWay Bridge" replacement="2486229244.Oneway Busway Bridge0" filename="NB2L1WG.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway OneWay Slope" replacement="2486229244.Oneway Busway Slope0" filename="NB2L1WG.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway OneWay Tunnel" replacement="2486229244.Oneway Busway Tunnel0" filename="NB2L1WG.crp" />
+    <replace type="RoadAI" target="Small Busway OneWay Decoration Trees" replacement="2486230011.Oneway Busway with Trees_Data" filename="NB2L1WT.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway OneWay Elevated" replacement="2486230011.Oneway Busway Elevated1" filename="NB2L1WT.crp" />
+    <replace type="RoadBridgeAI" target="Small Busway OneWay Bridge" replacement="2486230011.Oneway Busway Bridge1" filename="NB2L1WT.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway OneWay Slope" replacement="2486230011.Oneway Busway Slope1" filename="NB2L1WT.crp" />
+    <replace type="RoadTunnelAI" target="Small Busway OneWay Tunnel" replacement="2486230011.Oneway Busway Tunnel1" filename="NB2L1WT.crp" />
+    <replace type="RoadAI" target="Large Road With Bus Lanes" replacement="2486227331.Large Road with Bus Lanes_Data" filename="NB6L2W.crp" />
+    <replace type="RoadBridgeAI" target="Large Road Elevated With Bus Lanes" replacement="2486227331.Large Road with Bus Lanes Elevated0" filename="NB6L2W.crp" />
+    <replace type="RoadBridgeAI" target="Large Road Bridge With Bus Lanes" replacement="2486227331.Large Road with Bus Lanes Bridge0" filename="NB6L2W.crp" />
+    <replace type="RoadTunnelAI" target="Large Road Slope With Bus Lanes" replacement="2486227331.Large Road with Bus Lanes Slope0" filename="NB6L2W.crp" />
+    <replace type="RoadTunnelAI" target="Large Road Tunnel With Bus Lanes" replacement="2486227331.Large Road with Bus Lanes Tunnel0" filename="NB6L2W.crp" />
+    <replace type="RoadAI" target="Large Road Decoration Grass With Bus Lanes" replacement="2486225082.Large Bus Road with Grass_Data" filename="NB6L2WG.crp" />
+    <replace type="RoadBridgeAI" target="Large Road Elevated With Bus Lanes" replacement="2486225082.Large Road with Bus Lanes Elevated1" filename="NB6L2WG.crp" />
+    <replace type="RoadBridgeAI" target="Large Road Bridge With Bus Lanes" replacement="2486225082.Large Road with Bus Lanes Bridge1" filename="NB6L2WG.crp" />
+    <replace type="RoadTunnelAI" target="Large Road Slope With Bus Lanes" replacement="2486225082.Large Road with Bus Lanes Slope1" filename="NB6L2WG.crp" />
+    <replace type="RoadTunnelAI" target="Large Road Tunnel With Bus Lanes" replacement="2486225082.Large Road with Bus Lanes Tunnel1" filename="NB6L2WG.crp" />
+    <replace type="RoadAI" target="Large Road Decoration Trees With Bus Lanes" replacement="2486226154.Large Bus Road with Trees_Data" filename="NB6L2WT.crp" />
+    <replace type="RoadBridgeAI" target="Large Road Elevated With Bus Lanes" replacement="2486226154.Large Road with Bus Lanes Elevated0" filename="NB6L2WT.crp" />
+    <replace type="RoadBridgeAI" target="Large Road Bridge With Bus Lanes" replacement="2486226154.Large Road with Bus Lanes Bridge0" filename="NB6L2WT.crp" />
+    <replace type="RoadTunnelAI" target="Large Road Slope With Bus Lanes" replacement="2486226154.Large Road with Bus Lanes Slope0" filename="NB6L2WT.crp" />
+    <replace type="RoadTunnelAI" target="Large Road Tunnel With Bus Lanes" replacement="2486226154.Large Road with Bus Lanes Tunnel0" filename="NB6L2WT.crp" />
+    <replace type="RoadAI" target="Small Rural Highway" replacement="2576525166.National Road_Data" filename="NH2L2W.crp" />
+    <replace type="RoadBridgeAI" target="Small Rural Highway Elevated" replacement="2576525166.National Road Elevated0" filename="NH2L2W.crp" />
+    <replace type="RoadBridgeAI" target="Small Rural Highway Bridge" replacement="2576525166.National Road Bridge0" filename="NH2L2W.crp" />
+    <replace type="RoadTunnelAI" target="Small Rural Highway Slope" replacement="2576525166.National Road Slope0" filename="NH2L2W.crp" />
+    <replace type="RoadTunnelAI" target="Small Rural Highway Tunnel" replacement="2576525166.National Road Tunnel0" filename="NH2L2W.crp" />
+    <replace type="RoadAI" target="Rural Highway" replacement="2576525950.Two-Lane Highway_Data" filename="NH2L1W.crp" />
+    <replace type="RoadBridgeAI" target="Rural Highway Elevated" replacement="2576525950.Two Lane Highway Elevated0" filename="NH2L1W.crp" />
+    <replace type="RoadBridgeAI" target="Rural Highway Bridge" replacement="2576525950.Two Lane Highway Bridge0" filename="NH2L1W.crp" />
+    <replace type="RoadTunnelAI" target="Rural Highway Slope" replacement="2576525950.Two Lane Highway Slope0" filename="NH2L1W.crp" />
+    <replace type="RoadTunnelAI" target="Rural Highway Tunnel" replacement="2576525950.Two Lane Highway Tunnel0" filename="NH2L1W.crp" />
+    <replace type="RoadAI" target="AsymHighwayL1R2" replacement="2576804675.Three-Lane Asym Highway (1+2)_Data" filename="NH1L2R.crp" />
+    <replace type="RoadBridgeAI" target="AsymHighwayL1R2 Elevated" replacement="2576804675.Three-Lane Asym Highway (1+2) Elevated0" filename="NH1L2R.crp" />
+    <replace type="RoadBridgeAI" target="AsymHighwayL1R2 Bridge" replacement="2576804675.Three-Lane Asym Highway (1+2) Bridge0" filename="NH1L2R.crp" />
+    <replace type="RoadTunnelAI" target="AsymHighwayL1R2 Slope" replacement="2576804675.Three-Lane Asym Highway (1+2) Slope0" filename="NH1L2R.crp" />
+    <replace type="RoadTunnelAI" target="AsymHighwayL1R2 Tunnel" replacement="2576804675.Three-Lane Asym Highway (1+2) Tunnel0" filename="NH1L2R.crp" />
+    <replace type="RoadAI" target="Highway2L2W" replacement="2578950635.Four-Lane National Highway_Data" filename="NH4L2W.crp" />
+    <replace type="RoadBridgeAI" target="Highway2L2W Elevated" replacement="2578950635.Four-Lane National Highway Elevated0" filename="NH4L2W.crp" />
+    <replace type="RoadBridgeAI" target="Highway2L2W Bridge" replacement="2578950635.Four-Lane National Highway Bridge0" filename="NH4L2W.crp" />
+    <replace type="RoadTunnelAI" target="Highway2L2W Slope" replacement="2578950635.Four-Lane National Highway Slope0" filename="NH4L2W.crp" />
+    <replace type="RoadTunnelAI" target="Highway2L2W Tunnel" replacement="2578950635.Four-Lane National Highway Tunnel0" filename="NH4L2W.crp" />
+    <replace type="RoadAI" target="Four-Lane Highway" replacement="2578687857.Four-Lane Highway_Data" filename="NH4L1W.crp" />
+    <replace type="RoadBridgeAI" target="Four-Lane Highway Elevated" replacement="2578687857.Four-Lane Highway Elevated0" filename="NH4L1W.crp" />
+    <replace type="RoadBridgeAI" target="Four-Lane Highway Bridge" replacement="2578687857.Four-Lane Highway Bridge0" filename="NH4L1W.crp" />
+    <replace type="RoadTunnelAI" target="Four-Lane Highway Slope" replacement="2578687857.Four-Lane Highway Slope0" filename="NH4L1W.crp" />
+    <replace type="RoadTunnelAI" target="Four-Lane Highway Tunnel" replacement="2578687857.Four-Lane Highway Tunnel0" filename="NH4L1W.crp" />
+    <replace type="RoadAI" target="Five-Lane Highway" replacement="2581681292.Five-Lane Highway_Data" filename="NH5L1W.crp" />
+    <replace type="RoadBridgeAI" target="Five-Lane Highway Elevated" replacement="2581681292.Five-Lane Highway Elevated0" filename="NH5L1W.crp" />
+    <replace type="RoadBridgeAI" target="Five-Lane Highway Bridge" replacement="2581681292.Five-Lane Highway Bridge0" filename="NH5L1W.crp" />
+    <replace type="RoadTunnelAI" target="Five-Lane Highway Slope" replacement="2581681292.Five-Lane Highway Slope0" filename="NH5L1W.crp" />
+    <replace type="RoadTunnelAI" target="Five-Lane Highway Tunnel" replacement="2581681292.Five-Lane Highway Tunnel0" filename="NH5L1W.crp" />
+    <replace type="RoadAI" target="Large Highway" replacement="2582450241.Six-Lane Highway_Data" filename="NH6L1W.crp" />
+    <replace type="RoadBridgeAI" target="Large Highway Elevated" replacement="2582450241.Six-Lane Highway Elevated0" filename="NH6L1W.crp" />
+    <replace type="RoadBridgeAI" target="Large Highway Bridge" replacement="2582450241.Six-Lane Highway Bridge0" filename="NH6L1W.crp" />
+    <replace type="RoadTunnelAI" target="Large Highway Slope" replacement="2582450241.Six-Lane Highway Slope0" filename="NH6L1W.crp" />
+    <replace type="RoadTunnelAI" target="Large Highway Tunnel" replacement="2582450241.Six-Lane Highway Tunnel0" filename="NH6L1W.crp" />
+    <replace type="RoadAI" target="Medium Avenue" replacement="2583482914.Four-Lane Road_Data" filename="NM4L2W.crp" />
+    <replace type="RoadBridgeAI" target="Medium Avenue Elevated" replacement="2583482914.Four-Lane Road Elevated0" filename="NM4L2W.crp" />
+    <replace type="RoadBridgeAI" target="Medium Avenue Bridge" replacement="2583482914.Four-Lane Road Bridge0" filename="NM4L2W.crp" />
+    <replace type="RoadTunnelAI" target="Medium Avenue Slope" replacement="2583482914.Four-Lane Road Slope0" filename="NM4L2W.crp" />
+    <replace type="RoadTunnelAI" target="Medium Avenue Tunnel" replacement="2583482914.Four-Lane Road Tunnel0" filename="NM4L2W.crp" />
+    <replace type="RoadAI" target="Medium Avenue TL" replacement="2583505058.Four-Lane Road with Turning Lane_Data" filename="NM5L2WT.crp" />
+    <replace type="RoadBridgeAI" target="Medium Avenue TL Elevated" replacement="2583505058.Four-Lane Road with Turning Lane Elevated0" filename="NM5L2WT.crp" />
+    <replace type="RoadBridgeAI" target="Medium Avenue TL Bridge" replacement="2583505058.Four-Lane Road with Turning Lane Bridge0" filename="NM5L2WT.crp" />
+    <replace type="RoadTunnelAI" target="Medium Avenue TL Slope" replacement="2583505058.Four-Lane Road with Turning Lane Slope0" filename="NM5L2WT.crp" />
+    <replace type="RoadTunnelAI" target="Medium Avenue TL Tunnel" replacement="2583505058.Four-Lane Road with Turning Lane Tunnel0" filename="NM5L2WT.crp" />
+    <replace type="RoadAI" target="AsymAvenueL2R3" replacement="2583122177.Five-Lane Asym Road (2+3)_Data" filename="NM2L3R.crp" />
+    <replace type="RoadBridgeAI" target="AsymAvenueL2R3 Elevated" replacement="2583122177.Five-Lane Asym Road (2+3) Elevated0" filename="NM2L3R.crp" />
+    <replace type="RoadBridgeAI" target="AsymAvenueL2R3 Bridge" replacement="2583122177.Five-Lane Asym Road (2+3) Bridge0" filename="NM2L3R.crp" />
+    <replace type="RoadTunnelAI" target="AsymAvenueL2R3 Slope" replacement="2583122177.Five-Lane Asym Road (2+3) Slope0" filename="NM2L3R.crp" />
+    <replace type="RoadTunnelAI" target="AsymAvenueL2R3 Tunnel" replacement="2583122177.Five-Lane Asym Road (2+3) Tunnel0" filename="NM2L3R.crp" />
+    <replace type="RoadAI" target="Six-Lane Avenue Median" replacement="2501997608.Six-Lane Road with Median_Data" filename="NL6L2W.crp" />
+    <replace type="RoadBridgeAI" target="Six-Lane Avenue Median Elevated" replacement="2501997608.Six-Lane Road with Median Elevated0" filename="NL6L2W.crp" />
+    <replace type="RoadBridgeAI" target="Six-Lane Avenue Median Bridge" replacement="2501997608.Six-Lane Road with Median Bridge0" filename="NL6L2W.crp" />
+    <replace type="RoadTunnelAI" target="Six-Lane Avenue Median Slope" replacement="2501997608.Six-Lane Road with Median Slope0" filename="NL6L2W.crp" />
+    <replace type="RoadTunnelAI" target="Six-Lane Avenue Median Tunnel" replacement="2501997608.Six-Lane Road with Median Tunnel0" filename="NL6L2W.crp" />
+    <replace type="RoadAI" target="AsymAvenueL2R4" replacement="2583394094.Six-Lane Asym Road (2+4)_Data" filename="NM2L4R.crp" />
+    <replace type="RoadBridgeAI" target="AsymAvenueL2R4 Elevated" replacement="2583394094.Six-Lane Asym Road (2+4) Elevated0" filename="NM2L4R.crp" />
+    <replace type="RoadBridgeAI" target="AsymAvenueL2R4 Bridge" replacement="2583394094.Six-Lane Asym Road (2+4) Bridge0" filename="NM2L4R.crp" />
+    <replace type="RoadTunnelAI" target="AsymAvenueL2R4 Slope" replacement="2583394094.Six-Lane Asym Road (2+4) Slope0" filename="NM2L4R.crp" />
+    <replace type="RoadTunnelAI" target="AsymAvenueL2R4 Tunnel" replacement="2583394094.Six-Lane Asym Road (2+4) Tunnel0" filename="NM2L4R.crp" />
+    <replace type="RoadAI" target="Eight-Lane Avenue" replacement="2501998463.Eight-Lane Road_Data" filename="NL8L2W.crp" />
+    <replace type="RoadBridgeAI" target="Eight-Lane Avenue Elevated" replacement="2501998463.Eight-Lane Road Elevated0" filename="NL8L2W.crp" />
+    <replace type="RoadBridgeAI" target="Eight-Lane Avenue Bridge" replacement="2501998463.Eight-Lane Road Bridge0" filename="NL8L2W.crp" />
+    <replace type="RoadTunnelAI" target="Eight-Lane Avenue Slope" replacement="2501998463.Eight-Lane Road Slope0" filename="NL8L2W.crp" />
+    <replace type="RoadTunnelAI" target="Eight-Lane Avenue Tunnel" replacement="2501998463.Eight-Lane Road Tunnel0" filename="NL8L2W.crp" />
+    <replace type="RoadAI" target="Oneway3L" replacement="2584528888.Three-Lane Oneway_Data" filename="NSH3L1W.crp" />
+    <replace type="RoadBridgeAI" target="Oneway3L Elevated" replacement="2584528888.Three-Lane Oneway Elevated0" filename="NSH3L1W.crp" />
+    <replace type="RoadBridgeAI" target="Oneway3L Bridge" replacement="2584528888.Three-Lane Oneway Bridge0" filename="NSH3L1W.crp" />
+    <replace type="RoadTunnelAI" target="Oneway3L Slope" replacement="2584528888.Three-Lane Oneway Slope0" filename="NSH3L1W.crp" />
+    <replace type="RoadTunnelAI" target="Oneway3L Tunnel" replacement="2584528888.Three-Lane Oneway Tunnel0" filename="NSH3L1W.crp" />
+    <replace type="RoadAI" target="AsymRoadL1R2" replacement="2584861246.Three-Lane Asym Road (1+2)_Data" filename="NSH1L2R.crp" />
+    <replace type="RoadBridgeAI" target="AsymRoadL1R2 Elevated" replacement="2584861246.Asymmetrical Three Lane Road Elevated0" filename="NSH1L2R.crp" />
+    <replace type="RoadBridgeAI" target="AsymRoadL1R2 Bridge" replacement="2584861246.Asymmetrical Three Lane Road Bridge0" filename="NSH1L2R.crp" />
+    <replace type="RoadTunnelAI" target="AsymRoadL1R2 Slope" replacement="2584861246.Asymmetrical Three Lane Road Slope0" filename="NSH1L2R.crp" />
+    <replace type="RoadTunnelAI" target="AsymRoadL1R2 Tunnel" replacement="2584861246.Asymmetrical Three Lane Road Tunnel0" filename="NSH1L2R.crp" />
+    <replace type="RoadAI" target="Small Avenue" replacement="2584930973.Small Four-Lane Road_Data" filename="NSH4L2W.crp" />
+    <replace type="RoadBridgeAI" target="Small Avenue Elevated" replacement="2584930973.Small Four-Lane Road Elevated0" filename="NSH4L2W.crp" />
+    <replace type="RoadBridgeAI" target="Small Avenue Bridge" replacement="2584930973.Small Four-Lane Road Bridge0" filename="NSH4L2W.crp" />
+    <replace type="RoadTunnelAI" target="Small Avenue Slope" replacement="2584930973.Small Four-Lane Road Slope0" filename="NSH4L2W.crp" />
+    <replace type="RoadTunnelAI" target="Small Avenue Tunnel" replacement="2584930973.Small Four-Lane Road Tunnel0" filename="NSH4L2W.crp" />
+    <replace type="RoadAI" target="Oneway4L" replacement="2584528259.Four-Lane Oneway_Data" filename="NSH4L1W.crp" />
+    <replace type="RoadBridgeAI" target="Oneway4L Elevated" replacement="2584528259.Four-Lane Oneway Elevated0" filename="NSH4L1W.crp" />
+    <replace type="RoadBridgeAI" target="Oneway4L Bridge" replacement="2584528259.Four-Lane Oneway Bridge0" filename="NSH4L1W.crp" />
+    <replace type="RoadTunnelAI" target="Oneway4L Slope" replacement="2584528259.Four-Lane Oneway Slope0" filename="NSH4L1W.crp" />
+    <replace type="RoadTunnelAI" target="Oneway4L Tunnel" replacement="2584528259.Four-Lane Oneway Tunnel0" filename="NSH4L1W.crp" />
+    <replace type="RoadAI" target="AsymRoadL1R3" replacement="2585001403.Four-Lane Asym Road (1+3)_Data" filename="NSHL1R3.crp" />
+    <replace type="RoadBridgeAI" target="AsymRoadL1R3 Elevated" replacement="2585001403.Four-Lane Asym Road (1+3) Elevated0" filename="NSHL1R3.crp" />
+    <replace type="RoadBridgeAI" target="AsymRoadL1R3 Bridge" replacement="2585001403.Four-Lane Asym Road (1+3) Bridge0" filename="NSHL1R3.crp" />
+    <replace type="RoadTunnelAI" target="AsymRoadL1R3 Slope" replacement="2585001403.Four-Lane Asym Road (1+3) Slope0" filename="NSHL1R3.crp" />
+    <replace type="RoadTunnelAI" target="AsymRoadL1R3 Tunnel" replacement="2585001403.Four-Lane Asym Road (1+3) Tunnel0" filename="NSHL1R3.crp" />
+    <replace type="RoadAI" target="Two-Lane Alley" replacement="2576529159.Two-Lane Alley_Data" filename="NT2L2WA.crp" />
+    <replace type="RoadAI" target="One-Lane Oneway With Parking" replacement="2576529682.One-Lane Oneway with Parking_Data" filename="NT1L1WP.crp" />
+    <replace type="RoadAI" target="One-Lane Oneway With Two Bicycle Lanes" replacement="2576530002.One-Lane Oneway with Bicycle_Data" filename="NT1L1WB.crp" />
+    <replace type="RoadAI" target="One-Lane Oneway" replacement="2576530397.One-Lane Oneway_Data" filename="NT1L1W.crp" />
+    <replace type="RoadAI" target="PlainStreet2L" replacement="2576853311.Two-Lane Plain Street_Data" filename="NT2L2W.crp" />
+  </autoreplace>
+</RONAutoReplace>
