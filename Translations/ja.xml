@@ -38,6 +38,7 @@
     <Translation ID="RON_PNL_RIP" String="置換中"/>
     <Translation ID="RON_FIL_NAME" String="検索:"/>
     <Translation ID="RON_OPT_ADV" String="Advanced Modeを有効 (異なるネットワークに置換が可能)"/>
+    <Translation ID="RON_OPT_NEX" String="Network Extension 2にある道路を全て自動的に置換"/>
     <Translation ID="TRN_CHOICE" String="言語設定"/>
     <Translation ID="TRN_SYS" String="ゲームの言語を使用"/>
     <Translation ID="KEY_KEY" String="ホットキー"/>
