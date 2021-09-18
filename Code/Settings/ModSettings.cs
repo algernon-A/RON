@@ -21,8 +21,12 @@
 
             set
             {
-                enableAdvanced = value;
-                SettingsUtils.SaveSettings();
+                // Don't do anything if no change.
+                if (enableAdvanced != value)
+                {
+                    enableAdvanced = value;
+                    SettingsUtils.SaveSettings();
+                }
             }
         }
 
@@ -36,8 +40,12 @@
 
             set
             {
-                replaceNExt2 = value;
-                SettingsUtils.SaveSettings();
+                // Don't do anything if no change.
+                if (replaceNExt2 != value)
+                {
+                    replaceNExt2 = value;
+                    SettingsUtils.SaveSettings();
+                }
             }
         }
     }
