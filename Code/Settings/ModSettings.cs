@@ -6,9 +6,39 @@
     internal static class ModSettings
     {
         // Enable advanced mode.
-        internal static bool enableAdvanced = false;
+        private static bool enableAdvanced = false;
 
         // Auto-replace Network Extensions 2 roads on load.
-        internal static bool replaceNExt2 = true;
+        private static bool replaceNExt2 = true;
+
+
+        /// <summary>
+        /// Advanced mode (any network type replacement)
+        /// </summary>
+        internal static bool EnableAdvanced
+        {
+            get => enableAdvanced;
+
+            set
+            {
+                enableAdvanced = value;
+                SettingsUtils.SaveSettings();
+            }
+        }
+
+
+        /// <summary>
+        /// Replace Network Extensions 2 roads on load.
+        /// </summary>
+        internal static bool ReplaceNExt2
+        {
+            get => replaceNExt2;
+
+            set
+            {
+                replaceNExt2 = value;
+                SettingsUtils.SaveSettings();
+            }
+        }
     }
 }

@@ -566,7 +566,7 @@ namespace RON
 			sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
 
 			// Advanced mode check.
-			if (ModSettings.enableAdvanced)
+			if (ModSettings.EnableAdvanced)
 			{
 				advancedCheck = UIControls.AddCheckBox(this, FilterX, AdvancedY, Translations.Translate("RON_PNL_ADV"));
 				advancedCheck.eventCheckChanged += (control, isChecked) => LoadedList();

@@ -37,6 +37,7 @@
     <Translation ID="RON_PNL_RIP" String="Выполняется замена" />
     <Translation ID="RON_FIL_NAME" String="Поиск:" />
     <Translation ID="RON_OPT_ADV" String="Включить расширенный режим (позволяет заменять на другие типы путей)" />
+    <Translation ID="RON_OPT_ADV2" String="Включить расширенный режим" />
     <Translation ID="TRN_CHOICE" String="Установить язык" />
     <Translation ID="TRN_SYS" String="Использ. системный" />
     <Translation ID="KEY_KEY" String="Горячая клавиша" />

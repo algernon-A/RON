@@ -25,7 +25,7 @@ namespace RON
 		public static bool Prefix(ref string __result, string name)
 		{
 			// Don't do anything without being enabled.
-			if (ModSettings.replaceNExt2)
+			if (ModSettings.ReplaceNExt2)
 			{
 				// Ensure that we're only looking for networks.
 				if (!new StackTrace().GetFrame(2).GetMethod().DeclaringType.ToString().Contains("[NetInfo]"))

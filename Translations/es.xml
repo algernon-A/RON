@@ -36,7 +36,8 @@
     <Translation ID="RON_PNL_CAN" String="Canales" />
     <Translation ID="RON_PNL_RIP" String="Reemplazo en progreso" />
     <Translation ID="RON_FIL_NAME" String="Búsqueda:" />
-    <Translation ID="RON_OPT_ADV" String="Activar el modo avanzado (se permite el reemplazo con diferentes tipos de redes)" />
+    <Translation ID="RON_OPT_ADV" String="Activar el modo avanzado" />
+    <Translation ID="RON_OPT_ADV2" String="(se permite el reemplazo con diferentes tipos de redes)" />
     <Translation ID="TRN_CHOICE" String="Elegir idioma" />
     <Translation ID="TRN_SYS" String="Usa el idioma del juego" />
     <Translation ID="KEY_KEY" String="Tecla de acceso rápido" />

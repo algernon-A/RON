@@ -8,8 +8,9 @@ namespace RON
     public class OptionsKeymapping : UICustomControl
     {
         // Components.
-        UILabel label;
-        UIButton button;
+        internal readonly UIPanel uIPanel;
+        private readonly UILabel label;
+        private readonly UIButton button;
 
         // State flag.
         private bool isPrimed = false;
@@ -34,13 +35,12 @@ namespace RON
 
 
         /// <summary>
-        /// Setup this control
-        /// Called by Unity immediately before the first update.
+        /// Constructor.
         /// </summary>
-        public void Start()
+        public OptionsKeymapping()
         {
             // Get the template from the game and attach it here.
-            UIPanel uIPanel = component.AttachUIComponent(UITemplateManager.GetAsGameObject("KeyBindingTemplate")) as UIPanel;
+            uIPanel = component.AttachUIComponent(UITemplateManager.GetAsGameObject("KeyBindingTemplate")) as UIPanel;
 
             // Find our sub-components.
             label = uIPanel.Find<UILabel>("Name");

@@ -43,9 +43,9 @@ namespace RON
 		[XmlElement("AdvancedMode")]
 		public bool AdvancedMode
         {
-			get => ModSettings.enableAdvanced;
+			get => ModSettings.EnableAdvanced;
 
-			set => ModSettings.enableAdvanced = value;
+			set => ModSettings.EnableAdvanced = value;
 		}
 
 
@@ -53,9 +53,9 @@ namespace RON
 		[XmlElement("ReplaceNExt2")]
 		public bool ReplaceNExt2
 		{
-			get => ModSettings.replaceNExt2;
+			get => ModSettings.ReplaceNExt2;
 
-			set => ModSettings.replaceNExt2 = value;
+			set => ModSettings.ReplaceNExt2 = value;
 		}
 	}
 

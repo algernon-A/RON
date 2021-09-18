@@ -9,6 +9,10 @@ namespace RON
     /// </summary>
     public class Loading : LoadingExtensionBase
     {
+        // Status flag.
+        internal static bool Loaded { get; private set; } = false;
+
+
         /// <summary>
         /// Called by the game when level loading is complete.
         /// </summary>
@@ -16,17 +20,6 @@ namespace RON
         public override void OnLevelLoaded(LoadMode mode)
         {
             base.OnLevelLoaded(mode);
-
-            // Set up options panel event handler and prime input key.
-            OptionsPanel.OptionsEventHook();
-            UIThreading.ignore = false;
-
-            // Initialise select tool.
-            ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
-
-            // Record list of loaded networks.
-            //AutoReplaceXML.SaveFile();
-
             // Display any missing NExt2 network notifications.
             if (ResolveLegacyPrefabPatch.missingNetworks != null)
             {
@@ -41,6 +34,20 @@ namespace RON
                 // Closing para.
                 missingNetBox.AddParas(Translations.Translate("MES_PAGE"));
             }
+
+            // Initialise select tool.
+            ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
+
+            // Record list of loaded networks.
+            //AutoReplaceXML.SaveFile();
+
+
+            // Record loaded status and prime input key.
+            Loaded = true;
+            UIThreading.ignore = false;
+
+            // Set up options panel event handler (need to redo this now that options panel has been reset after loading into game).
+            OptionsPanelManager.OptionsEventHook();
         }
     }
 }
