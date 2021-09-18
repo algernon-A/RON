@@ -39,9 +39,14 @@
     <Translation ID="RON_FIL_NAME" String="Suche:" />
     <Translation ID="RON_OPT_ADV" String="Schalte den Profi-Modus ein" />
     <Translation ID="RON_OPT_ADV2" String="(ermöglicht den Austausch mit anderen Netzwerk-Arten)" />
+    <Translation ID="RON_OPT_NEX" String="Automatisches Ersetzen von Network Extension 2 Straßen beim Laden" />
+    <Translation ID="RON_OPT_NEX2" String="(Eine Kollektion mit Ersatz-Straßen muss abonniert sein." />
     <Translation ID="TRN_CHOICE" String="Sprache einstellen" />
     <Translation ID="TRN_SYS" String="erwende die Spiel-Sprache" />
     <Translation ID="KEY_KEY" String="Tastenkürzel" />
     <Translation ID="KEY_PRS" String="Drücke eine Taste" />
+    <Translation ID="ERR_NXT" String="RON konnte folgende Network Extensions 2 Netzwerke auf dieser Karte nicht ersetzen, da die notwendigen Ersatz-Straßen nicht vorhanden sind. (Deaktiviert oder nicht abonniert):" />
+    <Translation ID="MES_CLS" String="Schließen" />
+    <Translation ID="MES_PAGE" String="Auf der Steam Workshop Seite der Mod gibt es diesbezüglich weitere Informationen" />
   </Translations>
 </Language>
