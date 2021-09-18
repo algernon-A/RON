@@ -59,6 +59,8 @@
   <ItemGroup>
     <Compile Include="Code\AutoReplace\AutoReplaceXML.cs" />
     <Compile Include="Code\Loading.cs" />
+    <Compile Include="Code\Notifications\ListMessageBox.cs" />
+    <Compile Include="Code\Notifications\MessageBoxBase.cs" />
     <Compile Include="Code\Patches\Patcher.cs" />
     <Compile Include="Code\Patches\ResolveLegacyPrefab.cs" />
     <Compile Include="Code\Settings\ModSettings.cs" />

@@ -43,5 +43,8 @@
     <Translation ID="TRN_SYS" String="Use game language" />
     <Translation ID="KEY_KEY" String="Hotkey" />
     <Translation ID="KEY_PRS" String="Press any key" />
+    <Translation ID="ERR_NXT" String="RON was unable to replace the following Network Extensions 2 networks on this map as the necessary replacements weren't available (disabled or not subscribed):" />
+    <Translation ID="MES_CLS" String="Close" />
+    <Translation ID="MES_PAGE" String="Please refer to the mod's Steam Workshop page for further information." />
   </Translations>
 </Language>

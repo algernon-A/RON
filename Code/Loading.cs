@@ -1,4 +1,5 @@
 ﻿using ICities;
+using RON.MessageBox;
 
 
 namespace RON
@@ -25,6 +26,21 @@ namespace RON
 
             // Record list of loaded networks.
             //AutoReplaceXML.SaveFile();
+
+            // Display any missing NExt2 network notifications.
+            if (ResolveLegacyPrefabPatch.missingNetworks != null)
+            {
+                ListMessageBox missingNetBox = MessageBoxBase.ShowModal<ListMessageBox>();
+
+                // Key text items.
+                missingNetBox.AddParas(Translations.Translate("ERR_NXT"));
+
+                // List of dot points.
+                missingNetBox.AddList(ResolveLegacyPrefabPatch.missingNetworks);
+
+                // Closing para.
+                missingNetBox.AddParas(Translations.Translate("MES_PAGE"));
+            }
         }
     }
 }

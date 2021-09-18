@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using HarmonyLib;
 
 
@@ -12,6 +13,7 @@ namespace RON
 	{
 		private static AutoReplaceXML autoReplaceXML;
 		private static bool attemptedRead = false;
+		internal static List<string> missingNetworks;
 
 
 		/// <summary>
@@ -48,13 +50,32 @@ namespace RON
 					{
 						if (entry.targetName.Equals(name))
 						{
-							// Found a target name match; replace.
-							__result = entry.replacementName;
+							// Found a target name match; check to see if we have a replacement.
+							string replacementName = entry.replacementName;
+							if (PrefabCollection<NetInfo>.FindLoaded(replacementName) == null)
+							{
+								// No replacement found.
+								Logging.Error("couldn't find replacement ", replacementName, " for NExt2 network ", name);
 
-							Logging.Message("replacing prefab ", name, " with ", __result);
+								// Add missing name to list, creating it if we haven't already.
+								if (missingNetworks == null)
+                                {
+									missingNetworks = new List<string>();
+                                }
+								missingNetworks.Add(name);
 
-							// Don't execute original method.
-							return false;
+								// Execute original method.
+								return true;
+							}
+							else
+							{
+								// Replacement found; return replacement name and don't execute original method.
+								Logging.Message("attempting to replace NExt2 network ", name, " with ", __result);
+								__result = entry.replacementName;
+
+								// Don't execute original method.
+								return false;
+							}
 						}
 					}
 				}
