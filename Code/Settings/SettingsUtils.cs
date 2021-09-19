@@ -29,8 +29,8 @@ namespace RON
                     // Read it.
                     using (StreamReader reader = new StreamReader(fileName))
                     {
-                        XmlSerializer xmlSerializer = new XmlSerializer(typeof(NetworkReplacerSettingsFile));
-                        if (!(xmlSerializer.Deserialize(reader) is NetworkReplacerSettingsFile settingsFile))
+                        XmlSerializer xmlSerializer = new XmlSerializer(typeof(ModSettings));
+                        if (!(xmlSerializer.Deserialize(reader) is ModSettings settingsFile))
                         {
                             Logging.Error("couldn't deserialize settings file");
                         }
@@ -58,8 +58,8 @@ namespace RON
                 // Pretty straightforward.  Serialisation is within GBRSettingsFile class.
                 using (StreamWriter writer = new StreamWriter(SettingsFileName))
                 {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(NetworkReplacerSettingsFile));
-                    xmlSerializer.Serialize(writer, new NetworkReplacerSettingsFile());
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(ModSettings));
+                    xmlSerializer.Serialize(writer, new ModSettings());
                 }
             }
             catch (Exception e)

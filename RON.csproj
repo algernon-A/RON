@@ -72,7 +72,6 @@
     <Compile Include="Code\Settings\OptionsKeymapping.cs" />
     <Compile Include="Code\Settings\OptionsPanelManager.cs" />
     <Compile Include="Code\Settings\SettingsUtils.cs" />
-    <Compile Include="Code\Settings\SettingsXML.cs" />
     <Compile Include="Code\TranslationFramework\TranslationFramework.cs" />
     <Compile Include="Code\TranslationFramework\TranslationXML.cs" />
     <Compile Include="Code\UI\ReplacerPanel.cs" />
