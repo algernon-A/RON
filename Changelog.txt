@@ -1,4 +1,11 @@
-﻿Version 0.6.2 -
+﻿Version 0.7.0 -
+
+- Add option to automatically replace Network Extensions 2 roads on load with roads from the supported replacement collection
+- Overhaul mod options panel
+- Ovehaul settings file code
+
+
+Version 0.6.2 -
 
 - Add support for pipes
 - Automatically change view mode (surface/underground tunnel/underground pipes) based on current network type selection
