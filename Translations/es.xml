@@ -34,13 +34,19 @@
     <Translation ID="RON_PNL_ELI" String="Líneas de alta tensión" />
     <Translation ID="RON_PNL_QUA" String="Muelles" />
     <Translation ID="RON_PNL_CAN" String="Canales" />
+    <Translation ID="RON_PNL_PIP" String="Tuberías" />
     <Translation ID="RON_PNL_RIP" String="Reemplazo en progreso" />
     <Translation ID="RON_FIL_NAME" String="Búsqueda:" />
     <Translation ID="RON_OPT_ADV" String="Activar el modo avanzado" />
     <Translation ID="RON_OPT_ADV2" String="(se permite el reemplazo con diferentes tipos de redes)" />
+    <Translation ID="RON_OPT_NEX" String="Reemplazar automáticamente las carreteras de Network Extension 2 en carga" />
+    <Translation ID="RON_OPT_NEX2" String="(la colección de red de reemplazo debe estar suscrita)" />
     <Translation ID="TRN_CHOICE" String="Elegir idioma" />
     <Translation ID="TRN_SYS" String="Usa el idioma del juego" />
     <Translation ID="KEY_KEY" String="Tecla de acceso rápido" />
     <Translation ID="KEY_PRS" String="Presiona cualquier tecla" />
+    <Translation ID="ERR_NXT" String="RON no pudo reemplazar las siguientes redes deNetwork Extension 2 en este mapa porque los reemplazos necesarios no estaban disponibles (inhabilitados o no suscritos):" />
+    <Translation ID="MES_CLS" String="Cerrar" />
+    <Translation ID="MES_PAGE" String="Consulta la página de Steam Workshop del mod para obtener más información" />
   </Translations>
 </Language>
