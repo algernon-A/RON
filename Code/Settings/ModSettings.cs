@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RON
 {
     /// <summary>
-    /// Static class to hold global mod settings.
+    /// Global mod settings.
     /// </summary>
 	[XmlRoot("RON")]
     public class ModSettings
