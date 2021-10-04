@@ -34,7 +34,7 @@
     <Translation ID="RON_PNL_ELI" String="Линии электропередачи" />
     <Translation ID="RON_PNL_QUA" String="Набережные" />
     <Translation ID="RON_PNL_CAN" String="Каналы" />
-    <Translation ID="RON_PNL_PIP" String="Tuberías" />
+    <Translation ID="RON_PNL_PIP" String="Трубопроводы" />
     <Translation ID="RON_PNL_RIP" String="Выполняется замена" />
     <Translation ID="RON_FIL_NAME" String="Поиск:" />
     <Translation ID="RON_OPT_ADV" String="Включить расширенный режим (позволяет заменять на другие типы путей)" />
