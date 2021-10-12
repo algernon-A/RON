@@ -1,4 +1,7 @@
-﻿Version 0.7.0 -
+﻿- Add proper escape key handling
+
+
+Version 0.7.0 -
 
 - Add option to automatically replace Network Extensions 2 roads on load with roads from the supported replacement collection
 - Overhaul mod options panel

@@ -22,10 +22,18 @@ namespace RON
 			Building,
 			PropOrTree
 		}
+
+
 		/// <summary>
 		/// Instance reference.
 		/// </summary>
 		public static RONTool Instance => ToolsModifierControl.toolController?.gameObject?.GetComponent<RONTool>();
+
+
+		/// <summary>
+		/// Returns true if the zoning tool is currently active, false otherwise.
+		/// </summary>
+		public static bool IsActiveTool => Instance != null && ToolsModifierControl.toolController.CurrentTool == Instance;
 
 
 		/// <summary>
@@ -192,6 +200,47 @@ namespace RON
 
 
 		/// <summary>
+		/// Toggles the current tool to/from the zoning tool.
+		/// </summary>
+		internal static void ToggleTool()
+		{
+			// Activate zoning tool if it isn't already; if already active, deactivate it by selecting the default tool instead.
+			if (!IsActiveTool)
+			{
+				// Activate RON tool.
+				ToolsModifierControl.toolController.CurrentTool = Instance;
+			}
+			else
+			{
+				// Activate default tool.
+				ToolsModifierControl.SetTool<DefaultTool>();
+			}
+		}
+
+
+		/// <summary>
+		/// Called by game when tool is enabled.
+		/// Used to open the replacer panel.
+		/// </summary>
+		protected override void OnEnable()
+		{
+			base.OnEnable();
+			ReplacerPanel.Create();
+		}
+
+
+		/// <summary>
+		/// Called by game when tool is disabled.
+		/// Used to close the replacer panel.
+		/// </summary>
+		protected override void OnDisable()
+		{
+			base.OnDisable();
+			ReplacerPanel.Close();
+		}
+
+
+		/// <summary>
 		/// Unity late update handling.
 		/// Called by game every late update.
 		/// </summary>
@@ -211,14 +260,6 @@ namespace RON
 		/// <param name="e">Event</param>
 		protected override void OnToolGUI(Event e)
 		{
-			// Check for escape key.
-			if (e.type == EventType.keyDown && e.keyCode == KeyCode.Escape)
-			{
-				// Escape key pressed - disable tool.
-				e.Use();
-				ToolsModifierControl.SetTool<DefaultTool>();
-			}
-
 			// Don't do anything if mouse is inside UI or if there are any errors other than failed raycast.
 			if (m_toolController.IsInsideUI || (m_selectErrors != ToolErrors.None && m_selectErrors != ToolErrors.RaycastFailed))
 			{

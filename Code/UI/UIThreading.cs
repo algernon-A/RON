@@ -46,17 +46,8 @@ namespace RON
                         // Set processed flag.
                         processed = true;
 
-                        // Is a replacer panel already open?
-                        if (ReplacerPanel.Panel == null)
-                        {
-                            // No - open it.
-                            ReplacerPanel.Create();
-                        }
-                        else
-                        {
-                            // Yes - close it.
-                            ReplacerPanel.Close();
-                        }
+                        // Toggle tool status.
+                        RONTool.ToggleTool();
                     }
                 }
                 else

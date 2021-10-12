@@ -163,7 +163,6 @@ namespace RON
 		// Instance references.
 		private static GameObject uiGameObject;
 		private static ReplacerPanel panel;
-		private static ToolBase previousTool;
 		internal static ReplacerPanel Panel => panel;
 
 		// Current selections.
@@ -335,9 +334,6 @@ namespace RON
 				return;
 			}
 
-			// Restore previous tool.
-			ToolsModifierControl.toolController.CurrentTool = previousTool;
-
 			// Destroy game objects.
 			GameObject.Destroy(panel);
 			GameObject.Destroy(uiGameObject);
@@ -385,48 +381,6 @@ namespace RON
 
 
 		/// <summary>
-		/// Sets the list of currently selected segments.
-		/// </summary>
-		private void SetSelectedSegments()
-        {
-			// Create list of replacement segments.
-			if (segmentCheck.isChecked)
-			{
-				// Single replacement only.
-				selectedSegments = new List<ushort> { currentSegment };
-			}
-			else if (districtCheck.isChecked)
-			{
-				// District replacement.
-				selectedSegments = new List<ushort>();
-
-				// Local references.
-				NetManager netManager = Singleton<NetManager>.instance;
-				NetSegment[] segmentBuffer = netManager.m_segments.m_buffer;
-				NetNode[] nodeBuffer = netManager.m_nodes.m_buffer;
-				DistrictManager districtManager = Singleton<DistrictManager>.instance;
-
-				// Get district of selected segment.
-				ushort districtID = districtManager.GetDistrict(segmentBuffer[currentSegment].m_middlePosition);
-
-				// Iterate through each segment of this type in our dictionary, adding to our list of selected segments if both start and end nodes are in the same district as the initial segement.
-				foreach (ushort districtSegment in segmentDict[selectedTarget])
-				{
-					if (districtManager.GetDistrict(nodeBuffer[segmentBuffer[districtSegment].m_startNode].m_position) == districtID && districtManager.GetDistrict(nodeBuffer[segmentBuffer[districtSegment].m_endNode].m_position) == districtID)
-					{
-						selectedSegments.Add(districtSegment);
-					}
-				}
-			}
-			else if (selectedTarget != null && segmentDict != null)
-			{
-				// Global replacements - just use list from segment dictionary.
-				selectedSegments = segmentDict[selectedTarget];
-			}
-		}
-
-
-		/// <summary>
 		/// Constructor.
 		/// </summary>
 		internal ReplacerPanel()
@@ -464,7 +418,7 @@ namespace RON
 			closeButton.normalBgSprite = "buttonclose";
 			closeButton.hoveredBgSprite = "buttonclosehover";
 			closeButton.pressedBgSprite = "buttonclosepressed";
-			closeButton.eventClick += (component, clickEvent) => Close();
+			closeButton.eventClick += (component, clickEvent) => RONTool.ToggleTool();
 
 			// Decorative icon (top-left).
 			UISprite iconSprite = AddUIComponent<UISprite>();
@@ -607,10 +561,48 @@ namespace RON
 
 			// Populate parent dictionaries.
 			PrefabUtils.GetParents(slopeParents, elevatedParents, bridgeParents, tunnelParents);
+		}
 
-			// Activate RON tool.
-			previousTool = ToolsModifierControl.toolController.CurrentTool;
-			ToolsModifierControl.toolController.CurrentTool = RONTool.Instance;
+
+		/// <summary>
+		/// Sets the list of currently selected segments.
+		/// </summary>
+		private void SetSelectedSegments()
+		{
+			// Create list of replacement segments.
+			if (segmentCheck.isChecked)
+			{
+				// Single replacement only.
+				selectedSegments = new List<ushort> { currentSegment };
+			}
+			else if (districtCheck.isChecked)
+			{
+				// District replacement.
+				selectedSegments = new List<ushort>();
+
+				// Local references.
+				NetManager netManager = Singleton<NetManager>.instance;
+				NetSegment[] segmentBuffer = netManager.m_segments.m_buffer;
+				NetNode[] nodeBuffer = netManager.m_nodes.m_buffer;
+				DistrictManager districtManager = Singleton<DistrictManager>.instance;
+
+				// Get district of selected segment.
+				ushort districtID = districtManager.GetDistrict(segmentBuffer[currentSegment].m_middlePosition);
+
+				// Iterate through each segment of this type in our dictionary, adding to our list of selected segments if both start and end nodes are in the same district as the initial segement.
+				foreach (ushort districtSegment in segmentDict[selectedTarget])
+				{
+					if (districtManager.GetDistrict(nodeBuffer[segmentBuffer[districtSegment].m_startNode].m_position) == districtID && districtManager.GetDistrict(nodeBuffer[segmentBuffer[districtSegment].m_endNode].m_position) == districtID)
+					{
+						selectedSegments.Add(districtSegment);
+					}
+				}
+			}
+			else if (selectedTarget != null && segmentDict != null)
+			{
+				// Global replacements - just use list from segment dictionary.
+				selectedSegments = segmentDict[selectedTarget];
+			}
 		}
 
 
