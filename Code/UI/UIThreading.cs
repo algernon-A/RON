@@ -14,15 +14,16 @@ namespace RON
 
         // Flags.
         internal static bool ignore = true;
-        private bool processed = false;
+        //private bool processed = false;
 
 
+        /* Temporarily commented out while testing UUI approach */
         /// <summary>
         /// Look for keypress to open GUI.
         /// </summary>
         /// <param name="realTimeDelta"></param>
         /// <param name="simulationTimeDelta"></param>
-        public override void OnUpdate(float realTimeDelta, float simulationTimeDelta)
+        /*public override void OnUpdate(float realTimeDelta, float simulationTimeDelta)
         {
             // Has hotkey been pressed while we're not ignoring input?
             if (!ignore && hotKey != KeyCode.None && Input.GetKey(hotKey))
@@ -61,6 +62,6 @@ namespace RON
                 // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
                 processed = false;
             }
-        }
+        }*/
     }
 }

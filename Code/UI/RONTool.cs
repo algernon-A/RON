@@ -1,6 +1,7 @@
 ﻿using ColossalFramework;
 using ColossalFramework.UI;
 using UnityEngine;
+using UnifiedUI.Helpers;
 
 
 namespace RON
@@ -43,10 +44,22 @@ namespace RON
 		protected override void Awake()
 		{
 			base.Awake();
+
+			// Load cursors.
 			lightCursor = TextureUtils.LoadCursor("ron_cursor_light.png");
 			darkCursor = TextureUtils.LoadCursor("ron_cursor_dark.png");
 			m_cursor = darkCursor;
+
+			// Create new UUI button.
+			UIComponent uuiButton = UUIHelpers.RegisterToolButton(
+				name: nameof(RONTool),
+				groupName: null, // default group
+				tooltip: Translations.Translate("RON_NAM"),
+				tool: this,
+				icon: UUIHelpers.LoadTexture(UUIHelpers.GetFullPath<RONMod>("Resources", "RonButtonSingle.png")),
+				hotkeys: new UUIHotKeys { ActivationKey = ModSettings.PanelSavedKey });
 		}
+
 
 		// Ignore nodes, citizens, disasters, districts, transport lines, and vehicles.
 		public override NetNode.Flags GetNodeIgnoreFlags() => NetNode.Flags.All;

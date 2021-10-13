@@ -26,10 +26,14 @@ namespace RON
 
             set
             {
+                // Update RON key settings.
                 UIThreading.hotKey = (KeyCode)(value & 0xFFFFFFF);
                 UIThreading.hotCtrl = (value & 0x40000000) != 0;
                 UIThreading.hotShift = (value & 0x20000000) != 0;
                 UIThreading.hotAlt = (value & 0x10000000) != 0;
+
+                // Update the UUI SavedInputKey instance to reflect the changes.
+                ModSettings.UpdateSavedInputKey();
             }
         }
 
