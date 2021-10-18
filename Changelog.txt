@@ -1,4 +1,7 @@
-﻿- Add proper escape key handling
+﻿Version 0.7.1 -
+
+- Add Universal UI (UUI) button
+- Add proper escape key handling
 
 
 Version 0.7.0 -
