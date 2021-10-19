@@ -56,7 +56,7 @@ namespace RON
 				groupName: null, // default group
 				tooltip: Translations.Translate("RON_NAM"),
 				tool: this,
-				icon: UUIHelpers.LoadTexture(UUIHelpers.GetFullPath<RONMod>("Resources", "RonButtonSingle.png")),
+				icon: UUIHelpers.LoadTexture(UUIHelpers.GetFullPath<RONMod>("Resources", "ron_uui.png")),
 				hotkeys: new UUIHotKeys { ActivationKey = ModSettings.PanelSavedKey });
 		}
 

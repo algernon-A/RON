@@ -98,12 +98,12 @@
     <Content Include="License.txt" />
     <Content Include="Code\AutoReplace\RON-replacements.xml" />
     <Content Include="Resources\RonButton.png" />
-    <Content Include="Resources\RonButtonSingle.png" />
     <Content Include="Resources\ron_cursor_dark.png" />
     <Content Include="Resources\ron_cursor_light.png" />
     <Content Include="Resources\ron_district_small.png" />
     <Content Include="Resources\ron_global_small.png" />
     <Content Include="Resources\ron_segment_small.png" />
+    <Content Include="Resources\ron_uui.png" />
     <Content Include="Translations\de.xml" />
     <Content Include="Translations\en.xml" />
     <Content Include="Translations\es.xml" />
