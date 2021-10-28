@@ -26,10 +26,10 @@
     <Translation ID="RON_PNL_RAB" String="Ж/д - эстакады и мосты" />
     <Translation ID="RON_PNL_RAT" String="Ж/д - туннели" />
     <Translation ID="RON_PNL_MOI" String="Монорельс" />
-    <Translation ID="RON_PNL_PED" String="Пешеходные дороги - только наземные" />
-    <Translation ID="RON_PNL_PEB" String="Пешеходные дороги - эстакады и мосты" />
-    <Translation ID="RON_PNL_PET" String="Пешеходные дороги - туннели" />
-    <Translation ID="RON_PNL_PEA" String="Пешеходные дороги - кампусы и парковые зоны" />
+    <Translation ID="RON_PNL_PED" String="Пешеходные - только наземные" />
+    <Translation ID="RON_PNL_PEB" String="Пешеходные - эстакады и мосты" />
+    <Translation ID="RON_PNL_PET" String="Пешеходные - туннели" />
+    <Translation ID="RON_PNL_PEA" String="Пешеходные - кампусы и парковые" />
     <Translation ID="RON_PNL_DEC" String="Декорации" />
     <Translation ID="RON_PNL_ELI" String="Линии электропередачи" />
     <Translation ID="RON_PNL_QUA" String="Набережные" />
@@ -37,8 +37,8 @@
     <Translation ID="RON_PNL_PIP" String="Трубопроводы" />
     <Translation ID="RON_PNL_RIP" String="Выполняется замена" />
     <Translation ID="RON_FIL_NAME" String="Поиск:" />
-    <Translation ID="RON_OPT_ADV" String="Включить расширенный режим (позволяет заменять на другие типы путей)" />
-    <Translation ID="RON_OPT_ADV2" String="Включить расширенный режим" />
+    <Translation ID="RON_OPT_ADV" String="Включить расширенный режим" />
+    <Translation ID="RON_OPT_ADV2" String="(позволяет заменять на другие типы network)" />
     <Translation ID="RON_OPT_NEX" String="Автоматическая замена дорог Network Extension 2 при загрузке" />
     <Translation ID="RON_OPT_NEX2" String="(необходимо подписаться на коллекцию путей для замены)" />
     <Translation ID="TRN_CHOICE" String="Установить язык" />
