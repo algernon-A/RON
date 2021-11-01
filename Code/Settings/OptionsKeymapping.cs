@@ -17,28 +17,6 @@ namespace RON
 
 
         /// <summary>
-        /// The current hotkey settings as ColossalFramework InputKey
-        /// </summary>
-        /// </summary>
-        private InputKey CurrentHotkey
-        {
-            get => SavedInputKey.Encode(UIThreading.hotKey, UIThreading.hotCtrl, UIThreading.hotShift, UIThreading.hotAlt);
-
-            set
-            {
-                // Update RON key settings.
-                UIThreading.hotKey = (KeyCode)(value & 0xFFFFFFF);
-                UIThreading.hotCtrl = (value & 0x40000000) != 0;
-                UIThreading.hotShift = (value & 0x20000000) != 0;
-                UIThreading.hotAlt = (value & 0x10000000) != 0;
-
-                // Update the UUI SavedInputKey instance to reflect the changes.
-                ModSettings.UpdateSavedInputKey();
-            }
-        }
-
-
-        /// <summary>
         /// Constructor.
         /// </summary>
         public OptionsKeymapping()
@@ -56,7 +34,7 @@ namespace RON
 
             // Set label and button text.
             label.text = Translations.Translate("KEY_KEY");
-            button.text = SavedInputKey.ToLocalizedString("KEYNAME", CurrentHotkey);
+            button.text = SavedInputKey.ToLocalizedString("KEYNAME", ModSettings.CurrentHotkey);
         }
 
 
@@ -80,7 +58,7 @@ namespace RON
                 // If escape was entered, we don't change the code.
                 if (keyEvent.keycode == KeyCode.Escape)
                 {
-                    inputKey = CurrentHotkey;
+                    inputKey = ModSettings.CurrentHotkey;
                 }
                 else
                 {
@@ -110,7 +88,7 @@ namespace RON
                 if (mouseEvent.buttons == UIMouseButton.Left || mouseEvent.buttons == UIMouseButton.Right)
                 {
                     // Not a bindable mouse button - set the button text and cancel priming.
-                    button.text = SavedInputKey.ToLocalizedString("KEYNAME", CurrentHotkey);
+                    button.text = SavedInputKey.ToLocalizedString("KEYNAME", ModSettings.CurrentHotkey);
                     UIView.PopModal();
                     isPrimed = false;
                 }
@@ -167,7 +145,7 @@ namespace RON
         private void ApplyKey(InputKey key)
         {
             // Apply key to current settings and save.
-            CurrentHotkey = key;
+            ModSettings.CurrentHotkey = key;
             SettingsUtils.SaveSettings();
 
             // Set the label for the new hotkey.

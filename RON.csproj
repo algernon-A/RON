@@ -83,7 +83,6 @@
     <Compile Include="Code\UI\UIFastList\UIFastList.cs" />
     <Compile Include="Code\UI\UIFastList\UINetRowTypes.cs" />
     <Compile Include="Code\UI\UIFastList\UINetRow.cs" />
-    <Compile Include="Code\UI\UIThreading.cs" />
     <Compile Include="Code\Utils\ModUtils.cs" />
     <Compile Include="Code\Utils\PrefabUtils.cs" />
     <Compile Include="Code\Utils\Textures.cs" />

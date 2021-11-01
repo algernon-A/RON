@@ -53,19 +53,13 @@ namespace RON
                 // Simple event hook to create/destroy GameObject based on appropriate visibility.
                 gameOptionsPanel.eventVisibilityChanged += (control, isVisible) =>
                 {
-                    // Create/destroy and toggle hotkey detection based on whether or not we're now visible.
+                    // Create/destroy based on whether or not we're now visible.
                     if (isVisible)
                     {
-                        UIThreading.ignore = true;
                         Create();
                     }
                     else
                     {
-                        // Only activate hotkey if we're loaded into game.
-                        if (Loading.Loaded)
-                        {
-                            UIThreading.ignore = false;
-                        }
                         Close();
                     }
                 };

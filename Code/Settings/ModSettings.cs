@@ -11,6 +11,19 @@ namespace RON
 	[XmlRoot("RON")]
     public class ModSettings
     {
+        // Enable advanced mode.
+        [XmlIgnore]
+        private static bool enableAdvanced = false;
+
+        // Auto-replace Network Extensions 2 roads on load.
+        [XmlIgnore]
+        private static bool replaceNExt2 = true;
+
+        // SavedInputKey reference for communicating with UUI.
+        [XmlIgnore]
+        private static readonly SavedInputKey uuiSavedKey = new SavedInputKey("BOB hotkey", "BOB hotkey", key: KeyCode.B, control: false, shift: false, alt: true, false);
+
+
         // Language.
         [XmlElement("Language")]
         public string Language
@@ -28,78 +41,18 @@ namespace RON
             {
                 return new KeyBinding
                 {
-                    keyCode = (int)UIThreading.hotKey,
-                    control = UIThreading.hotCtrl,
-                    shift = UIThreading.hotShift,
-                    alt = UIThreading.hotAlt
+                    keyCode = (int)PanelSavedKey.Key,
+                    control = PanelSavedKey.Control,
+                    shift = PanelSavedKey.Shift,
+                    alt = PanelSavedKey.Alt
                 };
             }
             set
             {
-                UIThreading.hotKey = (KeyCode)value.keyCode;
-                UIThreading.hotCtrl = value.control;
-                UIThreading.hotShift = value.shift;
-                UIThreading.hotAlt = value.alt;
-
-                // Update the UUI SavedInputKey instance to reflect the changes.
-                UpdateSavedInputKey();
-            }
-        }
-
-
-        /// <summary>
-        /// Convers RON hotkey into SavedInputKey format for communicating with UUI.
-        /// </summary>
-        [XmlIgnore]
-        public static SavedInputKey PanelSavedKey
-        {
-            get
-            {
-                // Create SavedInputKey instance for UUI communication if it doesn't already exist.
-                if (_uuiSavedKey == null)
-                {
-                    _uuiSavedKey = new SavedInputKey("RON hotkey", "RON hotkey", key: UIThreading.hotKey, control: UIThreading.hotCtrl, shift: UIThreading.hotShift, alt: UIThreading.hotAlt, true);
-                }
-
-                // Return reference.
-                return _uuiSavedKey;
-            }
-
-            set
-            {
-                // Convert provided SavedInputKey format to RON native format.
-                UIThreading.hotKey = value.Key;
-                UIThreading.hotShift = value.Shift;
-                UIThreading.hotCtrl = value.Control;
-                UIThreading.hotAlt = value.Alt;
-
-                // Update the UUI SavedInputKey instance to reflect the changes.
-                UpdateSavedInputKey();
-
-                // Save updated settings.
-                SettingsUtils.SaveSettings();
-            }
-        }
-
-
-        /// <summary>
-        /// Updates the UUI SavedInputKey reference with current RON hotkey values.
-        /// </summary>
-        internal static void UpdateSavedInputKey()
-        {
-            // Create SavedInputKey instance for UUI communication if it doesn't already exist.
-            if (_uuiSavedKey == null)
-            {
-                // Use getter null check to create instance.
-                _uuiSavedKey = PanelSavedKey;
-            }
-            else
-            {
-                // If it already exists, update instance with current RON values.
-                _uuiSavedKey.Key = UIThreading.hotKey;
-                _uuiSavedKey.Control = UIThreading.hotCtrl;
-                _uuiSavedKey.Shift = UIThreading.hotShift;
-                _uuiSavedKey.Alt = UIThreading.hotAlt;
+                uuiSavedKey.Key = (KeyCode)value.keyCode;
+                uuiSavedKey.Control = value.control;
+                uuiSavedKey.Shift = value.shift;
+                uuiSavedKey.Alt = value.alt;
             }
         }
 
@@ -161,19 +114,25 @@ namespace RON
             }
         }
 
-        // Enable advanced mode.
+
+        /// <summary>
+        /// Panel hotkey as ColossalFramework SavedInputKey.
+        /// </summary>
         [XmlIgnore]
-        private static bool enableAdvanced = false;
+        internal static SavedInputKey PanelSavedKey => uuiSavedKey;
 
 
-        // Auto-replace Network Extensions 2 roads on load.
+        /// <summary>
+        /// The current hotkey settings as ColossalFramework InputKey.
+        /// </summary>
+        /// </summary>
         [XmlIgnore]
-        private static bool replaceNExt2 = true;
+        internal static InputKey CurrentHotkey
+        {
+            get => uuiSavedKey.value;
 
-
-        // SavedInputKey reference for communicating with UUI.
-        [XmlIgnore]
-        private static SavedInputKey _uuiSavedKey;
+            set => uuiSavedKey.value = value;
+        }
     }
 
 

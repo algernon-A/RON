@@ -41,10 +41,8 @@ namespace RON
             // Record list of loaded networks.
             //AutoReplaceXML.SaveFile();
 
-
             // Record loaded status and prime input key.
             Loaded = true;
-            UIThreading.ignore = false;
 
             // Set up options panel event handler (need to redo this now that options panel has been reset after loading into game).
             OptionsPanelManager.OptionsEventHook();
