@@ -984,12 +984,7 @@ namespace RON
 						// No - apply network type filter.
 						if (MatchType(segmentInfo))
 						{
-							netList.Add(segmentInfo, new NetRowItem
-							{
-								prefab = segmentInfo,
-								displayName = PrefabUtils.GetDisplayName(segmentInfo, out bool _),
-								creator = PrefabUtils.GetCreator(segmentInfo)
-							});
+							netList.Add(segmentInfo, new NetRowItem(segmentInfo));
 						}
 					}
 
@@ -1092,12 +1087,7 @@ namespace RON
 							}
 
 							// Passed filtering; add this one to the list.
-							netList.Add(new NetRowItem
-							{
-								prefab = network,
-								displayName = displayName,
-								creator = creator
-							});
+							netList.Add(new NetRowItem(network, displayName, creator));
 						}
 					}
 				}
@@ -1148,8 +1138,8 @@ namespace RON
 				// Check for match.
 				if (ai.GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]))
 				{
-					// Match - return true.
-					return true;
+					// Match - return station match.
+					return PrefabUtils.IsStation(network) == PrefabUtils.IsStation(selectedTarget);
 				}
 			}
 

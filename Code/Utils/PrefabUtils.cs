@@ -376,6 +376,34 @@ namespace RON
 
 
         /// <summary>
+        /// Checks to see if the given network prefab is a station network.
+        /// </summary>
+        /// <param name="network">Network prefab to check</param>
+        /// <returns>True if this is a station network, false otherwise</returns>
+        internal static bool IsStation(NetInfo network)
+        {
+            // Check to see if this an eligible station network type (TranTrackBase [includes Monorail] or TranTrackBase).
+            PrefabAI netAI = network?.GetAI();
+            if (netAI is TrainTrackBaseAI || netAI is MetroTrackBaseAI)
+            {
+                // Check lanes for stations.
+                foreach (NetInfo.Lane lane in network.m_lanes)
+                {
+                    // Station networks are have a stop type.
+                    if (lane.m_stopType != VehicleInfo.VehicleType.None)
+                    {
+                        // Found a station; return true.
+                        return true;
+                    }
+                }
+            }
+
+            // If we got here, we didn't find a station; return false.
+            return false;
+        }
+
+
+        /// <summary>
         /// Adds a parent-child network relationship entry to the specified dictionary.
         /// </summary>
         /// <param name="dict">Dictionary <child, parent></child> to add to</param>
