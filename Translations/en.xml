@@ -25,6 +25,9 @@
     <Translation ID="RON_PNL_RAI" String="Rail - surface only" />
     <Translation ID="RON_PNL_RAB" String="Rail - elevated and bridge" />  
     <Translation ID="RON_PNL_RAT" String="Rail - tunnels" />
+    <Translation ID="RON_PNL_MTI" String="Metro - surface only" />
+    <Translation ID="RON_PNL_MTB" String="Metro - elevated and bridge" />
+    <Translation ID="RON_PNL_MTT" String="Metro - tunnels" />
     <Translation ID="RON_PNL_MOI" String="Monorail" />
     <Translation ID="RON_PNL_PED" String="Paths - surface only" />
     <Translation ID="RON_PNL_PEB" String="Paths - elevated and bridge" />

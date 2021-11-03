@@ -75,7 +75,7 @@ namespace RON
 		private const float NextX = LeftWidth + Margin - ButtonWidth;
 
 		// Nework type list.
-		private const int NumTypes = 16;
+		private const int NumTypes = 19;
 		private readonly string[] netDescriptions = new string[NumTypes]
 		{
 			Translations.Translate("RON_PNL_ROA"),
@@ -84,6 +84,9 @@ namespace RON
 			Translations.Translate("RON_PNL_RAI"),
 			Translations.Translate("RON_PNL_RAB"),
 			Translations.Translate("RON_PNL_RAT"),
+			Translations.Translate("RON_PNL_MTI"),
+			Translations.Translate("RON_PNL_MTB"),
+			Translations.Translate("RON_PNL_MTT"),
 			Translations.Translate("RON_PNL_MOI"),
 			Translations.Translate("RON_PNL_PED"),
 			Translations.Translate("RON_PNL_PEB"),
@@ -105,6 +108,9 @@ namespace RON
 			typeof(TrainTrackAI),
 			typeof(TrainTrackBridgeAI),
 			typeof(TrainTrackTunnelAI),
+			typeof(MetroTrackAI),
+			typeof(MetroTrackBridgeAI),
+			typeof(MetroTrackTunnelAI),
 			typeof(MonorailTrackAI),
 			typeof(PedestrianPathAI),
 			typeof(PedestrianBridgeAI),
@@ -128,6 +134,9 @@ namespace RON
 			InfoManager.InfoMode.Underground, // TrainTrackTunnelAI
 			InfoManager.InfoMode.None,
 			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.Underground, // MetroTrackTunnelAI
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.None,
 			InfoManager.InfoMode.None,
 			InfoManager.InfoMode.Underground, // PedestrianTunnelAI
 			InfoManager.InfoMode.None,
@@ -141,6 +150,9 @@ namespace RON
 		// InfoManager view submodes for each network type.
 		private readonly InfoManager.SubInfoMode[] netSubInfoModes = new InfoManager.SubInfoMode[NumTypes]
 		{
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.MaintenanceDepots, // Per game implementation.
 			InfoManager.SubInfoMode.None,
 			InfoManager.SubInfoMode.None,
 			InfoManager.SubInfoMode.MaintenanceDepots, // Per game implementation.
@@ -1132,14 +1144,14 @@ namespace RON
 		/// <returns>True if it matches the filter, false otherwise</returns>
 		private bool MatchType(NetInfo network)
 		{
-			// Make sure we have a valid net and AI.
-			if (network?.GetAI() is  NetAI ai)
+			// Make sure we have a valid net and AI.audit
+			if (network?.GetAI() is  PrefabAI ai)
 			{
 				// Check for match.
 				if (ai.GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]))
 				{
 					// Match - return station match.
-					return PrefabUtils.IsStation(network) == PrefabUtils.IsStation(selectedTarget);
+					return true;
 				}
 			}
 
