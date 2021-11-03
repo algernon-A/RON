@@ -54,24 +54,26 @@
 		/// Constructor - automatically sets values based on provided network prefab.
 		/// </summary>
 		/// <param name="network">Network prefab</param>
-		public NetRowItem(NetInfo network) : this(network, PrefabUtils.GetDisplayName(network, out _), PrefabUtils.GetCreator(network))
+		public NetRowItem(NetInfo network) : this(network, PrefabUtils.GetDisplayName(network, out _), PrefabUtils.GetCreator(network), PrefabUtils.IsStation(network))
         {
         }
 
 
 		/// <summary>
-		/// Constructor - automatically sets values based on provided network prefab and a pre-provided display name and creator name.
+		/// Constructor - automatically sets values based on provided network prefab and a pre-provided data.
 		/// </summary>
 		/// <param name="network">Network prefab</param>
 		/// <param name="displayName">Provided display name</param>
 		/// <param name="creatorName">Provided creator name</param>
-		public NetRowItem(NetInfo network, string displayName, string creatorName)
+		/// <param name="isStation">Provided station track status</param>
+		public NetRowItem(NetInfo network, string displayName, string creatorName, bool isStation)
 		{
 			prefab = network;
 			creator = creatorName;
-			isStation = PrefabUtils.IsStation(network);
+			this.isStation = isStation;
 
-			this.displayName = isStation ? displayName.Insert(0, "[S]") : displayName;
+			// Set display name according to station status.
+			this.displayName = isStation ? displayName.Insert(0, "[S] ") : displayName;
 		}
 	}
 }

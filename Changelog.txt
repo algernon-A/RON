@@ -1,4 +1,9 @@
-﻿Version 0.7.1 -
+﻿
+- Add support for metro tracks
+- Separately identify station tracks
+
+
+Version 0.7.1 -
 
 - Add Universal UI (UUI) button
 - Add proper escape key handling

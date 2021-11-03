@@ -181,6 +181,7 @@ namespace RON
 		internal List<ushort> selectedSegments;
 		private ushort currentSegment;
 		private NetInfo selectedTarget, selectedReplacement;
+		private bool selectedStation;
 
 		// Segment info record.
 		internal readonly Dictionary<NetInfo, List<ushort>> segmentDict = new Dictionary<NetInfo, List<ushort>>();
@@ -272,7 +273,11 @@ namespace RON
 				// Don't do anything if the target hasn't changed.
 				if (selectedTarget != value)
 				{
+					// Update target reference.
 					selectedTarget = value;
+
+					// Update station status.
+					selectedStation = PrefabUtils.IsStation(value);
 
 					// Reset selected segment.
 					currentSegment = 0;
@@ -1085,7 +1090,8 @@ namespace RON
 						)
 					{
 						// Apply network type filter or advanced mode, as applicable.
-						if ((advancedCheck != null && advancedCheck.isChecked) || MatchType(network))
+						bool advancedMode = advancedCheck != null && advancedCheck.isChecked;
+						if (advancedMode || MatchType(network))
 						{
 							// Apply width filter.
 							if (sameWidthCheck.isChecked && selectedTarget != null)
@@ -1097,9 +1103,16 @@ namespace RON
 									continue;
 								}
 							}
+							
+							// Apply station filter.
+							bool isStation = PrefabUtils.IsStation(network);
+							if (!advancedMode && isStation != selectedStation)
+                            {
+								continue;
+                            }
 
 							// Passed filtering; add this one to the list.
-							netList.Add(new NetRowItem(network, displayName, creator));
+							netList.Add(new NetRowItem(network, displayName, creator, isStation));
 						}
 					}
 				}
@@ -1150,7 +1163,7 @@ namespace RON
 				// Check for match.
 				if (ai.GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]))
 				{
-					// Match - return station match.
+					// Match - return true.
 					return true;
 				}
 			}
