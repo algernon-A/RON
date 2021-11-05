@@ -73,7 +73,25 @@
 			this.isStation = isStation;
 
 			// Set display name according to station status.
-			this.displayName = isStation ? displayName.Insert(0, "[S] ") : displayName;
+			if (isStation)
+			{
+				// Is a station track; insert "[S]" at appropriate point.
+				if (displayName[0] == '[')
+				{
+					// Display name starts with "[" : assume it's a RON identifier, and insert the station track identifier afterwards.
+					this.displayName = displayName.Insert(4, "[S] ");
+				}
+				else
+				{
+					// No RON identifier; insert station track identifier at start of string.
+					this.displayName = displayName.Insert(0, "[S] ");
+				}
+			}
+			else
+			{
+				// Not a station; use unchanged display name without station track identifier.
+				this.displayName = displayName;
+			}
 		}
 	}
 }
