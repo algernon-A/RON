@@ -71,6 +71,7 @@
     <Compile Include="Code\Settings\ModSettings.cs" />
     <Compile Include="Code\Settings\OptionsPanel.cs" />
     <Compile Include="Code\UI\RONTool.cs" />
+    <Compile Include="Code\UI\UIFastList\RONFastList.cs" />
     <Compile Include="Code\Utils\Logging.cs" />
     <Compile Include="Code\Mod.cs" />
     <Compile Include="Code\Replacer.cs" />

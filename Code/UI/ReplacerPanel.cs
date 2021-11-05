@@ -180,8 +180,7 @@ namespace RON
 		// Current selections.
 		internal List<ushort> selectedSegments;
 		private ushort currentSegment;
-		private NetInfo selectedTarget, selectedReplacement;
-		private bool selectedStation;
+		private NetInfo selectedReplacement;
 
 		// Segment info record.
 		internal readonly Dictionary<NetInfo, List<ushort>> segmentDict = new Dictionary<NetInfo, List<ushort>>();
@@ -193,7 +192,7 @@ namespace RON
 		internal readonly Dictionary<NetInfo, NetInfo> tunnelParents = new Dictionary<NetInfo, NetInfo>();
 
 		// Panel components.
-		private readonly UIFastList targetList, loadedList;
+		private readonly RONFastList targetList, loadedList;
 		private readonly UIButton replaceButton, undoButton, prevButton, nextButton;
 		private readonly UIButton targetNameButton, targetCreatorButton, loadedNameButton, loadedCreatorButton;
 		private readonly UITextField nameFilter;
@@ -264,20 +263,19 @@ namespace RON
 
 
 		/// <summary>
-		/// Setter for selected target.  Called by target network list items.
+		/// Currently selected NetRowItem.  Called by target network list items.
 		/// </summary>
-		internal NetInfo SelectedTarget
+		internal NetRowItem SelectedItem
 		{
+			private get => _selectedItem;
+
 			set
 			{
 				// Don't do anything if the target hasn't changed.
-				if (selectedTarget != value)
+				if (_selectedItem != value)
 				{
 					// Update target reference.
-					selectedTarget = value;
-
-					// Update station status.
-					selectedStation = PrefabUtils.IsStation(value);
+					_selectedItem = value;
 
 					// Reset selected segment.
 					currentSegment = 0;
@@ -292,10 +290,11 @@ namespace RON
 					}
 
 					// Update display (preview and button states).
-					DisplayNetwork(selectedTarget, targetPreviewSprite);
+					DisplayNetwork(SelectedPrefab, targetPreviewSprite);
 				}
 			}
 		}
+		private NetRowItem _selectedItem;
 
 
 		/// <summary>
@@ -312,6 +311,12 @@ namespace RON
 				DisplayNetwork(selectedReplacement, replacementPreviewSprite);
 			}
 		}
+
+
+		/// <summary>
+		/// Currently selected network prefab.
+		/// </summary>
+		private NetInfo SelectedPrefab => _selectedItem?.prefab;
 
 
 		/// <summary>
@@ -377,9 +382,6 @@ namespace RON
                 {
 					// Set dropdown menu.
 					typeDropDown.selectedIndex = i;
-
-					// Set new target info.
-					SelectedTarget = selectedNet;
 
 					// Set target list position.
 					targetList.FindItem(selectedNet);
@@ -463,7 +465,7 @@ namespace RON
 			leftPanel.width = LeftWidth;
 			leftPanel.height = ListHeight;
 			leftPanel.relativePosition = new Vector2(Margin, ListY);
-			targetList = UIFastList.Create<UITargetNetRow>(leftPanel);
+			targetList = RONFastList.Create<UITargetNetRow>(leftPanel);
 			ListSetup(targetList);
 
 			// Loaded network list.
@@ -471,7 +473,7 @@ namespace RON
 			rightPanel.width = RightWidth;
 			rightPanel.height = ListHeight;
 			rightPanel.relativePosition = new Vector2(RightPanelX, ListY);
-			loadedList = UIFastList.Create<UIReplacementNetRow>(rightPanel);
+			loadedList = RONFastList.Create<UIReplacementNetRow>(rightPanel);
 			ListSetup(loadedList);
 
 			// List titles.
@@ -607,7 +609,7 @@ namespace RON
 				ushort districtID = districtManager.GetDistrict(segmentBuffer[currentSegment].m_middlePosition);
 
 				// Iterate through each segment of this type in our dictionary, adding to our list of selected segments if both start and end nodes are in the same district as the initial segement.
-				foreach (ushort districtSegment in segmentDict[selectedTarget])
+				foreach (ushort districtSegment in segmentDict[SelectedPrefab])
 				{
 					if (districtManager.GetDistrict(nodeBuffer[segmentBuffer[districtSegment].m_startNode].m_position) == districtID && districtManager.GetDistrict(nodeBuffer[segmentBuffer[districtSegment].m_endNode].m_position) == districtID)
 					{
@@ -615,10 +617,10 @@ namespace RON
 					}
 				}
 			}
-			else if (selectedTarget != null && segmentDict != null)
+			else if (SelectedPrefab != null && segmentDict != null)
 			{
 				// Global replacements - just use list from segment dictionary.
-				selectedSegments = segmentDict[selectedTarget];
+				selectedSegments = segmentDict[SelectedPrefab];
 			}
 		}
 
@@ -695,13 +697,13 @@ namespace RON
 		private void Replace(UIComponent control, UIMouseEventParameter mouseEvent)
 		{
 			// Only do stuff if we've got valid selections.
-			if (selectedTarget != null & selectedReplacement != null)
+			if (SelectedPrefab != null & selectedReplacement != null)
 			{
 				// Set panel to replacing state.
 				SetReplacing();
 
 				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
-				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(selectedTarget, selectedReplacement, selectedSegments); } );
+				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(SelectedPrefab, selectedReplacement, selectedSegments); } );
 			}
 		}
 
@@ -740,7 +742,7 @@ namespace RON
 			for (ushort segmentID = 0; segmentID < segments.Length; ++segmentID)
 			{
 				// Check for match with selected target.
-				if (segments[segmentID].Info == selectedTarget)
+				if (segments[segmentID].Info == SelectedPrefab)
 				{
 					// Got a match - set target if it isn't already set (first instance found).
 					if (targetSegment == 0)
@@ -781,7 +783,7 @@ namespace RON
 			for (ushort segmentID = (ushort)(segments.Length - 1); segmentID > 0; --segmentID)
 			{
 				// Check for match with selected target.
-				if (segments[segmentID].Info == selectedTarget)
+				if (segments[segmentID].Info == SelectedPrefab)
 				{
 					// Got a match - set target if it isn't already set (first instance found).
 					if (targetSegment == 0)
@@ -932,7 +934,7 @@ namespace RON
 		private void UpdateButtonStates()
 		{
 			// Enable go to segment buttons if we have a valid target, disable it otherwise.
-			if (selectedTarget != null)
+			if (SelectedPrefab != null)
 			{
 				prevButton.Enable();
 				nextButton.Enable();
@@ -944,7 +946,7 @@ namespace RON
 			}
 
 			// Enable replace button if we have both a valid target and replacement, disable it otherwise.
-			replaceButton.isEnabled = selectedTarget != null && selectedReplacement != null;
+			replaceButton.isEnabled = SelectedPrefab != null && selectedReplacement != null;
 
 			// Enable undo button if we have a valid undo buffer.
 			undoButton.isEnabled = Replacer.HasUndo;
@@ -1046,7 +1048,7 @@ namespace RON
 
 			// Clear current selection.
 			targetList.selectedIndex = -1;
-			SelectedTarget = null;
+			SelectedItem = null;
 
 			// Force list update.
 			targetList.Refresh();
@@ -1062,57 +1064,58 @@ namespace RON
 			// List of prefabs to display.
 			List<NetRowItem> netList = new List<NetRowItem>();
 
-			// Iterate through all loaded networks.
-			for (uint i = 0u; i < PrefabCollection<NetInfo>.LoadedCount(); ++i)
+			// Don't do anything if there's no current selection.
+			if (SelectedPrefab != null)
 			{
-				// Get network and add to our list, if it isn't null.
-				NetInfo network = PrefabCollection<NetInfo>.GetLoaded(i);
-				if (network?.name != null)
+				// Iterate through all loaded networks.
+				for (uint i = 0u; i < PrefabCollection<NetInfo>.LoadedCount(); ++i)
 				{
-					// Get display name and creator name.
-					string displayName = PrefabUtils.GetDisplayName(network, out bool vaNext);
-
-					// Apply 'hide vanilla and Next' filter.
-					if (hideVanilla.isChecked && vaNext)
+					// Get network and add to our list, if it isn't null.
+					NetInfo network = PrefabCollection<NetInfo>.GetLoaded(i);
+					if (network?.name != null)
 					{
-						// It's vanilla/NExt.  Skip.
-						continue;
-					}
+						// Create new NetRowItem from this network.
+						NetRowItem newItem = new NetRowItem(network);
 
-					string creator = PrefabUtils.GetCreator(network);
-
-					// Apply text filter.
-					string trimmedText = nameFilter.text.Trim();
-					if (
-						StringExtensions.IsNullOrWhiteSpace(trimmedText) ||
-						(searchTypeMenu.selectedIndex == (int)SearchTypes.SearchNetwork && displayName.ToLower().Contains(trimmedText.ToLower())) ||
-						(searchTypeMenu.selectedIndex == (int)SearchTypes.SearchCreator && creator.ToLower().Contains(trimmedText.ToLower()))
-						)
-					{
-						// Apply network type filter or advanced mode, as applicable.
-						bool advancedMode = advancedCheck != null && advancedCheck.isChecked;
-						if (advancedMode || MatchType(network))
+						// Apply 'hide vanilla and Next' filter.
+						if (hideVanilla.isChecked && (newItem.isVanilla || newItem.isNExt2))
 						{
-							// Apply width filter.
-							if (sameWidthCheck.isChecked && selectedTarget != null)
+							// It's vanilla/NExt.  Skip.
+							continue;
+						}
+
+						// Apply text filter.
+						string trimmedText = nameFilter.text.Trim();
+						if (
+							StringExtensions.IsNullOrWhiteSpace(trimmedText) ||
+							(searchTypeMenu.selectedIndex == (int)SearchTypes.SearchNetwork && newItem.displayName.ToLower().Contains(trimmedText.ToLower())) ||
+							(searchTypeMenu.selectedIndex == (int)SearchTypes.SearchCreator && newItem.creator.ToLower().Contains(trimmedText.ToLower()))
+							)
+						{
+							// Apply network type filter or advanced mode, as applicable.
+							bool advancedMode = advancedCheck != null && advancedCheck.isChecked;
+							if (advancedMode || MatchType(network))
 							{
-								// Check if this network has the same half-width.
-								if (network.m_halfWidth != selectedTarget.m_halfWidth)
+								// Apply width filter.
+								if (sameWidthCheck.isChecked)
 								{
-									// No match; skip this one.
+									// Check if this network has the same half-width.
+									if (network.m_halfWidth != SelectedPrefab.m_halfWidth)
+									{
+										// No match; skip this one.
+										continue;
+									}
+								}
+
+								// Apply station filter.
+								if (!advancedMode && newItem.isStation != SelectedItem.isStation)
+								{
 									continue;
 								}
-							}
-							
-							// Apply station filter.
-							bool isStation = PrefabUtils.IsStation(network);
-							if (!advancedMode && isStation != selectedStation)
-                            {
-								continue;
-                            }
 
-							// Passed filtering; add this one to the list.
-							netList.Add(new NetRowItem(network, displayName, creator, isStation));
+								// Passed filtering; add this one to the list.
+								netList.Add(newItem);
+							}
 						}
 					}
 				}

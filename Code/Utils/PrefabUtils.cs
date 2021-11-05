@@ -226,61 +226,6 @@ namespace RON
 
 
         /// <summary>
-        /// Returns a cleaned-up display name for the given prefab.
-        /// </summary>
-        /// <param name="prefab">Prefab</param>
-        /// <param name="vaNext">Set to true if this is a vanilla or NExt network, false otherwise</param>
-        /// <returns>Cleaned display name</returns>
-        internal static string GetDisplayName(NetInfo prefab, out bool vaNext)
-        {
-            string fullName = prefab.name;
-
-            // Find any leading period (Steam package number).
-            int period = fullName.IndexOf('.');
-
-            // If no period, assume it's either vanilla or NExt
-            if (period < 0)
-            {
-                // Check for NEext prefabs.  NExt prefabs aren't as consistent as would be ideal....
-                if (
-                    prefab.m_class.name.StartsWith("NExt") ||
-                    prefab.m_class.name.StartsWith("NEXT") ||
-                    prefab.name.StartsWith("Small Busway") ||
-                    prefab.name.EndsWith("With Bus Lanes") ||
-                    prefab.name.Equals("PlainStreet2L") ||
-                    prefab.name.StartsWith("Highway2L2W") ||
-                    prefab.name.StartsWith("AsymHighwayL1R2")
-                )
-                {
-                    // It's a NExt asset; return full name preceeded by NExt flag.
-                    vaNext = true;
-                    return "[n] " + fullName;
-                }
-
-                // Check for Extra Train Station Tracks prefabs.
-                if (
-                    prefab.name.StartsWith("Station") ||
-                    prefab.name.StartsWith("Train Station Track (")
-                )
-                {
-                    // It's a ETST asset; return full name preceeded by mod flag.
-                    vaNext = false;
-                    return "[m] " + fullName;
-                }
-
-
-                // If we got here, it's vanilla; return full name preceeded by vanilla flag.
-                vaNext = true;
-                return "[v] " + fullName;
-            }
-
-            // Otherwise, omit the package number, and trim off any trailing _Data.
-            vaNext = false;
-            return fullName.Substring(period + 1).Replace("_Data", "");
-        }
-
-
-        /// <summary>
         /// Populates the creators dictionary.
         /// </summary>
         internal static void GetCreators()

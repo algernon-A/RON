@@ -10,16 +10,19 @@ namespace RON
     public class UINetRow : UIPanel, IUIFastListRow
     {
         // Layout constants.
+        public const float Margin = 5f;
         public const float RowHeight = 23f;
         public const float PaddingY = 5f;
-        public const float NameX = 5f;
-        public const float NameWidth = 300f;
-        public const float CreatorX = NameX + NameWidth + 10f;
+        public const float IndicatorWidth = 35f;
+        public const float NameX = Margin + IndicatorWidth;
+        public const float NameWidth = 270f;
+        public const float CreatorX = NameX + NameWidth + Margin;
         public const float TextScale = 0.8f;
+        public const float MinTextScale = 0.6f;
 
         // Panel components.
         private UIPanel panelBackground;
-        protected UILabel objectName, creatorName;
+        protected UILabel networkName, creatorName, indicatorLabel;
 
         // ObjectData.
         protected NetRowItem thisItem;
@@ -53,10 +56,11 @@ namespace RON
         {
             base.OnSizeChanged();
 
-            if (objectName != null)
+            if (networkName != null)
             {
+                // Set position and size.
                 Background.width = width;
-                objectName.relativePosition = new Vector2(NameX, PaddingY);
+                networkName.relativePosition = new Vector2(NameX, PaddingY);
                 creatorName.relativePosition = new Vector2(CreatorX, PaddingY);
             }
         }
@@ -89,7 +93,7 @@ namespace RON
         public virtual void Display(object data, bool isRowOdd)
         {
             // Perform initial setup for new rows.
-            if (objectName == null)
+            if (networkName == null)
             {
                 isVisible = true;
                 canFocus = true;
@@ -98,37 +102,78 @@ namespace RON
                 height = RowHeight;
 
                 // Add object name label.
-                objectName = AddUIComponent<UILabel>();
-                objectName.textScale = TextScale;
-                objectName.autoSize = false;
-                objectName.autoHeight = true;
-                objectName.width = NameWidth;
-                objectName.relativePosition = new Vector2(NameX, PaddingY);
-            }
+                networkName = AddUIComponent<UILabel>();
+                networkName.autoSize = true;
+                networkName.autoHeight = true;
+                networkName.relativePosition = new Vector2(NameX, PaddingY);
 
-            if (creatorName == null)
-            {
-                // Add object name label.
+                // Add creator name label.
                 creatorName = AddUIComponent<UILabel>();
-                creatorName.textScale = TextScale;
-                creatorName.autoSize = false;
+                creatorName.autoSize = true;
                 creatorName.autoHeight = true;
-                creatorName.width = this.width - CreatorX;
                 creatorName.relativePosition = new Vector2(CreatorX, PaddingY);
+
+                // Add indicator label
+                indicatorLabel = AddUIComponent<UILabel>();
+                indicatorLabel.textScale = TextScale;
+                indicatorLabel.autoSize = false;
+                indicatorLabel.autoHeight = true;
+                indicatorLabel.width = IndicatorWidth;
             }
 
             // Set display text.
             thisItem = data as NetRowItem;
             if (thisItem?.prefab != null)
             {
-                objectName.text = thisItem.displayName;
+                // Network name label.
+                networkName.text = thisItem.displayName;
+                networkName.textScale = TextScale;
+                ResizeLabel(networkName, NameWidth, MinTextScale);
+                
+                // Creator name label.
                 creatorName.text = thisItem.creator;
+                creatorName.textScale = TextScale;
+                ResizeLabel(creatorName, width - CreatorX, MinTextScale);
+
+                // Set indicator label text.
+                if (thisItem.isVanilla)
+                {
+                    indicatorLabel.text = "[v]";
+                }
+                else if (thisItem.isNExt2)
+                {
+                    indicatorLabel.text = "[n]";
+                }
+                else if (thisItem.isMod)
+                {
+                    indicatorLabel.text = "[m]";
+                }
+                else
+                {
+                    indicatorLabel.text = string.Empty;
+                }
+
+                // Set indicator label position.
+                indicatorLabel.relativePosition = new Vector2(Margin, PaddingY);
+
+                // Set indicator for stations.
+                if (thisItem.isStation)
+                {
+                    // Move to left to accomodate greater width if a flag already exists.
+                    if (!indicatorLabel.text.Equals(string.Empty))
+                    {
+                        indicatorLabel.relativePosition = new Vector2(Margin / 2f, PaddingY);
+                    }
+
+                    indicatorLabel.text += "[s]";
+                }
             }
             else
             {
                 // Null reference; clear text.
-                objectName.text = null;
-                creatorName.text = null;
+                networkName.text = string.Empty;
+                creatorName.text = string.Empty;
+                indicatorLabel.text = string.Empty;
             }
 
             // Set initial background as deselected state.
@@ -163,6 +208,33 @@ namespace RON
             {
                 // Darker background for even rows.
                 Background.backgroundSprite = null;
+            }
+        }
+
+
+        /// <summary>
+        /// Dynamically resizes a text label by shrinking the text scale until it fits within the desired maximum width.
+        /// </summary>
+        /// <param name="label">Label to resize</param>
+        /// <param name="maxWidth">Maximum acceptable label width</param>
+        /// <param name="minScale">Minimum acceptible label scale (to nearest increment of 0.05f</param>
+        private void ResizeLabel(UILabel label, float maxWidth, float minScale)
+        {
+            // Don't do anything with negative widths or scales.
+            if (maxWidth < 10f || minScale < 0.5f)
+            {
+                return;
+            }
+
+            // Make sure label is autosizeable and up-to-date.
+            label.autoSize = true;
+            label.PerformLayout();
+
+            // Iterate through text scales until minimum is reached.
+            while (label.width > maxWidth && label.textScale > minScale)
+            {
+                label.textScale -= 0.05f;
+                label.PerformLayout();
             }
         }
     }

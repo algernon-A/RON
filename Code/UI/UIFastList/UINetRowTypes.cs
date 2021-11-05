@@ -27,7 +27,7 @@
 		public override void UpdateSelection()
 		{
 			// Update currently selected target prefab.
-			ReplacerPanel.Panel.SelectedTarget = thisItem.prefab;
+			ReplacerPanel.Panel.SelectedItem = thisItem;
 		}
 	}
 
@@ -49,49 +49,68 @@
 		// If this is a station network.
 		public bool isStation;
 
+		// If this is a vanilla/NExt2/mod asset.
+		public bool isVanilla = false, isNExt2 = false, isMod = false;
+
 
 		/// <summary>
 		/// Constructor - automatically sets values based on provided network prefab.
 		/// </summary>
 		/// <param name="network">Network prefab</param>
-		public NetRowItem(NetInfo network) : this(network, PrefabUtils.GetDisplayName(network, out _), PrefabUtils.GetCreator(network), PrefabUtils.IsStation(network))
+		public NetRowItem(NetInfo network)
         {
-        }
+			prefab = network;
+			GetDisplayName();
+			CheckIsMod();
+			creator = PrefabUtils.GetCreator(network);
+			isStation = PrefabUtils.IsStation(network);
+		}
 
 
 		/// <summary>
-		/// Constructor - automatically sets values based on provided network prefab and a pre-provided data.
+		/// Sets displayName to a cleaned-up display name for the given prefab.
 		/// </summary>
-		/// <param name="network">Network prefab</param>
-		/// <param name="displayName">Provided display name</param>
-		/// <param name="creatorName">Provided creator name</param>
-		/// <param name="isStation">Provided station track status</param>
-		public NetRowItem(NetInfo network, string displayName, string creatorName, bool isStation)
+		/// <param name="isVanilla">Set to true if this is a vanilla network, false otherwise</param>
+		/// <param name="isNExt2">Set to true if this is a NExt network, false otherwise</param>
+		private void GetDisplayName()
 		{
-			prefab = network;
-			creator = creatorName;
-			this.isStation = isStation;
+			string fullName = prefab.name;
 
-			// Set display name according to station status.
-			if (isStation)
+			// Find any leading period (Steam package number).
+			int period = fullName.IndexOf('.');
+
+			// If no period, assume it's either vanilla or NExt
+			if (period < 0)
 			{
-				// Is a station track; insert "[S]" at appropriate point.
-				if (displayName[0] == '[')
-				{
-					// Display name starts with "[" : assume it's a RON identifier, and insert the station track identifier afterwards.
-					this.displayName = displayName.Insert(4, "[S] ");
-				}
-				else
-				{
-					// No RON identifier; insert station track identifier at start of string.
-					this.displayName = displayName.Insert(0, "[S] ");
-				}
+				// Check for NEext prefabs.  NExt prefabs aren't as consistent as would be ideal....
+				isNExt2 = (
+					prefab.m_class.name.StartsWith("NExt") ||
+					prefab.m_class.name.StartsWith("NEXT") ||
+					prefab.name.StartsWith("Small Busway") ||
+					prefab.name.EndsWith("With Bus Lanes") ||
+					prefab.name.Equals("PlainStreet2L") ||
+					prefab.name.StartsWith("Highway2L2W") ||
+					prefab.name.StartsWith("AsymHighwayL1R2")
+				);
+				isVanilla = !isNExt2;
+				displayName = fullName;
 			}
-			else
-			{
-				// Not a station; use unchanged display name without station track identifier.
-				this.displayName = displayName;
-			}
+
+			// Otherwise, omit the package number, and trim off any trailing _Data.
+			displayName = fullName.Substring(period + 1).Replace("_Data", "");
+		}
+
+
+		/// <summary>
+		/// Sets the isMod field according to whether the network is from a mod, e.g. Extra Train Station Tracks.
+		/// </summary>
+		/// <param name="prefab">Network prefab to check</param>
+		/// <returns></returns>
+		private void CheckIsMod()
+		{
+			// Check for Extra Train Station Tracks prefabs.
+			isMod = prefab.name.StartsWith("Station") ||
+					prefab.name.StartsWith("Train Station Track (");
 		}
 	}
 }
