@@ -13,7 +13,7 @@ namespace RON
         public const float Margin = 5f;
         public const float RowHeight = 23f;
         public const float PaddingY = 5f;
-        public const float IndicatorWidth = 35f;
+        public const float IndicatorWidth = 40f;
         public const float NameX = Margin + IndicatorWidth;
         public const float NameWidth = 270f;
         public const float CreatorX = NameX + NameWidth + Margin;
@@ -135,7 +135,7 @@ namespace RON
                 creatorName.textScale = TextScale;
                 ResizeLabel(creatorName, width - CreatorX, MinTextScale);
 
-                // Set indicator label text.
+                // Set indicator label text and tooltip.
                 if (thisItem.isVanilla)
                 {
                     indicatorLabel.text = "[v]";
@@ -153,6 +153,7 @@ namespace RON
                 }
                 else
                 {
+                    // Default - no label or tooltip.
                     indicatorLabel.text = string.Empty;
                     indicatorLabel.tooltip = string.Empty;
                 }
@@ -170,7 +171,9 @@ namespace RON
                     }
 
                     indicatorLabel.text += "[s]";
-                    indicatorLabel.tooltip = Translations.Translate("RON_TIP_STA");
+
+                    // Tooltip 
+                    indicatorLabel.tooltip = indicatorLabel.tooltip == string.Empty ? Translations.Translate("RON_TIP_STA") : indicatorLabel.tooltip + System.Environment.NewLine + Translations.Translate("RON_TIP_STA");
                 }
             }
             else
