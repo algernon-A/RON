@@ -39,6 +39,10 @@
     <Translation ID="RON_PNL_CAN" String="Canals" />
     <Translation ID="RON_PNL_PIP" String="Pipes" />
     <Translation ID="RON_PNL_RIP" String="Replacement in progress" />
+    <Translation ID="RON_TIP_VAN" String="This network is a vanilla network (part of the base game)"/>
+    <Translation ID="RON_TIP_NEX" String="This network is from the Network Extensions 2 (NExt2) mod" />
+    <Translation ID="RON_TIP_MOD" String="This network is from a mod" />/>
+    <Translation ID="RON_TIP_STA" String="This is a station track and should only be used as part of dedicated transport stations" />
     <Translation ID="RON_FIL_NAME" String="Search:" />
     <Translation ID="RON_OPT_ADV" String="Enable advanced mode" />
     <Translation ID="RON_OPT_ADV2" String="(enables replacement with different network types)" />

@@ -139,18 +139,22 @@ namespace RON
                 if (thisItem.isVanilla)
                 {
                     indicatorLabel.text = "[v]";
+                    indicatorLabel.tooltip = Translations.Translate("RON_TIP_VAN");
                 }
                 else if (thisItem.isNExt2)
                 {
                     indicatorLabel.text = "[n]";
+                    indicatorLabel.tooltip = Translations.Translate("RON_TIP_NEX");
                 }
                 else if (thisItem.isMod)
                 {
                     indicatorLabel.text = "[m]";
+                    indicatorLabel.tooltip = Translations.Translate("RON_TIP_MOD");
                 }
                 else
                 {
                     indicatorLabel.text = string.Empty;
+                    indicatorLabel.tooltip = string.Empty;
                 }
 
                 // Set indicator label position.
@@ -166,6 +170,7 @@ namespace RON
                     }
 
                     indicatorLabel.text += "[s]";
+                    indicatorLabel.tooltip = Translations.Translate("RON_TIP_STA");
                 }
             }
             else

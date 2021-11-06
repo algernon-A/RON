@@ -61,7 +61,6 @@
         {
 			prefab = network;
 			GetDisplayName();
-			CheckIsMod();
 			creator = PrefabUtils.GetCreator(network);
 			isStation = PrefabUtils.IsStation(network);
 		}
@@ -92,25 +91,21 @@
 					prefab.name.StartsWith("Highway2L2W") ||
 					prefab.name.StartsWith("AsymHighwayL1R2")
 				);
-				isVanilla = !isNExt2;
+
+				// Check for Extra Train Station Tracks prefabs if these  aren't NExt2.
+				if (!isNExt2)
+                {
+					isMod = prefab.name.StartsWith("Station") ||
+					prefab.name.StartsWith("Train Station Track (");
+				}
+
+				// Set vanilla flag and display name.
+				isVanilla = !(isNExt2 || isMod);
 				displayName = fullName;
 			}
 
 			// Otherwise, omit the package number, and trim off any trailing _Data.
 			displayName = fullName.Substring(period + 1).Replace("_Data", "");
-		}
-
-
-		/// <summary>
-		/// Sets the isMod field according to whether the network is from a mod, e.g. Extra Train Station Tracks.
-		/// </summary>
-		/// <param name="prefab">Network prefab to check</param>
-		/// <returns></returns>
-		private void CheckIsMod()
-		{
-			// Check for Extra Train Station Tracks prefabs.
-			isMod = prefab.name.StartsWith("Station") ||
-					prefab.name.StartsWith("Train Station Track (");
 		}
 	}
 }

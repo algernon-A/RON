@@ -1064,8 +1064,8 @@ namespace RON
 			// List of prefabs to display.
 			List<NetRowItem> netList = new List<NetRowItem>();
 
-			// Don't do anything if there's no current selection.
-			if (SelectedPrefab != null)
+			// Don't do anything if there's no current selection and we haven't selected 'show all networks'.
+			if (SelectedPrefab != null || (advancedCheck != null && advancedCheck.isChecked))
 			{
 				// Iterate through all loaded networks.
 				for (uint i = 0u; i < PrefabCollection<NetInfo>.LoadedCount(); ++i)
@@ -1097,7 +1097,7 @@ namespace RON
 							if (advancedMode || MatchType(network))
 							{
 								// Apply width filter.
-								if (sameWidthCheck.isChecked)
+								if (sameWidthCheck.isChecked && SelectedPrefab != null)
 								{
 									// Check if this network has the same half-width.
 									if (network.m_halfWidth != SelectedPrefab.m_halfWidth)
