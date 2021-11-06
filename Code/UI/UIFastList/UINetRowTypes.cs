@@ -36,7 +36,7 @@
 	/// Data structure class for individual net row display lines.
 	/// </summary>
 	public class NetRowItem
-    {
+	{
 		// Network prefab.
 		public NetInfo prefab;
 
@@ -49,7 +49,7 @@
 		// If this is a station network.
 		public bool isStation;
 
-		// If this is a vanilla/NExt2/mod asset.
+		// Network indicator flags - if this is a vanilla/NExt2/mod asset.
 		public bool isVanilla = false, isNExt2 = false, isMod = false;
 
 
@@ -58,7 +58,7 @@
 		/// </summary>
 		/// <param name="network">Network prefab</param>
 		public NetRowItem(NetInfo network)
-        {
+		{
 			prefab = network;
 			GetDisplayName();
 			creator = PrefabUtils.GetCreator(network);
@@ -67,10 +67,8 @@
 
 
 		/// <summary>
-		/// Sets displayName to a cleaned-up display name for the given prefab.
+		/// Sets displayName to a cleaned-up display name for the given prefab and also sets network indicator flags.
 		/// </summary>
-		/// <param name="isVanilla">Set to true if this is a vanilla network, false otherwise</param>
-		/// <param name="isNExt2">Set to true if this is a NExt network, false otherwise</param>
 		private void GetDisplayName()
 		{
 			string fullName = prefab.name;
@@ -92,12 +90,11 @@
 					prefab.name.StartsWith("AsymHighwayL1R2")
 				);
 
-				// Check for Extra Train Station Tracks prefabs if these  aren't NExt2.
-				if (!isNExt2)
-                {
-					isMod = prefab.name.StartsWith("Station") ||
-					prefab.name.StartsWith("Train Station Track (");
-				}
+				// Check for Extra Train Station Tracks and OneWayTrainTrck prefabs; this overrides the NExt2 check due to some OneWayTrainTrack prefabs haveing 'NExtSingleStaitonTrack' ItemClass (and hence being picked up above as NExt2 items).
+				isMod = prefab.name.StartsWith("Station") ||
+				prefab.name.StartsWith("Train Station Track (") ||
+				prefab.name.StartsWith("Rail1L");
+				isNExt2 = isNExt2 && !isMod;
 
 				// Set vanilla flag and display name.
 				isVanilla = !(isNExt2 || isMod);
