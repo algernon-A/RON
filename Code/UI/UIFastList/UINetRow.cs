@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using ColossalFramework.UI;
 
 
@@ -9,20 +10,26 @@ namespace RON
     /// </summary>
     public class UINetRow : UIPanel, IUIFastListRow
     {
-        // Layout constants.
-        public const float Margin = 5f;
+        // Layout constants - public.
         public const float RowHeight = 23f;
-        public const float PaddingY = 5f;
-        public const float IndicatorWidth = 40f;
-        public const float NameX = Margin + IndicatorWidth;
-        public const float NameWidth = 270f;
+        public const float NameX = CategoryX + CategoryWidth + IndicatorMargin;
         public const float CreatorX = NameX + NameWidth + Margin;
-        public const float TextScale = 0.8f;
-        public const float MinTextScale = 0.6f;
+
+        // Layout constants - private.
+        private const float Margin = 5f;
+        private const float IndicatorMargin = 2f;
+        private const float StationX = IndicatorMargin;
+        private const float StationWidth = 17f;
+        private const float CategoryX = StationX + StationWidth + IndicatorMargin;
+        private const float CategoryWidth = 23f;
+        private const float NameWidth = 270f;
+        private const float LabelHeight = 14f;
+        private const float TextScale = 0.8f;
+        private const float MinTextScale = 0.65f;
 
         // Panel components.
         private UIPanel panelBackground;
-        protected UILabel networkName, creatorName, indicatorLabel;
+        protected UILabel networkName, creatorName, stationLabel, categoryLabel;
 
         // ObjectData.
         protected NetRowItem thisItem;
@@ -58,10 +65,14 @@ namespace RON
 
             if (networkName != null)
             {
-                // Set position and size.
+                // Set background with.
                 Background.width = width;
-                networkName.relativePosition = new Vector2(NameX, PaddingY);
-                creatorName.relativePosition = new Vector2(CreatorX, PaddingY);
+
+                // Set label positions.
+                networkName.relativePosition = new Vector2(NameX, (RowHeight - networkName.height) / 2f);
+                creatorName.relativePosition = new Vector2(CreatorX, (RowHeight - creatorName.height) / 2f);
+                stationLabel.relativePosition = new Vector2(StationX, (RowHeight - LabelHeight) / 2f);
+                categoryLabel.relativePosition = new Vector2(CategoryX, (RowHeight - LabelHeight) / 2f);
             }
         }
 
@@ -103,22 +114,29 @@ namespace RON
 
                 // Add object name label.
                 networkName = AddUIComponent<UILabel>();
+                networkName.textScale = TextScale;
                 networkName.autoSize = true;
-                networkName.autoHeight = true;
-                networkName.relativePosition = new Vector2(NameX, PaddingY);
 
                 // Add creator name label.
                 creatorName = AddUIComponent<UILabel>();
+                creatorName.textScale = TextScale;
                 creatorName.autoSize = true;
-                creatorName.autoHeight = true;
-                creatorName.relativePosition = new Vector2(CreatorX, PaddingY);
 
-                // Add indicator label
-                indicatorLabel = AddUIComponent<UILabel>();
-                indicatorLabel.textScale = TextScale;
-                indicatorLabel.autoSize = false;
-                indicatorLabel.autoHeight = true;
-                indicatorLabel.width = IndicatorWidth;
+                // Add station label.
+                stationLabel = AddUIComponent<UILabel>();
+                stationLabel.autoSize = false;
+                stationLabel.autoHeight = false;
+                stationLabel.textScale = TextScale;
+                stationLabel.width = StationWidth;
+                stationLabel.height = LabelHeight;
+
+                // Add category label.
+                categoryLabel = AddUIComponent<UILabel>();
+                categoryLabel.autoSize = false;
+                categoryLabel.autoHeight = false;
+                categoryLabel.textScale = TextScale;
+                categoryLabel.width = CategoryWidth;
+                categoryLabel.height = LabelHeight;
             }
 
             // Set display text.
@@ -135,53 +153,56 @@ namespace RON
                 creatorName.textScale = TextScale;
                 ResizeLabel(creatorName, width - CreatorX, MinTextScale);
 
-                // Set indicator label text and tooltip.
+                // Set category label text and tooltip.
                 if (thisItem.isVanilla)
                 {
-                    indicatorLabel.text = "[v]";
-                    indicatorLabel.tooltip = Translations.Translate("RON_TIP_VAN");
+                    categoryLabel.text = "[v]";
+                    categoryLabel.tooltip = Translations.Translate("RON_TIP_VAN");
                 }
                 else if (thisItem.isNExt2)
                 {
-                    indicatorLabel.text = "[n]";
-                    indicatorLabel.tooltip = Translations.Translate("RON_TIP_NEX");
+                    categoryLabel.text = "[n]";
+                    categoryLabel.tooltip = Translations.Translate("RON_TIP_NEX");
                 }
                 else if (thisItem.isMod)
                 {
-                    indicatorLabel.text = "[m]";
-                    indicatorLabel.tooltip = Translations.Translate("RON_TIP_MOD");
+                    categoryLabel.text = "[m]";
+                    categoryLabel.tooltip = Translations.Translate("RON_TIP_MOD");
                 }
                 else
                 {
                     // Default - no label or tooltip.
-                    indicatorLabel.text = string.Empty;
-                    indicatorLabel.tooltip = string.Empty;
+                    categoryLabel.text = " ";
+                    categoryLabel.tooltip = null;
                 }
 
-                // Set indicator label position.
-                indicatorLabel.relativePosition = new Vector2(Margin, PaddingY);
-
-                // Set indicator for stations.
+                // Set station label.
                 if (thisItem.isStation)
                 {
-                    // Move to left to accomodate greater width if a flag already exists.
-                    if (!indicatorLabel.text.Equals(string.Empty))
-                    {
-                        indicatorLabel.relativePosition = new Vector2(Margin / 2f, PaddingY);
-                    }
-
-                    indicatorLabel.text += "[s]";
-
-                    // Tooltip 
-                    indicatorLabel.tooltip = indicatorLabel.tooltip == string.Empty ? Translations.Translate("RON_TIP_STA") : indicatorLabel.tooltip + System.Environment.NewLine + Translations.Translate("RON_TIP_STA");
+                    stationLabel.text = "[s]";
+                    stationLabel.tooltip = Translations.Translate("RON_TIP_STA");
                 }
+                else
+                {
+                    // Default - no label or tooltip.
+                    stationLabel.text = " ";
+                    stationLabel.tooltip = null;
+                }
+
+                // Set label positions and heights (accounting for any change in text scaling).
+                OnSizeChanged();
             }
             else
             {
                 // Null reference; clear text.
                 networkName.text = string.Empty;
                 creatorName.text = string.Empty;
-                indicatorLabel.text = string.Empty;
+
+                // Clear labels and tooltips.
+                categoryLabel.text = " ";
+                categoryLabel.tooltip = null;
+                stationLabel.text = " ";
+                stationLabel.tooltip = null;
             }
 
             // Set initial background as deselected state.
@@ -243,6 +264,13 @@ namespace RON
             {
                 label.textScale -= 0.05f;
                 label.PerformLayout();
+            }
+
+            // Finally, clamp label size.
+            label.autoSize = false;
+            if (label.width > maxWidth)
+            {
+                label.width = maxWidth;
             }
         }
     }
