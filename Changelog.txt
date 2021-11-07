@@ -1,7 +1,7 @@
 ﻿
 - Add support for metro tracks
 - Separately identify station tracks
-- Add detection of OneWayTrainTrack mod tracks
+- Add detection of One-Way Train Tracks mod tracks
 - Adjust network type indicator labels and add tooltips
 
 
