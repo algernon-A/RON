@@ -36,6 +36,10 @@
     <Translation ID="RON_PNL_CAN" String="Kanäle" />
     <Translation ID="RON_PNL_PIP" String="Rohrleitungen" />
     <Translation ID="RON_PNL_RIP" String="Austausch wird vorgenommen " />
+    <Translation ID="RON_TIP_VAN" String="Dies ist ein Vanilla-Netzwerk (Teil des Basis-Spiels)." />
+    <Translation ID="RON_TIP_NEX" String="Dies ist ein Network Extensions 2 Netzwerk (NExt2)." />
+    <Translation ID="RON_TIP_MOD" String="Dies ist ein Netzwerk aus einer Mod." />
+    <Translation ID="RON_TIP_STA" String="Dies ist ein Stations-Gleis und sollte nur als Teil einer Station verwendet werden." />
     <Translation ID="RON_FIL_NAME" String="Suche:" />
     <Translation ID="RON_OPT_ADV" String="Schalte den Profi-Modus ein" />
     <Translation ID="RON_OPT_ADV2" String="(ermöglicht den Austausch mit anderen Netzwerk-Arten)" />
