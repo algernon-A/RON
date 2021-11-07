@@ -262,7 +262,7 @@ namespace RON
             // Iterate through text scales until minimum is reached.
             while (label.width > maxWidth && label.textScale > minScale)
             {
-                label.textScale -= 0.05f;
+                label.textScale -= 0.01f;
                 label.PerformLayout();
             }
 
