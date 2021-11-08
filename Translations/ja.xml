@@ -17,7 +17,7 @@
     <Translation ID="RON_PNL_SEG" String="個々のセグメントで置換"/>
     <Translation ID="RON_PNL_HDV" String="バニラとNExtは非表示"/>
     <Translation ID="RON_PNL_WID" String="同じ幅のみ表示"/>
-    <Translation ID="RON_PNL_ADV" String="全てのネットワークを表示 (Advanced Mode)"/>
+    <Translation ID="RON_PNL_ADV" String="全てのネットワークを表示(Advanced Mode)"/>
     <Translation ID="RON_PNL_TYP" String="ネットワークの種類"/>
     <Translation ID="RON_PNL_ROA" String="道路 - 地上のみ"/>
     <Translation ID="RON_PNL_ROB" String="道路 - 高架と橋"/>
@@ -39,6 +39,10 @@
     <Translation ID="RON_PNL_CAN" String="水路・運河"/>
     <Translation ID="RON_PNL_PIP" String="水道管"/>
     <Translation ID="RON_PNL_RIP" String="置換中"/>
+    <Translation ID="RON_TIP_VAN" String="このネットワークは、バニラ(ベースゲーム部分)のネットワークです"/>
+    <Translation ID="RON_TIP_NEX" String="このネットワークは、Network Extensions 2(NExt2)のネットワークです"/>
+    <Translation ID="RON_TIP_MOD" String="このネットワークは、アセット・MODのネットワークです"/>
+    <Translation ID="RON_TIP_STA" String="これはステーショントラックで、駅の構内で使用すべきトラックです"/>
     <Translation ID="RON_FIL_NAME" String="検索:"/>
     <Translation ID="RON_OPT_ADV" String="Advanced Modeを有効化"/>
     <Translation ID="RON_OPT_ADV2" String="(異なるタイプのネットワークに置換が可能)"/>
