@@ -1,4 +1,5 @@
-﻿
+﻿Version 0.8 -
+
 - Add support for metro tracks
 - Separately identify station tracks
 - Add detection of One-Way Train Tracks mod tracks
