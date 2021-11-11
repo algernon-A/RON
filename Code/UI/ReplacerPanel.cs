@@ -27,7 +27,7 @@ namespace RON
 
 
 	/// <summary>
-	/// Static class to manage the BOB info panel.
+	/// Static class to manage the RON info panel.
 	/// </summary>
 	internal class ReplacerPanel : UIPanel
 	{
@@ -74,7 +74,7 @@ namespace RON
 		private const float PrevX = Margin;
 		private const float NextX = LeftWidth + Margin - ButtonWidth;
 
-		// Nework type list.
+		// Network type list.
 		private const int NumTypes = 19;
 		private readonly string[] netDescriptions = new string[NumTypes]
 		{
