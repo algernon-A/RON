@@ -2,7 +2,7 @@
 <Language UniqueName="zh" ReadableName="简体中文">
   <Translations>
     <Translation ID="RON_NAM" String="RON: 道路替换器（RON:the network replacer）" />
-    <Translation ID="RON_DESC" String="持续开发中：一个替换道路（轨道）的工具" />
+    <Translation ID="RON_DESC" String="替换道路（轨道）的工具。" />
     <Translation ID="RON_PNL_MAP" String="地图中的道路" />
     <Translation ID="RON_PNL_AVA" String="可替换" />
     <Translation ID="RON_PNL_NET" String="道路" />
@@ -25,6 +25,9 @@
     <Translation ID="RON_PNL_RAI" String="轨道 - 仅表面" />
     <Translation ID="RON_PNL_RAB" String="轨道 - 高架和桥梁" />
     <Translation ID="RON_PNL_RAT" String="轨道 - 隧道" />
+    <Translation ID="RON_PNL_MTI" String="地铁 - 仅表面" />
+    <Translation ID="RON_PNL_MTB" String="地铁 - 高架和桥梁" />
+    <Translation ID="RON_PNL_MTT" String="地铁 - 隧道" />
     <Translation ID="RON_PNL_MOI" String="单轨" />
     <Translation ID="RON_PNL_PED" String="路径 - 仅表面" />
     <Translation ID="RON_PNL_PEB" String="路径 - 高架和桥梁" />
@@ -32,10 +35,14 @@
     <Translation ID="RON_PNL_PEA" String="路径 - 大学于公园区域" />
     <Translation ID="RON_PNL_DEC" String="装饰" />
     <Translation ID="RON_PNL_ELI" String="电线" />
-    <Translation ID="RON_PNL_QUA" String="码头" />
+    <Translation ID="RON_PNL_QUA" String="护堤" />
     <Translation ID="RON_PNL_CAN" String="运河" />
     <Translation ID="RON_PNL_PIP" String="管道" />
     <Translation ID="RON_PNL_RIP" String="替换中" />
+    <Translation ID="RON_TIP_VAN" String="该路段为原版道路（游戏原版）。"/>
+    <Translation ID="RON_TIP_NEX" String="该路段为Network Extensions 2 (NExt2)." />
+    <Translation ID="RON_TIP_MOD" String="该道路为其他模组道路" />/>
+    <Translation ID="RON_TIP_STA" String="这是车站轨道，只能作为车站的一部分使用。" />
     <Translation ID="RON_FIL_NAME" String="搜索：" />
     <Translation ID="RON_OPT_ADV" String="启用高级模式" />
     <Translation ID="RON_OPT_ADV2" String="(支持使用不同的网络类型进行替换)" />
@@ -47,6 +54,6 @@
     <Translation ID="KEY_PRS" String="请按任意键" />
     <Translation ID="ERR_NXT" String="RON无法在这张地图上替换Extensions 2的道路，因为必需的替换包不可用(禁用或未订阅):" />
     <Translation ID="MES_CLS" String="关闭" />
-    <Translation ID="MES_PAGE" String="请前往该模组的创意工坊详情页查看更多信息" />
+    <Translation ID="MES_PAGE" String="请前往该模组的创意工坊详情页查看更多信息。" />
   </Translations>
 </Language>
