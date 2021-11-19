@@ -1251,7 +1251,7 @@ namespace RON
 				SetFgSprites(activeButton, "IconDownArrow2Focused");
 			}
 
-			// Reset name order button.
+			// Reset inactive button.
 			SetFgSprites(inactiveButton, "IconUpArrow2");
 		}
 

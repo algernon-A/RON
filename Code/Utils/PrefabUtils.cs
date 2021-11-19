@@ -253,7 +253,6 @@ namespace RON
         }
 
 
-
         /// <summary>
         /// Gets the name of the creator of the given network.
         /// </summary>

@@ -1,7 +1,7 @@
 ﻿namespace RON
 {
 	/// <summary>
-	/// Prop row fastlist item for loaded props/trees.
+	/// Prop row fastlist item for loaded (replacement) networks.
 	/// </summary>
 	public class UIReplacementNetRow : UINetRow
 	{
@@ -17,7 +17,7 @@
 
 
 	/// <summary>
-	/// Prop row fastlist item for building props/trees.
+	/// Prop row fastlist item for target networks.
 	/// </summary>
 	public class UITargetNetRow : UINetRow
 	{
