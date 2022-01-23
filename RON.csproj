@@ -65,11 +65,13 @@
     <Compile Include="Code\Loading.cs" />
     <Compile Include="Code\Notifications\ListMessageBox.cs" />
     <Compile Include="Code\Notifications\MessageBoxBase.cs" />
+    <Compile Include="Code\Patches\BuildingTool.cs" />
     <Compile Include="Code\Patches\Escape.cs" />
     <Compile Include="Code\Patches\Patcher.cs" />
     <Compile Include="Code\Patches\ResolveLegacyPrefab.cs" />
     <Compile Include="Code\Settings\ModSettings.cs" />
     <Compile Include="Code\Settings\OptionsPanel.cs" />
+    <Compile Include="Code\UI\StationPanel.cs" />
     <Compile Include="Code\UI\RONTool.cs" />
     <Compile Include="Code\UI\UIFastList\RONFastList.cs" />
     <Compile Include="Code\Utils\Logging.cs" />

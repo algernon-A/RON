@@ -33,6 +33,61 @@
 
 
 	/// <summary>
+	/// Prop row fastlist item for target networks for the station panel.
+	/// </summary>
+	public class UIStationTargetNetRow : UINetRow
+	{
+		// Station path index of this row item.
+		private int thisIndex;
+
+
+		/// <summary>
+		/// Called when this item is selected.
+		/// </summary>
+		public override void UpdateSelection()
+		{
+			// Update currently selected replacement prefab.
+			StationPanel.Panel.SelectedIndex = thisIndex;
+		}
+
+
+		/// <summary>
+		/// Generates and displays a network row.
+		/// </summary>
+		/// <param name="data">Object to list</param>
+		/// <param name="isRowOdd">If the row is an odd-numbered row (for background banding)</param>
+		public override void Display(object data, bool isRowOdd)
+        {
+			// Get index number.
+			if (data is int index)
+            {
+				Logging.Message("found row index ", index.ToString());
+				thisIndex = index;
+
+				// Display using underlying netinfo of index.
+				base.Display(new NetRowItem(StationPanel.Panel.GetNetInfo(index)), isRowOdd);
+			}
+        }
+    }
+
+
+	/// <summary>
+	/// Prop row fastlist item for loaded (replacement) networks for the station panel.
+	/// </summary>
+	public class UIStationReplacementNetRow : UINetRow
+	{
+		/// <summary>
+		/// Called when this item is selected.
+		/// </summary>
+		public override void UpdateSelection()
+		{
+			// Update currently selected replacement prefab.
+			StationPanel.Panel.SelectedReplacement = thisItem.prefab;
+		}
+	}
+
+
+	/// <summary>
 	/// Data structure class for individual net row display lines.
 	/// </summary>
 	public class NetRowItem

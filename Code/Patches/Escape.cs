@@ -23,6 +23,14 @@ namespace RON
                 return false;
             }
 
+            // Is the station panel open?
+            if (StationPanel.Panel != null)
+            {
+                // Yes; close panel and return false (pre-empt original method).
+                StationPanel.Close();
+                return false;
+            }
+
             // Tool not active - don't do anything, just go on to game code.
             return true;
         }

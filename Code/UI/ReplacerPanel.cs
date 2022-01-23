@@ -904,7 +904,7 @@ namespace RON
 				SetSortButton(targetCreatorButton, targetNameButton, targetSearchStatus);
 			}
 
-			// Regenerate loaded list.
+			// Regenerate target list.
 			TargetList();
 		}
 
@@ -1058,7 +1058,7 @@ namespace RON
 		/// <summary>
 		/// Populates a fastlist with a list of loaded networks.
 		/// </summary>
-		/// <returns>Populated fastlist of networks on map</returns>
+		/// <returns>Populated fastlist of loaded networks, after filtering</returns>
 		private void LoadedList()
 		{
 			// List of prefabs to display.

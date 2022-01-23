@@ -1,4 +1,7 @@
-﻿Version 0.8 -
+﻿- Add station track replacement before placement
+
+
+Version 0.8 -
 
 - Add support for metro tracks
 - Separately identify station tracks
