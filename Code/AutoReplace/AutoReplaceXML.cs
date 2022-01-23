@@ -46,7 +46,7 @@ namespace RON
 							if ((xmlSerializer.Deserialize(reader) is AutoReplaceXML autoReplaceFile))
 							{
 								// Successful read.
-								Logging.Message("successfully read auto-replace settings file with ", autoReplaceFile.AutoReplacements.Count.ToString(), " entries");
+								Logging.Message("successfully read auto-replace settings file with ", autoReplaceFile.AutoReplacements.Count, " entries");
 
 								return autoReplaceFile;
 							}

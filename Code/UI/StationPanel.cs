@@ -99,8 +99,6 @@ namespace RON
 				return;
 			}
 
-			Logging.Message("selected building is ", selectedBuilding?.name ?? "null");
-
 			// Update current reference.
 			currentBuilding = selectedBuilding;
 
@@ -118,7 +116,6 @@ namespace RON
 						if (PrefabUtils.IsStation(selectedBuilding.m_paths[i].m_netInfo))
 						{
 							// Found a station track - add index to list.
-							Logging.Message("found station track ", selectedBuilding.m_paths[i].m_netInfo.name);
 							eligibleNets.Add(i);
 						}
 					}
@@ -178,8 +175,6 @@ namespace RON
 		/// </summary>
 		internal static void Close()
 		{
-			Logging.Message("closing station panel");
-
 			// Don't do anything if no panel.
 			if (panel == null)
 			{
@@ -350,8 +345,6 @@ namespace RON
                     {
 						continue;
                     }
-
-					Logging.Message("found matching AI type ", network.GetAI().GetType().ToString());
 
 					// Passed filtering; add this one to the list.
 					netList.Add(newItem);

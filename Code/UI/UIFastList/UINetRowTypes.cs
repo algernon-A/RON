@@ -61,7 +61,6 @@
 			// Get index number.
 			if (data is int index)
             {
-				Logging.Message("found row index ", index.ToString());
 				thisIndex = index;
 
 				// Display using underlying netinfo of index.
