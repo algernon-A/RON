@@ -33,6 +33,7 @@ namespace RON
 
         // Panel components.
         private readonly RONFastList targetList, loadedList;
+		private readonly UILabel titleLabel;
 
 
 		/// <summary>
@@ -140,7 +141,8 @@ namespace RON
 				// Otherwise, update exising panel.
 				panel.TargetList();
 				panel.LoadedList();
-            }
+				panel.SetTitle();
+			}
         }
 
 
@@ -222,9 +224,9 @@ namespace RON
 			dragHandle.target = this;
 
 			// Title label.
-			UILabel titleLabel = AddUIComponent<UILabel>();
+			titleLabel = AddUIComponent<UILabel>();
 			titleLabel.relativePosition = new Vector2(50f, 13f);
-			titleLabel.text = Translations.Translate("RON_NAM");
+			SetTitle();
 
 			// Close button.
 			UIButton closeButton = AddUIComponent<UIButton>();
@@ -385,5 +387,11 @@ namespace RON
 			fastList.rowsData = new FastList<object>();
 			fastList.selectedIndex = -1;
 		}
+
+
+		/// <summary>
+		/// Sets the panel title, including the building name.
+		/// </summary>
+		private void SetTitle() => titleLabel.text = (currentBuilding?.name != null ? PrefabUtils.GetDisplayName(currentBuilding) : Translations.Translate("RON_NAM")) + ": " + Translations.Translate("RON_STA_CUS");
 	}
 }

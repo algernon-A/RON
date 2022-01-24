@@ -39,6 +39,7 @@
     <Translation ID="RON_PNL_CAN" String="Canals" />
     <Translation ID="RON_PNL_PIP" String="Pipes" />
     <Translation ID="RON_PNL_RIP" String="Replacement in progress" />
+    <Translation ID="RON_STA_CUS" String="Customize tracks" />
     <Translation ID="RON_TIP_VAN" String="This network is a vanilla network (part of the base game)."/>
     <Translation ID="RON_TIP_NEX" String="This network is from Network Extensions 2 (NExt2)." />
     <Translation ID="RON_TIP_MOD" String="This network is from a mod." />/>

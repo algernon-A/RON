@@ -348,6 +348,32 @@ namespace RON
 
 
         /// <summary>
+        /// Sanitises a raw prefab name for display.
+        /// Called by the settings panel fastlist.
+        /// </summary>
+        /// <param name="prefab">Original (raw) prefab</param>
+        /// <returns>Cleaned display name</returns>
+        internal static string GetDisplayName(PrefabInfo prefab)
+        {
+            // Null check.
+            if (prefab?.name == null)
+            {
+                return "null";
+            }
+
+            // If not custom content, return full name.
+            if (!prefab.m_isCustomContent)
+            {
+                return prefab.name;
+            }
+
+            // Otherwise, omit the package number, and trim off any trailing _Data.
+            int index = prefab.name.IndexOf('.');
+            return prefab.name.Substring(index + 1).Replace("_Data", "");
+        }
+
+
+        /// <summary>
         /// Adds a parent-child network relationship entry to the specified dictionary.
         /// </summary>
         /// <param name="dict">Dictionary <child, parent></child> to add to</param>
