@@ -81,7 +81,7 @@
     <Compile Include="Code\Settings\OptionsPanelManager.cs" />
     <Compile Include="Code\Settings\SettingsUtils.cs" />
     <Compile Include="Code\TranslationFramework\TranslationFramework.cs" />
-    <Compile Include="Code\TranslationFramework\TranslationXML.cs" />
+    <Compile Include="Code\TranslationFramework\Language.cs" />
     <Compile Include="Code\UI\ReplacerPanel.cs" />
     <Compile Include="Code\UI\UIFastList\UIFastList.cs" />
     <Compile Include="Code\UI\UIFastList\UINetRowTypes.cs" />
@@ -106,15 +106,15 @@
     <Content Include="Resources\ron_global_small.png" />
     <Content Include="Resources\ron_segment_small.png" />
     <Content Include="Resources\ron_uui.png" />
-    <Content Include="Translations\de.xml" />
-    <Content Include="Translations\en.xml" />
-    <Content Include="Translations\es.xml" />
-    <Content Include="Translations\ja.xml" />
-    <Content Include="Translations\ru.xml" />
-    <Content Include="Translations\zh.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Translations\en.csv" />
+    <None Include="Translations\es.csv" />
+    <None Include="Translations\ja.csv" />
+    <None Include="Translations\ru.csv" />
+    <None Include="Translations\zh.csv" />
+    <None Include="Translations\de.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -126,7 +126,7 @@ xcopy /y "$(SolutionDir)packages\CitiesHarmony.API.2.0.0\lib\net35\CitiesHarmony
 xcopy /y "$(ProjectDir)\Libraries\UnifiedUILib.dll" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)"
 
 mkdir "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations"
-del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations\*"
+del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations\*.csv"
 xcopy /y "$(ProjectDir)\Translations\" "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Translations" /s /e
 
 mkdir "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Resources"

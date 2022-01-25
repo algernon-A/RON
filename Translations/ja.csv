@@ -1,0 +1,56 @@
+CODE,ja
+NAME,日本語
+RON_NAM,RON: the network replacer
+RON_DESC,ネットワークを置き換えるためのツール
+RON_PNL_MAP,マップ上にあるネットワーク
+RON_PNL_AVA,置換可能なネットワーク
+RON_PNL_NET,ネットワーク名
+RON_PNL_CRE,作成者
+RON_PNL_REP,全て置換
+RON_PNL_RES,置換
+RON_PNL_UND,元に戻す
+RON_PNL_VPS,前のセグメントを表示
+RON_PNL_VNS,次のセグメントを表示
+RON_PNL_GLB,マップ上の全てを置換
+RON_PNL_DIS,地区内のみで置換
+RON_PNL_SEG,個々のセグメントで置換
+RON_PNL_HDV,バニラとNExtは非表示
+RON_PNL_WID,同じ幅のみ表示
+RON_PNL_ADV,全てのネットワークを表示(Advanced Mode)
+RON_PNL_TYP,ネットワークの種類
+RON_PNL_ROA,道路 - 地上のみ
+RON_PNL_ROB,道路 - 高架と橋
+RON_PNL_ROT,道路 - トンネル
+RON_PNL_RAI,線路 - 地上のみ
+RON_PNL_RAB,線路 - 高架と橋
+RON_PNL_RAT,線路 - トンネル
+RON_PNL_MTI,地下鉄 - 地上のみ
+RON_PNL_MTB,地下鉄 - 高架と橋
+RON_PNL_MTT,地下鉄 - トンネル
+RON_PNL_MOI,モノレール
+RON_PNL_PED,歩道 - 地上のみ
+RON_PNL_PEB,歩道 - 高架と橋
+RON_PNL_PET,歩道 - トンネル
+RON_PNL_PEA,歩道 - キャンパスとパークエリア
+RON_PNL_DEC,デコレーション
+RON_PNL_ELI,送電線
+RON_PNL_QUA,護岸・岸壁
+RON_PNL_CAN,水路・運河
+RON_PNL_PIP,水道管
+RON_PNL_RIP,置換中
+RON_TIP_VAN,このネットワークは、バニラ(ベースゲーム部分)のネットワークです
+RON_TIP_NEX,このネットワークは、Network Extensions 2(NExt2)のネットワークです
+RON_TIP_MOD,このネットワークは、アセット・MODのネットワークです
+RON_TIP_STA,これはステーショントラックで、駅の構内で使用すべきトラックです
+RON_FIL_NAME,検索:
+RON_OPT_ADV,Advanced Modeを有効化
+RON_OPT_ADV2,(異なるタイプのネットワークに置換が可能)
+RON_OPT_NEX,Network Extension 2にある道路を全て自動的に置換
+RON_OPT_NEX2,(置換先で使用する、道路アセットのコレクションを必ずサブスクライブしてください)
+TRN_CHOICE,言語設定
+TRN_SYS,ゲームの言語を使用
+KEY_KEY,ホットキー
+KEY_PRS,Press any key
+ERR_NXT,RONはマップ上から、次のNetwork Extensions 2の道路群を置換できません。置換できなかった道路（アセットが無効化・未サブスクライブのため）:
+MES_CLS,閉じる
+MES_PAGE,詳細は、MODがあるSteamのワークショップを確認してください。

@@ -1,0 +1,57 @@
+CODE,en
+NAME,English
+RON_NAM,RON: the network replacer
+RON_DESC,a tool for replacing networks.
+RON_PNL_MAP,Networks in map
+RON_PNL_AVA,Available replacements
+RON_PNL_NET,Network
+RON_PNL_CRE,Creator
+RON_PNL_REP,REPLACE ALL
+RON_PNL_RES,REPLACE
+RON_PNL_UND,Undo
+RON_PNL_VPS,View previous segment
+RON_PNL_VNS,View next segment
+RON_PNL_GLB,Replace globally
+RON_PNL_DIS,Replace in same district only
+RON_PNL_SEG,Replace individual segment
+RON_PNL_HDV,Hide vanilla and NExt
+RON_PNL_WID,Same width only
+RON_PNL_ADV,Show all network types (ADVANCED)
+RON_PNL_TYP,Network type
+RON_PNL_ROA,Roads - surface only
+RON_PNL_ROB,Roads - elevated and bridge
+RON_PNL_ROT,Roads - tunnels
+RON_PNL_RAI,Rail - surface only
+RON_PNL_RAB,Rail - elevated and bridge
+RON_PNL_RAT,Rail - tunnels
+RON_PNL_MTI,Metro - surface only
+RON_PNL_MTB,Metro - elevated and bridge
+RON_PNL_MTT,Metro - tunnels
+RON_PNL_MOI,Monorail
+RON_PNL_PED,Paths - surface only
+RON_PNL_PEB,Paths - elevated and bridge
+RON_PNL_PET,Paths - tunnels
+RON_PNL_PEA,Paths - campus and park areas
+RON_PNL_DEC,Decoration
+RON_PNL_ELI,Power lines
+RON_PNL_QUA,Quays
+RON_PNL_CAN,Canals
+RON_PNL_PIP,Pipes
+RON_PNL_RIP,Replacement in progress
+RON_STA_CUS,Customize tracks
+RON_TIP_VAN,This network is a vanilla network (part of the base game).
+RON_TIP_NEX,This network is from Network Extensions 2 (NExt2).
+RON_TIP_MOD,This network is from a mod.
+RON_TIP_STA,This is a station track and should only be used as part of a station.
+RON_FIL_NAME,Search:
+RON_OPT_ADV,Enable advanced mode
+RON_OPT_ADV2,(enables replacement with different network types)
+RON_OPT_NEX,Auto-replace Network Extension 2 roads on load
+RON_OPT_NEX2,(replacement network collection must be susbscribed)
+TRN_CHOICE,Set language
+TRN_SYS,Use game language
+KEY_KEY,Hotkey
+KEY_PRS,Press any key
+ERR_NXT,RON was unable to replace the following Network Extensions 2 networks on this map as the necessary replacements weren't available (disabled or not subscribed):
+MES_CLS,Close
+MES_PAGE,Please refer to the mod's Steam Workshop page for further information.
