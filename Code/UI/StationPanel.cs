@@ -113,10 +113,10 @@ namespace RON
 				{
 					if (selectedBuilding.m_paths[i] != null)
 					{
-						// Check for station track.
-						if (PrefabUtils.IsStation(selectedBuilding.m_paths[i].m_netInfo))
+						// Check for railway track.
+						if (selectedBuilding.m_paths[i].m_netInfo.GetAI().GetType().IsAssignableFrom(typeof(TrainTrackAI)))
 						{
-							// Found a station track - add index to list.
+							// Found a railway track - add index to list.
 							eligibleNets.Add(i);
 						}
 					}
@@ -316,6 +316,9 @@ namespace RON
 				return;
 			}
 
+			// Station status of currently selected track.
+			bool isStation = PrefabUtils.IsStation(currentBuilding.m_paths[selectedIndex].m_netInfo);
+
 			// List of prefabs to display.
 			List<NetRowItem> netList = new List<NetRowItem>();
 
@@ -337,7 +340,7 @@ namespace RON
 					}
 
 					// Apply station filter.
-					if (!newItem.isStation)
+					if (isStation != newItem.isStation)
 					{
 						continue;
 					}
