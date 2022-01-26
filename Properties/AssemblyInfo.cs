@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("RON, the network replacer")]
-[assembly: AssemblyCopyright("Copyright ©  2021 algernon")]
+[assembly: AssemblyCopyright("Copyright ©  2021-22 algernon")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
