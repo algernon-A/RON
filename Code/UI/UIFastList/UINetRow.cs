@@ -207,6 +207,9 @@ namespace RON
 
             // Set initial background as deselected state.
             Deselect(isRowOdd);
+
+            // Disable panel interactivity (avoids conflict with overlapping dropdown menus).
+            Background.isInteractive = false;
         }
 
 

@@ -1064,6 +1064,9 @@ namespace RON
 
 			// Force list update.
 			targetList.Refresh();
+
+			// Ensure that network type selection dropdown is on top.
+			typeDropDown.BringToFront();
 		}
 
 
