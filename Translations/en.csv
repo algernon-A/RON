@@ -37,6 +37,9 @@ RON_PNL_ELI,Power lines
 RON_PNL_QUA,Quays
 RON_PNL_CAN,Canals
 RON_PNL_PIP,Pipes
+RON_PNL_RUN,Airport area runways
+RON_PNL_TAX,Airport area taxiways
+RON_PNL_CON,Airport concourses
 RON_PNL_RIP,Replacement in progress
 RON_STA_CUS,Customize tracks
 RON_TIP_VAN,This network is a vanilla network (part of the base game).

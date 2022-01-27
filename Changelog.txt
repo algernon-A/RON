@@ -1,4 +1,5 @@
-﻿- Add station track replacement before placement
+﻿- Add tool to select station track replacement before placement
+- Add support for airport area runways, taxiways, and concourses
 - Convert translation framework to CSV (for CrowdIn)
 
 Version 0.8 -

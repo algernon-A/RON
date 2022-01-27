@@ -75,7 +75,7 @@ namespace RON
 		private const float NextX = LeftWidth + Margin - ButtonWidth;
 
 		// Network type list.
-		private const int NumTypes = 19;
+		private const int NumTypes = 22;
 		private readonly string[] netDescriptions = new string[NumTypes]
 		{
 			Translations.Translate("RON_PNL_ROA"),
@@ -96,7 +96,10 @@ namespace RON
 			Translations.Translate("RON_PNL_PEA"),
 			Translations.Translate("RON_PNL_QUA"),
 			Translations.Translate("RON_PNL_CAN"),
-			Translations.Translate("RON_PNL_PIP")
+			Translations.Translate("RON_PNL_PIP"),
+			Translations.Translate("RON_PNL_RUN"),
+			Translations.Translate("RON_PNL_TAX"),
+			Translations.Translate("RON_PNL_CON")
 		};
 
 		// AI type for each network type.
@@ -120,7 +123,10 @@ namespace RON
 			typeof(PedestrianWayAI),
 			typeof(QuayAI),
 			typeof(CanalAI),
-			typeof(WaterPipeAI)
+			typeof(WaterPipeAI),
+			typeof(AirportAreaRunwayAI),
+			typeof(AirportAreaTaxiwayAI),
+			typeof(ConcourseAI)
 		};
 
 		// InfoManager view modes for each network type.
@@ -144,7 +150,10 @@ namespace RON
 			InfoManager.InfoMode.None,
 			InfoManager.InfoMode.None,
 			InfoManager.InfoMode.None,
-			InfoManager.InfoMode.Water // WaterPipeAI
+			InfoManager.InfoMode.Water, // WaterPipeAI
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.None,
+			InfoManager.InfoMode.None
 		};
 
 		// InfoManager view submodes for each network type.
@@ -168,7 +177,10 @@ namespace RON
 			InfoManager.SubInfoMode.None,
 			InfoManager.SubInfoMode.None,
 			InfoManager.SubInfoMode.None,
-			InfoManager.SubInfoMode.Oil		// Yes, that's right - follows game implementation ('Water' also shows surface water)
+			InfoManager.SubInfoMode.Oil, // Yes, that's right - follows game implementation ('Water' also shows surface water)
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.None,
+			InfoManager.SubInfoMode.None
 		};
 
 
@@ -1160,7 +1172,7 @@ namespace RON
 		/// <returns>True if it matches the filter, false otherwise</returns>
 		private bool MatchType(NetInfo network)
 		{
-			// Make sure we have a valid net and AI.audit
+			// Make sure we have a valid net and AI.
 			if (network?.GetAI() is  PrefabAI ai)
 			{
 				// Check for match.
