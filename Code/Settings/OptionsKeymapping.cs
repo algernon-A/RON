@@ -142,9 +142,8 @@ namespace RON
         /// <param name="key">InputKey to apply</param>
         private void ApplyKey(InputKey key)
         {
-            // Apply key to current settings and save.
+            // Apply key to current settings.
             ModSettings.CurrentHotkey = key;
-            SettingsUtils.SaveSettings();
 
             // Set the label for the new hotkey.
             button.text = SavedInputKey.ToLocalizedString("KEYNAME", key);

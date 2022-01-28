@@ -14,7 +14,14 @@ namespace RON
         /// </summary>
         [HarmonyPatch("OnToolUpdate")]
         [HarmonyPostfix]
-        public static void OnToolUpdate(BuildingTool __instance) => StationPanel.SetTarget(__instance.m_prefab);
+        public static void OnToolUpdate(BuildingTool __instance)
+        {
+            // Show station panel if option is set.
+            if (ModSettings.ShowRailwayReplacer)
+            {
+                StationPanel.SetTarget(__instance.m_prefab);
+            }
+        }
 
 
         /// <summary>

@@ -15,6 +15,10 @@ namespace RON
         [XmlIgnore]
         private static bool enableAdvanced = false;
 
+        // Show Railway Replacer panel.
+        [XmlIgnore]
+        private static bool showRailwayReplacer = true;
+
         // Auto-replace Network Extensions 2 roads on load.
         [XmlIgnore]
         private static bool replaceNExt2 = true;
@@ -57,6 +61,16 @@ namespace RON
         }
 
 
+        // Show Railway Repalcer panel.
+        [XmlElement("ShowRailwayReplacer")]
+        public bool XMLShowRailwayReplacer
+        {
+            get => showRailwayReplacer;
+            set => showRailwayReplacer = value;
+        }
+
+
+
         // Advanced mode.
         [XmlElement("AdvancedMode")]
         public bool XMLAdvancedMode
@@ -75,44 +89,24 @@ namespace RON
         }
 
 
+        /// Show Railway Repalcer mod.
+        /// </summary>
+		[XmlIgnore]
+        internal static bool ShowRailwayReplacer { get => showRailwayReplacer; set=> showRailwayReplacer = value; }
+
+
         /// <summary>
         /// Advanced mode (any network type replacement).
         /// </summary>
 		[XmlIgnore]
-        internal static bool EnableAdvanced
-        {
-            get => enableAdvanced;
-
-            set
-            {
-                // Don't do anything if no change.
-                if (enableAdvanced != value)
-                {
-                    enableAdvanced = value;
-                    SettingsUtils.SaveSettings();
-                }
-            }
-        }
+        internal static bool EnableAdvanced { get => enableAdvanced; set => enableAdvanced = value; }
 
 
         /// <summary>
         /// Replace Network Extensions 2 roads on load.
         /// </summary>
 		[XmlIgnore]
-        internal static bool ReplaceNExt2
-        {
-            get => replaceNExt2;
-
-            set
-            {
-                // Don't do anything if no change.
-                if (replaceNExt2 != value)
-                {
-                    replaceNExt2 = value;
-                    SettingsUtils.SaveSettings();
-                }
-            }
-        }
+        internal static bool ReplaceNExt2 { get => replaceNExt2; set => replaceNExt2 = value; }
 
 
         /// <summary>

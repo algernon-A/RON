@@ -47,6 +47,7 @@ RON_TIP_NEX,This network is from Network Extensions 2 (NExt2).
 RON_TIP_MOD,This network is from a mod.
 RON_TIP_STA,This is a station track and should only be used as part of a station.
 RON_FIL_NAME,Search:
+RON_OPT_RRP,Show railway track replacer when placing railway buildings
 RON_OPT_ADV,Enable advanced mode
 RON_OPT_ADV2,(enables replacement with different network types)
 RON_OPT_NEX,Auto-replace Network Extension 2 roads on load

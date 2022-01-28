@@ -36,7 +36,6 @@ namespace RON
             languageDropDown.eventSelectedIndexChanged += (control, index) =>
             {
                 Translations.Index = index;
-                SettingsUtils.SaveSettings();
             };
             languageDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += languageDropDown.parent.height + GroupMargin;
@@ -45,6 +44,13 @@ namespace RON
             OptionsKeymapping keyMapping = languageDropDown.parent.parent.gameObject.AddComponent<OptionsKeymapping>();
             keyMapping.uIPanel.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += keyMapping.uIPanel.height + GroupMargin;
+
+            // Show Railway Repalcer checkbox.
+            UICheckBox railwayReplacerCheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_RRP"));
+            railwayReplacerCheck.relativePosition = new Vector2(LeftMargin, currentY);
+            railwayReplacerCheck.isChecked = ModSettings.ShowRailwayReplacer;
+            railwayReplacerCheck.eventCheckChanged += (control, isChecked) => ModSettings.ShowRailwayReplacer = isChecked;
+            currentY += CheckRowHeight + GroupMargin;
 
             // Advanced mode checkbox.
             UICheckBox advancedCheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_ADV"));
