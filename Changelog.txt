@@ -1,5 +1,6 @@
 ﻿- Add tool to select station track replacement before placement
 - Add support for airport area runways, taxiways, and concourses
+- Add support for Metro Overhaul Mod (MOM) metro tracks
 - Convert translation framework to CSV (for CrowdIn)
 
 Version 0.8 -

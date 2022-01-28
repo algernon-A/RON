@@ -1,4 +1,7 @@
-﻿namespace RON
+﻿using System;
+
+
+namespace RON
 {
 	/// <summary>
 	/// Prop row fastlist item for loaded (replacement) networks.
@@ -101,7 +104,7 @@
 		public string creator;
 
 		// If this is a station network.
-		public bool isStation;
+		public bool isStation = false;
 
 		// Network indicator flags - if this is a vanilla/NExt2/mod asset.
 		public bool isVanilla = false, isNExt2 = false, isMod = false;
@@ -125,12 +128,18 @@
 		/// </summary>
 		private void GetDisplayName()
 		{
-			string fullName = prefab.name;
+			// Make sure we've got a valid network before doing anything else.
+			string fullName = prefab?.name;
+			if (fullName == null || prefab.m_netAI == null)
+            {
+				displayName = "Null";
+				return;
+            }
 
 			// Find any leading period (Steam package number).
 			int period = fullName.IndexOf('.');
 
-			// If no period, assume it's either vanilla or NExt
+			// If no period, assume it's either vanilla or Mod.
 			if (period < 0)
 			{
 				// Check for NEext prefabs.  NExt prefabs aren't as consistent as would be ideal....
@@ -144,10 +153,11 @@
 					prefab.name.StartsWith("AsymHighwayL1R2")
 				);
 
-				// Check for Extra Train Station Tracks and OneWayTrainTrck prefabs; this overrides the NExt2 check due to some OneWayTrainTrack prefabs haveing 'NExtSingleStaitonTrack' ItemClass (and hence being picked up above as NExt2 items).
+				// Check for Extra Train Station Tracks, OneWayTrainTrack, and MOM prefabs; this overrides the NExt2 check due to some OneWayTrainTrack prefabs haveing 'NExtSingleStaitonTrack' ItemClass (and hence being picked up above as NExt2 items).
 				isMod = prefab.name.StartsWith("Station") ||
 				prefab.name.StartsWith("Train Station Track (") ||
-				prefab.name.StartsWith("Rail1L");
+				prefab.name.StartsWith("Rail1L") ||
+				prefab.m_netAI.GetType().Namespace?.Equals("MetroOverhaul") == true;
 				isNExt2 = isNExt2 && !isMod;
 
 				// Set vanilla flag and display name.

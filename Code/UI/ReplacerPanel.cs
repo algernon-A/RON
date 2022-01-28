@@ -129,6 +129,34 @@ namespace RON
 			typeof(ConcourseAI)
 		};
 
+		// AI type for each network type - secondary type for category.
+		// Where there's no secondary type, we'll reuse the primary type, to save on conditional checks later.
+		private readonly Type[] secondaryNetTypes = new Type[NumTypes]
+		{
+			typeof(RoadAI),
+			typeof(RoadBridgeAI),
+			typeof(RoadTunnelAI),
+			typeof(TrainTrackAI),
+			typeof(TrainTrackBridgeAI),
+			typeof(TrainTrackTunnelAI),
+			Type.GetType("MetroOverhaul.MOMMetroTrackAI"),			// MOM, secondary type to Metro.
+			Type.GetType("MetroOverhaul.MOMMetroTrackBridgeAI"),	// MOM, secondary type to Metro.
+			Type.GetType("MetroOverhaul.MOMMetroTrackTunnelAI"),	// MOM, secondary type to Metro.
+			typeof(MonorailTrackAI),
+			typeof(PedestrianPathAI),
+			typeof(PedestrianBridgeAI),
+			typeof(PedestrianTunnelAI),
+			typeof(DecorationWallAI),
+			typeof(PowerLineAI),
+			typeof(PedestrianWayAI),
+			typeof(QuayAI),
+			typeof(CanalAI),
+			typeof(WaterPipeAI),
+			typeof(AirportAreaRunwayAI),
+			typeof(AirportAreaTaxiwayAI),
+			typeof(ConcourseAI)
+		};
+
 		// InfoManager view modes for each network type.
 		private readonly InfoManager.InfoMode[] netInfoModes = new InfoManager.InfoMode[NumTypes]
 		{
@@ -386,13 +414,20 @@ namespace RON
         {
 			// Get selected network info and AI.
 			NetInfo selectedNet = Singleton<NetManager>.instance.m_segments.m_buffer[segmentID].Info;
-			Type aiType = selectedNet.GetAI().GetType();
+			Type aiType = selectedNet?.GetAI()?.GetType();
 
+			// Check for null AIs.
+			if (aiType == null)
+            {
+				return;
+            }
+
+			// Try to match 
 			for (int i = 0; i < NumTypes; ++i)
             {
-				if (aiType.Equals(netTypes[i]))
+				if (aiType.Equals(netTypes[i]) || aiType.Equals(secondaryNetTypes[i]))
                 {
-					// Set dropdown menu.
+					// Match found - set dropdown menu.
 					typeDropDown.selectedIndex = i;
 
 					// Set target list position.
@@ -1176,10 +1211,11 @@ namespace RON
 		private bool MatchType(NetInfo network)
 		{
 			// Make sure we have a valid net and AI.
-			if (network?.GetAI() is  PrefabAI ai)
+			NetAI ai = network?.m_netAI;
+			if (ai != null)
 			{
 				// Check for match.
-				if (ai.GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]))
+				if (ai.GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]) || ai.GetType().IsAssignableFrom(secondaryNetTypes[typeDropDown.selectedIndex]))
 				{
 					// Match - return true.
 					return true;
