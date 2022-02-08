@@ -28,7 +28,8 @@ namespace RON
 			if (ModSettings.ReplaceNExt2)
 			{
 				// Ensure that we're only looking for networks.
-				if (!new StackTrace().GetFrame(2).GetMethod().DeclaringType.ToString().Contains("[NetInfo]"))
+				string callingMethod = new StackTrace().GetFrame(2).GetMethod().DeclaringType.ToString();
+				if (!callingMethod.Equals("PrefabCollection`1[NetInfo]") && !callingMethod.Equals("LoadingScreenMod.CustomDeserializer"))
 				{
 					// Not a network - continue on to original method.
 					return true;
@@ -70,8 +71,8 @@ namespace RON
 							else
 							{
 								// Replacement found; return replacement name and don't execute original method.
-								Logging.Message("attempting to replace NExt2 network ", name, " with ", __result);
 								__result = entry.replacementName;
+								Logging.Message("attempting to replace NExt2 network ", name, " with ", __result);
 
 								// Don't execute original method.
 								return false;
