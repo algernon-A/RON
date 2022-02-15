@@ -750,7 +750,8 @@ namespace RON
 				SetReplacing();
 
 				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
-				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(SelectedPrefab, selectedReplacement, selectedSegments); } );
+				bool isGlobal = globalCheck.isChecked;
+				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(SelectedPrefab, selectedReplacement, selectedSegments, isGlobal); } );
 			}
 		}
 

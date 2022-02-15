@@ -1,4 +1,7 @@
-﻿Version 0.9.1 -
+﻿- Force-update any outstanding (inlcuding phantom) node info references on global replacement
+
+
+Version 0.9.1 -
 
 - Add support for Loading Screen Mod patch to auto-replace NExt2 roads in building prefabs (including intersections) on load (requires updated Loading Screen Mod)
 

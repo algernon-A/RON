@@ -29,7 +29,8 @@ namespace RON
 		/// <param name="target">Target netInfo</param>
 		/// <param name="replacement">Replacement netInfo</param>
 		/// <param name="segmentList">Array of segment IDs</param>
-		internal static void ReplaceNets(NetInfo target, NetInfo replacement, List<ushort> segmentList)
+		/// <param name="forceAll">Set to true to force ALL node references to be updated, even phantom nodes</param>
+		internal static void ReplaceNets(NetInfo target, NetInfo replacement, List<ushort> segmentList, bool forceAll)
 		{
 			try
 			{
@@ -108,6 +109,23 @@ namespace RON
 						{
 							// Inactive network segment - just replace info directly..
 							segmentBuffer[segmentID].Info = replacement;
+						}
+					}
+				}
+
+				// Force update of any remaining nodes, if set.
+				if (forceAll)
+                {
+					Logging.Message("updating remaining node references");
+
+					// Iterate through all nodes.
+					NetNode[] nodeBuffer = netManager.m_nodes.m_buffer;
+					for (uint i = 0; i < nodeBuffer.Length; ++i)
+					{
+						// Force update of any matching NetInfo references.
+						if (nodeBuffer[i].Info == target)
+						{
+							nodeBuffer[i].Info = replacement;
 						}
 					}
 				}
