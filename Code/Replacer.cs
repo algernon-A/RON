@@ -116,12 +116,22 @@ namespace RON
 				// Force update of any remaining nodes, if set.
 				if (forceAll)
                 {
-					Logging.Message("updating remaining node references");
+					Logging.Message("checking node references");
 
 					// Iterate through all nodes.
 					NetNode[] nodeBuffer = netManager.m_nodes.m_buffer;
-					for (uint i = 0; i < nodeBuffer.Length; ++i)
+					for (ushort i = 0; i < nodeBuffer.Length; ++i)
 					{
+						// Delete any ghost nodes (checks from krzychu124's Broken Node Detector).
+						if (nodeBuffer[i].m_flags != NetNode.Flags.None
+							&& (nodeBuffer[i].m_flags & NetNode.Flags.Untouchable) == NetNode.Flags.None
+							&& nodeBuffer[i].CountSegments() == 0
+							&& (nodeBuffer[i].m_flags & NetNode.Flags.Created) != NetNode.Flags.None)
+                        {
+							netManager.ReleaseNode(i);
+							Logging.Message("released ghost node ", i);
+                        }
+
 						// Force update of any matching NetInfo references.
 						if (nodeBuffer[i].Info == target)
 						{

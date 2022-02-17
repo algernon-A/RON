@@ -1,4 +1,5 @@
-﻿- Force-update any outstanding (inlcuding phantom) node info references on global replacement
+﻿- Detect and remove any ghost nodes when doing global replacements
+- Force-update any outstanding node info references on global replacement
 
 
 Version 0.9.1 -
