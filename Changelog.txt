@@ -1,4 +1,6 @@
-﻿- Fix loaded network list sometimes not refreshing when 'same width' checkbox is unchecked 
+﻿Version 0.9.2 -
+
+- Fix loaded network list sometimes not refreshing when 'same width' checkbox is unchecked 
 - Detect and remove any ghost nodes when doing global replacements
 - Force-update any outstanding node info references on global replacement
 
