@@ -323,11 +323,8 @@ namespace RON
 					// Update selected segments.
 					SetSelectedSegments();
 
-					// Update loaded list if we're only showing networks of the same width.
-					if (sameWidthCheck.isChecked)
-					{
-						LoadedList();
-					}
+					// Update loaded list.
+					LoadedList();
 
 					// Update display (preview and button states).
 					DisplayNetwork(SelectedPrefab, targetPreviewSprite);
