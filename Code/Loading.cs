@@ -13,6 +13,23 @@ namespace RON
         internal static bool Loaded { get; private set; } = false;
 
 
+
+        /// <summary>
+        /// Called by the game when the mod is initialised at the start of the loading process.
+        /// </summary>
+        /// <param name="loading">Loading mode (e.g. game, editor, scenario, etc.)</param>
+        public override void OnCreated(ILoading loading)
+        {
+            Logging.KeyMessage("version ", RONMod.Version, " loading");
+
+
+            base.OnCreated(loading);
+
+            // Add RON tool to tool controller.
+            ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
+        }
+
+
         /// <summary>
         /// Called by the game when level loading is complete.
         /// </summary>
@@ -35,8 +52,6 @@ namespace RON
                 missingNetBox.AddParas(Translations.Translate("MES_PAGE"));
             }
 
-            // Initialise select tool.
-            ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
 
             // Record list of loaded networks.
             //AutoReplaceXML.SaveFile();
@@ -46,6 +61,8 @@ namespace RON
 
             // Set up options panel event handler (need to redo this now that options panel has been reset after loading into game).
             OptionsPanelManager.OptionsEventHook();
+
+            Logging.KeyMessage("loading complete");
         }
     }
 }
