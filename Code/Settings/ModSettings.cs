@@ -25,7 +25,7 @@ namespace RON
 
         // SavedInputKey reference for communicating with UUI.
         [XmlIgnore]
-        private static readonly SavedInputKey uuiSavedKey = new SavedInputKey("BOB hotkey", "BOB hotkey", key: KeyCode.B, control: false, shift: false, alt: true, false);
+        private static readonly SavedInputKey uuiSavedKey = new SavedInputKey("RON hotkey", "RON hotkey", key: KeyCode.N, control: false, shift: false, alt: true, false);
 
 
         // Language.

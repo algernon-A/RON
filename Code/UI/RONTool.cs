@@ -16,6 +16,9 @@ namespace RON
 		private CursorInfo darkCursor;
 
 
+		/// <summary>
+		/// Selection mode.
+		/// </summary>
 		public enum Mode
 		{
 			Select,

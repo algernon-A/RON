@@ -67,6 +67,7 @@
     <Compile Include="Code\Notifications\MessageBoxBase.cs" />
     <Compile Include="Code\Patches\BuildingTool.cs" />
     <Compile Include="Code\Patches\Escape.cs" />
+    <Compile Include="Code\Patches\OnLevelLoaded.cs" />
     <Compile Include="Code\Patches\Patcher.cs" />
     <Compile Include="Code\Patches\ResolveLegacyPrefab.cs" />
     <Compile Include="Code\Settings\ModSettings.cs" />
