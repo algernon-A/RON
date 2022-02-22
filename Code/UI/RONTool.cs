@@ -15,6 +15,9 @@ namespace RON
 		private CursorInfo lightCursor;
 		private CursorInfo darkCursor;
 
+		// Activation flag.
+		internal static bool gameLoaded = false;
+
 
 		/// <summary>
 		/// Selection mode.
@@ -240,6 +243,17 @@ namespace RON
 		/// </summary>
 		protected override void OnEnable()
 		{
+			// Check that game is fully loaded before activation.
+			if (!gameLoaded)
+            {
+				Logging.Error("attempt to activate tool before game load at ", System.Environment.StackTrace);
+
+				// Activate default tool instead.
+				ToolsModifierControl.SetTool<DefaultTool>();
+
+				return;
+			}
+
 			base.OnEnable();
 			ReplacerPanel.Create();
 		}
