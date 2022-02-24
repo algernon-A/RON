@@ -1,4 +1,9 @@
-﻿Version 0.9.2.1 -
+﻿Version 0.9.2.2 -
+
+- Fix RON panel opening on game load for some OTHER users
+
+
+Version 0.9.2.1 -
 
 - Fix RON panel opening on game load for some users
 
