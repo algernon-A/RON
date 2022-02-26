@@ -15,9 +15,6 @@ namespace RON
 		private CursorInfo lightCursor;
 		private CursorInfo darkCursor;
 
-		// Activation flag.
-		internal static bool gameLoaded = false;
-
 
 		/// <summary>
 		/// Selection mode.
@@ -62,8 +59,9 @@ namespace RON
 				groupName: null, // default group
 				tooltip: Translations.Translate("RON_NAM"),
 				tool: this,
-				icon: UUIHelpers.LoadTexture(UUIHelpers.GetFullPath<RONMod>("Resources", "ron_uui.png")),
-				hotkeys: new UUIHotKeys { ActivationKey = ModSettings.PanelSavedKey });
+				icon: UUIHelpers.LoadTexture(UUIHelpers.GetFullPath<RONMod>("Resources", "ron_uui.png"))
+				//hotkeys: new UUIHotKeys { ActivationKey = ModSettings.PanelSavedKey}
+				);
 		}
 
 
@@ -243,17 +241,6 @@ namespace RON
 		/// </summary>
 		protected override void OnEnable()
 		{
-			// Check that game is fully loaded before activation.
-			if (!gameLoaded)
-            {
-				Logging.Error("attempt to activate tool before game load at ", System.Environment.StackTrace);
-
-				// Activate default tool instead.
-				ToolsModifierControl.SetTool<DefaultTool>();
-
-				return;
-			}
-
 			base.OnEnable();
 			ReplacerPanel.Create();
 		}
@@ -267,19 +254,6 @@ namespace RON
 		{
 			base.OnDisable();
 			ReplacerPanel.Close();
-		}
-
-
-		/// <summary>
-		/// Unity late update handling.
-		/// Called by game every late update.
-		/// </summary>
-		protected override void OnToolLateUpdate()
-		{
-			base.OnToolLateUpdate();
-
-			// Force the info mode to none.
-			ToolBase.ForceInfoMode(InfoManager.InfoMode.None, InfoManager.SubInfoMode.None);
 		}
 
 

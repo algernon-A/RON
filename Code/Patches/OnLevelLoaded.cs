@@ -41,8 +41,8 @@ namespace RON
             // Add RON tool to tool controller.
             ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
 
-            // Enable tool.
-            RONTool.gameLoaded = true;
+            // Activate tool hotkey.
+            UIThreading.Operating = true;
 
             Logging.KeyMessage("loading complete");
         }

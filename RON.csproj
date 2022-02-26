@@ -75,6 +75,7 @@
     <Compile Include="Code\UI\StationPanel.cs" />
     <Compile Include="Code\UI\RONTool.cs" />
     <Compile Include="Code\UI\UIFastList\RONFastList.cs" />
+    <Compile Include="Code\UI\UIThreading.cs" />
     <Compile Include="Code\Utils\Logging.cs" />
     <Compile Include="Code\Mod.cs" />
     <Compile Include="Code\Replacer.cs" />

@@ -100,6 +100,9 @@ namespace RON
 
                     // Set up and show panel.
                     Panel.Setup(optionsPanel.width, optionsPanel.height);
+
+                    // Disable hotkey while options panel is open.
+                    UIThreading.Operating = false;
                 }
             }
             catch (Exception e)
@@ -122,6 +125,9 @@ namespace RON
             {
                 GameObject.Destroy(optionsGameObject);
                 optionsGameObject = null;
+
+                // Re-enable hotkey.
+                UIThreading.Operating = true;
             }
         }
     }
