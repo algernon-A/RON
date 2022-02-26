@@ -57,6 +57,13 @@ namespace RON
                 uuiSavedKey.Control = value.control;
                 uuiSavedKey.Shift = value.shift;
                 uuiSavedKey.Alt = value.alt;
+
+                // Reset any erroneous 'Alt-B' settings.
+                if ((KeyCode)value.keyCode == KeyCode.B && !value.control && !value.shift && value.alt)
+                {
+                    Logging.Message("overriding hotkey to alt-N");
+                    uuiSavedKey.Key = KeyCode.N;
+                }
             }
         }
 
