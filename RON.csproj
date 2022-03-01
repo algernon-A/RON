@@ -81,7 +81,6 @@
     <Compile Include="Code\Replacer.cs" />
     <Compile Include="Code\Settings\OptionsKeymapping.cs" />
     <Compile Include="Code\Settings\OptionsPanelManager.cs" />
-    <Compile Include="Code\Settings\SettingsUtils.cs" />
     <Compile Include="Code\TranslationFramework\TranslationFramework.cs" />
     <Compile Include="Code\TranslationFramework\Language.cs" />
     <Compile Include="Code\UI\ReplacerPanel.cs" />

@@ -40,7 +40,7 @@ namespace RON
             }
 
             // Load the settings file.
-            SettingsUtils.LoadSettings();
+            ModSettings.Load();
         }
 
 

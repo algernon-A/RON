@@ -1,4 +1,6 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.IO;
+using System.Xml.Serialization;
 using UnityEngine;
 using ColossalFramework;
 
@@ -11,6 +13,15 @@ namespace RON
 	[XmlRoot("RON")]
     public class ModSettings
     {
+        // Settings file name.
+        [XmlIgnore]
+        private static readonly string SettingsFileName = "RON-settings.xml";
+
+        // User settings directory.
+        [XmlIgnore]
+        private static readonly string UserSettingsDir = ColossalFramework.IO.DataLocation.localApplicationData;
+
+
         // Enable advanced mode.
         [XmlIgnore]
         private static bool enableAdvanced = false;
@@ -133,6 +144,73 @@ namespace RON
             get => uuiSavedKey.value;
 
             set => uuiSavedKey.value = value;
+        }
+
+
+        /// <summary>
+        /// Load settings from XML file.
+        /// </summary>
+        internal static void Load()
+        {
+            try
+            {
+                // Attempt to read new settings file (in user settings directory).
+                string fileName = Path.Combine(UserSettingsDir, SettingsFileName);
+                if (!File.Exists(fileName))
+                {
+                    // No settings file in user directory; use application directory instead.
+                    fileName = SettingsFileName;
+                }
+
+                // Check to see if configuration file exists.
+                if (File.Exists(fileName))
+                {
+                    // Read it.
+                    using (StreamReader reader = new StreamReader(fileName))
+                    {
+                        XmlSerializer xmlSerializer = new XmlSerializer(typeof(ModSettings));
+                        if (!(xmlSerializer.Deserialize(reader) is ModSettings settingsFile))
+                        {
+                            Logging.Error("couldn't deserialize settings file");
+                        }
+                    }
+                }
+                else
+                {
+                    Logging.Message("no settings file found");
+                }
+            }
+            catch (Exception e)
+            {
+                Logging.LogException(e, "exception reading XML settings file");
+            }
+        }
+
+
+        /// <summary>
+        /// Save settings to XML file.
+        /// </summary>
+        internal static void Save()
+        {
+            try
+            {
+                // Save into user local settings.
+                using (StreamWriter writer = new StreamWriter(Path.Combine(UserSettingsDir, SettingsFileName)))
+                {
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(ModSettings));
+                    xmlSerializer.Serialize(writer, new ModSettings());
+                }
+
+                // Cleaning up after ourselves - delete any old config file in the application directory.
+                if (File.Exists(SettingsFileName))
+                {
+                    File.Delete(SettingsFileName);
+                }
+            }
+            catch (Exception e)
+            {
+                Logging.LogException(e, "exception saving XML settings file");
+            }
         }
     }
 
