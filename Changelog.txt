@@ -24,7 +24,6 @@ Version 0.9.2 -
 - Detect and remove any ghost nodes when doing global replacements
 - Force-update any outstanding node info references on global replacement
 
-
 Version 0.9.1 -
 
 - Add support for Loading Screen Mod patch to auto-replace NExt2 roads in building prefabs (including intersections) on load (requires updated Loading Screen Mod)
