@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using RON.MessageBox;
 
 
@@ -11,6 +12,10 @@ namespace RON
     [HarmonyPatch("OnLevelLoaded")]
     public static class OnLevelLoadedPatch
     {
+        // Loading flag.
+        internal static bool loaded = false;
+
+
         /// <summary>
         /// Harmony postfix to perform actions require after the level has loaded.
         /// </summary>
@@ -38,13 +43,11 @@ namespace RON
             // Set up options panel event handler (need to redo this now that options panel has been reset after loading into game).
             OptionsPanelManager.OptionsEventHook();
 
-            // Add RON tool to tool controller.
-            ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
-
             // Activate tool hotkey.
             UIThreading.Operating = true;
 
             Logging.KeyMessage("loading complete");
+            loaded = true;
         }
     }
 }

@@ -17,6 +17,9 @@ namespace RON
             Logging.KeyMessage("version ", RONMod.Version, " loading");
 
             base.OnCreated(loading);
+
+            // Add RON tool to tool controller.
+            ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
         }
     }
 }

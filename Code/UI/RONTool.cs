@@ -241,6 +241,17 @@ namespace RON
 		/// </summary>
 		protected override void OnEnable()
 		{
+			// Make sure that game is loaded before activating tool.
+			if (!OnLevelLoadedPatch.loaded)
+			{
+				// Loading not complete - deactivate tool by seting default tool.
+				ToolsModifierControl.SetTool<DefaultTool>();
+			}
+			else
+            {
+				Logging.KeyMessage("premature activation attempt");
+            }
+
 			base.OnEnable();
 			ReplacerPanel.Create();
 		}
