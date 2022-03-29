@@ -7,6 +7,9 @@ using ColossalFramework.UI;
 
 namespace RON
 {
+	/// <summary>
+	/// Utilities class for texture handling.
+	/// </summary>
 	internal static class TextureUtils
 	{
 		// Dictionary to cache texture atlas lookups.
