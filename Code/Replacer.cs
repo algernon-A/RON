@@ -153,6 +153,52 @@ namespace RON
 			}
 		}
 
+		/// <summary>
+		/// Delete networks.
+		/// </summary>
+		/// <param name="segmentList">Array of segment IDs to delete</param>
+		internal static void DeleteNets(List<ushort> segmentList)
+		{
+			try
+			{
+				// Ensure segment list is valid..
+				if (segmentList == null || segmentList.Count == 0)
+				{
+					Logging.Message("no selected networks for deleting");
+					return;
+				}
+
+				// Local reference.
+				NetManager netManager = Singleton<NetManager>.instance;
+
+				// Copy segment IDs from segment list to avoid concurrency issues while replacing.
+				ushort[] segmentIDs = new ushort[segmentList.Count];
+				segmentList.CopyTo(segmentIDs, 0);
+
+				// Iterate through each segment ID in our prepared list. 
+				for (int i = 0; i < segmentIDs.Length; ++i)
+				{
+					// Delete segment.
+					ushort segmentID = segmentIDs[i];
+					Logging.Message("releasing segment ", i);
+					netManager.ReleaseSegment(segmentID, false);
+				}
+			}
+			catch (Exception e)
+			{
+				// Don't care too much - just want to make sure that we set the status flag correctly and not hang in the 'processing' state indefinitely.
+				Logging.LogException(e, "network deletion exception");
+			}
+
+			// All done - let replacer panel know we're finished (if its still open).
+			if (ReplacerPanel.Panel != null)
+			{
+				ReplacerPanel.Panel.replacingDone = true;
+			}
+
+			Logging.KeyMessage("deleting complete");
+		}
+
 
 		/// <summary>
 		/// Reverts all segments in the undo list to the set undo prefab.

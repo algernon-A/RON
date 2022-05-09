@@ -39,11 +39,13 @@ namespace RON
 
 		// Layout constants - Y.
 		private const float TitleHeight = 45f;
-		private const float ToolbarHeight = 100f;
+		private const float ToolRowHeight = 35f;
+		private const float ToolbarHeight = ToolRowHeight * 3f;
 		private const float ListHeight = 15 * UINetRow.RowHeight;
 		private const float PreviewHeight = 100f;
 		private const float ToolRow1Y = TitleHeight + Margin;
-		private const float ToolRow2Y = ToolRow1Y + 35f;
+		private const float ToolRow2Y = ToolRow1Y + ToolRowHeight;
+		private const float ToolRow3Y = ToolRow2Y + ToolRowHeight;
 		private const float SpacerBarY = TitleHeight + ToolbarHeight + Margin;
 		private const float ListTitleY = SpacerBarY + 15f;
 		private const float ListHeaderY = ListTitleY + 30f;
@@ -233,7 +235,7 @@ namespace RON
 
 		// Panel components.
 		private readonly RONFastList targetList, loadedList;
-		private readonly UIButton replaceButton, undoButton, prevButton, nextButton;
+		private readonly UIButton replaceButton, undoButton, deleteButton, prevButton, nextButton;
 		private readonly UIButton targetNameButton, targetCreatorButton, loadedNameButton, loadedCreatorButton;
 		private readonly UITextField nameFilter;
 		private readonly UIDropDown typeDropDown, searchTypeMenu;
@@ -553,6 +555,10 @@ namespace RON
 			undoButton = UIControls.AddButton(this, MiddlePanelX, ToolRow2Y, Translations.Translate("RON_PNL_UND"), ReplaceWidth, ReplaceButtonHeight);
 			undoButton.eventClicked += Undo;
 
+			// Delete button.
+			deleteButton = UIControls.AddButton(this, MiddlePanelX, ToolRow3Y, Translations.Translate("RON_PNL_DEL"), ReplaceWidth, ReplaceButtonHeight);
+			deleteButton.eventClicked += Delete;
+
 			// View previous segment button.
 			prevButton = UIControls.AddSmallerButton(this, PrevX, ToolRow2Y, Translations.Translate("RON_PNL_VPS"), ButtonWidth);
 			prevButton.eventClicked += PreviousSegment;
@@ -706,10 +712,12 @@ namespace RON
 			if (segmentCheck.isChecked)
             {
 				replaceButton.text = Translations.Translate("RON_PNL_RES");
-            }
+				deleteButton.text = Translations.Translate("RON_PNL_DES");
+			}
 			else
             {
 				replaceButton.text = Translations.Translate("RON_PNL_REP");
+				deleteButton.text = Translations.Translate("RON_PNL_DEL");
 			}
 
 			// Update selected segements.
@@ -749,6 +757,26 @@ namespace RON
 				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
 				bool isGlobal = globalCheck.isChecked;
 				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(SelectedPrefab, selectedReplacement, selectedSegments, isGlobal); } );
+			}
+		}
+
+
+		/// <summary>
+		/// Delete button event handler.
+		/// <param name="control">Calling component (unused)</param>
+		/// <param name="mouseEvent">Mouse event (unused)</param>
+		/// </summary>
+		private void Delete (UIComponent control, UIMouseEventParameter mouseEvent)
+		{
+			// Only do stuff if we've got a valid selection.
+			if (SelectedPrefab != null)
+			{
+				// Set panel to replacing state.
+				SetReplacing();
+
+				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
+				bool isGlobal = globalCheck.isChecked;
+				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.DeleteNets(selectedSegments); });
 			}
 		}
 
@@ -993,6 +1021,9 @@ namespace RON
 			// Enable replace button if we have both a valid target and replacement, disable it otherwise.
 			replaceButton.isEnabled = SelectedPrefab != null && selectedReplacement != null;
 
+			// Enable delete button if a valid target is selected.
+			deleteButton.isEnabled = SelectedPrefab != null;
+
 			// Enable undo button if we have a valid undo buffer.
 			undoButton.isEnabled = Replacer.HasUndo;
 		}
@@ -1036,6 +1067,12 @@ namespace RON
 			NetSegment[] segments = netManager.m_segments.m_buffer;
 			for (ushort i = 0; i < segments.Length; ++i)
 			{
+				// Skip any inleigible flags.
+				if ((segments[i].m_flags & NetSegment.Flags.Created) == 0)
+                {
+					continue;
+                }
+
 				// Local references.
 				NetInfo segmentInfo = segments[i].Info;
 
