@@ -54,6 +54,8 @@ RON_OPT_ADV,Enable advanced mode
 RON_OPT_ADV2,(enables replacement with different network types)
 RON_OPT_NEX,Auto-replace Network Extension 2 roads on load
 RON_OPT_NEX2,(replacement network collection must be susbscribed)
+RON_WAR_DEL,Are you SURE you want to delete all networks of this type on the map?
+RON_WAR_UND,This action CANNOT be undone!
 TRN_CHOICE,Set language
 TRN_SYS,Use game language
 KEY_KEY,Hotkey
@@ -61,3 +63,5 @@ KEY_PRS,Press any key
 ERR_NXT,RON was unable to replace the following Network Extensions 2 networks on this map as the necessary replacements weren't available (disabled or not subscribed):
 MES_CLS,Close
 MES_PAGE,Please refer to the mod's Steam Workshop page for further information.
+MES_NO,No
+MES_YES,Yes

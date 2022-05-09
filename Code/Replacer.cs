@@ -156,13 +156,13 @@ namespace RON
 		/// <summary>
 		/// Delete networks.
 		/// </summary>
-		/// <param name="segmentList">Array of segment IDs to delete</param>
-		internal static void DeleteNets(List<ushort> segmentList)
+		/// <param name="segments">Array of segment IDs to delete</param>
+		internal static void DeleteNets(ushort[] segments)
 		{
 			try
 			{
 				// Ensure segment list is valid..
-				if (segmentList == null || segmentList.Count == 0)
+				if (segments == null || segments.Length == 0)
 				{
 					Logging.Message("no selected networks for deleting");
 					return;
@@ -171,17 +171,17 @@ namespace RON
 				// Local reference.
 				NetManager netManager = Singleton<NetManager>.instance;
 
-				// Copy segment IDs from segment list to avoid concurrency issues while replacing.
-				ushort[] segmentIDs = new ushort[segmentList.Count];
-				segmentList.CopyTo(segmentIDs, 0);
-
-				// Iterate through each segment ID in our prepared list. 
-				for (int i = 0; i < segmentIDs.Length; ++i)
+				// Iterate through each segment ID. 
+				for (int i = 0; i < segments.Length; ++i)
 				{
 					// Delete segment.
-					ushort segmentID = segmentIDs[i];
-					Logging.Message("releasing segment ", i);
-					netManager.ReleaseSegment(segmentID, false);
+					ushort segmentID = segments[i];
+					if (segmentID > 0 && netManager.m_segments.m_buffer[segmentID].m_flags != NetSegment.Flags.None)
+					{
+						Logging.Message("releasing segment ", segmentID);
+						netManager.ReleaseSegment(segmentID, false);
+						Logging.Message("segment released");
+					}
 				}
 			}
 			catch (Exception e)

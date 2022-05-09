@@ -65,6 +65,7 @@
     <Compile Include="Code\Loading.cs" />
     <Compile Include="Code\Notifications\ListMessageBox.cs" />
     <Compile Include="Code\Notifications\MessageBoxBase.cs" />
+    <Compile Include="Code\Notifications\YesNoMessageBox.cs" />
     <Compile Include="Code\Patches\BuildingTool.cs" />
     <Compile Include="Code\Patches\Escape.cs" />
     <Compile Include="Code\Patches\OnLevelLoaded.cs" />

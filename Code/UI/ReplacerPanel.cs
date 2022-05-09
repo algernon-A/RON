@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ColossalFramework;
 using ColossalFramework.UI;
 using UnityEngine;
+using RON.MessageBox;
 
 
 namespace RON
@@ -634,6 +635,28 @@ namespace RON
 
 
 		/// <summary>
+		/// Performs the delete action.
+		/// </summary>
+		internal void DeleteNets()
+		{
+			// Only do stuff if we've got a valid selection.
+			if (SelectedPrefab != null)
+			{
+				// Set panel to replacing state.
+				SetReplacing();
+
+				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
+				bool isGlobal = globalCheck.isChecked;
+
+				// Copy segment IDs from segment list to avoid concurrency issues while replacing.
+				ushort[] segments = new ushort[selectedSegments.Count];
+				selectedSegments.CopyTo(segments);
+				Singleton<SimulationManager>.instance.AddAction(() => Replacer.DeleteNets(segments));
+			}
+		}
+
+
+		/// <summary>
 		/// Sets the list of currently selected segments.
 		/// </summary>
 		private void SetSelectedSegments()
@@ -766,17 +789,23 @@ namespace RON
 		/// <param name="control">Calling component (unused)</param>
 		/// <param name="mouseEvent">Mouse event (unused)</param>
 		/// </summary>
-		private void Delete (UIComponent control, UIMouseEventParameter mouseEvent)
+		internal void Delete (UIComponent control, UIMouseEventParameter mouseEvent)
 		{
 			// Only do stuff if we've got a valid selection.
 			if (SelectedPrefab != null)
 			{
-				// Set panel to replacing state.
-				SetReplacing();
-
-				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
-				bool isGlobal = globalCheck.isChecked;
-				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.DeleteNets(selectedSegments); });
+				// If we're in global mode, display confirmation message box.
+				if (globalCheck.isChecked)
+                {
+					YesNoMessageBox warningBox = MessageBoxBase.ShowModal<YesNoMessageBox>();
+					warningBox.YesButton.eventClicked += (button, clickEvent) => DeleteNets();
+					warningBox.AddParas(Translations.Translate("RON_WAR_DEL"), Translations.Translate("RON_WAR_UND"));
+				}					
+				else
+                {
+					// Non-global mode; just delete.
+					DeleteNets();
+                }
 			}
 		}
 
