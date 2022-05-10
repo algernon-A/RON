@@ -154,7 +154,7 @@ namespace RON
 		}
 
 		/// <summary>
-		/// Delete networks.
+		/// Delete networks - only call via simulation thread.
 		/// </summary>
 		/// <param name="segments">Array of segment IDs to delete</param>
 		internal static void DeleteNets(ushort[] segments)
@@ -168,18 +168,24 @@ namespace RON
 					return;
 				}
 
-				// Local reference.
+				// Local references.
 				NetManager netManager = Singleton<NetManager>.instance;
+				NetSegment[] segmentBuffer = netManager.m_segments.m_buffer;
 
 				// Iterate through each segment ID. 
 				for (int i = 0; i < segments.Length; ++i)
 				{
 					// Delete segment.
 					ushort segmentID = segments[i];
-					if (segmentID > 0 && netManager.m_segments.m_buffer[segmentID].m_flags != NetSegment.Flags.None)
+					if (segmentID > 0 && segmentBuffer[segmentID].m_flags != NetSegment.Flags.None)
 					{
 						Logging.Message("releasing segment ", segmentID);
+						segmentBuffer[segmentID].Info.m_netAI.ManualDeactivation(segmentID, ref segmentBuffer[segmentID]);
 						netManager.ReleaseSegment(segmentID, false);
+						if (segmentBuffer[segmentID].Info.m_class.m_service == ItemClass.Service.Road)
+						{
+							Singleton<CoverageManager>.instance.CoverageUpdated(ItemClass.Service.None, ItemClass.SubService.None, ItemClass.Level.None);
+						}
 						Logging.Message("segment released");
 					}
 				}

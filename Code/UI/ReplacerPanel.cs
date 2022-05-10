@@ -789,23 +789,18 @@ namespace RON
 		/// <param name="control">Calling component (unused)</param>
 		/// <param name="mouseEvent">Mouse event (unused)</param>
 		/// </summary>
-		internal void Delete (UIComponent control, UIMouseEventParameter mouseEvent)
+		internal void Delete(UIComponent control, UIMouseEventParameter mouseEvent)
 		{
 			// Only do stuff if we've got a valid selection.
-			if (SelectedPrefab != null)
+			if (SelectedPrefab != null && selectedSegments.Count > 0)
 			{
-				// If we're in global mode, display confirmation message box.
-				if (globalCheck.isChecked)
-                {
-					YesNoMessageBox warningBox = MessageBoxBase.ShowModal<YesNoMessageBox>();
-					warningBox.YesButton.eventClicked += (button, clickEvent) => DeleteNets();
-					warningBox.AddParas(Translations.Translate("RON_WAR_DEL"), Translations.Translate("RON_WAR_UND"));
-				}					
-				else
-                {
-					// Non-global mode; just delete.
-					DeleteNets();
-                }
+				// Display delete confirmation box.
+				YesNoMessageBox warningBox = MessageBoxBase.ShowModal<YesNoMessageBox>();
+				warningBox.YesButton.eventClicked += (button, clickEvent) => DeleteNets();
+
+				// Singlular or plural?
+				warningBox.AddParas(Translations.Translate(selectedSegments.Count > 1 ? "RON_WAR_DEL" : "RON_WAR_DES"),
+					Translations.Translate("RON_WAR_UND")) ;
 			}
 		}
 

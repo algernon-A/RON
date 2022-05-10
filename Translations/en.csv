@@ -54,7 +54,8 @@ RON_OPT_ADV,Enable advanced mode
 RON_OPT_ADV2,(enables replacement with different network types)
 RON_OPT_NEX,Auto-replace Network Extension 2 roads on load
 RON_OPT_NEX2,(replacement network collection must be susbscribed)
-RON_WAR_DEL,Are you SURE you want to delete all networks of this type on the map?
+RON_WAR_DES,Are you SURE you want to delete this network segment?
+RON_WAR_DEL,Are you SURE you want to delete all of these network segments?
 RON_WAR_UND,This action CANNOT be undone!
 TRN_CHOICE,Set language
 TRN_SYS,Use game language
