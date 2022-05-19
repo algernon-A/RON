@@ -9,14 +9,14 @@ namespace RON
     public class Loading : LoadingExtensionBase
     {
         /// <summary>
-        /// Called by the game when the mod is initialised at the start of the loading process.
+        /// Called by the game when level loading is complete.
         /// </summary>
-        /// <param name="loading">Loading mode (e.g. game, editor, scenario, etc.)</param>
-        public override void OnCreated(ILoading loading)
+        /// <param name="mode">Loading mode (e.g. game, editor, scenario, etc.)</param>
+        public override void OnLevelLoaded(LoadMode mode)
         {
             Logging.KeyMessage("version ", RONMod.Version, " loading");
 
-            base.OnCreated(loading);
+            base.OnLevelLoaded(mode);
 
             // Add RON tool to tool controller.
             ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
