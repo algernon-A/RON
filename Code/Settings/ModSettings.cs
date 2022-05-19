@@ -17,6 +17,11 @@ namespace RON
         [XmlIgnore]
         private static readonly string SettingsFileName = "RON-settings.xml";
 
+        // UUI hotkey.
+        [XmlIgnore]
+        private static readonly UnsavedInputKey uuiKey = new UnsavedInputKey(name: "Transfer Controller hotkey", keyCode: KeyCode.N, control: false, shift: false, alt: true);
+
+
         // User settings directory.
         [XmlIgnore]
         private static readonly string UserSettingsDir = ColossalFramework.IO.DataLocation.localApplicationData;
@@ -34,10 +39,6 @@ namespace RON
         [XmlIgnore]
         private static bool replaceNExt2 = true;
 
-        // SavedInputKey reference for communicating with UUI.
-        [XmlIgnore]
-        private static readonly SavedInputKey uuiSavedKey = new SavedInputKey("RON hotkey", "RON hotkey", key: KeyCode.N, control: false, shift: false, alt: true, false);
-
 
         // Language.
         [XmlElement("Language")]
@@ -48,45 +49,24 @@ namespace RON
             set => Translations.CurrentLanguage = value;
         }
 
-        // Hotkey element.
+        
+        // RON tool hotkey.
         [XmlElement("PanelKey")]
-        public KeyBinding PanelKey
+        public KeyBinding XMLPanelKey
         {
-            get
-            {
-                return new KeyBinding
-                {
-                    keyCode = (int)PanelSavedKey.Key,
-                    control = PanelSavedKey.Control,
-                    shift = PanelSavedKey.Shift,
-                    alt = PanelSavedKey.Alt
-                };
-            }
-            set
-            {
-                uuiSavedKey.Key = (KeyCode)value.keyCode;
-                uuiSavedKey.Control = value.control;
-                uuiSavedKey.Shift = value.shift;
-                uuiSavedKey.Alt = value.alt;
+            get => uuiKey.KeyBinding;
 
-                // Reset any erroneous 'Alt-B' settings.
-                if ((KeyCode)value.keyCode == KeyCode.B && !value.control && !value.shift && value.alt)
-                {
-                    Logging.Message("overriding hotkey to alt-N");
-                    uuiSavedKey.Key = KeyCode.N;
-                }
-            }
+            set => uuiKey.KeyBinding = value;
         }
 
 
-        // Show Railway Repalcer panel.
+        // Show Railway Replacer panel.
         [XmlElement("ShowRailwayReplacer")]
         public bool XMLShowRailwayReplacer
         {
             get => showRailwayReplacer;
             set => showRailwayReplacer = value;
         }
-
 
 
         // Advanced mode.
@@ -128,22 +108,21 @@ namespace RON
 
 
         /// <summary>
-        /// Panel hotkey as ColossalFramework SavedInputKey.
+        /// Current hotkey as UUI UnsavedInputKey.
         /// </summary>
         [XmlIgnore]
-        internal static SavedInputKey PanelSavedKey => uuiSavedKey;
+        internal static UnsavedInputKey UUIKey => uuiKey;
 
 
         /// <summary>
         /// The current hotkey settings as ColossalFramework InputKey.
         /// </summary>
-        /// </summary>
         [XmlIgnore]
-        internal static InputKey CurrentHotkey
+        internal static InputKey ToolKey
         {
-            get => uuiSavedKey.value;
+            get => uuiKey.value;
 
-            set => uuiSavedKey.value = value;
+            set => uuiKey.value = value;
         }
 
 
@@ -231,5 +210,49 @@ namespace RON
 
         [XmlAttribute("Alt")]
         public bool alt;
+
+
+        /// <summary>
+        /// Encode keybinding as saved input key for UUI.
+        /// </summary>
+        /// <returns></returns>
+        internal InputKey Encode() => SavedInputKey.Encode((KeyCode)keyCode, control, shift, alt);
+    }
+
+
+    /// <summary>
+    /// UUI unsaved input key.
+    /// </summary>
+    public class UnsavedInputKey : UnifiedUI.Helpers.UnsavedInputKey
+    {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">Reference name</param>
+        /// <param name="keyCode">Keycode</param>
+        /// <param name="control">Control modifier key status</param>
+        /// <param name="shift">Shift modifier key status</param>
+        /// <param name="alt">Alt modifier key status</param>
+        public UnsavedInputKey(string name, KeyCode keyCode, bool control, bool shift, bool alt) :
+            base(keyName: name, modName: "Repaint", Encode(keyCode, control: control, shift: shift, alt: alt))
+        {
+        }
+
+
+        /// <summary>
+        /// Called by UUI when a key conflict is resolved.
+        /// Used here to save the new key setting.
+        /// </summary>
+        public override void OnConflictResolved() => ModSettings.Save();
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public KeyBinding KeyBinding
+        {
+            get => new KeyBinding { keyCode = (int)Key, control = Control, shift = Shift, alt = Alt };
+            set => this.value = value.Encode();
+        }
     }
 }

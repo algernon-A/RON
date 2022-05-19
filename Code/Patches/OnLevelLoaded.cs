@@ -43,9 +43,6 @@ namespace RON
             // Set up options panel event handler (need to redo this now that options panel has been reset after loading into game).
             OptionsPanelManager.OptionsEventHook();
 
-            // Activate tool hotkey.
-            UIThreading.Operating = true;
-
             Logging.KeyMessage("loading complete");
             loaded = true;
         }
