@@ -1,4 +1,7 @@
-﻿Version 0.9.3 -
+﻿- Options panel now auto-updates when language is changed
+
+
+Version 0.9.3 -
 
 - Add button to delete selected networks
 - Move settings file location from application directory to user directory
