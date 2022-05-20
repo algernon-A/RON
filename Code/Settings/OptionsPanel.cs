@@ -21,11 +21,9 @@ namespace RON
         /// <summary>
         /// Performs initial setup for the panel; we don't use Start() as that's not sufficiently reliable (race conditions), and is not needed with the dynamic create/destroy process.
         /// </summary>
-        internal void Setup(float width, float height)
+        internal void Setup()
         {
             // Size and placement.
-            this.width = width - (this.relativePosition.x * 2);
-            this.height = height - (this.relativePosition.y * 2);
             this.autoLayout = false;
 
             // Add controls.
@@ -36,6 +34,7 @@ namespace RON
             languageDropDown.eventSelectedIndexChanged += (control, index) =>
             {
                 Translations.Index = index;
+                OptionsPanelManager.LocaleChanged();
             };
             languageDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += languageDropDown.parent.height + GroupMargin;

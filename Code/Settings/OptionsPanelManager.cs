@@ -96,10 +96,17 @@ namespace RON
                     optionsGameObject = new GameObject("RONOptionsPanel");
                     optionsGameObject.transform.parent = optionsPanel.transform;
 
+                    // Create a base panel attached to our game object, perfectly overlaying the game options panel.
                     panel = optionsGameObject.AddComponent<RONOptionsPanel>();
+                    panel.width = optionsPanel.width - 10f;
+                    panel.height = 725f;
+                    panel.clipChildren = false;
+
+                    // Needed to ensure position is consistent if we regenerate after initial opening (e.g. on language change).
+                    panel.relativePosition = new Vector2(10f, 10f);
 
                     // Set up and show panel.
-                    Panel.Setup(optionsPanel.width, optionsPanel.height);
+                    Panel.Setup();
                 }
             }
             catch (Exception e)
