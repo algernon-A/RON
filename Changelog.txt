@@ -1,4 +1,5 @@
-﻿- Options panel now auto-updates when language is changed
+﻿- Add auto-replace-on-load for NAR tracks (with Railway 2 USA equivalents)
+- Options panel now auto-updates when language is changed
 
 
 Version 0.9.3 -

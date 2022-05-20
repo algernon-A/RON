@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RONAutoReplace xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <autoreplace>
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Single (One Way) Elevated" replacement="2619651082.R2USA GrWo 1x1 E" filename="r2-rwyusa-grwo-1x1.crp" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Single (One Way) Bridge" replacement="2619651082.R2USA GrWo 1x1 B" filename="r2-rwyusa-grwo-1x1.crp" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Single (One Way) Slope" replacement="2619651082.R2USA GrWo 1x1 S" filename="r2-rwyusa-grwo-1x1.crp" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Single (One Way) Tunnel" replacement="2619651082.R2USA GrWo 1x1 T" filename="r2-rwyusa-grwo-1x1.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (One Way)_Data" replacement="2619651082.R2USA GrWo 1x1_Data" filename="r2-rwyusa-grwo-1x1.crp" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Double (One Way) Elevated" replacement="2619651082.R2USA GrWo 2x1 E0" filename="r2-rwyusa-grwo-2x1.crp" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Double (One Way) Bridge" replacement="2619651082.R2USA GrWo 2x1 B0" filename="r2-rwyusa-grwo-2x1.crp" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Double (One Way) Slope" replacement="2619651082.R2USA GrWo 2x1 S0" filename="r2-rwyusa-grwo-2x1.crp" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Double (One Way) Tunnel" replacement="2619651082.R2USA GrWo 2x1 T0" filename="r2-rwyusa-grwo-2x1.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Double (One Way)_Data" replacement="2619651082.R2USA GrWo 2x1_Data" filename="r2-rwyusa-grwo-2x1.crp" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Single (Two Way) Elevated" replacement="2619651082.R2USA GrWo 1x2 E0" filename="r2-rwyusa-grwo-1x2.crp" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Single (Two Way) Bridge" replacement="2619651082.R2USA GrWo 1x2 B0" filename="r2-rwyusa-grwo-1x2.crp" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Single (Two Way) Slope" replacement="2619651082.R2USA GrWo 1x2 S0" filename="r2-rwyusa-grwo-1x2.crp" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Single (Two Way) Tunnel" replacement="2619651082.R2USA GrWo 1x2 T0" filename="r2-rwyusa-grwo-1x2.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Two Way)_Data" replacement="2619651082.R2USA GrWo 1x2_Data" filename="r2-rwyusa-grwo-1x2.crp" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Double (Two Way) Elevated" replacement="2619651082.R2USA GrWo 2x2 E0" filename="r2-rwyusa-grwo-2x2.crp" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Double (Two Way) Bridge" replacement="2619651082.R2USA GrWo 2x2 B0" filename="r2-rwyusa-grwo-2x2.crp" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Double (Two Way) Slope" replacement="2619651082.R2USA GrWo 2x2 S0" filename="r2-rwyusa-grwo-2x2.crp" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Double (Two Way) Tunnel" replacement="2619651082.R2USA GrWo 2x2 T0" filename="r2-rwyusa-grwo-2x2.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Double (Two Way)_Data" replacement="2619651082.R2USA GrWo 2x2_Data" filename="r2-rwyusa-grwo-2x2.crp" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Double (Hi El St)_Data" replacement="2610265253.R2USA GrWo 2x2 St E_Data" filename="r2-rwyusa-grwo-2x2-spe.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Double (Lo Gr St)_Data" replacement="2610257966.R2USA GrWo 2x2 Lo G_Data" filename="r2-rwyusa-grwo-2x2-s-lp.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Hi Gr St L)_Data" replacement="2610265253.R2USA GrWo 1x2 St G L_Data" filename="r2-rwyusa-grwo-1x2-s-sp-l.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Lo Gr St L)_Data" replacement="2610257966.R2USA GrWo 1x2 Lo G L_Data" filename="r2-rwyusa-grwo-1x2-s-lp-l.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Hi Gr St R)_Data" replacement="2610265253.R2USA GrWo 1x2 St G R_Data" filename="r2-rwyusa-grwo-1x2-s-sp-r.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Lo Gr St R)_Data" replacement="2610257966.R2USA GrWo 1x2 Lo G R_Data" filename="r2-rwyusa-grwo-1x2-s-lp-r.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Lo Gr St 2)_Data" replacement="2610257966.R2USA GrWo 1x2 Lo G_Data" filename="r2-rwyusa-grwo-1x2-s-lp.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Hi Gr St 2)_Data" replacement="2610265253.R2USA GrWo 1x2 St G_Data" filename="r2-rwyusa-grwo-1x2-s-sp.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Double (Hi Gr St)_Data" replacement="2610265253.R2USA GrWo 2x2 St G_Data" filename="r2-rwyusa-grwo-2x2-s-sp.crp" />
+  </autoreplace>
+</RONAutoReplace>

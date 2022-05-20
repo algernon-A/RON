@@ -13,7 +13,21 @@ namespace RON
 	[XmlRoot("RONAutoReplace")]
 	public class AutoReplaceXML
 	{
-		internal static readonly string ReplacementFileName = "RON-replacements.xml";
+		public enum Replacements : int
+        {
+			NExt2 = 0,
+			NAR = 1,
+			NumReplacements = 2
+        }
+
+
+		// Replacement file nicknames.
+		internal static readonly string[] nicknames = new string[(int)Replacements.NumReplacements]
+		{
+			"NExt2",
+			"NAR"
+		};
+
 
 		// List of auto-replacements
 		[XmlArray("autoreplace")]
@@ -24,51 +38,24 @@ namespace RON
 		/// <summary>
 		/// Load auto-replace configuration from XML file.
 		/// </summary>
-		internal static AutoReplaceXML LoadSettings()
+		internal static AutoReplaceXML[] LoadReplacements()
 		{
 			Logging.Message("loading auto-replace settings");
 
-			try
+			AutoReplaceXML[] result = new AutoReplaceXML[(int)Replacements.NumReplacements];
+
+			// Get the current assembly path.
+			string assemblyPath = ModUtils.GetAssemblyPath();
+			if (!assemblyPath.IsNullOrWhiteSpace())
 			{
-				// Get the current assembly path and append our auto-replace settings file name.
-				string assemblyPath = ModUtils.GetAssemblyPath();
-				if (!assemblyPath.IsNullOrWhiteSpace())
+				// Iterate through each nickname and load the associated replacement file.
+				for (int i = 0; i < (int)Replacements.NumReplacements; ++i)
 				{
-					string fileName = Path.Combine(assemblyPath, ReplacementFileName);
-
-					// Check to see if configuration file exists.
-					if (File.Exists(fileName))
-					{
-						// Read it.
-						using (StreamReader reader = new StreamReader(fileName))
-						{
-							XmlSerializer xmlSerializer = new XmlSerializer(typeof(AutoReplaceXML));
-							if ((xmlSerializer.Deserialize(reader) is AutoReplaceXML autoReplaceFile))
-							{
-								// Successful read.
-								Logging.Message("successfully read auto-replace settings file with ", autoReplaceFile.AutoReplacements.Count, " entries");
-
-								return autoReplaceFile;
-							}
-							else
-							{
-								Logging.Error("couldn't deserialize auto-replace file");
-							}
-						}
-					}
-					else
-					{
-						Logging.Message("no auto-replace file found");
-					}
+					result[i] = LoadReplacementFile(nicknames[i], Path.Combine(assemblyPath, nicknames[i] + "-replacements.xml"));
 				}
 			}
-			catch (Exception e)
-			{
-				Logging.LogException(e, "exception reading XML auto-replace file");
-			}
 
-			// If we got here, something went wrong; return null.
-			return null;
+			return result;
 		}
 
 		/*
@@ -104,7 +91,7 @@ namespace RON
 
 						if (thisNet != null)
 						{
-							Package.Asset asset = PackageManager.FindAssetByName(thisNet.name, Package.AssetType.Object);
+							ColossalFramework.Packaging.Package.Asset asset = ColossalFramework.Packaging.PackageManager.FindAssetByName(thisNet.name, ColossalFramework.Packaging.Package.AssetType.Object);
 
 							string packagePath = asset?.package?.packagePath;
 
@@ -132,6 +119,51 @@ namespace RON
 				Logging.LogException(e, "exception saving XML auto-replace file");
 			}
 		}*/
+
+
+		/// <summary>
+		/// Load auto-replace configuration from XML file.
+		/// </summary>
+		/// <param name="nickname">File nickname (for logging)</param>
+		/// <param name="fileName">File name (full path)</param>
+		/// <returns></returns>
+		internal static AutoReplaceXML LoadReplacementFile(string nickname, string fileName)
+		{
+			try
+			{
+				// Check to see if configuration file exists.
+				if (File.Exists(fileName))
+				{
+					// Read it.
+					using (StreamReader reader = new StreamReader(fileName))
+					{
+						XmlSerializer xmlSerializer = new XmlSerializer(typeof(AutoReplaceXML));
+						if (xmlSerializer.Deserialize(reader) is AutoReplaceXML autoReplaceFile)
+						{
+							// Successful read.
+							Logging.Message("successfully read auto-replace settings file for ", nickname, " with ", autoReplaceFile.AutoReplacements.Count, " entries");
+
+							return autoReplaceFile;
+						}
+						else
+						{
+							Logging.Error("couldn't deserialize auto-replace file for ", nickname);
+						}
+					}
+				}
+				else
+				{
+					Logging.Message("no auto-replace file found for ", nickname);
+				}
+			}
+			catch (Exception e)
+			{
+				Logging.LogException(e, "exception reading XML auto-replace file ", nickname);
+			}
+
+			// If we got here, something went wrong; return null.
+			return null;
+		}
 	}
 
 

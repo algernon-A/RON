@@ -11,7 +11,7 @@ namespace RON
 	[HarmonyPatch(typeof(BuildConfig), nameof(BuildConfig.ResolveLegacyPrefab))]
 	public static class ResolveLegacyPrefabPatch
 	{
-		private static AutoReplaceXML autoReplaceXML;
+		private static AutoReplaceXML[] autoReplaceFiles;
 		private static bool attemptedRead = false;
 		internal static List<string> missingNetworks;
 
@@ -25,7 +25,7 @@ namespace RON
 		public static bool Prefix(ref string __result, string name)
 		{
 			// Don't do anything without being enabled.
-			if (ModSettings.ReplaceNExt2)
+			if (ModSettings.ReplaceNExt2 | ModSettings.ReplaceNAR)
 			{
 				// Ensure that we're only looking for networks.
 				string callingMethod = new StackTrace().GetFrame(2).GetMethod().DeclaringType.ToString();
@@ -39,43 +39,59 @@ namespace RON
 				if (!attemptedRead)
 				{
 					// Load configuration file and set flag to indicate attempt.
-					autoReplaceXML = AutoReplaceXML.LoadSettings();
+					autoReplaceFiles = AutoReplaceXML.LoadReplacements();
 					attemptedRead = true;
 				}
 
 				// Did we sucessfully read the auto replace file?
-				if (autoReplaceXML != null)
+				if (autoReplaceFiles != null)
 				{
-					// Yes - iterate through replacements looking for name match.
-					foreach (ReplaceEntry entry in autoReplaceXML.AutoReplacements)
-					{
-						if (entry.targetName.Equals(name))
+					// Yes - iterate through file list.
+					for (int i = 0; i < autoReplaceFiles.Length; ++i)
+                    {
+						// Don't replace NExt2 roads if setting isn't enabled.
+						if (i == (int)AutoReplaceXML.Replacements.NExt2 && !ModSettings.ReplaceNExt2)
+                        {
+							continue;
+						}
+
+						// Don't replace NAR tracks if setting isn't enabled.
+						if (i == (int)AutoReplaceXML.Replacements.NAR && !ModSettings.ReplaceNAR)
 						{
-							// Found a target name match; check to see if we have a replacement.
-							string replacementName = entry.replacementName;
-							if (PrefabCollection<NetInfo>.FindLoaded(replacementName) == null)
+							continue;
+						}
+
+						// Iterate through each entry in this file.
+						foreach (ReplaceEntry entry in autoReplaceFiles[i].AutoReplacements)
+						{
+							if (entry != null && entry.targetName.Equals(name))
 							{
-								// No replacement found.
-								Logging.Error("couldn't find replacement ", replacementName, " for NExt2 network ", name);
+								// Found a target name match; check to see if we have a replacement.
+								string replacementName = entry.replacementName;
+								if (PrefabCollection<NetInfo>.FindLoaded(replacementName) == null)
+								{
+									// No replacement found.
+									Logging.Error("couldn't find replacement ", replacementName, " for NExt2 network ", name);
 
-								// Add missing name to list, creating it if we haven't already.
-								if (missingNetworks == null)
-                                {
-									missingNetworks = new List<string>();
-                                }
-								missingNetworks.Add(name);
+									// Add missing name to list, creating it if we haven't already.
+									if (missingNetworks == null)
+									{
+										missingNetworks = new List<string>();
+									}
+									missingNetworks.Add(name);
 
-								// Execute original method.
-								return true;
-							}
-							else
-							{
-								// Replacement found; return replacement name and don't execute original method.
-								__result = entry.replacementName;
-								Logging.Message("attempting to replace NExt2 network ", name, " with ", __result);
+									// Execute original method.
+									return true;
+								}
+								else
+								{
+									// Replacement found; return replacement name and don't execute original method.
+									__result = entry.replacementName;
+									Logging.Message("attempting to replace network ", name, " with ", __result);
 
-								// Don't execute original method.
-								return false;
+									// Don't execute original method.
+									return false;
+								}
 							}
 						}
 					}

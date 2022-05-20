@@ -30,6 +30,9 @@ namespace RON
             // Y position indicator.
             float currentY = Margin;
 
+            // Sub-label font.
+            UIFont subLabelFont = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault((UIFont f) => f.name == "OpenSans-Regular");
+
             UIDropDown languageDropDown = UIControls.AddPlainDropDown(this, Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index);
             languageDropDown.eventSelectedIndexChanged += (control, index) =>
             {
@@ -44,7 +47,7 @@ namespace RON
             keyMapping.uIPanel.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += keyMapping.uIPanel.height + GroupMargin;
 
-            // Show Railway Repalcer checkbox.
+            // Show Railway Replacer checkbox.
             UICheckBox railwayReplacerCheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_RRP"));
             railwayReplacerCheck.relativePosition = new Vector2(LeftMargin, currentY);
             railwayReplacerCheck.isChecked = ModSettings.ShowRailwayReplacer;
@@ -71,8 +74,20 @@ namespace RON
             currentY += CheckRowHeight + Margin;
 
             // Replace NExt2 roads on load sub-label.
-            UILabel replaceCheckSubLabel = UIControls.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NEX2"), textScale: 1.125f);
-            replaceCheckSubLabel.font = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault((UIFont f) => f.name == "OpenSans-Regular");
+            UILabel replaceNext2CheckSubLabel = UIControls.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NEX2"), textScale: 1.125f);
+            replaceNext2CheckSubLabel.font = subLabelFont;
+            currentY += CheckRowHeight + GroupMargin;
+
+            // Replace NAR tracks on load checkbox.
+            UICheckBox replaceNARCheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_NAR"));
+            replaceNARCheck.relativePosition = new Vector2(LeftMargin, currentY);
+            replaceNARCheck.isChecked = ModSettings.ReplaceNAR;
+            replaceNARCheck.eventCheckChanged += (control, isChecked) => ModSettings.ReplaceNAR = isChecked;
+            currentY += CheckRowHeight + Margin;
+
+            // Replace NAR tracks on load sub-label.
+            UILabel replaceNARCheckSubLabel = UIControls.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NAR2"), textScale: 1.125f);
+            replaceNARCheckSubLabel.font = subLabelFont;
             currentY += CheckRowHeight + GroupMargin;
         }
     }

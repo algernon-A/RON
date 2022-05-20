@@ -95,9 +95,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Changelog.txt" />
+    <Content Include="Code\AutoReplace\NAR-replacements.xml" />
     <Content Include="Images\PreviewImage.png" />
     <Content Include="License.txt" />
-    <Content Include="Code\AutoReplace\RON-replacements.xml" />
+    <Content Include="Code\AutoReplace\NExt2-replacements.xml" />
     <Content Include="Resources\RonButton.png" />
     <Content Include="Resources\ron_cursor_dark.png" />
     <Content Include="Resources\ron_cursor_light.png" />
@@ -136,7 +137,7 @@ mkdir "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)
 del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Resources\*"
 xcopy /y "$(ProjectDir)\Resources\" "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\Resources" /s /e
 
-del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\RON-replacements.xml"
-xcopy /y "$(ProjectDir)\Code\AutoReplace\RON-replacements.xml" "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)" /s /e</PostBuildEvent>
+del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\*.xml"
+xcopy /y "$(ProjectDir)\Code\AutoReplace\*.xml" "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)" /s /e</PostBuildEvent>
   </PropertyGroup>
 </Project>
