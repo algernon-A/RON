@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RONAutoReplace xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <autoreplace>
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Single (One Way) Elevated" replacement="Rail1L Elevated" filename="" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Single (One Way) Bridge" replacement="Rail1L Bridge" filename="" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Single (One Way) Slope" replacement="Rail1L Slope" filename="" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Single (One Way) Tunnel" replacement="Rail1L Tunnel" filename="" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (One Way)_Data" replacement="Rail1L" filename="" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Double (One Way) Elevated" replacement="Oneway Train Track Elevated" filename="" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Double (One Way) Bridge" replacement="Oneway Train Track Bridge" filename="" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Double (One Way) Slope" replacement="Oneway Train Track Slope" filename="" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Double (One Way) Tunnel" replacement="Oneway Train Track Tunnel" filename="" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Double (One Way)_Data" replacement="Oneway Train Track" filename="" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Single (Two Way) Elevated" replacement="Rail1L2W Elevated" filename="" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Single (Two Way) Bridge" replacement="Rail1L2W Bridge" filename="" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Single (Two Way) Slope" replacement="Rail1L2W Slope" filename="" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Single (Two Way) Tunnel" replacement="Rail1L2W Tunnel" filename="" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Two Way)_Data" replacement="Rail1L2W" filename="" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Double (Two Way) Elevated" replacement="Train Track Elevated" filename="" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Double (Two Way) Bridge" replacement="Train Track Bridge" filename="" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Double (Two Way) Slope" replacement="Train Track Slope" filename="" />
+    <replace type="TrainTrackTunnelAI" target="2126396428.NAR: Generic Double (Two Way) Tunnel" replacement="Train Track Tunnel" filename="" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Double (Two Way)_Data" replacement="Train Track" filename="" />
+    <replace type="TrainTrackBridgeAI" target="2126396428.NAR: Generic Double (Hi El St)_Data" replacement="Train Station Track Elevated" filename="" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Double (Lo Gr St)_Data" replacement="Train Station Track" filename="" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Hi Gr St L)_Data" replacement="1731659180.GroundSingleTrackStationTrack_Data" filename="BP_G_SingleTrackStationTrack.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Lo Gr St L)_Data" replacement="1731659180.GroundSingleTrackStationTrack_Data" filename="BP_G_SingleTrackStationTrack.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Hi Gr St R)_Data" replacement="1731659180.GroundSingleTrackStationTrack_Data" filename="BP_G_SingleTrackStationTrack.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Lo Gr St R)_Data" replacement="1731659180.GroundSingleTrackStationTrack_Data" filename="BP_G_SingleTrackStationTrack.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Lo Gr St 2)_Data" replacement="1731659180.GroundSingleTrackStationTrack_Data" filename="BP_G_SingleTrackStationTrack.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Single (Hi Gr St 2)_Data" replacement="1731659180.GroundSingleTrackStationTrack_Data" filename="BP_G_SingleTrackStationTrack.crp" />
+    <replace type="TrainTrackAI" target="2126396428.NAR: Generic Double (Hi Gr St)_Data" replacement="Train Station Track" filename="" />
+  </autoreplace>
+</RONAutoReplace>

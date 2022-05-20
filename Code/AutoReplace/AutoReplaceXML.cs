@@ -15,17 +15,19 @@ namespace RON
 	{
 		public enum Replacements : int
         {
-			NExt2 = 0,
-			NAR = 1,
-			NumReplacements = 2
+			NAR_R2 = 0,
+			NAR_BP = 1,
+			NExt2 = 2,
+			NumReplacements = 3
         }
 
 
 		// Replacement file nicknames.
 		internal static readonly string[] nicknames = new string[(int)Replacements.NumReplacements]
 		{
-			"NExt2",
-			"NAR"
+			"NAR-R2",
+			"NAR-BP",
+			"NExt2"
 		};
 
 
@@ -49,9 +51,10 @@ namespace RON
 			if (!assemblyPath.IsNullOrWhiteSpace())
 			{
 				// Iterate through each nickname and load the associated replacement file.
+				string dirPath = Path.Combine(assemblyPath, "Replacements");
 				for (int i = 0; i < (int)Replacements.NumReplacements; ++i)
 				{
-					result[i] = LoadReplacementFile(nicknames[i], Path.Combine(assemblyPath, nicknames[i] + "-replacements.xml"));
+					result[i] = LoadReplacementFile(nicknames[i], Path.Combine(dirPath, nicknames[i] + "-replacements.xml"));
 				}
 			}
 

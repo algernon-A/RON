@@ -50,13 +50,19 @@ namespace RON
 					for (int i = 0; i < autoReplaceFiles.Length; ++i)
                     {
 						// Don't replace NExt2 roads if setting isn't enabled.
-						if (i == (int)AutoReplaceXML.Replacements.NExt2 && !ModSettings.ReplaceNExt2)
+						if (i == (int)AutoReplaceXML.Replacements.NExt2 & !ModSettings.ReplaceNExt2)
                         {
 							continue;
 						}
 
-						// Don't replace NAR tracks if setting isn't enabled.
-						if (i == (int)AutoReplaceXML.Replacements.NAR && !ModSettings.ReplaceNAR)
+						// Don't replace NAR tracks with R2 if setting isn't enabled.
+						if (i == (int)AutoReplaceXML.Replacements.NAR_R2 & !(ModSettings.ReplaceNAR & ModSettings.ReplaceNARmode == AutoReplaceXML.Replacements.NAR_R2))
+						{
+							continue;
+						}
+
+						// Don't replace NAR tracks with BP if setting isn't enabled.
+						if (i == (int)AutoReplaceXML.Replacements.NAR_BP & !(ModSettings.ReplaceNAR & ModSettings.ReplaceNARmode == AutoReplaceXML.Replacements.NAR_BP))
 						{
 							continue;
 						}
@@ -71,7 +77,7 @@ namespace RON
 								if (PrefabCollection<NetInfo>.FindLoaded(replacementName) == null)
 								{
 									// No replacement found.
-									Logging.Error("couldn't find replacement ", replacementName, " for NExt2 network ", name);
+									Logging.Error("couldn't find replacement ", replacementName, " for network ", name);
 
 									// Add missing name to list, creating it if we haven't already.
 									if (missingNetworks == null)

@@ -18,6 +18,9 @@ namespace RON
         private const float GroupMargin = 40f;
 
 
+        // Panel components.
+        UIDropDown narModeDropDown;
+
         /// <summary>
         /// Performs initial setup for the panel; we don't use Start() as that's not sufficiently reliable (race conditions), and is not needed with the dynamic create/destroy process.
         /// </summary>
@@ -79,16 +82,52 @@ namespace RON
             currentY += CheckRowHeight + GroupMargin;
 
             // Replace NAR tracks on load checkbox.
-            UICheckBox replaceNARCheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_NAR"));
-            replaceNARCheck.relativePosition = new Vector2(LeftMargin, currentY);
-            replaceNARCheck.isChecked = ModSettings.ReplaceNAR;
-            replaceNARCheck.eventCheckChanged += (control, isChecked) => ModSettings.ReplaceNAR = isChecked;
-            currentY += CheckRowHeight + Margin;
+            UICheckBox replaceNARcheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_NAR"));
+            replaceNARcheck.relativePosition = new Vector2(LeftMargin, currentY);
+            replaceNARcheck.isChecked = ModSettings.ReplaceNAR;
+            replaceNARcheck.eventCheckChanged += NARCheckChanged;
+            currentY += CheckRowHeight;
+
+            // NAR replacement mode dropdown - custom sized.
+            narModeDropDown = UIControls.AddPlainDropDown(this, string.Empty, new string[] { Translations.Translate("RON_OPT_NAR_R2"), Translations.Translate("RON_OPT_NAR_BP") }, (int)ModSettings.ReplaceNARmode);
+            narModeDropDown.parent.relativePosition = new Vector2(LeftMargin + LeftMargin, currentY);
+            narModeDropDown.textScale = 1f;
+            narModeDropDown.height = 29f;
+            narModeDropDown.width = 500f;
+            narModeDropDown.autoListWidth = false;
+            narModeDropDown.listWidth = 500;
+            (narModeDropDown.parent as UIPanel).autoLayout = false;
+            narModeDropDown.relativePosition = Vector2.zero;
+            narModeDropDown.isEnabled = ModSettings.ReplaceNAR;
+            narModeDropDown.eventSelectedIndexChanged += NARModeChanged;
+            currentY += narModeDropDown.height + 2f;
 
             // Replace NAR tracks on load sub-label.
             UILabel replaceNARCheckSubLabel = UIControls.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NAR2"), textScale: 1.125f);
             replaceNARCheckSubLabel.font = subLabelFont;
-            currentY += CheckRowHeight + GroupMargin;
+        }
+
+
+        /// <summary>
+        /// Replace NAR check changed event handler.
+        /// </summary>
+        /// <param name="component">Calling component (unused)</param>
+        /// <param name="isChecked">New checked state</param>
+        private void NARCheckChanged(UIComponent component, bool isChecked)
+        {
+            ModSettings.ReplaceNAR = isChecked;
+            narModeDropDown.isEnabled = isChecked;
+        }
+
+
+        /// <summary>
+        /// Replace NAR dropdown changed event handler.
+        /// </summary>
+        /// <param name="component">Calling component (unused)</param>
+        /// <param name="index">New selected index</param>
+        private void NARModeChanged(UIComponent component, int index)
+        {
+            ModSettings.ReplaceNARmode = (AutoReplaceXML.Replacements)index;
         }
     }
 }

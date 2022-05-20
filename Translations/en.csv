@@ -54,8 +54,10 @@ RON_OPT_ADV,Enable advanced mode
 RON_OPT_ADV2,(enables replacement with different network types)
 RON_OPT_NEX,Auto-replace Network Extension 2 roads on load
 RON_OPT_NEX2,(replacement network collection must be susbscribed)
-RON_OPT_NAR,Auto-replace North American Rails (NAR) tracks on load
-RON_OPT_NAR2,(replacement Railway 2 collection must be susbscribed)
+RON_OPT_NAR,Auto-replace North American Rails (NAR) tracks on load with:
+RON_OPT_NAR2,(relevant replacement assets or mods must be susbscribed)
+RON_OPT_NAR_R2,Railway 2 USA
+RON_OPT_NAR_BP,Vanilla/BadPeanut
 RON_WAR_DES,Are you SURE you want to delete this network segment?
 RON_WAR_DEL,Are you SURE you want to delete all of these network segments?
 RON_WAR_UND,This action CANNOT be undone!

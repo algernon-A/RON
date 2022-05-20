@@ -43,6 +43,10 @@ namespace RON
         [XmlIgnore]
         private static bool replaceNAR = true;
 
+        // Auto-replace NAR tracks on load.
+        [XmlIgnore]
+        private static AutoReplaceXML.Replacements replaceNARmode = AutoReplaceXML.Replacements.NAR_R2;
+
 
         // Language.
         [XmlElement("Language")]
@@ -100,6 +104,15 @@ namespace RON
         }
 
 
+        // Auto-replace NAR tracks mode.
+        [XmlElement("ReplaceMode_NAR")]
+        public AutoReplaceXML.Replacements XMLReplaceNARmode
+        {
+            get => replaceNARmode;
+            set => replaceNARmode = value;
+        }
+
+
         /// Show Railway Repalcer mod.
         /// </summary>
 		[XmlIgnore]
@@ -124,6 +137,12 @@ namespace RON
         /// </summary>
 		[XmlIgnore]
         internal static bool ReplaceNAR { get => replaceNAR; set => replaceNAR = value; }
+
+        /// <summary>
+        /// Replace NAR tracks mode.
+        /// </summary>
+		[XmlIgnore]
+        internal static AutoReplaceXML.Replacements ReplaceNARmode { get => replaceNARmode; set => replaceNARmode = value; }
 
 
         /// <summary>
