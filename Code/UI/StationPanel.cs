@@ -113,8 +113,8 @@ namespace RON
 				{
 					if (selectedBuilding.m_paths[i] != null)
 					{
-						// Check for railway track.
-						if (selectedBuilding.m_paths[i].m_netInfo.GetAI().GetType().IsAssignableFrom(typeof(TrainTrackAI)))
+						// Check for matching track.
+						if (selectedBuilding.m_paths[i].m_netInfo.m_netAI.GetType().IsAssignableFrom(typeof(TrainTrackAI)))
 						{
 							// Found a railway track - add index to list.
 							eligibleNets.Add(i);
@@ -317,7 +317,16 @@ namespace RON
 			}
 
 			// Station status of currently selected track.
-			bool isStation = PrefabUtils.IsStation(currentBuilding.m_paths[selectedIndex].m_netInfo);
+			NetInfo currentNetInfo = currentBuilding.m_paths[selectedIndex].m_netInfo;
+			bool isStation = PrefabUtils.IsStation(currentNetInfo);
+			NetAI currentNetAI = currentNetInfo.m_netAI;
+			Type currentAIType = currentNetAI.GetType();
+
+			// Elevated station tracks from Extra Train Station Tracks need special handling, as they don't use the TrainTrackBridgeAI.
+			if (currentNetAI is TrainTrackAI trackAI && currentNetInfo.name.StartsWith("Station Track Eleva"))
+			{
+				currentAIType = typeof(TrainTrackBridgeAI);
+			}
 
 			// List of prefabs to display.
 			List<NetRowItem> netList = new List<NetRowItem>();
@@ -346,11 +355,15 @@ namespace RON
 					}
 
 					// Check if this network is same AI type as selection.
-					if (currentBuilding.m_paths[selectedIndex].m_netInfo.GetAI().GetType() != network.GetAI().GetType())
+					if (currentAIType != network.m_netAI.GetType())
                     {
-						continue;
+						// Elevated station tracks from Extra Train Station Tracks need special handling, as they don't use the TrainTrackBridgeAI.
+						if (!(network.name.StartsWith("Station Track Eleva") && currentAIType == typeof(TrainTrackBridgeAI)))
+						{
+							continue;
+						}
                     }
-
+					
 					// Passed filtering; add this one to the list.
 					netList.Add(newItem);
 				}

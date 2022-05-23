@@ -2,6 +2,7 @@
 
 - Add auto-replace-on-load for NAR tracks (with Railway 2 USA or Vanilla/BadPeanut equivalents)
 - Options panel now auto-updates when language is changed
+- Fix Extra Train Station Tracks mod elevated station tracks being listed as ground-level
 
 
 Version 0.9.3 -

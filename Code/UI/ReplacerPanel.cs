@@ -422,6 +422,12 @@ namespace RON
 				return;
             }
 
+			// Elevated station tracks from Extra Train Station Tracks need special handling, as they don't use the TrainTrackBridgeAI.
+			if (aiType == typeof(TrainTrackAI) && selectedNet.name.StartsWith("Station Track Eleva"))
+			{
+				aiType = typeof(TrainTrackBridgeAI);
+			}
+
 			// Try to match 
 			for (int i = 0; i < NumTypes; ++i)
             {
@@ -1273,8 +1279,16 @@ namespace RON
 			NetAI ai = network?.m_netAI;
 			if (ai != null)
 			{
+				Type aiType = ai.GetType();
+
+				// Elevated station tracks from Extra Train Station Tracks need special handling, as they don't use the TrainTrackBridgeAI.
+				if (aiType == typeof(TrainTrackAI) && network.name.StartsWith("Station Track Eleva"))
+                {
+					aiType = typeof(TrainTrackBridgeAI);
+                }
+
 				// Check for match.
-				if (ai.GetType().IsAssignableFrom(netTypes[typeDropDown.selectedIndex]) || ai.GetType().IsAssignableFrom(secondaryNetTypes[typeDropDown.selectedIndex]))
+				if (aiType.IsAssignableFrom(netTypes[typeDropDown.selectedIndex]) || aiType.IsAssignableFrom(secondaryNetTypes[typeDropDown.selectedIndex]))
 				{
 					// Match - return true.
 					return true;
