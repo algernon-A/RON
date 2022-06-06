@@ -467,16 +467,17 @@ namespace RON
 			opacity = 1f;
 
 			// Size.
-			size = new Vector2(PanelWidth, PanelHeight);
+			width = PanelWidth;
+			height = PanelHeight;
 
 			// Default position - centre in screen.
 			relativePosition = new Vector2(Mathf.Floor((GetUIView().fixedWidth - width) / 2), Mathf.Floor((GetUIView().fixedHeight - height) / 2));
 
 			// Drag bar.
 			UIDragHandle dragHandle = AddUIComponent<UIDragHandle>();
-			dragHandle.width = this.width - 50f;
-			dragHandle.height = this.height;
-			dragHandle.relativePosition = Vector3.zero;
+			dragHandle.width = PanelWidth - 50f;
+			dragHandle.height = PanelHeight;
+			dragHandle.relativePosition = Vector2.zero;
 			dragHandle.target = this;
 
 			// Title label.
