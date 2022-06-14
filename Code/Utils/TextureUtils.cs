@@ -106,7 +106,7 @@ namespace RON
 			newAtlas.material.mainTexture = newTexture;
 
 			// Setup sprites.
-			string[] spriteNames = new string[] { "sprite" };
+			string[] spriteNames = new string[] { "normal" };
 			int numSprites = spriteNames.Length;
 			float spriteWidth = 1f;
 

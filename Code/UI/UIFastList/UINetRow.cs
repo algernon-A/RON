@@ -206,7 +206,7 @@ namespace RON
                 {
                     // Set icon.
                     typeIconSprite.atlas = TextureUtils.LoadSingleSpriteAtlas(thisItem.typeIcon);
-                    typeIconSprite.spriteName = "sprite";
+                    typeIconSprite.spriteName = "normal";
 
                     // Set tooltip.
                     switch (thisItem.typeIcon)
