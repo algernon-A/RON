@@ -12,7 +12,7 @@ namespace RON
     {
         // Layout constants - public.
         public const float RowHeight = 23f;
-        public const float NameX = CategoryX + CategoryWidth + IndicatorMargin;
+        public const float NameX = TypeX + SpriteSize + IndicatorMargin;
         public const float CreatorX = NameX + NameWidth + Margin;
 
         // Layout constants - private.
@@ -21,6 +21,8 @@ namespace RON
         private const float StationX = IndicatorMargin;
         private const float StationWidth = 17f;
         private const float CategoryX = StationX + StationWidth + IndicatorMargin;
+        private const float SpriteSize = 20f;
+        private const float TypeX = CategoryX + CategoryWidth + IndicatorMargin;
         private const float CategoryWidth = 23f;
         private const float NameWidth = 270f;
         private const float LabelHeight = 14f;
@@ -30,6 +32,7 @@ namespace RON
         // Panel components.
         private UIPanel panelBackground;
         protected UILabel networkName, creatorName, stationLabel, categoryLabel;
+        private UISprite typeIconSprite;
 
         // ObjectData.
         protected NetRowItem thisItem;
@@ -73,6 +76,9 @@ namespace RON
                 creatorName.relativePosition = new Vector2(CreatorX, (RowHeight - creatorName.height) / 2f);
                 stationLabel.relativePosition = new Vector2(StationX, (RowHeight - LabelHeight) / 2f);
                 categoryLabel.relativePosition = new Vector2(CategoryX, (RowHeight - LabelHeight) / 2f);
+
+                // Set icon sprice position.
+                typeIconSprite.relativePosition = new Vector2(TypeX, (RowHeight - SpriteSize) / 2f);
             }
         }
 
@@ -121,6 +127,12 @@ namespace RON
                 creatorName = AddUIComponent<UILabel>();
                 creatorName.textScale = TextScale;
                 creatorName.autoSize = true;
+
+                // Add type icon.
+                typeIconSprite = AddUIComponent<UISprite>();
+                typeIconSprite.autoSize = false;
+                typeIconSprite.width = SpriteSize;
+                typeIconSprite.height = SpriteSize;
 
                 // Add station label.
                 stationLabel = AddUIComponent<UILabel>();
@@ -189,6 +201,40 @@ namespace RON
                     stationLabel.tooltip = null;
                 }
 
+                // Set icon sprite.
+                if (thisItem.typeIcon != null)
+                {
+                    // Set icon.
+                    typeIconSprite.atlas = TextureUtils.LoadSingleSpriteAtlas(thisItem.typeIcon);
+                    typeIconSprite.spriteName = "sprite";
+
+                    // Set tooltip.
+                    switch (thisItem.typeIcon)
+                    {
+                        case "ron_bridge":
+                            typeIconSprite.tooltip = Translations.Translate("RON_TIP_BRI");
+                            break;
+                        case "ron_elevated":
+                            typeIconSprite.tooltip = Translations.Translate("RON_TIP_ELE");
+                            break;
+                        case "ron_tunnel":
+                            typeIconSprite.tooltip = Translations.Translate("RON_TIP_TUN");
+                            break;
+                        default:
+                            typeIconSprite.tooltip = null;
+                            break;
+                    }
+
+                    // Ensure visibility.
+                    typeIconSprite.Show();
+                }
+                else
+                {
+                    // Hide icon.
+                    typeIconSprite.Hide();
+                    typeIconSprite.tooltip = null;
+                }
+
                 // Set label positions and heights (accounting for any change in text scaling).
                 OnSizeChanged();
             }
@@ -203,6 +249,9 @@ namespace RON
                 categoryLabel.tooltip = null;
                 stationLabel.text = " ";
                 stationLabel.tooltip = null;
+
+                // Clear icon.
+                typeIconSprite.Hide();
             }
 
             // Set initial background as deselected state.

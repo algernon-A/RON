@@ -40,7 +40,7 @@ namespace RON
 		/// </summary>
 		/// <param name="fileName">Atlas file name (".png" will be appended fto make the filename)</param>
 		/// <returns>New texture atlas</returns>
-		internal static UITextureAtlas LoadSpriteAtlas(string fileName)
+		internal static UITextureAtlas LoadQuadSpriteAtlas(string fileName)
 		{
 			// Check if we've already cached this file.
 			if (fileCache.ContainsKey(fileName))
@@ -62,6 +62,53 @@ namespace RON
 			string[] spriteNames = new string[] { "disabled", "normal", "pressed", "hovered" };
 			int numSprites = spriteNames.Length;
 			float spriteWidth = 1f / spriteNames.Length;
+
+			// Iterate through each sprite (counter increment is in region setup).
+			for (int i = 0; i < numSprites; ++i)
+			{
+				UITextureAtlas.SpriteInfo sprite = new UITextureAtlas.SpriteInfo
+				{
+					name = spriteNames[i],
+					texture = newTexture,
+					// Sprite regions are horizontally arranged, evenly spaced.
+					region = new Rect(i * spriteWidth, 0f, spriteWidth, 1f)
+				};
+				newAtlas.AddSprite(sprite);
+			}
+
+			// Add atlas to cache and return.
+			fileCache.Add(fileName, newAtlas);
+			return newAtlas;
+		}
+
+
+		/// <summary>
+		/// Loads a four-sprite texture atlas from a given .png file.
+		/// </summary>
+		/// <param name="fileName">Atlas file name (".png" will be appended fto make the filename)</param>
+		/// <returns>New texture atlas</returns>
+		internal static UITextureAtlas LoadSingleSpriteAtlas(string fileName)
+		{
+			// Check if we've already cached this file.
+			if (fileCache.ContainsKey(fileName))
+			{
+				// Cached - return cached result.
+				return fileCache[fileName];
+			}
+
+			// Create new texture atlas for button.
+			UITextureAtlas newAtlas = ScriptableObject.CreateInstance<UITextureAtlas>();
+			newAtlas.name = fileName;
+			newAtlas.material = Object.Instantiate(UIView.GetAView().defaultAtlas.material);
+
+			// Load texture from file.
+			Texture2D newTexture = LoadTexture(fileName + ".png");
+			newAtlas.material.mainTexture = newTexture;
+
+			// Setup sprites.
+			string[] spriteNames = new string[] { "sprite" };
+			int numSprites = spriteNames.Length;
+			float spriteWidth = 1f;
 
 			// Iterate through each sprite (counter increment is in region setup).
 			for (int i = 0; i < numSprites; ++i)

@@ -16,7 +16,7 @@ namespace RON
             {
                 if (ronButtonSprites == null)
                 {
-                    ronButtonSprites = TextureUtils.LoadSpriteAtlas("RonButton");
+                    ronButtonSprites = TextureUtils.LoadQuadSpriteAtlas("RonButton");
                 }
 
                 return ronButtonSprites;

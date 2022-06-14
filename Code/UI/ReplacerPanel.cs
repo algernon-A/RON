@@ -375,7 +375,6 @@ namespace RON
 
 					// Create new panel instance and add it to GameObject.
 					panel = uiGameObject.AddComponent<ReplacerPanel>();
-					panel.transform.parent = uiGameObject.transform.parent;
 				}
 			}
 			catch (Exception e)
@@ -1116,7 +1115,10 @@ namespace RON
 						// No - apply network type filter.
 						if (MatchType(segmentInfo))
 						{
-							netList.Add(segmentInfo, new NetRowItem(segmentInfo));
+							// Filters passed - get type icon and add to list.
+							NetRowItem newItem = new NetRowItem(segmentInfo);
+							newItem.typeIcon = GetTypeIcon(segmentInfo);
+							netList.Add(segmentInfo, newItem);
 						}
 					}
 
@@ -1229,7 +1231,8 @@ namespace RON
 									continue;
 								}
 
-								// Passed filtering; add this one to the list.
+								// Passed filtering; get type icon and add this one to the list.
+								newItem.typeIcon = GetTypeIcon(network);
 								netList.Add(newItem);
 							}
 						}
@@ -1351,6 +1354,32 @@ namespace RON
 			}
 
 			UpdateButtonStates();
+		}
+
+
+		/// <summary>
+		/// Retuns the type icon filename for the given network.
+		/// </summary>
+		/// <param name="network">Network to get icon for</param>
+		/// <returns>Type icon filename, or null if no type icon is available</returns>
+		private string GetTypeIcon(NetInfo network)
+		{
+			// Find matching icon type.
+			if (elevatedParents.ContainsKey(network))
+			{
+				return "ron_elevated";
+			}
+			else if (bridgeParents.ContainsKey(network))
+			{
+				return "ron_bridge";
+			}
+			else if (tunnelParents.ContainsKey(network) || slopeParents.ContainsKey(network))
+			{
+				return "ron_tunnel";
+			}
+
+			// If we got here, then no icon was specified; return null.
+			return null;
 		}
 
 
@@ -1544,7 +1573,7 @@ namespace RON
 			{
 				// Checkbox sprites.
 				UISprite sprite = checkBox.AddUIComponent<UISprite>();
-				sprite.atlas = TextureUtils.LoadSpriteAtlas(fileName);
+				sprite.atlas = TextureUtils.LoadQuadSpriteAtlas(fileName);
 				sprite.spriteName = "normal";
 				sprite.size = new Vector2(ToggleSpriteSize, ToggleSpriteSize);
 				sprite.relativePosition = Vector3.zero;

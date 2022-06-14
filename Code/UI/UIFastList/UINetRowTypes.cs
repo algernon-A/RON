@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿using UnityEngine;
 
 namespace RON
 {
@@ -109,6 +108,9 @@ namespace RON
 		// Network indicator flags - if this is a vanilla/NExt2/mod asset.
 		public bool isVanilla = false, isNExt2 = false, isMod = false;
 
+		// Network type icon.
+		public string typeIcon;
+
 
 		/// <summary>
 		/// Constructor - automatically sets values based on provided network prefab.
@@ -164,9 +166,11 @@ namespace RON
 				isVanilla = !(isNExt2 || isMod);
 				displayName = fullName;
 			}
-
-			// Otherwise, omit the package number, and trim off any trailing _Data.
-			displayName = fullName.Substring(period + 1).Replace("_Data", "");
+			else
+			{
+				// Otherwise, omit the package number, and trim off any trailing _Data.
+				displayName = fullName.Substring(period + 1).Replace("_Data", "");
+			}
 		}
 	}
 }

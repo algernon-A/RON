@@ -100,6 +100,8 @@
     <Content Include="Images\PreviewImage.png" />
     <Content Include="License.txt" />
     <Content Include="Replacements\NExt2-replacements.xml" />
+    <Content Include="Resources\ron_bridge.png" />
+    <Content Include="Resources\ron_elevated.png" />
     <Content Include="Resources\RonButton.png" />
     <Content Include="Resources\ron_cursor_dark.png" />
     <Content Include="Resources\ron_cursor_light.png" />
@@ -107,6 +109,7 @@
     <Content Include="Resources\ron_global_small.png" />
     <Content Include="Resources\ron_segment_small.png" />
     <Content Include="Resources\ron_uui.png" />
+    <Content Include="Resources\ron_tunnel.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,4 +1,7 @@
-﻿Version 0.9.4 -
+﻿- Add indicator icons for bridge/elevated/tunnel netwSorks
+
+
+Version 0.9.4 -
 
 - Add auto-replace-on-load for NAR tracks (with Railway 2 USA or Vanilla/BadPeanut equivalents)
 - Options panel now auto-updates when language is changed
