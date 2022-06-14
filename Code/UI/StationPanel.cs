@@ -162,7 +162,6 @@ namespace RON
 
 					// Create new panel instance and add it to GameObject.
 					uiGameObject.AddComponent<StationPanel>();
-					panel.transform.parent = uiGameObject.transform.parent;
 				}
 			}
 			catch (Exception e)
