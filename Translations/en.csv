@@ -55,7 +55,7 @@ RON_FIL_NAME,Search:
 RON_OPT_RRP,Show railway track replacer when placing railway buildings
 RON_OPT_ADV,Enable advanced mode
 RON_OPT_ADV2,(enables replacement with different network types)
-RON_OPT_NEX,Auto-replace mssing Network Extension 2 roads on load
+RON_OPT_NEX,Auto-replace missing Network Extension 2 roads on load
 RON_OPT_NEX2,(replacement network collection must be susbscribed)
 RON_OPT_NAR,Auto-replace missing North American Rails (NAR) tracks on load with:
 RON_OPT_NAR2,(relevant replacement assets or mods must be susbscribed)
