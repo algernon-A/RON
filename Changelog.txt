@@ -2,6 +2,7 @@
 
 - Add auto-replace-on-load for NAR tracks (with Railway 2 USA or Vanilla/BadPeanut equivalents)
 - Station track replacer now supports metro stations as well
+- Station track replacer can now repalcer train tracks with metro (and vice-versa)
 - Station track replacer can now be used on already-placed stations (RON button in top-left of station info panel)
 - Add indicator icons for bridge/elevated/tunnel networks
 - Options panel now auto-updates when language is changed

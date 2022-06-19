@@ -358,12 +358,17 @@ namespace RON
 					}
 
 					// Check if this network is same AI type as selection.
-					if (currentAIType != network.m_netAI.GetType())
+					Type candidateType = network.m_netAI.GetType();
+					if (currentAIType != candidateType)
 					{
 						// Elevated station tracks from Extra Train Station Tracks need special handling, as they don't use the TrainTrackBridgeAI.
 						if (!(network.name.StartsWith("Station Track Eleva") && currentAIType == typeof(TrainTrackBridgeAI)))
 						{
-							continue;
+							// Still no match - check for metro-train match for station track types.
+							if (!(isStation && MatchTrainMetro(currentAIType, candidateType)))
+							{
+								continue;
+							}
 						}
 					}
 
@@ -382,6 +387,29 @@ namespace RON
 
 			// Clear current selection.
 			loadedList.selectedIndex = -1;
+		}
+
+
+		/// <summary>
+		/// Sets the panel title, including the building name.
+		/// </summary>
+		protected void SetTitle() => titleLabel.text = (currentBuilding?.name != null ? PrefabUtils.GetDisplayName(currentBuilding) : Translations.Translate("RON_NAM")) + ": " + Translations.Translate("RON_STA_CUS");
+
+
+		/// <summary>
+		/// Matches train tracks to equivalent metro tracks (and vice-versa).
+		/// </summary>
+		/// <param name="currentType">Selected track AI type</param>
+		/// <param name="candidateType">Candidate track AI type</param>
+		/// <returns>True if the two provided types are matched, false otherwise</returns>
+		private bool MatchTrainMetro(Type currentType, Type candidateType)
+		{
+			return 
+				candidateType == typeof(TrainTrackAI) && currentType == typeof(MetroTrackAI) ||
+				candidateType == typeof(TrainTrackBridgeAI) && currentType == typeof(MetroTrackBridgeAI) ||
+				candidateType == typeof(MetroTrackAI) && currentType == typeof(TrainTrackAI) ||
+				candidateType == typeof(MetroTrackBridgeAI) && currentType == typeof(TrainTrackBridgeAI)
+				;
 		}
 
 
@@ -406,11 +434,5 @@ namespace RON
 			fastList.rowsData = new FastList<object>();
 			fastList.selectedIndex = -1;
 		}
-
-
-		/// <summary>
-		/// Sets the panel title, including the building name.
-		/// </summary>
-		protected void SetTitle() => titleLabel.text = (currentBuilding?.name != null ? PrefabUtils.GetDisplayName(currentBuilding) : Translations.Translate("RON_NAM")) + ": " + Translations.Translate("RON_STA_CUS");
 	}
 }
