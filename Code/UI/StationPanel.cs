@@ -7,6 +7,9 @@ using ColossalFramework.UI;
 
 namespace RON
 {
+	/// <summary>
+	/// RON station track replacer panel.
+	/// </summary>
 	internal class StationPanel : UIPanel
 	{
 		// Layout constants.
@@ -114,7 +117,8 @@ namespace RON
 					if (selectedBuilding.m_paths[i] != null)
 					{
 						// Check for matching track.
-						if (selectedBuilding.m_paths[i].m_netInfo.m_netAI.GetType().IsAssignableFrom(typeof(TrainTrackAI)))
+						NetAI netAI = selectedBuilding.m_paths[i].m_netInfo.m_netAI;
+						if (netAI is TrainTrackBaseAI || netAI is MetroTrackBaseAI)
 						{
 							// Found a railway track - add index to list.
 							eligibleNets.Add(i);
@@ -316,7 +320,7 @@ namespace RON
 			}
 
 			// Station status of currently selected track.
-			NetInfo currentNetInfo = currentBuilding.m_paths[selectedIndex].m_netInfo;
+			NetInfo currentNetInfo = GetNetInfo(selectedIndex);
 			bool isStation = PrefabUtils.IsStation(currentNetInfo);
 			NetAI currentNetAI = currentNetInfo.m_netAI;
 			Type currentAIType = currentNetAI.GetType();

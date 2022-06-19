@@ -28,7 +28,7 @@ namespace RON
 
 
 	/// <summary>
-	/// Static class to manage the RON info panel.
+	/// RON network replacer panel.
 	/// </summary>
 	internal class ReplacerPanel : UIPanel
 	{

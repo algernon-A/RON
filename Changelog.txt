@@ -1,6 +1,7 @@
 ﻿Version 0.9.4 -
 
 - Add auto-replace-on-load for NAR tracks (with Railway 2 USA or Vanilla/BadPeanut equivalents)
+- Station track replacer now supports metro stations as well
 - Add indicator icons for bridge/elevated/tunnel networks
 - Options panel now auto-updates when language is changed
 - Fix Extra Train Station Tracks mod elevated station tracks being listed as ground-level
