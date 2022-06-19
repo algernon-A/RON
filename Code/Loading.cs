@@ -20,6 +20,9 @@ namespace RON
 
             // Add RON tool to tool controller.
             ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
+
+            // Add Railway Replacer button to world info panels.
+            BuiltStationPanel.AddInfoPanelButton();
         }
     }
 }

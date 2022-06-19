@@ -8,7 +8,7 @@ using ColossalFramework.UI;
 namespace RON
 {
 	/// <summary>
-	/// RON station track replacer panel.
+	/// RON station track replacer panel for placing stations.
 	/// </summary>
 	internal class StationPanel : UIPanel
 	{
@@ -21,21 +21,21 @@ namespace RON
 		private const float LeftX = Margin;
 		private const float RightPanelX = LeftX + ListWidth + Margin;
 		private const float PanelHeight = ListY + ListHeight + Margin;
-		private const float PanelWidth = RightPanelX + ListWidth + Margin;
+		protected const float PanelWidth = RightPanelX + ListWidth + Margin;
 
 
 		// Instance references.
-		private static GameObject uiGameObject;
+		protected static GameObject uiGameObject;
 		private static StationPanel panel;
 
 		// Selections.
 		internal static BuildingInfo currentBuilding;
-		private static List<int> eligibleNets = new List<int>();
-		private static int selectedIndex;
+		protected static List<int> eligibleNets = new List<int>();
+		protected int selectedIndex;
 
 
-        // Panel components.
-        private readonly RONFastList targetList, loadedList;
+		// Panel components.
+		private readonly RONFastList targetList, loadedList;
 		private readonly UILabel titleLabel;
 
 
@@ -58,10 +58,10 @@ namespace RON
 					selectedIndex = value;
 				}
 				else
-                {
+				{
 					// Invalid selection; set to -1.
 					selectedIndex = -1;
-                }
+				}
 
 				// Regenerate loaded list on selection change.
 				LoadedList();
@@ -72,7 +72,7 @@ namespace RON
 		/// <summary>
 		/// Setter for selected replacement.  Called by target network list items.
 		/// </summary>
-		internal NetInfo SelectedReplacement
+		internal virtual NetInfo SelectedReplacement
 		{
 			set
 			{
@@ -96,7 +96,7 @@ namespace RON
 		/// </summary>
 		/// <param name="selectedBuilding">Selected station building</param>
 		internal static void SetTarget(BuildingInfo selectedBuilding)
-        {
+		{
 			// Don't do anything if selection hasn't changed (this includes after the panel has been closed while the station building is still selected).
 			if (selectedBuilding == currentBuilding)
 			{
@@ -137,23 +137,23 @@ namespace RON
 
 			// Create panel if not already open.
 			if (panel == null)
-            {
-				Create();
-            }
+			{
+				Create<StationPanel>();
+			}
 			else
-            {
+			{
 				// Otherwise, update exising panel.
 				panel.TargetList();
 				panel.LoadedList();
 				panel.SetTitle();
 			}
-        }
+		}
 
 
 		/// <summary>
 		/// Creates the panel object in-game and displays it.
 		/// </summary>
-		private static void Create()
+		protected static void Create<T>() where T : StationPanel
 		{
 			try
 			{
@@ -165,7 +165,7 @@ namespace RON
 					uiGameObject.transform.parent = UIView.GetAView().transform;
 
 					// Create new panel instance and add it to GameObject.
-					uiGameObject.AddComponent<StationPanel>();
+					uiGameObject.AddComponent<T>();
 				}
 			}
 			catch (Exception e)
@@ -270,25 +270,25 @@ namespace RON
 		/// <summary>
 		/// Returns the NetInfo of the given target network index.
 		/// </summary>
-		internal NetInfo GetNetInfo(int index)
-        {
+		internal virtual NetInfo GetNetInfo(int index)
+		{
 			// Check if the given index is valid.
 			if (eligibleNets != null && eligibleNets.Contains(index))
-            {
+			{
 				// Valid index; return NetInfo.
 				return currentBuilding.m_paths[index].m_netInfo;
 			}
 
 			// If we got here, we didn't get a match; return null.
 			return null;
-        }
+		}
 
 
 		/// <summary>
 		/// Populates a fastlist with a list of eligible networks in the current building.
 		/// </summary>
 		/// <returns>Populated fastlist of eligible networks in the current building</returns>
-		private void TargetList()
+		protected void TargetList()
 		{
 			// Create return fastlist from our list of eligible networks.
 			targetList.rowsData = new FastList<object>
@@ -310,7 +310,7 @@ namespace RON
 		/// Populates a fastlist with a list of relevant loaded networks.
 		/// </summary>
 		/// <returns>Populated fastlist of networks on map</returns>
-		private void LoadedList()
+		protected void LoadedList()
 		{
 			// Clear list if there's no current selection.
 			if (selectedIndex < 0)
@@ -359,14 +359,14 @@ namespace RON
 
 					// Check if this network is same AI type as selection.
 					if (currentAIType != network.m_netAI.GetType())
-                    {
+					{
 						// Elevated station tracks from Extra Train Station Tracks need special handling, as they don't use the TrainTrackBridgeAI.
 						if (!(network.name.StartsWith("Station Track Eleva") && currentAIType == typeof(TrainTrackBridgeAI)))
 						{
 							continue;
 						}
-                    }
-					
+					}
+
 					// Passed filtering; add this one to the list.
 					netList.Add(newItem);
 				}
@@ -411,6 +411,6 @@ namespace RON
 		/// <summary>
 		/// Sets the panel title, including the building name.
 		/// </summary>
-		private void SetTitle() => titleLabel.text = (currentBuilding?.name != null ? PrefabUtils.GetDisplayName(currentBuilding) : Translations.Translate("RON_NAM")) + ": " + Translations.Translate("RON_STA_CUS");
+		protected void SetTitle() => titleLabel.text = (currentBuilding?.name != null ? PrefabUtils.GetDisplayName(currentBuilding) : Translations.Translate("RON_NAM")) + ": " + Translations.Translate("RON_STA_CUS");
 	}
 }

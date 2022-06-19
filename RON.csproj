@@ -70,8 +70,10 @@
     <Compile Include="Code\Patches\OnLevelLoaded.cs" />
     <Compile Include="Code\Patches\Patcher.cs" />
     <Compile Include="Code\Patches\ResolveLegacyPrefab.cs" />
+    <Compile Include="Code\Patches\WorldInfoPanel.cs" />
     <Compile Include="Code\Settings\ModSettings.cs" />
     <Compile Include="Code\Settings\OptionsPanel.cs" />
+    <Compile Include="Code\UI\BuiltStationPanel.cs" />
     <Compile Include="Code\UI\StationPanel.cs" />
     <Compile Include="Code\UI\RONTool.cs" />
     <Compile Include="Code\UI\UIFastList\RONFastList.cs" />
