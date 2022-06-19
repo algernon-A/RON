@@ -161,7 +161,7 @@ namespace RON
 				// Assign replacement network, if we've got a valid selection.
 				if (selectedIndex > 0)
 				{
-					Singleton<NetManager>.instance.m_segments.m_buffer[selectedIndex].Info = value;
+					Singleton<SimulationManager>.instance.AddAction(() => Replacer.ReplaceNets(GetNetInfo(selectedIndex), value, new List<ushort> { (ushort)selectedIndex }, false));
 				}
 			}
 		}
