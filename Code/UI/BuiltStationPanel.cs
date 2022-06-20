@@ -119,7 +119,7 @@ namespace RON
 				if (uiGameObject == null)
 				{
 					Create<BuiltStationPanel>();
-					Panel.absolutePosition = panelButton.absolutePosition + new Vector3(-PanelWidth / 2f, PanelButtonSize + 10f);
+					Panel.absolutePosition = panelButton.absolutePosition + new Vector3(-PanelWidth / 2f, PanelButtonSize + 200f);
 				}
 				else
 				{
@@ -177,7 +177,7 @@ namespace RON
 			NetNode[] nodeBuffer = Singleton<NetManager>.instance.m_nodes.m_buffer;
 			NetSegment[] segmentBuffer = Singleton<NetManager>.instance.m_segments.m_buffer;
 
-			// Reset eligible network list
+			// Reset eligible network list.
 			eligibleNets.Clear();
 
 			// Get current building.
@@ -186,6 +186,9 @@ namespace RON
 			{
 				return;
 			}
+
+			// Set building info.
+			currentBuilding = buildingBuffer[buildingID].Info;
 
 			// Iterate through each node in building and list them.
 			List<ushort> nodes = new List<ushort>();
@@ -230,9 +233,9 @@ namespace RON
 		/// </summary>
 		private void RefreshPanel()
 		{
-			TargetList();
-			LoadedList();
 			SetTitle();
+			TargetList();
+			SetTypeMenu(currentBuilding);
 		}
 	}
 }

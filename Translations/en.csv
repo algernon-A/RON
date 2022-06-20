@@ -44,6 +44,9 @@ RON_PNL_TAX,Airport area taxiways
 RON_PNL_CON,Airport concourses
 RON_PNL_RIP,Replacement in progress
 RON_STA_CUS,Customize tracks
+RON_STA_RAO,Rail only
+RON_STA_MTO,Metro only
+RON_STA_RAM,Rail and metro
 RON_TIP_VAN,This network is a vanilla network (part of the base game).
 RON_TIP_NEX,This network is from Network Extensions 2 (NExt2).
 RON_TIP_MOD,This network is from a mod.

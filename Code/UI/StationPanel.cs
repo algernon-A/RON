@@ -12,15 +12,28 @@ namespace RON
 	/// </summary>
 	internal class StationPanel : UIPanel
 	{
+		private enum TypeIndex : int
+		{
+			RailOnly = 0,
+			MetroOnly,
+			RailMetro
+		}
+
+
 		// Layout constants.
 		private const float Margin = 5f;
 		private const float TitleHeight = 50f;
-		private const float ListWidth = 450f;
-		private const float ListHeight = 7 * UINetRow.RowHeight;
-		private const float ListY = TitleHeight;
+		private const float ControlHeight = 30f;
+		private const float ControlY = TitleHeight;
+		private const float ListHeight = 6 * UINetRow.RowHeight;
+		private const float ListY = ControlY + ControlHeight;
 		private const float LeftX = Margin;
+		private const float ListWidth = 450f;
 		private const float RightPanelX = LeftX + ListWidth + Margin;
+		private const float Check1X = RightPanelX;
+		private const float Check2X = RightPanelX + (ListWidth / 2f);
 		private const float PanelHeight = ListY + ListHeight + Margin;
+
 		protected const float PanelWidth = RightPanelX + ListWidth + Margin;
 
 
@@ -35,6 +48,8 @@ namespace RON
 
 
 		// Panel components.
+		private readonly UICheckBox sameWidthCheck;
+		protected readonly UIDropDown typeDropDown;
 		private readonly RONFastList targetList, loadedList;
 		private readonly UILabel titleLabel;
 
@@ -140,13 +155,11 @@ namespace RON
 			{
 				Create<StationPanel>();
 			}
-			else
-			{
-				// Otherwise, update exising panel.
-				panel.TargetList();
-				panel.LoadedList();
-				panel.SetTitle();
-			}
+
+			// Update panel.
+			panel.SetTitle();
+			panel.TargetList();
+			panel.SetTypeMenu(selectedBuilding);
 		}
 
 
@@ -247,6 +260,16 @@ namespace RON
 			iconSprite.atlas = Textures.RonButtonSprites;
 			iconSprite.spriteName = "normal";
 
+			// Same width only check.
+			sameWidthCheck = UIControls.AddCheckBox(this, Check1X, ControlY + 5f, Translations.Translate("RON_PNL_WID"));
+			sameWidthCheck.isChecked = true;
+			sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
+
+			// Type dropdown.
+			typeDropDown = UIControls.AddDropDown(this, Check2X, ControlY, ListWidth / 2f);
+			typeDropDown.items = new string[] { Translations.Translate("RON_STA_RAO"), Translations.Translate("RON_STA_MTO"), Translations.Translate("RON_STA_RAM") };
+			typeDropDown.eventSelectedIndexChanged += (control, index) => LoadedList();
+
 			// Target network list.
 			UIPanel leftPanel = AddUIComponent<UIPanel>();
 			leftPanel.width = ListWidth;
@@ -254,7 +277,6 @@ namespace RON
 			leftPanel.relativePosition = new Vector2(Margin, ListY);
 			targetList = RONFastList.Create<UIStationTargetNetRow>(leftPanel);
 			ListSetup(targetList);
-			TargetList();
 
 			// Loaded network list.
 			UIPanel rightPanel = AddUIComponent<UIPanel>();
@@ -263,7 +285,6 @@ namespace RON
 			rightPanel.relativePosition = new Vector2(RightPanelX, ListY);
 			loadedList = RONFastList.Create<UIStationReplacementNetRow>(rightPanel);
 			ListSetup(loadedList);
-			LoadedList();
 		}
 
 
@@ -344,8 +365,8 @@ namespace RON
 					// Create new NetRowItem from this network.
 					NetRowItem newItem = new NetRowItem(network);
 
-					// Check if this network has the same half-width.
-					if (network.m_halfWidth != TargetNet.m_halfWidth)
+					// Check if this network has the same half-width, if the checkbox is selected.
+					if (sameWidthCheck.isChecked && network.m_halfWidth != TargetNet.m_halfWidth)
 					{
 						// No match; skip this one.
 						continue;
@@ -357,15 +378,38 @@ namespace RON
 						continue;
 					}
 
-					// Check if this network is same AI type as selection.
+					// Check network type filters.
 					Type candidateType = network.m_netAI.GetType();
+					if (candidateType.IsSubclassOf(typeof(TrainTrackBaseAI)))
+					{
+						// Train tracks are included unless 'metro only' is selected.
+						if (typeDropDown.selectedIndex == (int)TypeIndex.MetroOnly)
+						{
+							continue;
+						}
+					}
+					else if (candidateType.IsSubclassOf(typeof(MetroTrackBaseAI)))
+					{
+						// Metro tracks are included unless 'rail only' is selected.
+						if (typeDropDown.selectedIndex == (int)TypeIndex.RailOnly)
+						{
+							continue;
+						}
+					}
+					else
+					{
+						// Unsupported network type.
+						continue;
+					}
+
+					// Additional checks if the two AI types don't match perfectly.
 					if (currentAIType != candidateType)
 					{
 						// Elevated station tracks from Extra Train Station Tracks need special handling, as they don't use the TrainTrackBridgeAI.
 						if (!(network.name.StartsWith("Station Track Eleva") && currentAIType == typeof(TrainTrackBridgeAI)))
 						{
 							// Still no match - check for metro-train match for station track types.
-							if (!(isStation && MatchTrainMetro(currentAIType, candidateType)))
+							if (!MatchTrainMetro(currentAIType, candidateType))
 							{
 								continue;
 							}
@@ -389,6 +433,22 @@ namespace RON
 			loadedList.selectedIndex = -1;
 		}
 
+
+		/// <summary>
+		/// Sets the type menu index.
+		/// </summary>
+		/// <param name="buildingInfo">Currently selected prefab</param>
+		protected void SetTypeMenu(BuildingInfo buildingInfo)
+		{
+			int oldIndex = typeDropDown.selectedIndex;
+			typeDropDown.selectedIndex = buildingInfo.GetSubService() == ItemClass.SubService.PublicTransportMetro ? (int)TypeIndex.MetroOnly : (int)TypeIndex.RailOnly;
+
+			// Force LoadedList update if no change in index (so event handler wasn't triggered).
+			if (oldIndex == typeDropDown.selectedIndex)
+			{
+				LoadedList();
+			}
+		}
 
 		/// <summary>
 		/// Sets the panel title, including the building name.
