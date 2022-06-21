@@ -142,9 +142,9 @@ namespace RON
 			typeof(TrainTrackAI),
 			typeof(TrainTrackBridgeAI),
 			typeof(TrainTrackTunnelAI),
-			Type.GetType("MetroOverhaul.MOMMetroTrackAI"),			// MOM, secondary type to Metro.
-			Type.GetType("MetroOverhaul.MOMMetroTrackBridgeAI"),	// MOM, secondary type to Metro.
-			Type.GetType("MetroOverhaul.MOMMetroTrackTunnelAI"),	// MOM, secondary type to Metro.
+			Type.GetType("MetroOverhaul.MOMMetroTrackAI,MetroOverhaul", false),		// MOM, secondary type to Metro.
+			Type.GetType("MetroOverhaul.MOMMetroTrackBridgeAI,MetroOverhaul", false),	// MOM, secondary type to Metro.
+			Type.GetType("MetroOverhaul.MOMMetroTrackTunnelAI,MetroOverhaul", false),	// MOM, secondary type to Metro.
 			typeof(MonorailTrackAI),
 			typeof(PedestrianPathAI),
 			typeof(PedestrianBridgeAI),
