@@ -1,4 +1,9 @@
-﻿Version 0.9.4 -
+﻿0.9.4.1 hotfix -
+
+- Fix NullReferenceException when loading into map editor
+
+
+Version 0.9.4 -
 
 - Add auto-replace-on-load for NAR tracks (with Railway 2 USA or Vanilla/BadPeanut equivalents)
 - Station track replacer now supports metro stations as well

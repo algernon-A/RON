@@ -68,6 +68,12 @@ namespace RON
 			const float PanelButtonSize = 28f;
 
 			CityServiceWorldInfoPanel infoPanel = UIView.library.Get<CityServiceWorldInfoPanel>(typeof(CityServiceWorldInfoPanel).Name);
+			// Don't do anything if we didn't get the info panel, e.g. if we're in an editor.
+			if (infoPanel == null)
+			{
+				return;
+			}
+
 			panelButton = infoPanel.component.AddUIComponent<UIButton>();
 
 			// Basic button setup.
