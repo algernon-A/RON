@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using HarmonyLib;
 
 
@@ -13,7 +12,7 @@ namespace RON
 	{
 		private static AutoReplaceXML[] autoReplaceFiles;
 		private static bool attemptedRead = false;
-		internal static List<string> missingNetworks;
+		private static HashSet<ReplaceEntry> attemptedReplacements;
 
 
 		/// <summary>
@@ -27,13 +26,6 @@ namespace RON
 			// Don't do anything without being enabled.
 			if (ModSettings.ReplaceNExt2 | ModSettings.ReplaceNAR)
 			{
-				// Ensure that we're only looking for networks.
-				string callingMethod = new StackTrace().GetFrame(2).GetMethod().DeclaringType.ToString();
-				if (!callingMethod.Equals("PrefabCollection`1[NetInfo]") && !callingMethod.Equals("LoadingScreenMod.CustomDeserializer"))
-				{
-					// Not a network - continue on to original method.
-					return true;
-				}
 
 				// If we haven't attempted to read the auto replace file already, do so.
 				if (!attemptedRead)
@@ -41,6 +33,9 @@ namespace RON
 					// Load configuration file and set flag to indicate attempt.
 					autoReplaceFiles = AutoReplaceXML.LoadReplacements();
 					attemptedRead = true;
+
+					// Initialize missing networks list.
+					attemptedReplacements = new HashSet<ReplaceEntry>();
 				}
 
 				// Did we sucessfully read the auto replace file?
@@ -70,34 +65,18 @@ namespace RON
 						// Iterate through each entry in this file.
 						foreach (ReplaceEntry entry in autoReplaceFiles[i].AutoReplacements)
 						{
+							// Check for match.
 							if (entry != null && entry.targetName.Equals(name))
 							{
-								// Found a target name match; check to see if we have a replacement.
-								string replacementName = entry.replacementName;
-								if (PrefabCollection<NetInfo>.FindLoaded(replacementName) == null)
-								{
-									// No replacement found.
-									Logging.Error("couldn't find replacement ", replacementName, " for network ", name);
+								// Replacement found; return replacement name and don't execute original method.
+								__result = entry.replacementName;
+								Logging.Message("attempting to replace network ", name, " with ", __result);
 
-									// Add missing name to list, creating it if we haven't already.
-									if (missingNetworks == null)
-									{
-										missingNetworks = new List<string>();
-									}
-									missingNetworks.Add(name);
+								// Add target to our list of attempted replacements.
+								attemptedReplacements.Add(entry);
 
-									// Execute original method.
-									return true;
-								}
-								else
-								{
-									// Replacement found; return replacement name and don't execute original method.
-									__result = entry.replacementName;
-									Logging.Message("attempting to replace network ", name, " with ", __result);
-
-									// Don't execute original method.
-									return false;
-								}
+								// Don't execute original method.
+								return false;
 							}
 						}
 					}
@@ -106,6 +85,39 @@ namespace RON
 
 			// If we got here, no substitution was performed; continue on to original method.
 			return true;
+		}
+
+
+		/// <summary>
+		/// Checks for any missing networks that didn't have available substitutes.
+		/// </summary>
+		/// <returns>List of missing replacement network names</returns>
+		internal static List<string> CheckMissingNets()
+		{
+			// Return hashset.
+			List<string> missingNets = new List<string>();
+
+			// Don't do anything if we haven't attempted any replacements.
+			if (attemptedReplacements != null)
+			{
+				// Iterate through each attempted replacemnt.
+				foreach (ReplaceEntry entry in attemptedReplacements)
+				{
+					// Check if this prefab was loaded.
+					if (PrefabCollection<NetInfo>.FindLoaded(entry.replacementName) == null)
+					{
+						// Prefab wasn't loaded - add to our return list.
+						missingNets.Add(entry.replacementName);
+					}
+				}
+			}
+
+			// Free memory.
+			attemptedReplacements.Clear();
+			attemptedReplacements = null;
+			autoReplaceFiles = null;
+
+			return missingNets;
 		}
 	}
 }

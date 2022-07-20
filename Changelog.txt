@@ -1,4 +1,7 @@
-﻿0.9.4.1 hotfix -
+﻿- Move auto-network replacement null prefab detection to OnLevelLoaded
+
+
+0.9.4.1 hotfix -
 
 - Fix NullReferenceException when loading into map editor
 

@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RON.MessageBox;
+using System.Collections.Generic;
 
 
 namespace RON
@@ -20,8 +21,9 @@ namespace RON
         /// </summary>
         public static void Postfix()
         {
-            // Display any missing NExt2 network notifications.
-            if (ResolveLegacyPrefabPatch.missingNetworks != null)
+            // Display any missing network notifications.
+            List<string> missingNets = ResolveLegacyPrefabPatch.CheckMissingNets();
+            if (missingNets.Count > 0)
             {
                 ListMessageBox missingNetBox = MessageBoxBase.ShowModal<ListMessageBox>();
 
@@ -29,12 +31,11 @@ namespace RON
                 missingNetBox.AddParas(Translations.Translate("ERR_NXT"));
 
                 // List of dot points.
-                missingNetBox.AddList(ResolveLegacyPrefabPatch.missingNetworks);
+                missingNetBox.AddList(missingNets);
 
                 // Closing para.
                 missingNetBox.AddParas(Translations.Translate("MES_PAGE"));
             }
-
 
             // Record list of loaded networks.
             //AutoReplaceXML.SaveFile();
