@@ -1,4 +1,5 @@
-﻿- Move auto-network replacement null prefab detection to OnLevelLoaded
+﻿- Update translation framework
+- Move auto-network replacement null prefab detection to OnLevelLoaded
 
 
 0.9.4.1 hotfix -

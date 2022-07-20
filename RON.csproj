@@ -73,6 +73,7 @@
     <Compile Include="Code\Patches\WorldInfoPanel.cs" />
     <Compile Include="Code\Settings\ModSettings.cs" />
     <Compile Include="Code\Settings\OptionsPanel.cs" />
+    <Compile Include="Code\TranslationFramework\Translations.cs" />
     <Compile Include="Code\UI\BuiltStationPanel.cs" />
     <Compile Include="Code\UI\StationPanel.cs" />
     <Compile Include="Code\UI\RONTool.cs" />
@@ -82,7 +83,7 @@
     <Compile Include="Code\Replacer.cs" />
     <Compile Include="Code\Settings\OptionsKeymapping.cs" />
     <Compile Include="Code\Settings\OptionsPanelManager.cs" />
-    <Compile Include="Code\TranslationFramework\TranslationFramework.cs" />
+    <Compile Include="Code\TranslationFramework\Translator.cs" />
     <Compile Include="Code\TranslationFramework\Language.cs" />
     <Compile Include="Code\UI\ReplacerPanel.cs" />
     <Compile Include="Code\UI\UIFastList\UIFastList.cs" />
@@ -116,7 +117,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Translations\de-DE.csv" />
-    <None Include="Translations\en.csv" />
+    <None Include="Translations\en-EN.csv" />
     <None Include="Translations\es-ES.csv" />
     <None Include="Translations\fr-FR.csv" />
     <None Include="Translations\ja-JP.csv" />

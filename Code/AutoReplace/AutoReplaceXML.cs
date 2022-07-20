@@ -47,7 +47,7 @@ namespace RON
 			AutoReplaceXML[] result = new AutoReplaceXML[(int)Replacements.NumReplacements];
 
 			// Get the current assembly path.
-			string assemblyPath = ModUtils.GetAssemblyPath();
+			string assemblyPath = ModUtils.AssemblyPath;
 			if (!assemblyPath.IsNullOrWhiteSpace())
 			{
 				// Iterate through each nickname and load the associated replacement file.
