@@ -50,6 +50,12 @@ namespace RON
 							continue;
 						}
 
+						// Don't replace MOM tracks if setting isn't enabled.
+						if (i == (int)AutoReplaceXML.Replacements.MOM & !ModSettings.ReplaceMOM)
+						{
+							continue;
+						}
+
 						// Don't replace NAR tracks with R2 if setting isn't enabled.
 						if (i == (int)AutoReplaceXML.Replacements.NAR_R2 & !(ModSettings.ReplaceNAR & ModSettings.ReplaceNARmode == AutoReplaceXML.Replacements.NAR_R2))
 						{
@@ -110,11 +116,13 @@ namespace RON
 						missingNets.Add(entry.replacementName);
 					}
 				}
+
+				// Free memory.
+				attemptedReplacements.Clear();
+				attemptedReplacements = null;
 			}
 
 			// Free memory.
-			attemptedReplacements.Clear();
-			attemptedReplacements = null;
 			autoReplaceFiles = null;
 
 			return missingNets;

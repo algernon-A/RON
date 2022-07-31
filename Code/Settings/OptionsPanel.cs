@@ -81,6 +81,18 @@ namespace RON
             replaceNext2CheckSubLabel.font = subLabelFont;
             currentY += CheckRowHeight + GroupMargin;
 
+            // Replace MOM tracks on load checkbox.
+            UICheckBox replaceMOMCheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_MOM"));
+            replaceMOMCheck.relativePosition = new Vector2(LeftMargin, currentY);
+            replaceMOMCheck.isChecked = ModSettings.ReplaceMOM;
+            replaceMOMCheck.eventCheckChanged += (control, isChecked) => ModSettings.ReplaceMOM = isChecked;
+            currentY += CheckRowHeight + Margin;
+
+            // Replace MOM tracks on load sub-label.
+            UILabel replaceMOMCheckSubLabel = UIControls.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NEX2"), textScale: 1.125f);
+            replaceMOMCheckSubLabel.font = subLabelFont;
+            currentY += CheckRowHeight + GroupMargin;
+
             // Replace NAR tracks on load checkbox.
             UICheckBox replaceNARcheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_NAR"));
             replaceNARcheck.relativePosition = new Vector2(LeftMargin, currentY);

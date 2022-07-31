@@ -9,16 +9,16 @@ using ColossalFramework;
 
 namespace RON
 {
-
 	[XmlRoot("RONAutoReplace")]
 	public class AutoReplaceXML
 	{
 		public enum Replacements : int
         {
 			NAR_R2 = 0,
-			NAR_BP = 1,
-			NExt2 = 2,
-			NumReplacements = 3
+			NAR_BP,
+			NExt2,
+			MOM,
+			NumReplacements
         }
 
 
@@ -27,7 +27,8 @@ namespace RON
 		{
 			"NAR-R2",
 			"NAR-BP",
-			"NExt2"
+			"NExt2",
+			"MOM"
 		};
 
 
@@ -61,7 +62,7 @@ namespace RON
 			return result;
 		}
 
-		/*
+		
 		/// <summary>
 		/// Dump currently loaded network names to XML file.
 		/// </summary>
@@ -121,7 +122,7 @@ namespace RON
 			{
 				Logging.LogException(e, "exception saving XML auto-replace file");
 			}
-		}*/
+		}
 
 
 		/// <summary>

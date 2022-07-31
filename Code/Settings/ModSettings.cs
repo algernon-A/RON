@@ -39,6 +39,10 @@ namespace RON
         [XmlIgnore]
         private static bool replaceNExt2 = true;
 
+        // Auto-replace Metro Overhaul Mod tracks on load.
+        [XmlIgnore]
+        private static bool replaceMOM = true;
+
         // Auto-replace NAR tracks on load.
         [XmlIgnore]
         private static bool replaceNAR = true;
@@ -95,6 +99,15 @@ namespace RON
         }
 
 
+        // Auto-replace MOM roads on load.
+        [XmlElement("ReplaceMOM")]
+        public bool XMLReplaceMOM
+        {
+            get => replaceMOM;
+            set => replaceMOM = value;
+        }
+
+
         // Auto-replace NAR tracks on load.
         [XmlElement("ReplaceNAR")]
         public bool XMLReplaceNAR
@@ -131,6 +144,13 @@ namespace RON
         /// </summary>
 		[XmlIgnore]
         internal static bool ReplaceNExt2 { get => replaceNExt2; set => replaceNExt2 = value; }
+
+
+        /// <summary>
+        /// Replace Metro Overhaul Mod tracks on load.
+        /// </summary>
+		[XmlIgnore]
+        internal static bool ReplaceMOM { get => replaceMOM; set => replaceMOM = value; }
 
         /// <summary>
         /// Replace NAR tracks on load.

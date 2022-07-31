@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RONAutoReplace xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<autoreplace>
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Track Ground Small NoBar" replacement="2797427350.Classic Metro Track S_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Elevated Small NoBar" replacement="2797427350.Classic Metro Track S Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Bridge Small NoBar" replacement="2797427350.Classic Metro Track S Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Slope Small NoBar" replacement="2797427350.Classic Metro Track S Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Tunnel Small NoBar" replacement="2797427350.Classic Metro Track S Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Track Ground Small Two-Way NoBar" replacement="2798560519.Classic Metro Track S 2W_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Elevated Small Two-Way NoBar" replacement="2798560519.Classic Metro Track S 2W Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Bridge Small Two-Way NoBar" replacement="2798560519.Classic Metro Track S 2W Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Slope Small Two-Way NoBar" replacement="2798560519.Classic Metro Track S 2W Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Tunnel Small Two-Way NoBar" replacement="2798560519.Classic Metro Track S 2W Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Track Ground Small" replacement="2797893221.Classic Metro Track S Type B_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Bridge Small" replacement="2797893221.Classic Metro Track S Type B Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Tunnel Small" replacement="2797893221.Classic Metro Track S Type B Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Elevated Small" replacement="2797893221.Classic Metro Track S Type B Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Slope Small" replacement="2797893221.Classic Metro Track S Type B Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Track Ground Small Two-Way" replacement="2798561239.Classic Metro Track S 2W Type B_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Bridge Small Two-Way" replacement="2798561239.Classic Metro Track S 2W Type B Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Tunnel Small Two-Way" replacement="2798561239.Classic Metro Track S 2W Type B Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Elevated Small Two-Way" replacement="2798561239.Classic Metro Track S 2W Type B Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Slope Small Two-Way" replacement="2798561239.Classic Metro Track S 2W Type B Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Track Ground Small NoBar" replacement="2774572178.Modern Metro Track S_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Elevated Small NoBar" replacement="2774572178.Modern Metro Track S Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Bridge Small NoBar" replacement="2774572178.Modern Metro Track S Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope Small NoBar" replacement="2774572178.Modern Metro Track S Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel Small NoBar" replacement="2774572178.Modern Metro Track S Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Track Ground Small Two-Way NoBar" replacement="2776460547.Modern Metro Track S 2W_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Elevated Small Two-Way NoBar" replacement="2776460547.Modern Metro Track S 2W Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Bridge Small Two-Way NoBar" replacement="2776460547.Modern Metro Track S 2W Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope Small Two-Way NoBar" replacement="2776460547.Modern Metro Track S 2W Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel Small Two-Way NoBar" replacement="2776460547.Modern Metro Track S 2W Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Track Ground Small" replacement="2776828181.Modern Metro Track S Type B_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Elevated Small" replacement="2776828181.Modern Metro Track S Type B Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Bridge Small" replacement="2776828181.Modern Metro Track S Type B Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope Small" replacement="2776828181.Modern Metro Track S Type B Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel Small" replacement="2776828181.Modern Metro Track S Type B Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Track Ground Small Two-Way" replacement="2776841994.Modern Metro Track S 2W Type B_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Elevated Small Two-Way" replacement="2776841994.Modern Metro Track S 2W Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Bridge Small Two-Way" replacement="2776841994.Modern Metro Track S 2W Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope Small Two-Way" replacement="2776841994.Modern Metro Track S 2W Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel Small Two-Way" replacement="2776841994.Modern Metro Track S 2W Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Track Ground NoBar" replacement="2754468110.Classic Metro Track_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Elevated NoBar" replacement="2754468110.Classic Metro Track Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Bridge NoBar" replacement="2754468110.Classic Metro Track Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Slope NoBar" replacement="2754468110.Classic Metro Track Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Tunnel NoBar" replacement="2754468110.Classic Metro Track Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Track Ground Two-Lane One-Way NoBar" replacement="2818223776.Classic 1 Way Metro Track_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Elevated Two-Lane One-Way NoBar" replacement="2818223776.Classic 1 Way Metro Track Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Bridge Two-Lane One-Way NoBar" replacement="2818223776.Classic 1 Way Metro Track Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Slope Two-Lane One-Way NoBar" replacement="2818223776.Classic 1 Way Metro Track Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Tunnel Two-Lane One-Way NoBar" replacement="2818223776.Classic 1 Way Metro Track Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Track Ground" replacement="2757700019.Classic Metro Track Type B_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Elevated" replacement="2757700019.Classic Metro Track Type B Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Bridge" replacement="2757700019.Classic Metro Track Type B Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Slope" replacement="2757700019.Classic Metro Track Type B Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Tunnel" replacement="2757700019.Classic Metro Track Type B Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Track Ground Two-Lane One-Way" replacement="2818224247.Classic 1 Way Metro Track Type B_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Elevated Two-Lane One-Way" replacement="2818224247.Classic 1 Way Metro Track Type B Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Bridge Two-Lane One-Way" replacement="2818224247.Classic 1 Way Metro Track Type B Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Slope Two-Lane One-Way" replacement="2818224247.Classic 1 Way Metro Track Type B Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Tunnel Two-Lane One-Way" replacement="2818224247.Classic 1 Way Metro Track Type B Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Track Ground NoBar" replacement="2740570543.Base Metro Track_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Elevated NoBar" replacement="2740570543.Base Metro Track Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Bridge NoBar" replacement="2740570543.Base Metro Track Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope NoBar" replacement="2740570543.Base Metro Track Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel NoBar" replacement="2740570543.Base Metro Track Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Track Ground Two-Lane One-Way NoBar" replacement="2818222743.Modern 1 Way Metro Track_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Elevated Two-Lane One-Way NoBar" replacement="2818222743.Modern 1 Way Metro Track Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Bridge Two-Lane One-Way NoBar" replacement="2818222743.Modern 1 Way Metro Track Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope Two-Lane One-Way NoBar" replacement="2818222743.Modern 1 Way Metro Track Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel Two-Lane One-Way NoBar" replacement="2818222743.Modern 1 Way Metro Track Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Track Ground" replacement="2748045511.Base Metro Track B_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Elevated" replacement="2748045511.Base Metro Track B Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Bridge" replacement="2748045511.Base Metro Track B Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope" replacement="2748045511.Base Metro Track B Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel" replacement="2748045511.Base Metro Track B Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Track Ground Two-Lane One-Way" replacement="2818223272.Modern 1 Way Metro Track Type B_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Elevated Two-Lane One-Way" replacement="2818223272.Modern 1 Way Metro Track Type B Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Bridge Two-Lane One-Way" replacement="2818223272.Modern 1 Way Metro Track Type B Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope Two-Lane One-Way" replacement="2818223272.Modern 1 Way Metro Track Type B Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel Two-Lane One-Way" replacement="2818223272.Modern 1 Way Metro Track Type B Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Track Ground Large NoBar" replacement="2810302219.Classic Quad Metro Track_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Elevated Large NoBar" replacement="2810302219.Classic Quad Metro Track Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Bridge Large NoBar" replacement="2810302219.Classic Quad Metro Track Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Slope Large NoBar" replacement="2810302219.Classic Quad Metro Track Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Tunnel Large NoBar" replacement="2810302219.Classic Quad Metro Track Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Track Ground Large" replacement="2812549905.Classic Quad Metro Track Type B_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Elevated Large" replacement="2812549905.Classic Quad Metro Track Type B Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Track Bridge Large" replacement="2812549905.Classic Quad Metro Track Type B Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Slope Large" replacement="2812549905.Classic Quad Metro Track Type B Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Track Tunnel Large" replacement="2812549905.Classic Quad Metro Track Type B Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Track Ground Large NoBar" replacement="2808163915.Modern Quad Metro Track_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Elevated Large NoBar" replacement="2808163915.Modern Quad Metro Track Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Bridge Large NoBar" replacement="2808163915.Modern Quad Metro Track_Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope Large NoBar" replacement="2808163915.Modern Quad Metro Track Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel Large NoBar" replacement="2808163915.Modern Quad Metro Track Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Track Ground Large" replacement="2808391208.Modern Quad Metro Track Type B_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Elevated Large" replacement="2808391208.Modern Quad Metro Track Type B Elevated0" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Bridge Large" replacement="2808391208.Modern Quad Metro Track Type B Bridge0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope Large" replacement="2808391208.Modern Quad Metro Track Type B Slope0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel Large" replacement="2808391208.Modern Quad Metro Track Type B Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel" replacement="2744689515.Base Metro Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Island" replacement="2824176664.Single Island Metro Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Small" replacement="2822386703.Metro Station Tunnel Track S_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Large" replacement="2823908553.Metro Bypass Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground" replacement="2842206590.Dual Track Metro Station Track_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated 01" replacement="2842206725.Elevated Metro Station Track_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground Small" replacement="2842668814.Metro Station Track MS_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated Small" replacement="2842668504.Elevated Metro Station MS_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Large Dual Island" replacement="2838614684.Dual Island Metro Tunnel Station0" />
+	</autoreplace>
+</RONAutoReplace>
