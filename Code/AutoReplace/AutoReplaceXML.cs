@@ -1,27 +1,25 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Xml;
-using System.Xml.Serialization;
-using ColossalFramework;
-
+﻿// <copyright file="AutoReplaceXML.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RON
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.IO;
+	using System.Xml;
+	using System.Xml.Serialization;
+	using AlgernonCommons;
+	using ColossalFramework;
+
+	/// <summary>
+	/// RON auto-replace XML file.
+	/// </summary>
 	[XmlRoot("RONAutoReplace")]
 	public class AutoReplaceXML
 	{
-		public enum Replacements : int
-        {
-			NAR_R2 = 0,
-			NAR_BP,
-			NExt2,
-			MOM,
-			NumReplacements
-        }
-
-
 		// Replacement file nicknames.
 		internal static readonly string[] nicknames = new string[(int)Replacements.NumReplacements]
 		{
@@ -31,12 +29,10 @@ namespace RON
 			"MOM"
 		};
 
-
 		// List of auto-replacements
 		[XmlArray("autoreplace")]
 		[XmlArrayItem("replace")]
 		public List<ReplaceEntry> AutoReplacements { get; set; }
-
 
 		/// <summary>
 		/// Load auto-replace configuration from XML file.
@@ -48,7 +44,7 @@ namespace RON
 			AutoReplaceXML[] result = new AutoReplaceXML[(int)Replacements.NumReplacements];
 
 			// Get the current assembly path.
-			string assemblyPath = ModUtils.AssemblyPath;
+			string assemblyPath = AssemblyUtils.AssemblyPath;
 			if (!assemblyPath.IsNullOrWhiteSpace())
 			{
 				// Iterate through each nickname and load the associated replacement file.
@@ -62,11 +58,10 @@ namespace RON
 			return result;
 		}
 
-		
 		/// <summary>
 		/// Dump currently loaded network names to XML file.
 		/// </summary>
-		internal static void SaveFile ()
+		internal static void SaveFile()
 		{
 			try
 			{
@@ -124,12 +119,11 @@ namespace RON
 			}
 		}
 
-
 		/// <summary>
 		/// Load auto-replace configuration from XML file.
 		/// </summary>
-		/// <param name="nickname">File nickname (for logging)</param>
-		/// <param name="fileName">File name (full path)</param>
+		/// <param name="nickname">File nickname (for logging).</param>
+		/// <param name="fileName">File name (full path).</param>
 		/// <returns></returns>
 		internal static AutoReplaceXML LoadReplacementFile(string nickname, string fileName)
 		{
@@ -168,28 +162,39 @@ namespace RON
 			// If we got here, something went wrong; return null.
 			return null;
 		}
-	}
 
+		/// <summary>
+		/// Replacement index enum.
+		/// </summary>
+		public enum Replacements : int
+		{
+			NAR_R2 = 0,
+			NAR_BP,
+			NExt2,
+			MOM,
+			NumReplacements
+		}
 
-	/// <summary>
-	/// XML network replacement entry format.
-	/// </summary>
-	public class ReplaceEntry
-	{
-		[XmlAttribute("type")]
-		[DefaultValue("")]
-		public string aiType;
+		/// <summary>
+		/// XML network replacement entry format.
+		/// </summary>
+		public class ReplaceEntry
+		{
+			[XmlAttribute("type")]
+			[DefaultValue("")]
+			public string aiType;
 
-		[XmlAttribute("target")]
-		[DefaultValue("")]
-		public string targetName;
+			[XmlAttribute("target")]
+			[DefaultValue("")]
+			public string targetName;
 
-		[XmlAttribute("replacement")]
-		[DefaultValue("")]
-		public string replacementName;
+			[XmlAttribute("replacement")]
+			[DefaultValue("")]
+			public string replacementName;
 
-		[XmlAttribute("filename")]
-		[DefaultValue("")]
-		public string filename;
+			[XmlAttribute("filename")]
+			[DefaultValue("")]
+			public string filename;
+		}
 	}
 }

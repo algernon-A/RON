@@ -1,87 +1,88 @@
-﻿using System;
-using System.IO;
-using System.Xml.Serialization;
-using UnityEngine;
-using ColossalFramework;
-
+﻿// <copyright file="ModSettings.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RON
 {
+    using System.IO;
+    using System.Xml.Serialization;
+    using AlgernonCommons.Keybinding;
+    using AlgernonCommons.XML;
+    using UnityEngine;
+
     /// <summary>
     /// Global mod settings.
     /// </summary>
 	[XmlRoot("RON")]
-    public class ModSettings
+    public class ModSettings : SettingsXMLBase
     {
-        // Settings file name.
+        /// <summary>
+        /// UUI key.
+        /// </summary>
         [XmlIgnore]
-        private static readonly string SettingsFileName = "RON-settings.xml";
+        private static readonly UnsavedInputKey UUIKey = new UnsavedInputKey(name: "RONr hotkey", keyCode: KeyCode.T, control: true, shift: false, alt: true);
 
-        // UUI hotkey.
+        /// <summary>
+        /// Gets the settings file name.
+        /// </summary>
         [XmlIgnore]
-        private static readonly UnsavedInputKey uuiKey = new UnsavedInputKey(name: "Transfer Controller hotkey", keyCode: KeyCode.N, control: false, shift: false, alt: true);
-
+        private static readonly string SettingsFileName = Path.Combine(ColossalFramework.IO.DataLocation.localApplicationData, "RON-settings.xml");
 
         // User settings directory.
         [XmlIgnore]
         private static readonly string UserSettingsDir = ColossalFramework.IO.DataLocation.localApplicationData;
 
-
-        // Enable advanced mode.
+        /// <summary>
+        /// Gets or sets a value indicating whether advanced mode is active (true) or inactive (false).
+        /// </summary>
         [XmlIgnore]
         private static bool enableAdvanced = false;
 
-        // Show Railway Replacer panel.
+        /// <summary>
+        /// Gets or sets a value indicating whether the railway replacer panel should be automatically shown when a station building is selected (true).
+        /// </summary>
         [XmlIgnore]
         private static bool showRailwayReplacer = true;
 
-        // Auto-replace Network Extensions 2 roads on load.
+        /// <summary>
+        /// Gets or sets a value indicating whether Network Extensions 2 roads should be auto-replaced on load (true).
+        /// </summary>
         [XmlIgnore]
         private static bool replaceNExt2 = true;
 
-        // Auto-replace Metro Overhaul Mod tracks on load.
+        /// <summary>
+        /// Gets or sets a value indicating whether Metro Overhaul Mod tracks should be auto-replaced on load (true).
+        /// </summary>
         [XmlIgnore]
         private static bool replaceMOM = true;
 
-        // Auto-replace NAR tracks on load.
+        /// <summary>
+        /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
+        /// </summary>
         [XmlIgnore]
         private static bool replaceNAR = true;
 
-        // Auto-replace NAR tracks on load.
+        /// <summary>
+        /// Gets or sets NAR track replacement mode.
+        /// </summary>
         [XmlIgnore]
         private static AutoReplaceXML.Replacements replaceNARmode = AutoReplaceXML.Replacements.NAR_R2;
 
-
-        // Language.
-        [XmlElement("Language")]
-        public string Language
-        {
-            get => Translations.CurrentLanguage;
-
-            set => Translations.CurrentLanguage = value;
-        }
-
-        
-        // RON tool hotkey.
+        /// <summary>
+        /// Gets or sets the RON hotkey.
+        /// </summary>
         [XmlElement("PanelKey")]
-        public KeyBinding XMLPanelKey
+        public Keybinding XMLPanelKey
         {
-            get => uuiKey.KeyBinding;
+            get => UUIKey.Keybinding;
 
-            set => uuiKey.KeyBinding = value;
+            set => UUIKey.Keybinding = value;
         }
 
-
-        // Show Railway Replacer panel.
-        [XmlElement("ShowRailwayReplacer")]
-        public bool XMLShowRailwayReplacer
-        {
-            get => showRailwayReplacer;
-            set => showRailwayReplacer = value;
-        }
-
-
-        // Advanced mode.
+        /// <summary>
+        /// Gets or sets a value indicating whether advanced mode is active (true) or inactive (false).
+        /// </summary>
         [XmlElement("AdvancedMode")]
         public bool XMLAdvancedMode
         {
@@ -89,8 +90,19 @@ namespace RON
             set => enableAdvanced = value;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the railway replacer panel should be automatically shown when a station building is selected (true).
+        /// </summary>
+        [XmlElement("ShowRailwayReplacer")]
+        public bool XMLShowRailwayReplacer
+        {
+            get => showRailwayReplacer;
+            set => showRailwayReplacer = value;
+        }
 
-        // Auto-replace NExt2 roads on load.
+        /// <summary>
+        /// Gets or sets a value indicating whether Network Extensons 2 roads should be auto-replaced on load (true).
+        /// </summary>
         [XmlElement("ReplaceNExt2")]
         public bool XMLReplaceNext
         {
@@ -98,15 +110,15 @@ namespace RON
             set => replaceNExt2 = value;
         }
 
-
-        // Auto-replace MOM roads on load.
+        /// <summary>
+        /// Gets or sets a value indicating whether Metro Overhaul Mod tracks should be auto-replaced on load (true).
+        /// </summary>
         [XmlElement("ReplaceMOM")]
         public bool XMLReplaceMOM
         {
             get => replaceMOM;
             set => replaceMOM = value;
         }
-
 
         // Auto-replace NAR tracks on load.
         [XmlElement("ReplaceNAR")]
@@ -116,7 +128,6 @@ namespace RON
             set => replaceNAR = value;
         }
 
-
         // Auto-replace NAR tracks mode.
         [XmlElement("ReplaceMode_NAR")]
         public AutoReplaceXML.Replacements XMLReplaceNARmode
@@ -125,11 +136,10 @@ namespace RON
             set => replaceNARmode = value;
         }
 
-
         /// Show Railway Repalcer mod.
         /// </summary>
 		[XmlIgnore]
-        internal static bool ShowRailwayReplacer { get => showRailwayReplacer; set=> showRailwayReplacer = value; }
+        internal static bool ShowRailwayReplacer { get => showRailwayReplacer; set => showRailwayReplacer = value; }
 
 
         /// <summary>
@@ -140,9 +150,9 @@ namespace RON
 
 
         /// <summary>
-        /// Replace Network Extensions 2 roads on load.
+        /// Gets or sets a value indicating whether Network Extensons 2 roads should be auto-replaced on load (true).
         /// </summary>
-		[XmlIgnore]
+        [XmlIgnore]
         internal static bool ReplaceNExt2 { get => replaceNExt2; set => replaceNExt2 = value; }
 
 
@@ -153,164 +163,31 @@ namespace RON
         internal static bool ReplaceMOM { get => replaceMOM; set => replaceMOM = value; }
 
         /// <summary>
-        /// Replace NAR tracks on load.
+        /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
         /// </summary>
-		[XmlIgnore]
+        [XmlIgnore]
         internal static bool ReplaceNAR { get => replaceNAR; set => replaceNAR = value; }
 
         /// <summary>
-        /// Replace NAR tracks mode.
+        /// Gets or sets NAR track replacement mode.
         /// </summary>
-		[XmlIgnore]
+        [XmlIgnore]
         internal static AutoReplaceXML.Replacements ReplaceNARmode { get => replaceNARmode; set => replaceNARmode = value; }
 
-
         /// <summary>
-        /// Current hotkey as UUI UnsavedInputKey.
+        /// Gets the current hotkey as a UUI UnsavedInputKey.
         /// </summary>
         [XmlIgnore]
-        internal static UnsavedInputKey UUIKey => uuiKey;
-
-
-        /// <summary>
-        /// The current hotkey settings as ColossalFramework InputKey.
-        /// </summary>
-        [XmlIgnore]
-        internal static InputKey ToolKey
-        {
-            get => uuiKey.value;
-
-            set => uuiKey.value = value;
-        }
-
+        internal static UnsavedInputKey ToolKey => UUIKey;
 
         /// <summary>
-        /// Load settings from XML file.
+        /// Loads settings from file.
         /// </summary>
-        internal static void Load()
-        {
-            try
-            {
-                // Attempt to read new settings file (in user settings directory).
-                string fileName = Path.Combine(UserSettingsDir, SettingsFileName);
-                if (!File.Exists(fileName))
-                {
-                    // No settings file in user directory; use application directory instead.
-                    fileName = SettingsFileName;
-                }
-
-                // Check to see if configuration file exists.
-                if (File.Exists(fileName))
-                {
-                    // Read it.
-                    using (StreamReader reader = new StreamReader(fileName))
-                    {
-                        XmlSerializer xmlSerializer = new XmlSerializer(typeof(ModSettings));
-                        if (!(xmlSerializer.Deserialize(reader) is ModSettings settingsFile))
-                        {
-                            Logging.Error("couldn't deserialize settings file");
-                        }
-                    }
-                }
-                else
-                {
-                    Logging.Message("no settings file found");
-                }
-            }
-            catch (Exception e)
-            {
-                Logging.LogException(e, "exception reading XML settings file");
-            }
-        }
-
+        internal static void Load() => XMLFileUtils.Load<ModSettings>(SettingsFileName);
 
         /// <summary>
-        /// Save settings to XML file.
+        /// Saves settings to file.
         /// </summary>
-        internal static void Save()
-        {
-            try
-            {
-                // Save into user local settings.
-                using (StreamWriter writer = new StreamWriter(Path.Combine(UserSettingsDir, SettingsFileName)))
-                {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(ModSettings));
-                    xmlSerializer.Serialize(writer, new ModSettings());
-                }
-
-                // Cleaning up after ourselves - delete any old config file in the application directory.
-                if (File.Exists(SettingsFileName))
-                {
-                    File.Delete(SettingsFileName);
-                }
-            }
-            catch (Exception e)
-            {
-                Logging.LogException(e, "exception saving XML settings file");
-            }
-        }
-    }
-
-
-    /// <summary>
-    /// Basic keybinding class - code and modifiers.
-    /// </summary>
-    public class KeyBinding
-    {
-        [XmlAttribute("KeyCode")]
-        public int keyCode;
-
-        [XmlAttribute("Control")]
-        public bool control;
-
-        [XmlAttribute("Shift")]
-        public bool shift;
-
-        [XmlAttribute("Alt")]
-        public bool alt;
-
-
-        /// <summary>
-        /// Encode keybinding as saved input key for UUI.
-        /// </summary>
-        /// <returns></returns>
-        internal InputKey Encode() => SavedInputKey.Encode((KeyCode)keyCode, control, shift, alt);
-    }
-
-
-    /// <summary>
-    /// UUI unsaved input key.
-    /// </summary>
-    public class UnsavedInputKey : UnifiedUI.Helpers.UnsavedInputKey
-    {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="name">Reference name</param>
-        /// <param name="keyCode">Keycode</param>
-        /// <param name="control">Control modifier key status</param>
-        /// <param name="shift">Shift modifier key status</param>
-        /// <param name="alt">Alt modifier key status</param>
-        public UnsavedInputKey(string name, KeyCode keyCode, bool control, bool shift, bool alt) :
-            base(keyName: name, modName: "Repaint", Encode(keyCode, control: control, shift: shift, alt: alt))
-        {
-        }
-
-
-        /// <summary>
-        /// Called by UUI when a key conflict is resolved.
-        /// Used here to save the new key setting.
-        /// </summary>
-        public override void OnConflictResolved() => ModSettings.Save();
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public KeyBinding KeyBinding
-        {
-            get => new KeyBinding { keyCode = (int)Key, control = Control, shift = Shift, alt = Alt };
-            set => this.value = value.Encode();
-        }
+        internal static void Save() => XMLFileUtils.Save<ModSettings>(SettingsFileName);
     }
 }

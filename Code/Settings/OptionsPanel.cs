@@ -1,14 +1,21 @@
-﻿using System.Linq;
-using UnityEngine;
-using ColossalFramework.UI;
-
+﻿// <copyright file="OptionsPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RON
 {
+    using System.Linq;
+    using AlgernonCommons.Keybinding;
+    using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     /// <summary>
     /// RON options panel.
     /// </summary>
-    public class RONOptionsPanel : UIPanel
+    public class OptionsPanel : UIPanel
     {
         // Layout constants.
         private const float Margin = 5f;
@@ -17,14 +24,13 @@ namespace RON
         private const float CheckRowHeight = 22f;
         private const float GroupMargin = 40f;
 
-
         // Panel components.
-        UIDropDown narModeDropDown;
+        private UIDropDown _narModeDropDown;
 
         /// <summary>
         /// Performs initial setup for the panel; we don't use Start() as that's not sufficiently reliable (race conditions), and is not needed with the dynamic create/destroy process.
         /// </summary>
-        internal void Setup()
+        internal OptionsPanel()
         {
             // Size and placement.
             this.autoLayout = false;
@@ -36,89 +42,86 @@ namespace RON
             // Sub-label font.
             UIFont subLabelFont = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault((UIFont f) => f.name == "OpenSans-Regular");
 
-            UIDropDown languageDropDown = UIControls.AddPlainDropDown(this, Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index);
+            UIDropDown languageDropDown = UIDropDowns.AddPlainDropDown(this, LeftMargin, currentY, Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index);
             languageDropDown.eventSelectedIndexChanged += (control, index) =>
             {
                 Translations.Index = index;
-                OptionsPanelManager.LocaleChanged();
+                OptionsPanelManager<OptionsPanel>.LocaleChanged();
             };
-            languageDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += languageDropDown.parent.height + GroupMargin;
 
             // Hotkey control.
-            OptionsKeymapping keyMapping = languageDropDown.parent.parent.gameObject.AddComponent<OptionsKeymapping>();
-            keyMapping.uIPanel.relativePosition = new Vector2(LeftMargin, currentY);
-            currentY += keyMapping.uIPanel.height + GroupMargin;
+            OptionsKeymapping keyMapping = languageDropDown.parent.parent.gameObject.AddComponent<UUIKeymapping>();
+            keyMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
+            currentY += keyMapping.Panel.height + GroupMargin;
 
             // Show Railway Replacer checkbox.
-            UICheckBox railwayReplacerCheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_RRP"));
+            UICheckBox railwayReplacerCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_RRP"));
             railwayReplacerCheck.relativePosition = new Vector2(LeftMargin, currentY);
             railwayReplacerCheck.isChecked = ModSettings.ShowRailwayReplacer;
             railwayReplacerCheck.eventCheckChanged += (control, isChecked) => ModSettings.ShowRailwayReplacer = isChecked;
             currentY += CheckRowHeight + GroupMargin;
 
             // Advanced mode checkbox.
-            UICheckBox advancedCheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_ADV"));
+            UICheckBox advancedCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_ADV"));
             advancedCheck.relativePosition = new Vector2(LeftMargin, currentY);
             advancedCheck.isChecked = ModSettings.EnableAdvanced;
             advancedCheck.eventCheckChanged += (control, isChecked) => ModSettings.EnableAdvanced = isChecked;
             currentY += CheckRowHeight + Margin;
 
             // Advanced mode sub-label.
-            UILabel advancedCheckSubLabel = UIControls.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_ADV2"), textScale: 1.125f);
+            UILabel advancedCheckSubLabel = UILabels.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_ADV2"), textScale: 1.125f);
             advancedCheckSubLabel.font = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault((UIFont f) => f.name == "OpenSans-Regular");
             currentY += CheckRowHeight + GroupMargin;
 
             // Replace NExt2 roads on load checkbox.
-            UICheckBox replaceNextCheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_NEX"));
+            UICheckBox replaceNextCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_NEX"));
             replaceNextCheck.relativePosition = new Vector2(LeftMargin, currentY);
             replaceNextCheck.isChecked = ModSettings.ReplaceNExt2;
             replaceNextCheck.eventCheckChanged += (control, isChecked) => ModSettings.ReplaceNExt2 = isChecked;
             currentY += CheckRowHeight + Margin;
 
             // Replace NExt2 roads on load sub-label.
-            UILabel replaceNext2CheckSubLabel = UIControls.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NEX2"), textScale: 1.125f);
+            UILabel replaceNext2CheckSubLabel = UILabels.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NEX2"), textScale: 1.125f);
             replaceNext2CheckSubLabel.font = subLabelFont;
             currentY += CheckRowHeight + GroupMargin;
 
             // Replace MOM tracks on load checkbox.
-            UICheckBox replaceMOMCheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_MOM"));
+            UICheckBox replaceMOMCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_MOM"));
             replaceMOMCheck.relativePosition = new Vector2(LeftMargin, currentY);
             replaceMOMCheck.isChecked = ModSettings.ReplaceMOM;
             replaceMOMCheck.eventCheckChanged += (control, isChecked) => ModSettings.ReplaceMOM = isChecked;
             currentY += CheckRowHeight + Margin;
 
             // Replace MOM tracks on load sub-label.
-            UILabel replaceMOMCheckSubLabel = UIControls.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NEX2"), textScale: 1.125f);
+            UILabel replaceMOMCheckSubLabel = UILabels.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NEX2"), textScale: 1.125f);
             replaceMOMCheckSubLabel.font = subLabelFont;
             currentY += CheckRowHeight + GroupMargin;
 
             // Replace NAR tracks on load checkbox.
-            UICheckBox replaceNARcheck = UIControls.AddPlainCheckBox(this, Translations.Translate("RON_OPT_NAR"));
+            UICheckBox replaceNARcheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_NAR"));
             replaceNARcheck.relativePosition = new Vector2(LeftMargin, currentY);
             replaceNARcheck.isChecked = ModSettings.ReplaceNAR;
             replaceNARcheck.eventCheckChanged += NARCheckChanged;
             currentY += CheckRowHeight;
 
             // NAR replacement mode dropdown - custom sized.
-            narModeDropDown = UIControls.AddPlainDropDown(this, string.Empty, new string[] { Translations.Translate("RON_OPT_NAR_R2"), Translations.Translate("RON_OPT_NAR_BP") }, (int)ModSettings.ReplaceNARmode);
-            narModeDropDown.parent.relativePosition = new Vector2(LeftMargin + LeftMargin, currentY);
-            narModeDropDown.textScale = 1f;
-            narModeDropDown.height = 29f;
-            narModeDropDown.width = 500f;
-            narModeDropDown.autoListWidth = false;
-            narModeDropDown.listWidth = 500;
-            (narModeDropDown.parent as UIPanel).autoLayout = false;
-            narModeDropDown.relativePosition = Vector2.zero;
-            narModeDropDown.isEnabled = ModSettings.ReplaceNAR;
-            narModeDropDown.eventSelectedIndexChanged += NARModeChanged;
-            currentY += narModeDropDown.height + 2f;
+            _narModeDropDown = UIDropDowns.AddPlainDropDown(this, LeftMargin + LeftMargin, currentY, string.Empty, new string[] { Translations.Translate("RON_OPT_NAR_R2"), Translations.Translate("RON_OPT_NAR_BP") }, (int)ModSettings.ReplaceNARmode);
+            _narModeDropDown.textScale = 1f;
+            _narModeDropDown.height = 29f;
+            _narModeDropDown.width = 500f;
+            _narModeDropDown.autoListWidth = false;
+            _narModeDropDown.listWidth = 500;
+            (_narModeDropDown.parent as UIPanel).autoLayout = false;
+            _narModeDropDown.relativePosition = Vector2.zero;
+            _narModeDropDown.isEnabled = ModSettings.ReplaceNAR;
+            _narModeDropDown.eventSelectedIndexChanged += NARModeChanged;
+            currentY += _narModeDropDown.height + 2f;
 
             // Replace NAR tracks on load sub-label.
-            UILabel replaceNARCheckSubLabel = UIControls.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NAR2"), textScale: 1.125f);
+            UILabel replaceNARCheckSubLabel = UILabels.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NAR2"), textScale: 1.125f);
             replaceNARCheckSubLabel.font = subLabelFont;
         }
-
 
         /// <summary>
         /// Replace NAR check changed event handler.
@@ -128,9 +131,8 @@ namespace RON
         private void NARCheckChanged(UIComponent component, bool isChecked)
         {
             ModSettings.ReplaceNAR = isChecked;
-            narModeDropDown.isEnabled = isChecked;
+            _narModeDropDown.isEnabled = isChecked;
         }
-
 
         /// <summary>
         /// Replace NAR dropdown changed event handler.

@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using ColossalFramework;
-using ColossalFramework.PlatformServices;
-using ColossalFramework.Packaging;
-
+﻿// <copyright file="PrefabUtils.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RON
 {
+    using System;
+    using System.Collections.Generic;
+    using ColossalFramework;
+    using ColossalFramework.PlatformServices;
+    using ColossalFramework.Packaging;
+
     /// <summary>
     /// Static class for utilities dealing with prefabs.
     /// </summary>
@@ -252,11 +256,10 @@ namespace RON
             }
         }
 
-
         /// <summary>
         /// Gets the name of the creator of the given network.
         /// </summary>
-        /// <param name="network">Network to check</param>
+        /// <param name="network">Network to check.</param>
         /// <returns>Creator name</returns>
         internal static string GetCreator(NetInfo network)
         {
@@ -278,7 +281,6 @@ namespace RON
             // If we got here, we didn't find a valid creator.
             return null;
         }
-
 
         /// <summary>
         /// Populates the given parent dictionaries with parent/child network info.
@@ -318,7 +320,6 @@ namespace RON
             }
         }
 
-
         /// <summary>
         /// Checks to see if the given network prefab is a station network.
         /// </summary>
@@ -345,14 +346,12 @@ namespace RON
             // If we got here, we didn't find a station; return false.
             return false;
         }
-
-
         /// <summary>
         /// Sanitises a raw prefab name for display.
         /// Called by the settings panel fastlist.
         /// </summary>
-        /// <param name="prefab">Original (raw) prefab</param>
-        /// <returns>Cleaned display name</returns>
+        /// <param name="prefab">Original (raw) prefab.</param>
+        /// <returns>Cleaned display name.</returns>
         internal static string GetDisplayName(PrefabInfo prefab)
         {
             // Null check.
@@ -372,13 +371,12 @@ namespace RON
             return prefab.name.Substring(index + 1).Replace("_Data", "");
         }
 
-
         /// <summary>
         /// Adds a parent-child network relationship entry to the specified dictionary.
         /// </summary>
-        /// <param name="dict">Dictionary <child, parent></child> to add to</param>
-        /// <param name="child">Child prefab</param>
-        /// <param name="parent">Parent prefab</param>
+        /// <param name="dict">Dictionary (child, parent) to add to.</param>
+        /// <param name="child">Child prefab.</param>
+        /// <param name="parent">Parent prefab.</param>
         private static void RecordParent(Dictionary<NetInfo, NetInfo> dictionary, NetInfo child, NetInfo parent)
         {
             // Null checks - child is routine, but the othes shouldn't be.

@@ -1,19 +1,40 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using ColossalFramework;
-using ColossalFramework.UI;
-
+﻿// <copyright file="BuiltStationPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RON
 {
+	using System.Collections.Generic;
+	using AlgernonCommons;
+	using AlgernonCommons.Translation;
+	using AlgernonCommons.UI;
+	using ColossalFramework;
+	using ColossalFramework.UI;
+	using UnityEngine;
+
 	/// <summary>
 	/// RON station track replacer panel for already-built stations.
 	/// </summary>
-    internal class BuiltStationPanel : StationPanel
+	internal class BuiltStationPanel : StationPanel
     {
 		// WorldInfoPanel button to activate panel.
-		private static UIButton panelButton;
+		private static UIButton s_panelButton;
 
+		/// <summary>
+		/// Sets selected replacement.  Called by target network list items.
+		/// </summary>
+		internal override NetInfo SelectedReplacement
+		{
+			set
+			{
+				// Assign replacement network, if we've got a valid selection.
+				if (selectedIndex > 0)
+				{
+					Singleton<SimulationManager>.instance.AddAction(() => Replacer.ReplaceNets(GetNetInfo(selectedIndex), value, new List<ushort> { (ushort)selectedIndex }, false));
+				}
+			}
+		}
 
 		/// <summary>
 		/// Constructor.
@@ -24,7 +45,7 @@ namespace RON
 			CheckEligibleNets();
 
 			// If no eligible nets were found, exit.
-			if (eligibleNets.Count == 0)
+			if (s_eligibleNets.Count == 0)
 			{
 				// Close panel first if already open.
 				Close();
@@ -35,14 +56,13 @@ namespace RON
 			(Panel as BuiltStationPanel)?.RefreshPanel();
 		}
 
-
 		/// <summary>
 		/// Sets the WorldInfoPanel button visibility.
 		/// </summary>
 		internal static void SetPanelButtonState()
 		{
 			// Null check for safety.
-			if (panelButton == null)
+			if (s_panelButton == null)
 			{
 				return;
 			}
@@ -51,12 +71,11 @@ namespace RON
 			CheckEligibleNets();
 
 			// Hide button if no eligible networks were found, otherwise show it.
-			panelButton.isVisible = eligibleNets.Count > 0;
+			s_panelButton.isVisible = s_eligibleNets.Count > 0;
 
 			// Close the panel (if it's already open) on change of target.
 			Close();
 		}
-
 
 		/// <summary>
 		/// Adds a RON button to the service building info panel to open the RON station replacer panel for that building.
@@ -74,18 +93,18 @@ namespace RON
 				return;
 			}
 
-			panelButton = infoPanel.component.AddUIComponent<UIButton>();
+			s_panelButton = infoPanel.component.AddUIComponent<UIButton>();
 
 			// Basic button setup.
-			panelButton.atlas = Textures.RonButtonSprites;
-			panelButton.size = new Vector2(PanelButtonSize, PanelButtonSize);
-			panelButton.normalFgSprite = "normal";
-			panelButton.focusedFgSprite = "hovered";
-			panelButton.hoveredFgSprite = "hovered";
-			panelButton.pressedFgSprite = "pressed";
-			panelButton.disabledFgSprite = "disabled";
-			panelButton.name = "RONReplacerButton";
-			panelButton.tooltip = Translations.Translate("RON_STA_CUS");
+			s_panelButton.atlas = UITextures.LoadQuadSpriteAtlas("RonButton");
+			s_panelButton.size = new Vector2(PanelButtonSize, PanelButtonSize);
+			s_panelButton.normalFgSprite = "normal";
+			s_panelButton.focusedFgSprite = "hovered";
+			s_panelButton.hoveredFgSprite = "hovered";
+			s_panelButton.pressedFgSprite = "pressed";
+			s_panelButton.disabledFgSprite = "disabled";
+			s_panelButton.name = "RONReplacerButton";
+			s_panelButton.tooltip = Translations.Translate("RON_STA_CUS");
 
 			// Find ProblemsPanel relative position to position button.
 			// We'll use 40f as a default relative Y in case something doesn't work.
@@ -115,17 +134,17 @@ namespace RON
 			}
 
 			// Set position.
-			panelButton.AlignTo(infoPanel.component, UIAlignAnchor.TopLeft);
-			panelButton.relativePosition += new Vector3(infoPanel.component.width - 70f - PanelButtonSize, relativeY, 0f);
+			s_panelButton.AlignTo(infoPanel.component, UIAlignAnchor.TopLeft);
+			s_panelButton.relativePosition += new Vector3(infoPanel.component.width - 70f - PanelButtonSize, relativeY, 0f);
 
 			// Event handler.
-			panelButton.eventClick += (control, clickEvent) =>
+			s_panelButton.eventClick += (control, clickEvent) =>
 			{
 				// Toggle panel visibility.
-				if (uiGameObject == null)
+				if (s_uiGameObject == null)
 				{
 					Create<BuiltStationPanel>();
-					Panel.absolutePosition = panelButton.absolutePosition + new Vector3(-PanelWidth / 2f, PanelButtonSize + 200f);
+					Panel.absolutePosition = s_panelButton.absolutePosition + new Vector3(-PanelWidth / 2f, PanelButtonSize + 200f);
 				}
 				else
 				{
@@ -139,14 +158,13 @@ namespace RON
 			infoPanel.component.eventVisibilityChanged += (control, isVisible) => Close();
 		}
 
-
 		/// <summary>
 		/// Returns the NetInfo of the given target network index.
 		/// </summary>
 		internal override NetInfo GetNetInfo(int index)
 		{
 			// Check if the given index is valid.
-			if (eligibleNets != null && eligibleNets.Contains(index))
+			if (s_eligibleNets != null && s_eligibleNets.Contains(index))
 			{
 				// Valid index; return NetInfo.
 				return Singleton<NetManager>.instance.m_segments.m_buffer[index].Info;
@@ -155,23 +173,6 @@ namespace RON
 			// If we got here, we didn't get a match; return null.
 			return null;
 		}
-
-
-		/// <summary>
-		/// Setter for selected replacement.  Called by target network list items.
-		/// </summary>
-		internal override NetInfo SelectedReplacement
-		{
-			set
-			{
-				// Assign replacement network, if we've got a valid selection.
-				if (selectedIndex > 0)
-				{
-					Singleton<SimulationManager>.instance.AddAction(() => Replacer.ReplaceNets(GetNetInfo(selectedIndex), value, new List<ushort> { (ushort)selectedIndex }, false));
-				}
-			}
-		}
-
 
 		/// <summary>
 		/// Checks for eligible networks in this building.
@@ -184,7 +185,7 @@ namespace RON
 			NetSegment[] segmentBuffer = Singleton<NetManager>.instance.m_segments.m_buffer;
 
 			// Reset eligible network list.
-			eligibleNets.Clear();
+			s_eligibleNets.Clear();
 
 			// Get current building.
 			ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
@@ -194,7 +195,7 @@ namespace RON
 			}
 
 			// Set building info.
-			currentBuilding = buildingBuffer[buildingID].Info;
+			s_currentBuilding = buildingBuffer[buildingID].Info;
 
 			// Iterate through each node in building and list them.
 			List<ushort> nodes = new List<ushort>();
@@ -219,20 +220,19 @@ namespace RON
 					if (segmentID != 0 &&
 						nodes.Contains(segmentBuffer[segmentID].m_startNode) &&
 						nodes.Contains(segmentBuffer[segmentID].m_endNode) &&
-						!eligibleNets.Contains(segmentID))
+						!s_eligibleNets.Contains(segmentID))
 					{
 						// Check to ensure that we only use train and metro track networks (e.g. no invisible pedestrian paths!)
 						NetAI netAI = segmentBuffer[segmentID].Info.m_netAI;
 						if (netAI is TrainTrackBaseAI || netAI is MetroTrackBaseAI)
 						{
 							// Eligible segment - add to our list.
-							eligibleNets.Add(segmentID);
+							s_eligibleNets.Add(segmentID);
 						}
 					}
 				}
 			}
 		}
-
 
 		/// <summary>
 		/// Refreshes the panel based on the current building selection.
@@ -241,7 +241,7 @@ namespace RON
 		{
 			SetTitle();
 			TargetList();
-			SetTypeMenu(currentBuilding);
+			SetTypeMenu(s_currentBuilding);
 		}
 	}
 }

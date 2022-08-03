@@ -1,27 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using ColossalFramework;
-using ColossalFramework.Math;
-
+﻿// <copyright file="Replacer.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RON
 {
-    /// <summary>
-    /// Static class for network replacement tools.
-    /// </summary>
-    internal static class Replacer
+	using System;
+	using System.Collections.Generic;
+	using AlgernonCommons;
+	using ColossalFramework;
+	using ColossalFramework.Math;
+
+	/// <summary>
+	/// Static class for network replacement tools.
+	/// </summary>
+	internal static class Replacer
     {
 		// Undo buffer.
-		private static List<ushort> undoBuffer;
-		private static NetInfo undoPrefab;
-
+		private static List<ushort> s_undoBuffer;
+		private static NetInfo s_undoPrefab;
 
 		/// <summary>
 		/// Checks if we have a valid undo buffer (at least one undo record).
 		/// </summary>
 		/// <returns>True if there's a valid undo action to perform, false otherwise</returns>
-		internal static bool HasUndo => undoPrefab != null && undoBuffer != null && undoBuffer.Count > 0;
-
+		internal static bool HasUndo => s_undoPrefab != null && s_undoBuffer != null && s_undoBuffer.Count > 0;
 
 		/// <summary>
 		/// Perform actual network replacement.
@@ -56,10 +59,10 @@ namespace RON
 				// Copy segment IDs from segment list to avoid concurrency issues while replacing.
 				ushort[] segmentIDs = new ushort[segmentList.Count];
 				segmentList.CopyTo(segmentIDs, 0);
-							
+
 				// Initialize undo buffer.
-				undoBuffer = new List<ushort>();
-				undoPrefab = target;
+				s_undoBuffer = new List<ushort>();
+				s_undoPrefab = target;
 
 				// Iterate through each segment ID in our prepared list. 
 				for (int i = 0; i < segmentIDs.Length; ++i)
@@ -103,7 +106,7 @@ namespace RON
 							}
 
 							// Add new segment ID to undo buffer.
-							undoBuffer.Add(newSegmentID);
+							s_undoBuffer.Add(newSegmentID);
 						}
 						else
 						{
@@ -156,7 +159,7 @@ namespace RON
 		/// <summary>
 		/// Delete networks - only call via simulation thread.
 		/// </summary>
-		/// <param name="segments">Array of segment IDs to delete</param>
+		/// <param name="segments">Array of segment IDs to delete.</param>
 		internal static void DeleteNets(ushort[] segments)
 		{
 			try
@@ -218,9 +221,9 @@ namespace RON
 				Randomizer randomizer = new Randomizer();
 
 				// Replace each segment in undo buffer.
-				foreach(ushort segmentID in undoBuffer)
+				foreach(ushort segmentID in s_undoBuffer)
                 {
-					ReplaceNet(segmentID, segments, undoPrefab, ref randomizer);
+					ReplaceNet(segmentID, segments, s_undoPrefab, ref randomizer);
                 }
 			}
 			catch (Exception e)
@@ -230,8 +233,8 @@ namespace RON
 			}
 
 			// All done - clear undo buffer.
-			undoPrefab = null;
-			undoBuffer.Clear();
+			s_undoPrefab = null;
+			s_undoBuffer.Clear();
 			
 			// Let replacer panel know we're finished (if its still open).
 			if (ReplacerPanel.Panel != null)
@@ -240,15 +243,14 @@ namespace RON
 			}
 		}
 
-
 		/// <summary>
 		/// Replace a given segment with the specified prefab.
 		/// </summary>
-		/// <param name="segmentID">Segment to replace</param>
-		/// <param name="segments">Segment buffer reference</param>
-		/// <param name="replacement">Replacement prefab to apply</param>
-		/// <param name="randomizer">Randomizer</param>
-		/// <returns>New segment ID</returns>
+		/// <param name="segmentID">Segment to replace.</param>
+		/// <param name="segments">Segment buffer reference.</param>
+		/// <param name="replacement">Replacement prefab to apply.</param>
+		/// <param name="randomizer">Randomizer.</param>
+		/// <returns>New segment ID.</returns>
 		private static ushort ReplaceNet(ushort segmentID, NetSegment[] segments, NetInfo replacement, ref Randomizer randomizer)
         {
 			// Local references.

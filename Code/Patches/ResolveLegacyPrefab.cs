@@ -1,19 +1,23 @@
-﻿using System.Collections.Generic;
-using HarmonyLib;
-
+﻿// <copyright file="ResolveLegacyPrefab.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RON
 {
+	using System.Collections.Generic;
+	using AlgernonCommons;
+	using HarmonyLib;
+
 	/// <summary>
 	/// Harmony patch to substitute networks at loading.
 	/// </summary>
 	[HarmonyPatch(typeof(BuildConfig), nameof(BuildConfig.ResolveLegacyPrefab))]
 	public static class ResolveLegacyPrefabPatch
 	{
-		private static AutoReplaceXML[] autoReplaceFiles;
-		private static bool attemptedRead = false;
-		private static HashSet<ReplaceEntry> attemptedReplacements;
-
+		private static AutoReplaceXML[] s_autoReplaceFiles;
+		private static bool s_attemptedRead = false;
+		private static HashSet<AutoReplaceXML.ReplaceEntry> s_attemptedReplacements;
 
 		/// <summary>
 		/// Harmony Prefix patch for BuildConfig.ResolveLegacyPrefab to substitute named networks on loading.
@@ -28,21 +32,21 @@ namespace RON
 			{
 
 				// If we haven't attempted to read the auto replace file already, do so.
-				if (!attemptedRead)
+				if (!s_attemptedRead)
 				{
 					// Load configuration file and set flag to indicate attempt.
-					autoReplaceFiles = AutoReplaceXML.LoadReplacements();
-					attemptedRead = true;
+					s_autoReplaceFiles = AutoReplaceXML.LoadReplacements();
+					s_attemptedRead = true;
 
 					// Initialize missing networks list.
-					attemptedReplacements = new HashSet<ReplaceEntry>();
+					s_attemptedReplacements = new HashSet<AutoReplaceXML.ReplaceEntry>();
 				}
 
 				// Did we sucessfully read the auto replace file?
-				if (autoReplaceFiles != null)
+				if (s_autoReplaceFiles != null)
 				{
 					// Yes - iterate through file list.
-					for (int i = 0; i < autoReplaceFiles.Length; ++i)
+					for (int i = 0; i < s_autoReplaceFiles.Length; ++i)
                     {
 						// Don't replace NExt2 roads if setting isn't enabled.
 						if (i == (int)AutoReplaceXML.Replacements.NExt2 & !ModSettings.ReplaceNExt2)
@@ -69,7 +73,7 @@ namespace RON
 						}
 
 						// Iterate through each entry in this file.
-						foreach (ReplaceEntry entry in autoReplaceFiles[i].AutoReplacements)
+						foreach (AutoReplaceXML.ReplaceEntry entry in s_autoReplaceFiles[i].AutoReplacements)
 						{
 							// Check for match.
 							if (entry != null && entry.targetName.Equals(name))
@@ -79,7 +83,7 @@ namespace RON
 								Logging.Message("attempting to replace network ", name, " with ", __result);
 
 								// Add target to our list of attempted replacements.
-								attemptedReplacements.Add(entry);
+								s_attemptedReplacements.Add(entry);
 
 								// Don't execute original method.
 								return false;
@@ -92,22 +96,21 @@ namespace RON
 			// If we got here, no substitution was performed; continue on to original method.
 			return true;
 		}
-
-
+		
 		/// <summary>
 		/// Checks for any missing networks that didn't have available substitutes.
 		/// </summary>
-		/// <returns>List of missing replacement network names</returns>
+		/// <returns>List of missing replacement network names.</returns>
 		internal static List<string> CheckMissingNets()
 		{
 			// Return hashset.
 			List<string> missingNets = new List<string>();
 
 			// Don't do anything if we haven't attempted any replacements.
-			if (attemptedReplacements != null)
+			if (s_attemptedReplacements != null)
 			{
 				// Iterate through each attempted replacemnt.
-				foreach (ReplaceEntry entry in attemptedReplacements)
+				foreach (AutoReplaceXML.ReplaceEntry entry in s_attemptedReplacements)
 				{
 					// Check if this prefab was loaded.
 					if (PrefabCollection<NetInfo>.FindLoaded(entry.replacementName) == null)
@@ -118,12 +121,12 @@ namespace RON
 				}
 
 				// Free memory.
-				attemptedReplacements.Clear();
-				attemptedReplacements = null;
+				s_attemptedReplacements.Clear();
+				s_attemptedReplacements = null;
 			}
 
 			// Free memory.
-			autoReplaceFiles = null;
+			s_autoReplaceFiles = null;
 
 			return missingNets;
 		}

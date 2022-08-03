@@ -1,93 +1,10 @@
-﻿using UnityEngine;
+﻿// <copyright file="NetRowItem.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RON
 {
-	/// <summary>
-	/// Prop row fastlist item for loaded (replacement) networks.
-	/// </summary>
-	public class UIReplacementNetRow : UINetRow
-	{
-		/// <summary>
-		/// Called when this item is selected.
-		/// </summary>
-		public override void UpdateSelection()
-		{
-			// Update currently selected replacement prefab.
-			ReplacerPanel.Panel.SelectedReplacement = thisItem.prefab;
-		}
-	}
-
-
-	/// <summary>
-	/// Prop row fastlist item for target networks.
-	/// </summary>
-	public class UITargetNetRow : UINetRow
-	{
-		/// <summary>
-		/// Called when this item is selected.
-		/// </summary>
-		public override void UpdateSelection()
-		{
-			// Update currently selected target prefab.
-			ReplacerPanel.Panel.SelectedItem = thisItem;
-		}
-	}
-
-
-	/// <summary>
-	/// Prop row fastlist item for target networks for the station panel.
-	/// </summary>
-	public class UIStationTargetNetRow : UINetRow
-	{
-		// Station path index of this row item.
-		private int thisIndex;
-
-
-		/// <summary>
-		/// Called when this item is selected.
-		/// </summary>
-		public override void UpdateSelection()
-		{
-			// Update currently selected replacement prefab.
-			StationPanel.Panel.SelectedIndex = thisIndex;
-		}
-
-
-		/// <summary>
-		/// Generates and displays a network row.
-		/// </summary>
-		/// <param name="data">Object to list</param>
-		/// <param name="isRowOdd">If the row is an odd-numbered row (for background banding)</param>
-		public override void Display(object data, bool isRowOdd)
-        {
-			// Get index number.
-			if (data is int index)
-            {
-				thisIndex = index;
-
-				// Display using underlying netinfo of index.
-				base.Display(new NetRowItem(StationPanel.Panel.GetNetInfo(index)), isRowOdd);
-			}
-        }
-    }
-
-
-	/// <summary>
-	/// Prop row fastlist item for loaded (replacement) networks for the station panel.
-	/// </summary>
-	public class UIStationReplacementNetRow : UINetRow
-	{
-		/// <summary>
-		/// Called when this item is selected.
-		/// </summary>
-		public override void UpdateSelection()
-		{
-			// Update currently selected replacement prefab.
-			StationPanel.Panel.SelectedReplacement = thisItem.prefab;
-		}
-	}
-
-
 	/// <summary>
 	/// Data structure class for individual net row display lines.
 	/// </summary>
@@ -111,7 +28,6 @@ namespace RON
 		// Network type icon.
 		public string typeIcon;
 
-
 		/// <summary>
 		/// Constructor - automatically sets values based on provided network prefab.
 		/// </summary>
@@ -124,7 +40,6 @@ namespace RON
 			isStation = PrefabUtils.IsStation(network);
 		}
 
-
 		/// <summary>
 		/// Sets displayName to a cleaned-up display name for the given prefab and also sets network indicator flags.
 		/// </summary>
@@ -133,10 +48,10 @@ namespace RON
 			// Make sure we've got a valid network before doing anything else.
 			string fullName = prefab?.name;
 			if (fullName == null || prefab.m_netAI == null)
-            {
+			{
 				displayName = "Null";
 				return;
-            }
+			}
 
 			// Find any leading period (Steam package number).
 			int period = fullName.IndexOf('.');

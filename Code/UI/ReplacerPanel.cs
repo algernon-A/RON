@@ -1,31 +1,20 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using ColossalFramework;
-using ColossalFramework.UI;
-using UnityEngine;
-using RON.MessageBox;
-
+﻿// <copyright file="ReplacerPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RON
 {
-	// Display order state.
-	internal enum OrderBy
-    {
-		NameAscending = 0,
-		NameDescending,
-		CreatorAscending,
-		CreatorDescending
-    }
-
-	// String search type state.
-	internal enum SearchTypes
-    {
-		SearchNetwork = 0,
-		SearchCreator,
-		NumTypes
-    }
-
+	using System;
+	using System.Linq;
+	using System.Collections.Generic;
+	using AlgernonCommons;
+	using AlgernonCommons.Notifications;
+	using AlgernonCommons.Translation;
+	using AlgernonCommons.UI;
+	using ColossalFramework;
+	using ColossalFramework.UI;
+	using UnityEngine;
 
 	/// <summary>
 	/// RON network replacer panel.
@@ -37,12 +26,11 @@ namespace RON
 		private const float ToggleSpriteSize = 24f;
 		private const float ReplaceButtonHeight = 30f;
 
-
 		// Layout constants - Y.
 		private const float TitleHeight = 45f;
 		private const float ToolRowHeight = 35f;
 		private const float ToolbarHeight = ToolRowHeight * 3f;
-		private const float ListHeight = 15 * UINetRow.RowHeight;
+		private const float ListHeight = 15 * UINetRow.DefaultRowHeight;
 		private const float PreviewHeight = 100f;
 		private const float ToolRow1Y = TitleHeight + Margin;
 		private const float ToolRow2Y = ToolRow1Y + ToolRowHeight;
@@ -214,16 +202,15 @@ namespace RON
 			InfoManager.SubInfoMode.None
 		};
 
-
 		// Instance references.
-		private static GameObject uiGameObject;
-		private static ReplacerPanel panel;
-		internal static ReplacerPanel Panel => panel;
+		private static GameObject s_uiGameObject;
+		private static ReplacerPanel s_panel;
+		internal static ReplacerPanel Panel => s_panel;
 
 		// Current selections.
 		internal List<ushort> selectedSegments;
-		private ushort currentSegment;
-		private NetInfo selectedReplacement;
+		private ushort _currentSegment;
+		private NetInfo _selectedReplacement;
 
 		// Segment info record.
 		internal readonly Dictionary<NetInfo, List<ushort>> segmentDict = new Dictionary<NetInfo, List<ushort>>();
@@ -235,7 +222,8 @@ namespace RON
 		internal readonly Dictionary<NetInfo, NetInfo> tunnelParents = new Dictionary<NetInfo, NetInfo>();
 
 		// Panel components.
-		private readonly RONFastList targetList, loadedList;
+		private readonly RONList _targetList;
+		private readonly RONList _loadedList;
 		private readonly UIButton replaceButton, undoButton, deleteButton, prevButton, nextButton;
 		private readonly UIButton targetNameButton, targetCreatorButton, loadedNameButton, loadedCreatorButton;
 		private readonly UITextField nameFilter;
@@ -246,9 +234,9 @@ namespace RON
 
 		// Status.
 		internal bool replacingDone;
-		private bool replacing;
-		private float timer;
-		private int timerStep;
+		private bool _replacing;
+		private float _timer;
+		private int _timerStep;
 
 		// Search settings.
 		private int targetSearchStatus, loadedSearchStatus;
@@ -261,13 +249,13 @@ namespace RON
 			base.Update();
 
 			// Is a replacement underway?
-			if (replacing)
+			if (_replacing)
 			{
 				// Yes - is it done?
 				if (replacingDone)
 				{
 					// Done! Clear flags.
-					replacing = false;
+					_replacing = false;
 					replacingDone = false;
 
 					// Done - hide 'replacing' labels and show button.
@@ -282,15 +270,15 @@ namespace RON
 				else
 				{
 					// No - still in progress - update timer.
-					timer += Time.deltaTime;
+					_timer += Time.deltaTime;
 
 					// Add a period to the progress label every 100ms.  After 30, clear and start again.
-					if (timer > .1f)
+					if (_timer > .1f)
 					{
-						if (++timerStep > 30)
+						if (++_timerStep > 30)
 						{
 							progressLabel.text = ".";
-							timerStep = 0;
+							_timerStep = 0;
 						}
 						else
 						{
@@ -298,15 +286,14 @@ namespace RON
 						}
 
 						// Either way, reset timer to zero.
-						timer = 0f;
+						_timer = 0f;
 					}
 				}
 			}
 		}
 
-
 		/// <summary>
-		/// Currently selected NetRowItem.  Called by target network list items.
+		/// Gets or sets the currently selected NetRowItem.  Called by target network list items.
 		/// </summary>
 		internal NetRowItem SelectedItem
 		{
@@ -321,7 +308,7 @@ namespace RON
 					_selectedItem = value;
 
 					// Reset selected segment.
-					currentSegment = 0;
+					_currentSegment = 0;
 
 					// Update selected segments.
 					SetSelectedSegments();
@@ -336,28 +323,25 @@ namespace RON
 		}
 		private NetRowItem _selectedItem;
 
-
 		/// <summary>
-		/// Setter for selected replacement.  Called by target network list items.
+		/// Gets or sets the NetInfo for selected replacement.  Called by target network list items.
 		/// </summary>
 		internal NetInfo SelectedReplacement
 		{
 			set
 			{
 				// Assign new replacement.
-				selectedReplacement = value;
+				_selectedReplacement = value;
 
 				// Update display (preview and button states).
-				DisplayNetwork(selectedReplacement, replacementPreviewSprite);
+				DisplayNetwork(_selectedReplacement, replacementPreviewSprite);
 			}
 		}
 
-
 		/// <summary>
-		/// Currently selected network prefab.
+		/// Gets or sets the currently selected network prefab.
 		/// </summary>
 		private NetInfo SelectedPrefab => _selectedItem?.prefab;
-
 
 		/// <summary>
 		/// Creates the panel object in-game and displays it.
@@ -367,14 +351,14 @@ namespace RON
 			try
 			{
 				// If no GameObject instance already set, create one.
-				if (uiGameObject == null)
+				if (s_uiGameObject == null)
 				{
 					// Give it a unique name for easy finding with ModTools.
-					uiGameObject = new GameObject("RONPanel");
-					uiGameObject.transform.parent = UIView.GetAView().transform;
+					s_uiGameObject = new GameObject("RONPanel");
+					s_uiGameObject.transform.parent = UIView.GetAView().transform;
 
 					// Create new panel instance and add it to GameObject.
-					panel = uiGameObject.AddComponent<ReplacerPanel>();
+					s_panel = s_uiGameObject.AddComponent<ReplacerPanel>();
 				}
 			}
 			catch (Exception e)
@@ -390,25 +374,24 @@ namespace RON
 		internal static void Close()
 		{
 			// Don't do anything if no panel, or if we're in the middle of replacing.
-			if (panel == null || panel.replacing)
+			if (s_panel == null || s_panel._replacing)
 			{
 				return;
 			}
 
 			// Destroy game objects.
-			GameObject.Destroy(panel);
-			GameObject.Destroy(uiGameObject);
+			GameObject.Destroy(s_panel);
+			GameObject.Destroy(s_uiGameObject);
 
 			// Let the garbage collector do its work (and also let us know that we've closed the object).
-			panel = null;
-			uiGameObject = null;
+			s_panel = null;
+			s_uiGameObject = null;
 		}
-
 
 		/// <summary>
 		/// Sets the target segment and updates the display and selection accordingly.
 		/// </summary>
-		/// <param name="segmentID">Target segment ID</param>
+		/// <param name="segmentID">Target segment ID.</param>
 		internal void SetTarget(ushort segmentID)
         {
 			// Get selected network info and AI.
@@ -436,10 +419,10 @@ namespace RON
 					typeDropDown.selectedIndex = i;
 
 					// Set target list position.
-					targetList.FindItem(selectedNet);
+					_targetList.FindItem(selectedNet);
 
 					// Set selected network segement.
-					currentSegment = segmentID;
+					_currentSegment = segmentID;
 
 					// Set selected segments.
 					SetSelectedSegments();
@@ -449,7 +432,6 @@ namespace RON
 				}
 			}
         }
-
 
 		/// <summary>
 		/// Constructor.
@@ -497,11 +479,11 @@ namespace RON
 			iconSprite.relativePosition = new Vector2(5, 5);
 			iconSprite.height = 32f;
 			iconSprite.width = 32f;
-			iconSprite.atlas = Textures.RonButtonSprites;
+			iconSprite.atlas = UITextures.LoadQuadSpriteAtlas("RonButton");
 			iconSprite.spriteName = "normal";
 
 			// Network type dropdown.
-			typeDropDown = UIControls.AddLabelledDropDown(this, Margin, ToolRow1Y, Translations.Translate("RON_PNL_TYP"), 250f);
+			typeDropDown = UIDropDowns.AddLabelledDropDown(this, Margin, ToolRow1Y, Translations.Translate("RON_PNL_TYP"), 250f);
 			typeDropDown.items = netDescriptions;
 			typeDropDown.selectedIndex = 0;
 			typeDropDown.eventSelectedIndexChanged += TypeChanged;
@@ -518,26 +500,26 @@ namespace RON
 			leftPanel.width = LeftWidth;
 			leftPanel.height = ListHeight;
 			leftPanel.relativePosition = new Vector2(Margin, ListY);
-			targetList = RONFastList.Create<UITargetNetRow>(leftPanel);
-			ListSetup(targetList);
+			_targetList = UIList.AddUIList<RONList, UITargetNetRow>(leftPanel);
+			ListSetup(_targetList);
 
 			// Loaded network list.
 			UIPanel rightPanel = AddUIComponent<UIPanel>();
 			rightPanel.width = RightWidth;
 			rightPanel.height = ListHeight;
 			rightPanel.relativePosition = new Vector2(RightPanelX, ListY);
-			loadedList = RONFastList.Create<UIReplacementNetRow>(rightPanel);
-			ListSetup(loadedList);
+			_loadedList = UIList.AddUIList<RONList, UIReplacementNetRow>(rightPanel);
+			ListSetup(_loadedList);
 
 			// List titles.
-			UIControls.AddLabel(this, Margin, ListTitleY, Translations.Translate("RON_PNL_MAP"), LeftWidth);
-			UIControls.AddLabel(this, RightPanelX, ListTitleY, Translations.Translate("RON_PNL_AVA"), RightWidth);
+			UILabels.AddLabel(this, Margin, ListTitleY, Translations.Translate("RON_PNL_MAP"), LeftWidth);
+			UILabels.AddLabel(this, RightPanelX, ListTitleY, Translations.Translate("RON_PNL_AVA"), RightWidth);
 
 			// List headers.
-			UIControls.AddLabel(this, Margin + UINetRow.NameX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_NET"), UINetRow.CreatorX - UINetRow.NameX);
-			UIControls.AddLabel(this, Margin + UINetRow.CreatorX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_CRE"), LeftWidth - UINetRow.CreatorX);
-			UIControls.AddLabel(this, RightPanelX + UINetRow.NameX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_NET"), UINetRow.CreatorX - UINetRow.NameX);
-			UIControls.AddLabel(this, RightPanelX + UINetRow.CreatorX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_CRE"), RightWidth - UINetRow.CreatorX);
+			UILabels.AddLabel(this, Margin + UINetRow.NameX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_NET"), UINetRow.CreatorX - UINetRow.NameX);
+			UILabels.AddLabel(this, Margin + UINetRow.CreatorX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_CRE"), LeftWidth - UINetRow.CreatorX);
+			UILabels.AddLabel(this, RightPanelX + UINetRow.NameX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_NET"), UINetRow.CreatorX - UINetRow.NameX);
+			UILabels.AddLabel(this, RightPanelX + UINetRow.CreatorX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_CRE"), RightWidth - UINetRow.CreatorX);
 
 			// Order buttons.
 			targetNameButton = ArrowButton(this, Margin + UINetRow.NameX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
@@ -555,59 +537,59 @@ namespace RON
 			SetFgSprites(loadedNameButton, "IconUpArrow2Focused");
 
 			// Replace button.
-			replaceButton = UIControls.AddButton(this, MiddlePanelX, ToolRow1Y, Translations.Translate("RON_PNL_REP"), ReplaceWidth, ReplaceButtonHeight, scale: 1.0f);
+			replaceButton = UIButtons.AddButton(this, MiddlePanelX, ToolRow1Y, Translations.Translate("RON_PNL_REP"), ReplaceWidth, ReplaceButtonHeight, scale: 1.0f);
 			replaceButton.eventClicked += Replace;
 
 			// Undo button.
-			undoButton = UIControls.AddButton(this, MiddlePanelX, ToolRow2Y, Translations.Translate("RON_PNL_UND"), ReplaceWidth, ReplaceButtonHeight);
+			undoButton = UIButtons.AddButton(this, MiddlePanelX, ToolRow2Y, Translations.Translate("RON_PNL_UND"), ReplaceWidth, ReplaceButtonHeight);
 			undoButton.eventClicked += Undo;
 
 			// Delete button.
-			deleteButton = UIControls.AddButton(this, MiddlePanelX, ToolRow3Y, Translations.Translate("RON_PNL_DEL"), ReplaceWidth, ReplaceButtonHeight);
+			deleteButton = UIButtons.AddButton(this, MiddlePanelX, ToolRow3Y, Translations.Translate("RON_PNL_DEL"), ReplaceWidth, ReplaceButtonHeight);
 			deleteButton.eventClicked += Delete;
 
 			// View previous segment button.
-			prevButton = UIControls.AddSmallerButton(this, PrevX, ToolRow2Y, Translations.Translate("RON_PNL_VPS"), ButtonWidth);
+			prevButton = UIButtons.AddSmallerButton(this, PrevX, ToolRow2Y, Translations.Translate("RON_PNL_VPS"), ButtonWidth);
 			prevButton.eventClicked += PreviousSegment;
 
 			// View next segment button.
-			nextButton = UIControls.AddSmallerButton(this, NextX, ToolRow2Y, Translations.Translate("RON_PNL_VNS"), ButtonWidth);
+			nextButton = UIButtons.AddSmallerButton(this, NextX, ToolRow2Y, Translations.Translate("RON_PNL_VNS"), ButtonWidth);
 			nextButton.eventClicked += NextSegment;
 
 			// Name filter.
-			nameFilter = UIControls.LabelledTextField(this, FilterX, ToolRow1Y, Translations.Translate("RON_FIL_NAME"), FilterWidth, 25f, vertPad: 5);
+			nameFilter = UITextFields.AddLabelledTextField(this, FilterX, ToolRow1Y, Translations.Translate("RON_FIL_NAME"), FilterWidth, 25f, vertPad: 5);
 			nameFilter.eventTextChanged += (control, text) => LoadedList();
 			nameFilter.eventTextSubmitted += (control, text) => LoadedList();
 
 			// Search by name/author dropdown.
-			searchTypeMenu = UIControls.AddDropDown(this, FilterMenuxX, ToolRow1Y, FilterMenuWidth);
+			searchTypeMenu = UIDropDowns.AddDropDown(this, FilterMenuxX, ToolRow1Y, FilterMenuWidth);
 			searchTypeMenu.items = new string[(int)SearchTypes.NumTypes] { Translations.Translate("RON_PNL_NET"), Translations.Translate("RON_PNL_CRE") };
 			searchTypeMenu.selectedIndex = (int)SearchTypes.SearchNetwork;
 			searchTypeMenu.eventSelectedIndexChanged += (control, isChecked) => LoadedList();
 
 			// Vanilla filter.
-			hideVanilla = UIControls.AddCheckBox((UIComponent)(object)this, FilterX, HideVanillaY, Translations.Translate("RON_PNL_HDV"));
+			hideVanilla = UICheckBoxes.AddLabelledCheckBox((UIComponent)(object)this, FilterX, HideVanillaY, Translations.Translate("RON_PNL_HDV"));
 			hideVanilla.isChecked = true;
 			hideVanilla.eventCheckChanged += (control, isChecked) => LoadedList();
 
 			// Same width only check.
-			sameWidthCheck = UIControls.AddCheckBox(this, FilterX, SameWidthY, Translations.Translate("RON_PNL_WID"));
+			sameWidthCheck = UICheckBoxes.AddLabelledCheckBox(this, FilterX, SameWidthY, Translations.Translate("RON_PNL_WID"));
 			sameWidthCheck.isChecked = true;
 			sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
 
 			// Advanced mode check.
 			if (ModSettings.EnableAdvanced)
 			{
-				advancedCheck = UIControls.AddCheckBox(this, FilterX, AdvancedY, Translations.Translate("RON_PNL_ADV"));
+				advancedCheck = UICheckBoxes.AddLabelledCheckBox(this, FilterX, AdvancedY, Translations.Translate("RON_PNL_ADV"));
 				advancedCheck.eventCheckChanged += (control, isChecked) => LoadedList();
 			}
 
 			// Replacing label (starts hidden).
-			replacingLabel = UIControls.AddLabel(this, MiddlePanelX, ToolRow1Y, Translations.Translate("RON_PNL_RIP"), ReplaceWidth);
+			replacingLabel = UILabels.AddLabel(this, MiddlePanelX, ToolRow1Y, Translations.Translate("RON_PNL_RIP"), ReplaceWidth);
 			replacingLabel.Hide();
 
 			// Progress label (starts hidden).
-			progressLabel = UIControls.AddLabel(this, MiddlePanelX, ToolRow2Y, ".", ReplaceWidth);
+			progressLabel = UILabels.AddLabel(this, MiddlePanelX, ToolRow2Y, ".", ReplaceWidth);
 			progressLabel.Hide();
 
 			// Preview sprites.
@@ -632,13 +614,9 @@ namespace RON
 			TargetList();
 			LoadedList();
 
-			// Force loaded list refresh.
-			loadedList.Refresh();
-
 			// Populate parent dictionaries.
 			PrefabUtils.GetParents(slopeParents, elevatedParents, bridgeParents, tunnelParents);
 		}
-
 
 		/// <summary>
 		/// Performs the delete action.
@@ -661,7 +639,6 @@ namespace RON
 			}
 		}
 
-
 		/// <summary>
 		/// Sets the list of currently selected segments.
 		/// </summary>
@@ -671,11 +648,11 @@ namespace RON
 			if (segmentCheck.isChecked)
 			{
 				// Single replacement only.
-				selectedSegments = new List<ushort> { currentSegment };
+				selectedSegments = new List<ushort> { _currentSegment };
 			}
-			else if (districtCheck.isChecked)
+			else if (districtCheck.isChecked && _currentSegment != 0 && SelectedPrefab != null)
 			{
-				// District replacement.
+				// District replacement (requires active selection).
 				selectedSegments = new List<ushort>();
 
 				// Local references.
@@ -685,7 +662,7 @@ namespace RON
 				DistrictManager districtManager = Singleton<DistrictManager>.instance;
 
 				// Get district of selected segment.
-				ushort districtID = districtManager.GetDistrict(segmentBuffer[currentSegment].m_middlePosition);
+				ushort districtID = districtManager.GetDistrict(segmentBuffer[_currentSegment].m_middlePosition);
 
 				// Iterate through each segment of this type in our dictionary, adding to our list of selected segments if both start and end nodes are in the same district as the initial segement.
 				foreach (ushort districtSegment in segmentDict[SelectedPrefab])
@@ -703,28 +680,27 @@ namespace RON
 			}
 		}
 
-
 		/// <summary>
 		/// Network type dropdown change handler.
 		/// </summary>
-		/// <param name="control">Calling component</param>
-		/// <param name="index">New selected index</param>
-		private void CheckChanged(UIComponent control, bool isChecked)
+		/// <param name="c">Calling component.</param>
+		/// <param name="index">New selected index.</param>
+		private void CheckChanged(UIComponent c, bool isChecked)
         {
 			// If this checkbox is checked, unselect others.
 			if (isChecked)
             {
-				if (control == globalCheck)
+				if (c == globalCheck)
                 {
 					districtCheck.isChecked = false;
 					segmentCheck.isChecked = false;
 				}
-				else if (control == districtCheck)
+				else if (c == districtCheck)
 				{
 					globalCheck.isChecked = false;
 					segmentCheck.isChecked = false;
 				}
-				else if (control == segmentCheck)
+				else if (c == segmentCheck)
 				{
 					globalCheck.isChecked = false;
 					districtCheck.isChecked = false;
@@ -733,7 +709,7 @@ namespace RON
 			else if (!globalCheck.isChecked && !districtCheck.isChecked && !segmentCheck.isChecked)
             {
 				// No checkbox is selected - re-select this one and don't do anything else.
-				(control as UICheckBox).isChecked = true;
+				(c as UICheckBox).isChecked = true;
 				return;
             }
 
@@ -753,12 +729,11 @@ namespace RON
 			SetSelectedSegments();
         }
 
-
 		/// <summary>
 		/// Network type dropdown change handler.
 		/// </summary>
-		/// <param name="control">Calling component (unused)</param>
-		/// <param name="index">New selected index (unused)</param>
+		/// <param name="control">Calling component (unused).</param>
+		/// <param name="index">New selected index (unused).</param>
 		private void TypeChanged(UIComponent control, int index)
 		{
 			// Rebuild target and replacement lists.
@@ -769,54 +744,51 @@ namespace RON
 			Singleton<InfoManager>.instance.SetCurrentMode(netInfoModes[index], netSubInfoModes[index]);
 		}
 
-
 		/// <summary>
 		/// Replace button event handler.
-		/// <param name="control">Calling component (unused)</param>
-		/// <param name="mouseEvent">Mouse event (unused)</param>
+		/// <param name="c">Calling component (unused).</param>
+		/// <param name="p">Mouse event (unused).</param>
 		/// </summary>
-		private void Replace(UIComponent control, UIMouseEventParameter mouseEvent)
+		private void Replace(UIComponent c, UIMouseEventParameter p)
 		{
 			// Only do stuff if we've got valid selections.
-			if (SelectedPrefab != null & selectedReplacement != null)
+			if (SelectedPrefab != null & _selectedReplacement != null)
 			{
 				// Set panel to replacing state.
 				SetReplacing();
 
 				// Add ReplaceNets method to simulation manager action (don't want to muck around with simulation stuff from the main thread....)
 				bool isGlobal = globalCheck.isChecked;
-				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(SelectedPrefab, selectedReplacement, selectedSegments, isGlobal); } );
+				Singleton<SimulationManager>.instance.AddAction(delegate { Replacer.ReplaceNets(SelectedPrefab, _selectedReplacement, selectedSegments, isGlobal); } );
 			}
 		}
 
-
 		/// <summary>
 		/// Delete button event handler.
-		/// <param name="control">Calling component (unused)</param>
-		/// <param name="mouseEvent">Mouse event (unused)</param>
+		/// <param name="c">Calling component (unused).</param>
+		/// <param name="p">Mouse event (unused).</param>
 		/// </summary>
-		internal void Delete(UIComponent control, UIMouseEventParameter mouseEvent)
+		internal void Delete(UIComponent c, UIMouseEventParameter p)
 		{
 			// Only do stuff if we've got a valid selection.
 			if (SelectedPrefab != null && selectedSegments.Count > 0)
 			{
 				// Display delete confirmation box.
-				YesNoMessageBox warningBox = MessageBoxBase.ShowModal<YesNoMessageBox>();
-				warningBox.YesButton.eventClicked += (button, clickEvent) => DeleteNets();
+				YesNoNotification warningNotification = NotificationBase.ShowNotification<YesNoNotification>();
+				warningNotification.YesButton.eventClicked += (button, clickEvent) => DeleteNets();
 
 				// Singlular or plural?
-				warningBox.AddParas(Translations.Translate(selectedSegments.Count > 1 ? "RON_WAR_DEL" : "RON_WAR_DES"),
+				warningNotification.AddParas(Translations.Translate(selectedSegments.Count > 1 ? "RON_WAR_DEL" : "RON_WAR_DES"),
 					Translations.Translate("RON_WAR_UND")) ;
 			}
 		}
 
-
 		/// <summary>
 		/// Undo button event handler.
-		/// <param name="control">Calling component (unused)</param>
-		/// <param name="mouseEvent">Mouse event (unused)</param>
+		/// <param name="c">Calling component (unused).</param>
+		/// <param name="p">Mouse event (unused).</param>
 		/// </summary>
-		private void Undo(UIComponent control, UIMouseEventParameter mouseEvent)
+		private void Undo(UIComponent c, UIMouseEventParameter p)
 		{
 			// Only do stuff if we've got a valid undo state.
 			if (Replacer.HasUndo)
@@ -829,13 +801,12 @@ namespace RON
 			}
 		}
 
-
 		/// <summary>
 		/// Next segment button event handler.
 		/// </summary>
-		/// <param name="control">Calling component (unused)</param>
-		/// <param name="mouseEvent">Mouse event (unused)</param>
-		private void NextSegment(UIComponent control, UIMouseEventParameter mouseEvent)
+		/// <param name="c">Calling component (unused).</param>
+		/// <param name="p">Mouse event (unused).</param>
+		private void NextSegment(UIComponent c, UIMouseEventParameter p)
 		{
 			ushort targetSegment = 0;
 
@@ -854,7 +825,7 @@ namespace RON
 					}
 
 					// Is the selected segment ahead of this?
-					if (segmentID > currentSegment)
+					if (segmentID > _currentSegment)
                     {
 						// 'Fresh' segment - update target to this and finish looping, since we've found our taget.
 						targetSegment = segmentID;
@@ -870,13 +841,12 @@ namespace RON
 			}
 		}
 
-
 		/// <summary>
 		/// Previous segment button event handler.
 		/// </summary>
-		/// <param name="control">Calling component (unused)</param>
-		/// <param name="mouseEvent">Mouse event (unused)</param>
-		private void PreviousSegment(UIComponent control, UIMouseEventParameter mouseEvent)
+		/// <param name="c">Calling component (unused).</param>
+		/// <param name="p">Mouse event (unused).</param>
+		private void PreviousSegment(UIComponent c, UIMouseEventParameter p)
 		{
 			ushort targetSegment = 0;
 
@@ -895,7 +865,7 @@ namespace RON
 					}
 
 					// Is the previously-shown segment counter ahead of this?
-					if (segmentID < currentSegment)
+					if (segmentID < _currentSegment)
 					{
 						// 'Fresh' segment - update target to this and finish looping, since we've found our taget.
 						targetSegment = segmentID;
@@ -911,16 +881,15 @@ namespace RON
 			}
 		}
 
-
 		/// <summary>
 		/// Loaded list sort button event handler.
-		/// <param name="control">Calling component</param>
-		/// <param name="mouseEvent">Mouse event (unused)</param>
+		/// <param name="c">Calling component</param>
+		/// <param name="p">Mouse event (unused)</param>
 		/// </summary>
-		private void SortLoaded(UIComponent control, UIMouseEventParameter mouseEvent)
+		private void SortLoaded(UIComponent c, UIMouseEventParameter p)
 		{
 			// Check if we are using the name or creator button.
-			if (control == loadedNameButton)
+			if (c == loadedNameButton)
 			{
 				// Name button.
 				// Toggle status (set to descending if we're currently ascending, otherwise set to ascending).
@@ -938,7 +907,7 @@ namespace RON
 				// Reset name order buttons.
 				SetSortButton(loadedNameButton, loadedCreatorButton, loadedSearchStatus);
 			}
-			else if (control == loadedCreatorButton)
+			else if (c == loadedCreatorButton)
 			{
 				// Creator button.
 				// Toggle status (set to descending if we're currently ascending, otherwise set to ascending).
@@ -961,16 +930,15 @@ namespace RON
 			LoadedList();
 		}
 
-
 		/// <summary>
 		/// Target list sort button event handler.
-		/// <param name="control">Calling component</param>
-		/// <param name="mouseEvent">Mouse event (unused)</param>
+		/// <param name="c">Calling component.</param>
+		/// <param name="p">Mouse event (unused).</param>
 		/// </summary>
-		private void SortTargets(UIComponent control, UIMouseEventParameter mouseEvent)
+		private void SortTargets(UIComponent c, UIMouseEventParameter p)
 		{
 			// Check if we are using the name or creator button.
-			if (control == targetNameButton)
+			if (c == targetNameButton)
 			{
 				// Name button.
 				// Toggle status (set to descending if we're currently ascending, otherwise set to ascending).
@@ -988,7 +956,7 @@ namespace RON
 				// Reset name order buttons.
 				SetSortButton(targetNameButton, targetCreatorButton, targetSearchStatus);
 			}
-			else if (control == targetCreatorButton)
+			else if (c == targetCreatorButton)
 			{
 				// Creator button.
 				// Toggle status (set to descending if we're currently ascending, otherwise set to ascending).
@@ -1011,11 +979,10 @@ namespace RON
 			TargetList();
 		}
 
-
 		/// <summary>
 		/// Moves the camera to view the given segment.
 		/// </summary>
-		/// <param name="segmentID">Segment ID of target segment</param>
+		/// <param name="segmentID">Segment ID of target segment.</param>
 		private void ViewSegement(ushort segmentID)
         {
 			// Yes - set camera position.
@@ -1024,12 +991,11 @@ namespace RON
 			ToolsModifierControl.cameraController.SetTarget(new InstanceID { NetSegment = segmentID }, cameraPosition, true);
 
 			// Update last viewed segment to this one.
-			currentSegment = segmentID;
+			_currentSegment = segmentID;
 
 			// Updated selected segments.
 			SetSelectedSegments();
 		}
-
 
 		/// <summary>
 		/// Updates button states (enabled/disabled) according to current control states.
@@ -1049,7 +1015,7 @@ namespace RON
 			}
 
 			// Enable replace button if we have both a valid target and replacement, disable it otherwise.
-			replaceButton.isEnabled = SelectedPrefab != null && selectedReplacement != null;
+			replaceButton.isEnabled = SelectedPrefab != null && _selectedReplacement != null;
 
 			// Enable delete button if a valid target is selected.
 			deleteButton.isEnabled = SelectedPrefab != null;
@@ -1058,16 +1024,15 @@ namespace RON
 			undoButton.isEnabled = Replacer.HasUndo;
 		}
 
-
 		/// <summary>
 		/// Initializes the 'replacing' state - sets flags, timers, UI state.
 		/// </summary>
 		private void SetReplacing()
 		{
 			// Set flags and reset timer.
-			replacing = true;
+			_replacing = true;
 			replacingDone = false;
-			timer = 0;
+			_timer = 0;
 
 			// Set UI to 'replacing' state.
 			replaceButton.Disable();
@@ -1079,11 +1044,10 @@ namespace RON
 			progressLabel.Show();
 		}
 
-
 		/// <summary>
 		/// Populates a fastlist with a list of networks currently on the map.
 		/// </summary>
-		/// <returns>Populated fastlist of networks on map</returns>
+		/// <returns>Populated fastlist of networks on map.</returns>
 		private void TargetList()
 		{
 			// Clear segment dictionary.
@@ -1155,23 +1119,19 @@ namespace RON
 			}
 
 			// Create return fastlist from our filtered list, ordering by name.
-			targetList.rowsData = new FastList<object>
+			_targetList.Data = new FastList<object>
 			{
 				m_buffer = objectArray,
 				m_size = objectArray.Length
 			};
 
 			// Clear current selection.
-			targetList.selectedIndex = -1;
+			_targetList.SelectedIndex = -1;
 			SelectedItem = null;
-
-			// Force list update.
-			targetList.Refresh();
 
 			// Ensure that network type selection dropdown is on top.
 			typeDropDown.BringToFront();
 		}
-
 
 		/// <summary>
 		/// Populates a fastlist with a list of loaded networks.
@@ -1240,7 +1200,6 @@ namespace RON
 				}
 			}
 
-
 			// Create new object list for fastlist, ordering as approprite.
 			object[] objectArray;
 			switch (loadedSearchStatus)
@@ -1260,17 +1219,16 @@ namespace RON
 			}
 
 			// Create return fastlist from our filtered list, ordering by name.
-			loadedList.rowsData = new FastList<object>
+			_loadedList.Data = new FastList<object>
 			{
 				m_buffer = objectArray,
 				m_size = netList.Count
 			};
 
 			// Clear current selection.
-			loadedList.selectedIndex = -1;
+			_loadedList.SelectedIndex = -1;
 			SelectedReplacement = null;
 		}
-
 
 		/// <summary>
 		/// Determines if the given net prefab matches the current net type filter.
@@ -1303,29 +1261,21 @@ namespace RON
 			return false;
 		}
 
-
 		/// <summary>
-		/// Performs initial fastlist setup.
+		/// Performs initial UIList setup.
 		/// </summary>
-		/// <param name="fastList">Fastlist to set up</param>
-		private void ListSetup(UIFastList fastList)
+		/// <param name="uiList">UIList to set up.</param>
+		private void ListSetup(UIList uiList)
 		{
-			// Apperance, size and position.
-			fastList.backgroundSprite = "UnlockingPanel";
-			fastList.width = fastList.parent.width;
-			fastList.height = fastList.parent.height;
-			fastList.relativePosition = Vector2.zero;
-			fastList.rowHeight = UINetRow.RowHeight;
-
-			// Behaviour.
-			fastList.canSelect = true;
-			fastList.autoHideScrollbar = true;
+			// Appearance, size and position.
+			uiList.BackgroundSprite = "UnlockingPanel";
+			uiList.width = uiList.parent.width;
+			uiList.height = uiList.parent.height;
+			uiList.relativePosition = Vector2.zero;
 
 			// Data.
-			fastList.rowsData = new FastList<object>();
-			fastList.selectedIndex = -1;
+			uiList.Data = new FastList<object>();
 		}
-
 
 		/// <summary>
 		/// Updates the display to the specified network (displaying thumbnail and setting button states).
@@ -1348,7 +1298,7 @@ namespace RON
 			else
 			{
 				// No valid thumbnail - hide preview.
-				previewSprite.atlas = Textures.RonButtonSprites;
+				previewSprite.atlas = UITextures.LoadQuadSpriteAtlas("RonButton");
 				previewSprite.spriteName = "normal";
 				previewSprite.Hide();
 			}
@@ -1356,12 +1306,11 @@ namespace RON
 			UpdateButtonStates();
 		}
 
-
 		/// <summary>
 		/// Retuns the type icon filename for the given network.
 		/// </summary>
-		/// <param name="network">Network to get icon for</param>
-		/// <returns>Type icon filename, or null if no type icon is available</returns>
+		/// <param name="network">Network to get icon for.</param>
+		/// <returns>Type icon filename, or null if no type icon is available.</returns>
 		private string GetTypeIcon(NetInfo network)
 		{
 			// Find matching icon type.
@@ -1382,13 +1331,12 @@ namespace RON
 			return null;
 		}
 
-
 		/// <summary>
 		/// Sets the states of the two given sort buttons to match the given search status.
 		/// </summary>
-		/// <param name="activeButton">Currently active sort button</param>
-		/// <param name="inactiveButton">Inactive button (other sort button for same list)</param>
-		/// <param name="searchStatus">Search status to apply</param>
+		/// <param name="activeButton">Currently active sort button<./param>
+		/// <param name="inactiveButton">Inactive button (other sort button for same list).</param>
+		/// <param name="searchStatus">Search status to apply.</param>
 		private void SetSortButton(UIButton activeButton, UIButton inactiveButton, int searchStatus)
 		{
 			bool ascending = searchStatus == (int)OrderBy.CreatorAscending || searchStatus == (int)OrderBy.NameAscending;
@@ -1409,13 +1357,12 @@ namespace RON
 			SetFgSprites(inactiveButton, "IconUpArrow2");
 		}
 
-
 		/// <summary>
 		/// Finds a thumbnail image for the selected prefab.
 		/// </summary>
-		/// <param name="network">Network prefab to find thumbnail for</param>
-		/// <param name="atlas">Thumbnail atlas</param>
-		/// <param name="thumbnail">Thumbnail sprite name</param>
+		/// <param name="network">Network prefab to find thumbnail for.</param>
+		/// <param name="atlas">Thumbnail atlas.</param>
+		/// <param name="thumbnail">Thumbnail sprite name.</param>
 		private void FindThumbnail(NetInfo network, out UITextureAtlas atlas, out string thumbnail)
 		{
 			// Null check - quite possible.
@@ -1436,7 +1383,7 @@ namespace RON
 				KeyValuePair<string, string> entry = PrefabUtils.thumbnailMaps[network.name];
 				if (!entry.Key.Equals(thumbAtlas.name))
                 {
-					thumbAtlas = TextureUtils.GetTextureAtlas(entry.Key); 
+					thumbAtlas = UITextures.GetTextureAtlas(entry.Key); 
                 }
 
 				thumbName = entry.Value;
@@ -1476,13 +1423,12 @@ namespace RON
 			thumbnail = thumbName;
 		}
 
-
 		/// <summary>
 		/// Adds a preview image sprite at the specified coordinates (starts hidden).
 		/// </summary>
-		/// <param name="xPos">Relative X position</param>
-		/// <param name="yPos">Relative Y position</param>
-		/// <returns>New UI sprite</returns>
+		/// <param name="xPos">Relative X position.</param>
+		/// <param name="yPos">Relative Y position.</param>
+		/// <returns>New UI sprite.</returns>
 		private UISprite AddPreviewSprite(float xPos, float yPos)
 		{
 			UISprite previewSprite = AddUIComponent<UISprite>();
@@ -1494,36 +1440,34 @@ namespace RON
 			return previewSprite;
 		}
 
-
 		/// <summary>
 		/// Adds a preview arrow sprite at the specified coordinates with the specified thumbnail from "ingame" atlas.
 		/// </summary>
-		/// <param name="parent">Parent component</param>
-		/// <param name="xPos">Relative X position</param>
-		/// <param name="spriteName">Sprite name</param>
-		/// <returns>Nw UI sprite</returns>
+		/// <param name="parent">Parent component.</param>
+		/// <param name="xPos">Relative X position.</param>
+		/// <param name="spriteName">Sprite name.</param>
+		/// <returns>Nw UI sprite.</returns>
 		private UISprite AddArrowSprite(UIComponent parent, float xPos, string spriteName)
 		{
 			UISprite arrowSprite = parent.AddUIComponent<UISprite>();
 			arrowSprite.relativePosition = new Vector2(xPos, 0f);
 			arrowSprite.height = PreviewHeight;
 			arrowSprite.width = PreviewArrowWidth;
-			arrowSprite.atlas = TextureUtils.InGameAtlas;
+			arrowSprite.atlas = UITextures.InGameAtlas;
 			arrowSprite.spriteName = spriteName;
 
 			return arrowSprite;
 		}
 
-
 		/// <summary>
 		/// Adds an arrow button.
 		/// </summary>
-		/// <param name="parent">Parent component</param>
-		/// <param name="posX">Relative X postion</param>
-		/// <param name="posY">Relative Y position</param>
-		/// <param name="width">Button width (default 32)</param>
-		/// <param name="height">Button height (default 20)</param>
-		/// <returns>New arrow button</returns>
+		/// <param name="parent">Parent component.</param>
+		/// <param name="posX">Relative X postion.</param>
+		/// <param name="posY">Relative Y position.</param>
+		/// <param name="width">Button width (default 32).</param>
+		/// <param name="height">Button height (default 20).</param>
+		/// <returns>New arrow button.</returns>
 		private UIButton ArrowButton(UIComponent parent, float posX, float posY, float width = 32f, float height = 20f)
 		{
 			UIButton button = parent.AddUIComponent<UIButton>();
@@ -1539,26 +1483,24 @@ namespace RON
 			return button;
 		}
 
-
 		/// <summary>
 		/// Sets the foreground sprites for the given button to the specified sprite.
 		/// </summary>
-		/// <param name="button">Targeted button</param>
-		/// <param name="spriteName">Sprite name</param>
+		/// <param name="button">Targeted button.</param>
+		/// <param name="spriteName">Sprite name.</param>
 		private void SetFgSprites(UIButton button, string spriteName)
 		{
 			button.normalFgSprite = button.hoveredFgSprite = button.pressedFgSprite = button.focusedFgSprite = spriteName;
 		}
 
-
 		/// <summary>
 		/// Adds an icon toggle checkbox.
 		/// </summary>
-		/// <param name="parent">Parent component</param>
-		/// <param name="xPos">Relative X position</param>
-		/// <param name="yPos">Relative Y position</param>
-		/// <param name="fileName">Sprite atlas file name (without .png)</param>
-		/// <param name="tooltipKey">Tooltip translation key</param>
+		/// <param name="parent">Parent component.</param>
+		/// <param name="xPos">Relative X position.</param>
+		/// <param name="yPos">Relative Y position.</param>
+		/// <param name="fileName">Sprite atlas file name (without .png).</param>
+		/// <param name="tooltipKey">Tooltip translation key.</param>
 		/// <returns>New checkbox</returns>
 		private UICheckBox IconToggleCheck(UIComponent parent, float xPos, float yPos, string fileName, string tooltipKey)
 		{
@@ -1573,7 +1515,7 @@ namespace RON
 			{
 				// Checkbox sprites.
 				UISprite sprite = checkBox.AddUIComponent<UISprite>();
-				sprite.atlas = TextureUtils.LoadQuadSpriteAtlas(fileName);
+				sprite.atlas = UITextures.LoadQuadSpriteAtlas(fileName);
 				sprite.spriteName = "normal";
 				sprite.size = new Vector2(ToggleSpriteSize, ToggleSpriteSize);
 				sprite.relativePosition = Vector3.zero;
@@ -1592,6 +1534,23 @@ namespace RON
             }
 
 			return checkBox;
+		}
+
+		// Display order state.
+		internal enum OrderBy
+		{
+			NameAscending = 0,
+			NameDescending,
+			CreatorAscending,
+			CreatorDescending
+		}
+
+		// String search type state.
+		internal enum SearchTypes
+		{
+			SearchNetwork = 0,
+			SearchCreator,
+			NumTypes
 		}
 	}
 }

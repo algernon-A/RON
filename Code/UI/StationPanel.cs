@@ -1,31 +1,30 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using UnityEngine;
-using ColossalFramework.UI;
-
+﻿// <copyright file="StationPanel.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RON
 {
+	using System;
+	using System.Linq;
+	using System.Collections.Generic;
+	using AlgernonCommons;
+	using AlgernonCommons.Translation;
+	using AlgernonCommons.UI;
+	using ColossalFramework.UI;
+	using UnityEngine;
+
 	/// <summary>
 	/// RON station track replacer panel for placing stations.
 	/// </summary>
 	internal class StationPanel : UIPanel
 	{
-		private enum TypeIndex : int
-		{
-			RailOnly = 0,
-			MetroOnly,
-			RailMetro
-		}
-
-
 		// Layout constants.
 		private const float Margin = 5f;
 		private const float TitleHeight = 50f;
 		private const float ControlHeight = 30f;
 		private const float ControlY = TitleHeight;
-		private const float ListHeight = 6 * UINetRow.RowHeight;
+		private const float ListHeight = 6 * UINetRow.DefaultRowHeight;
 		private const float ListY = ControlY + ControlHeight;
 		private const float LeftX = Margin;
 		private const float ListWidth = 450f;
@@ -36,39 +35,37 @@ namespace RON
 
 		protected const float PanelWidth = RightPanelX + ListWidth + Margin;
 
-
 		// Instance references.
-		protected static GameObject uiGameObject;
-		private static StationPanel panel;
+		protected static GameObject s_uiGameObject;
+		private static StationPanel s_panel;
 
 		// Selections.
-		internal static BuildingInfo currentBuilding;
-		protected static List<int> eligibleNets = new List<int>();
+		internal static BuildingInfo s_currentBuilding;
+		protected static List<int> s_eligibleNets = new List<int>();
 		protected int selectedIndex;
 
-
 		// Panel components.
-		private readonly UICheckBox sameWidthCheck;
 		protected readonly UIDropDown typeDropDown;
-		private readonly RONFastList targetList, loadedList;
-		private readonly UILabel titleLabel;
+		private readonly UICheckBox _sameWidthCheck;
+		private readonly RONList _targetList;
+		private readonly RONList _loadedList;
+		private readonly UILabel _titleLabel;
 
 
 		/// <summary>
-		/// Getter for panel instance.
+		/// Gets the active panel instance.
 		/// </summary>
-		internal static StationPanel Panel => panel;
-
+		internal static StationPanel Panel => s_panel;
 
 		/// <summary>
-		/// Setter for selected target index.  Called by target network list items.
+		/// Sets the selected target index.  Called by target network list items.
 		/// </summary>
 		internal int SelectedIndex
 		{
 			set
 			{
 				// Confirm target index validity before setting.
-				if (eligibleNets.Contains(value))
+				if (s_eligibleNets.Contains(value))
 				{
 					selectedIndex = value;
 				}
@@ -83,9 +80,8 @@ namespace RON
 			}
 		}
 
-
 		/// <summary>
-		/// Setter for selected replacement.  Called by target network list items.
+		/// Sets selected replacement.  Called by target network list items.
 		/// </summary>
 		internal virtual NetInfo SelectedReplacement
 		{
@@ -94,17 +90,15 @@ namespace RON
 				// Assign replacement network, if we've got a valid selection.
 				if (selectedIndex >= 0)
 				{
-					currentBuilding.m_paths[selectedIndex].m_finalNetInfo = value;
+					s_currentBuilding.m_paths[selectedIndex].m_finalNetInfo = value;
 				}
 			}
 		}
 
-
 		/// <summary>
-		/// Current target network as NetInfo.
+		/// Gets the target network as NetInfo.
 		/// </summary>
 		private NetInfo TargetNet => GetNetInfo(selectedIndex);
-
 
 		/// <summary>
 		/// Set the target building (first checking validity).
@@ -113,16 +107,16 @@ namespace RON
 		internal static void SetTarget(BuildingInfo selectedBuilding)
 		{
 			// Don't do anything if selection hasn't changed (this includes after the panel has been closed while the station building is still selected).
-			if (selectedBuilding == currentBuilding)
+			if (selectedBuilding == s_currentBuilding)
 			{
 				return;
 			}
 
 			// Update current reference.
-			currentBuilding = selectedBuilding;
+			s_currentBuilding = selectedBuilding;
 
 			// Reset eligible network list
-			eligibleNets.Clear();
+			s_eligibleNets.Clear();
 
 			// Iterate through each path in building.
 			if (selectedBuilding?.m_paths != null)
@@ -136,14 +130,14 @@ namespace RON
 						if (netAI is TrainTrackBaseAI || netAI is MetroTrackBaseAI)
 						{
 							// Found a railway track - add index to list.
-							eligibleNets.Add(i);
+							s_eligibleNets.Add(i);
 						}
 					}
 				}
 			}
 
 			// If no eligible nets were found, exit.
-			if (eligibleNets.Count == 0)
+			if (s_eligibleNets.Count == 0)
 			{
 				// Close panel first if already open.
 				Close();
@@ -151,17 +145,16 @@ namespace RON
 			}
 
 			// Create panel if not already open.
-			if (panel == null)
+			if (s_panel == null)
 			{
 				Create<StationPanel>();
 			}
 
 			// Update panel.
-			panel.SetTitle();
-			panel.TargetList();
-			panel.SetTypeMenu(selectedBuilding);
+			s_panel.SetTitle();
+			s_panel.TargetList();
+			s_panel.SetTypeMenu(selectedBuilding);
 		}
-
 
 		/// <summary>
 		/// Creates the panel object in-game and displays it.
@@ -171,14 +164,14 @@ namespace RON
 			try
 			{
 				// If no GameObject instance already set, create one.
-				if (uiGameObject == null)
+				if (s_uiGameObject == null)
 				{
 					// Give it a unique name for easy finding with ModTools.
-					uiGameObject = new GameObject("RONStationPanel");
-					uiGameObject.transform.parent = UIView.GetAView().transform;
+					s_uiGameObject = new GameObject("RONStationPanel");
+					s_uiGameObject.transform.parent = UIView.GetAView().transform;
 
 					// Create new panel instance and add it to GameObject.
-					uiGameObject.AddComponent<T>();
+					s_uiGameObject.AddComponent<T>();
 				}
 			}
 			catch (Exception e)
@@ -187,27 +180,25 @@ namespace RON
 			}
 		}
 
-
 		/// <summary>
 		/// Closes the panel by destroying the object (removing any ongoing UI overhead).
 		/// </summary>
 		internal static void Close()
 		{
 			// Don't do anything if no panel.
-			if (panel == null)
+			if (s_panel == null)
 			{
 				return;
 			}
 
 			// Destroy game objects.
-			GameObject.Destroy(panel);
-			GameObject.Destroy(uiGameObject);
+			GameObject.Destroy(s_panel);
+			GameObject.Destroy(s_uiGameObject);
 
 			// Let the garbage collector do its work (and also let us know that we've closed the object).
-			panel = null;
-			uiGameObject = null;
+			s_panel = null;
+			s_uiGameObject = null;
 		}
-
 
 		/// <summary>
 		/// Constructor.
@@ -215,7 +206,7 @@ namespace RON
 		internal StationPanel()
 		{
 			// Set instance references.
-			panel = this;
+			s_panel = this;
 
 			// Basic behaviour.
 			autoLayout = false;
@@ -240,8 +231,8 @@ namespace RON
 			dragHandle.target = this;
 
 			// Title label.
-			titleLabel = AddUIComponent<UILabel>();
-			titleLabel.relativePosition = new Vector2(50f, 13f);
+			_titleLabel = AddUIComponent<UILabel>();
+			_titleLabel.relativePosition = new Vector2(50f, 13f);
 			SetTitle();
 
 			// Close button.
@@ -257,16 +248,16 @@ namespace RON
 			iconSprite.relativePosition = new Vector2(5, 5);
 			iconSprite.height = 32f;
 			iconSprite.width = 32f;
-			iconSprite.atlas = Textures.RonButtonSprites;
+			iconSprite.atlas = UITextures.LoadQuadSpriteAtlas("RonButton");
 			iconSprite.spriteName = "normal";
 
 			// Same width only check.
-			sameWidthCheck = UIControls.AddCheckBox(this, Check1X, ControlY + 5f, Translations.Translate("RON_PNL_WID"));
-			sameWidthCheck.isChecked = true;
-			sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
+			_sameWidthCheck = UICheckBoxes.AddCheckBox(this, Check1X, ControlY + 5f, tooltip: Translations.Translate("RON_PNL_WID"));
+			_sameWidthCheck.isChecked = true;
+			_sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
 
 			// Type dropdown.
-			typeDropDown = UIControls.AddDropDown(this, Check2X, ControlY, ListWidth / 2f);
+			typeDropDown = UIDropDowns.AddDropDown(this, Check2X, ControlY, ListWidth / 2f);
 			typeDropDown.items = new string[] { Translations.Translate("RON_STA_RAO"), Translations.Translate("RON_STA_MTO"), Translations.Translate("RON_STA_RAM") };
 			typeDropDown.eventSelectedIndexChanged += (control, index) => LoadedList();
 
@@ -275,18 +266,17 @@ namespace RON
 			leftPanel.width = ListWidth;
 			leftPanel.height = ListHeight;
 			leftPanel.relativePosition = new Vector2(Margin, ListY);
-			targetList = RONFastList.Create<UIStationTargetNetRow>(leftPanel);
-			ListSetup(targetList);
+			_targetList = UIList.AddUIList<RONList, UIStationTargetNetRow>(leftPanel);
+			ListSetup(_targetList);
 
 			// Loaded network list.
 			UIPanel rightPanel = AddUIComponent<UIPanel>();
 			rightPanel.width = ListWidth;
 			rightPanel.height = ListHeight;
 			rightPanel.relativePosition = new Vector2(RightPanelX, ListY);
-			loadedList = RONFastList.Create<UIStationReplacementNetRow>(rightPanel);
-			ListSetup(loadedList);
+			_loadedList = UIList.AddUIList<RONList, UIStationReplacementNetRow>(rightPanel);
+			ListSetup(_loadedList);
 		}
-
 
 		/// <summary>
 		/// Returns the NetInfo of the given target network index.
@@ -294,49 +284,44 @@ namespace RON
 		internal virtual NetInfo GetNetInfo(int index)
 		{
 			// Check if the given index is valid.
-			if (eligibleNets != null && eligibleNets.Contains(index))
+			if (s_eligibleNets != null && s_eligibleNets.Contains(index))
 			{
 				// Valid index; return NetInfo.
-				return currentBuilding.m_paths[index].m_netInfo;
+				return s_currentBuilding.m_paths[index].m_netInfo;
 			}
 
 			// If we got here, we didn't get a match; return null.
 			return null;
 		}
 
-
 		/// <summary>
 		/// Populates a fastlist with a list of eligible networks in the current building.
 		/// </summary>
-		/// <returns>Populated fastlist of eligible networks in the current building</returns>
+		/// <returns>Populated fastlist of eligible networks in the current building.</returns>
 		protected void TargetList()
 		{
 			// Create return fastlist from our list of eligible networks.
-			targetList.rowsData = new FastList<object>
+			_targetList.Data = new FastList<object>
 			{
-				m_buffer = eligibleNets.Select(x => (object)x).ToArray(),
-				m_size = eligibleNets.Count
+				m_buffer = s_eligibleNets.Select(x => (object)x).ToArray(),
+				m_size = s_eligibleNets.Count
 			};
 
 			// Clear current selection.
-			targetList.selectedIndex = -1;
+			_targetList.SelectedIndex = -1;
 			selectedIndex = -1;
-
-			// Force list update.
-			targetList.Refresh();
 		}
-
 
 		/// <summary>
 		/// Populates a fastlist with a list of relevant loaded networks.
 		/// </summary>
-		/// <returns>Populated fastlist of networks on map</returns>
+		/// <returns>Populated fastlist of networks on map.</returns>
 		protected void LoadedList()
 		{
 			// Clear list if there's no current selection.
 			if (selectedIndex < 0)
 			{
-				loadedList.Clear();
+				_loadedList.Clear();
 				return;
 			}
 
@@ -366,7 +351,7 @@ namespace RON
 					NetRowItem newItem = new NetRowItem(network);
 
 					// Check if this network has the same half-width, if the checkbox is selected.
-					if (sameWidthCheck.isChecked && network.m_halfWidth != TargetNet.m_halfWidth)
+					if (_sameWidthCheck.isChecked && network.m_halfWidth != TargetNet.m_halfWidth)
 					{
 						// No match; skip this one.
 						continue;
@@ -423,21 +408,20 @@ namespace RON
 
 
 			// Create return fastlist from our filtered list, ordering by name.
-			loadedList.rowsData = new FastList<object>
+			_loadedList.Data = new FastList<object>
 			{
 				m_buffer = netList.OrderBy(item => item.displayName).ToArray(),
 				m_size = netList.Count
 			};
 
 			// Clear current selection.
-			loadedList.selectedIndex = -1;
+			_loadedList.SelectedIndex = -1;
 		}
-
 
 		/// <summary>
 		/// Sets the type menu index.
 		/// </summary>
-		/// <param name="buildingInfo">Currently selected prefab</param>
+		/// <param name="buildingInfo">Currently selected prefab.</param>
 		protected void SetTypeMenu(BuildingInfo buildingInfo)
 		{
 			int oldIndex = typeDropDown.selectedIndex;
@@ -453,15 +437,16 @@ namespace RON
 		/// <summary>
 		/// Sets the panel title, including the building name.
 		/// </summary>
-		protected void SetTitle() => titleLabel.text = (currentBuilding?.name != null ? PrefabUtils.GetDisplayName(currentBuilding) : Translations.Translate("RON_NAM")) + ": " + Translations.Translate("RON_STA_CUS");
-
+		protected void SetTitle() =>
+			_titleLabel.text = (s_currentBuilding?.name != null ? PrefabUtils.GetDisplayName(s_currentBuilding)
+			: Translations.Translate("RON_NAM")) + ": " + Translations.Translate("RON_STA_CUS");
 
 		/// <summary>
 		/// Matches train tracks to equivalent metro tracks (and vice-versa).
 		/// </summary>
-		/// <param name="currentType">Selected track AI type</param>
-		/// <param name="candidateType">Candidate track AI type</param>
-		/// <returns>True if the two provided types are matched, false otherwise</returns>
+		/// <param name="currentType">Selected track AI type.</param>
+		/// <param name="candidateType">Candidate track AI type.</param>
+		/// <returns>True if the two provided types are matched, false otherwise.</returns>
 		private bool MatchTrainMetro(Type currentType, Type candidateType)
 		{
 			return 
@@ -472,27 +457,31 @@ namespace RON
 				;
 		}
 
-
 		/// <summary>
-		/// Performs initial fastlist setup.
+		/// Performs initial UIList setup.
 		/// </summary>
-		/// <param name="fastList">Fastlist to set up</param>
-		private void ListSetup(UIFastList fastList)
+		/// <param name="uiList">UIList to set up.</param>
+		private void ListSetup(UIList uiList)
 		{
-			// Apperance, size and position.
-			fastList.backgroundSprite = "UnlockingPanel";
-			fastList.width = fastList.parent.width;
-			fastList.height = fastList.parent.height;
-			fastList.relativePosition = Vector2.zero;
-			fastList.rowHeight = UINetRow.RowHeight;
-
-			// Behaviour.
-			fastList.canSelect = true;
-			fastList.autoHideScrollbar = true;
+			// Appearance, size and position.
+			uiList.BackgroundSprite = "UnlockingPanel";
+			uiList.width = uiList.parent.width;
+			uiList.height = uiList.parent.height;
+			uiList.relativePosition = Vector2.zero;
 
 			// Data.
-			fastList.rowsData = new FastList<object>();
-			fastList.selectedIndex = -1;
+			uiList.Data = new FastList<object>();
 		}
+
+		/// <summary>
+		/// Network type selection enum.
+		/// </summary>
+		private enum TypeIndex : int
+		{
+			RailOnly = 0,
+			MetroOnly,
+			RailMetro
+		}
+
 	}
 }

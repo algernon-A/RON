@@ -1,84 +1,36 @@
-﻿using ColossalFramework;
-using ColossalFramework.UI;
-using UnityEngine;
-using UnifiedUI.Helpers;
-
+﻿// <copyright file="RONTool.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace RON
 {
+	using AlgernonCommons;
+	using AlgernonCommons.Translation;
+	using AlgernonCommons.UI;
+	using ColossalFramework;
+	using ColossalFramework.UI;
+	using UnifiedUI.Helpers;
+	using UnityEngine;
+
 	/// <summary>
 	/// The RON selection tool.
 	/// </summary>
 	public class RONTool : DefaultTool
 	{
 		// Cursor textures.
-		private CursorInfo lightCursor;
-		private CursorInfo darkCursor;
-
-
-		/// <summary>
-		/// Selection mode.
-		/// </summary>
-		public enum Mode
-		{
-			Select,
-			NodeOrSegment,
-			Building,
-			PropOrTree
-		}
-
+		private CursorInfo _lightCursor;
+		private CursorInfo _darkCursor;
 
 		/// <summary>
-		/// Instance reference.
+		/// Gets the active instance reference.
 		/// </summary>
 		public static RONTool Instance => ToolsModifierControl.toolController?.gameObject?.GetComponent<RONTool>();
 
-
 		/// <summary>
-		/// Returns true if the zoning tool is currently active, false otherwise.
+		/// Gets a value indicating whether the RON tool is currently active (true) or inactive (false).
 		/// </summary>
 		public static bool IsActiveTool => Instance != null && ToolsModifierControl.toolController.CurrentTool == Instance;
-
-
-		/// <summary>
-		/// Initialise the tool.
-		/// Called by unity when the tool is created.
-		/// </summary>
-		protected override void Awake()
-		{
-			base.Awake();
-
-			// Load cursors.
-			lightCursor = TextureUtils.LoadCursor("ron_cursor_light.png");
-			darkCursor = TextureUtils.LoadCursor("ron_cursor_dark.png");
-			m_cursor = darkCursor;
-
-			// Create new UUI button.
-			UIComponent uuiButton = UUIHelpers.RegisterToolButton(
-				name: nameof(RONTool),
-				groupName: null, // default group
-				tooltip: Translations.Translate("RON_NAM"),
-				tool: this,
-				icon: UUIHelpers.LoadTexture(UUIHelpers.GetFullPath<RONMod>("Resources", "ron_uui.png")),
-				hotkeys: new UUIHotKeys { ActivationKey = ModSettings.UUIKey }
-				);
-		}
-
-
-		// Ignore nodes, citizens, disasters, districts, transport lines, and vehicles.
-		public override NetNode.Flags GetNodeIgnoreFlags() => NetNode.Flags.All;
-		public override CitizenInstance.Flags GetCitizenIgnoreFlags() => CitizenInstance.Flags.All;
-		public override DisasterData.Flags GetDisasterIgnoreFlags() => DisasterData.Flags.All;
-		public override District.Flags GetDistrictIgnoreFlags() => District.Flags.All;
-		public override TransportLine.Flags GetTransportIgnoreFlags() => TransportLine.Flags.None;
-		public override VehicleParked.Flags GetParkedVehicleIgnoreFlags() => VehicleParked.Flags.All;
-		public override TreeInstance.Flags GetTreeIgnoreFlags() => TreeInstance.Flags.All;
-		public override PropInstance.Flags GetPropIgnoreFlags() => PropInstance.Flags.All;
-		public override Vehicle.Flags GetVehicleIgnoreFlags() => Vehicle.Flags.LeftHandDrive | Vehicle.Flags.Created | Vehicle.Flags.Deleted | Vehicle.Flags.Spawned | Vehicle.Flags.Inverted | Vehicle.Flags.TransferToTarget | Vehicle.Flags.TransferToSource | Vehicle.Flags.Emergency1 | Vehicle.Flags.Emergency2 | Vehicle.Flags.WaitingPath | Vehicle.Flags.Stopped | Vehicle.Flags.Leaving | Vehicle.Flags.Arriving | Vehicle.Flags.Reversed | Vehicle.Flags.TakingOff | Vehicle.Flags.Flying | Vehicle.Flags.Landing | Vehicle.Flags.WaitingSpace | Vehicle.Flags.WaitingCargo | Vehicle.Flags.GoingBack | Vehicle.Flags.WaitingTarget | Vehicle.Flags.Importing | Vehicle.Flags.Exporting | Vehicle.Flags.Parking | Vehicle.Flags.CustomName | Vehicle.Flags.OnGravel | Vehicle.Flags.WaitingLoading | Vehicle.Flags.Congestion | Vehicle.Flags.DummyTraffic | Vehicle.Flags.Underground | Vehicle.Flags.Transition | Vehicle.Flags.InsideBuilding;
-
-
-		// Select all buildings.
-		public override Building.Flags GetBuildingIgnoreFlags() => Building.Flags.All;
 
 		/// <summary>
 		/// Called by the game.  Sets which network segments are ignored by the tool (always returns none, i.e. all segments are selectable by the tool).
@@ -91,6 +43,43 @@ namespace RON
 			return NetSegment.Flags.None;
 		}
 
+		/// <summary>
+		/// Sets vehicle ingore flags to ignore all vehicles.
+		/// </summary>
+		/// <returns>Vehicle flags ignoring all vehicles.</returns>
+		public override Vehicle.Flags GetVehicleIgnoreFlags() =>
+			Vehicle.Flags.LeftHandDrive
+			| Vehicle.Flags.Created
+			| Vehicle.Flags.Deleted
+			| Vehicle.Flags.Spawned
+			| Vehicle.Flags.Inverted
+			| Vehicle.Flags.TransferToTarget
+			| Vehicle.Flags.TransferToSource
+			| Vehicle.Flags.Emergency1
+			| Vehicle.Flags.Emergency2
+			| Vehicle.Flags.WaitingPath
+			| Vehicle.Flags.Stopped
+			| Vehicle.Flags.Leaving
+			| Vehicle.Flags.Arriving
+			| Vehicle.Flags.Reversed
+			| Vehicle.Flags.TakingOff
+			| Vehicle.Flags.Flying
+			| Vehicle.Flags.Landing
+			| Vehicle.Flags.WaitingSpace
+			| Vehicle.Flags.WaitingCargo
+			| Vehicle.Flags.GoingBack
+			| Vehicle.Flags.WaitingTarget
+			| Vehicle.Flags.Importing
+			| Vehicle.Flags.Exporting
+			| Vehicle.Flags.Parking
+			| Vehicle.Flags.CustomName
+			| Vehicle.Flags.OnGravel
+			| Vehicle.Flags.WaitingLoading
+			| Vehicle.Flags.Congestion
+			| Vehicle.Flags.DummyTraffic
+			| Vehicle.Flags.Underground
+			| Vehicle.Flags.Transition
+			| Vehicle.Flags.InsideBuilding;
 
 		/// <summary>
 		/// Called by the game every simulation step.
@@ -111,19 +100,19 @@ namespace RON
 				m_treeService = GetService(),
 				m_districtNameOnly = Singleton<InfoManager>.instance.CurrentMode != InfoManager.InfoMode.Districts,
 				m_ignoreTerrain = GetTerrainIgnore(),
-				m_ignoreNodeFlags = GetNodeIgnoreFlags(),
+				m_ignoreNodeFlags = NetNode.Flags.All,
 				m_ignoreSegmentFlags = GetSegmentIgnoreFlags(out input.m_segmentNameOnly),
 				m_ignoreBuildingFlags = GetBuildingIgnoreFlags(),
-				m_ignoreTreeFlags = GetTreeIgnoreFlags(),
-				m_ignorePropFlags = GetPropIgnoreFlags(),
+				m_ignoreTreeFlags = global::TreeInstance.Flags.All,
+				m_ignorePropFlags = PropInstance.Flags.All,
 				m_ignoreVehicleFlags = GetVehicleIgnoreFlags(),
-				m_ignoreParkedVehicleFlags = GetParkedVehicleIgnoreFlags(),
-				m_ignoreCitizenFlags = GetCitizenIgnoreFlags(),
-				m_ignoreTransportFlags = GetTransportIgnoreFlags(),
-				m_ignoreDistrictFlags = GetDistrictIgnoreFlags(),
+				m_ignoreParkedVehicleFlags = VehicleParked.Flags.All,
+				m_ignoreCitizenFlags = CitizenInstance.Flags.All,
+				m_ignoreTransportFlags = TransportLine.Flags.All,
+				m_ignoreDistrictFlags = District.Flags.All,
 				m_ignoreParkFlags = GetParkIgnoreFlags(),
-				m_ignoreDisasterFlags = GetDisasterIgnoreFlags(),
-				m_transportTypes = GetTransportTypes()
+				m_ignoreDisasterFlags = DisasterData.Flags.All,
+				m_transportTypes = GetTransportTypes(),
 			};
 
 			// Enable ferry line selection.
@@ -133,7 +122,7 @@ namespace RON
 			RaycastOutput output;
 
 			// Cursor is dark by default.
-			m_cursor = darkCursor;
+			m_cursor = _darkCursor;
 
 			// Is the base mouse ray valid?
 			if (m_mouseRayValid)
@@ -152,7 +141,7 @@ namespace RON
 						{
 							// CheckSegment passed - record hit position and set cursor to light cursor.
 							output.m_hitPos = Singleton<NetManager>.instance.m_segments.m_buffer[output.m_netSegment].GetClosestPosition(output.m_hitPos);
-							m_cursor = lightCursor;
+							m_cursor = _lightCursor;
 						}
 						else
 						{
@@ -189,7 +178,6 @@ namespace RON
 			m_selectErrors = errors;
 		}
 
-
 		/// <summary>
 		/// Called by game when overlay is to be rendered.
 		/// </summary>
@@ -215,7 +203,6 @@ namespace RON
 			}
 		}
 
-
 		/// <summary>
 		/// Toggles the current tool to/from the RON tool.
 		/// </summary>
@@ -234,6 +221,29 @@ namespace RON
 			}
 		}
 
+		/// <summary>
+		/// Initialise the tool.
+		/// Called by unity when the tool is created.
+		/// </summary>
+		protected override void Awake()
+		{
+			base.Awake();
+
+			// Load cursors.
+			_lightCursor = UITextures.LoadCursor("ron_cursor_light.png");
+			_darkCursor = UITextures.LoadCursor("ron_cursor_dark.png");
+			m_cursor = _darkCursor;
+
+			// Create new UUI button.
+			UIComponent uuiButton = UUIHelpers.RegisterToolButton(
+				name: nameof(RONTool),
+				groupName: null, // default group
+				tooltip: Translations.Translate("RON_NAM"),
+				tool: this,
+				icon: UUIHelpers.LoadTexture(UUIHelpers.GetFullPath<Mod>("Resources", "ron_uui.png")),
+				hotkeys: new UUIHotKeys { ActivationKey = ModSettings.ToolKey }
+				);
+		}
 
 		/// <summary>
 		/// Called by game when tool is enabled.
@@ -242,7 +252,7 @@ namespace RON
 		protected override void OnEnable()
 		{
 			// Make sure that game is loaded before activating tool.
-			if (!OnLevelLoadedPatch.loaded)
+			if (!OnLevelLoadedPatch.Loaded)
 			{
 				// Loading not complete - deactivate tool by seting default tool.
 				ToolsModifierControl.SetTool<DefaultTool>();
@@ -256,7 +266,6 @@ namespace RON
 			ReplacerPanel.Create();
 		}
 
-
 		/// <summary>
 		/// Called by game when tool is disabled.
 		/// Used to close the replacer panel.
@@ -266,7 +275,6 @@ namespace RON
 			base.OnDisable();
 			ReplacerPanel.Close();
 		}
-
 
 		/// <summary>
 		/// Tool GUI event processing.
@@ -296,5 +304,17 @@ namespace RON
 				}
 			}
 		}
-    }
+
+		/// <summary>
+		/// Selection mode.
+		/// </summary>
+		public enum Mode
+		{
+			Select,
+			NodeOrSegment,
+			Building,
+			PropOrTree
+		}
+
+	}
 }
