@@ -152,7 +152,13 @@ namespace RON
 			// All done - let replacer panel know we're finished (if its still open).
 			if (ReplacerPanel.Panel != null)
 			{
-				ReplacerPanel.Panel.replacingDone = true;
+				ReplacerPanel.Panel.ReplacingDone = true;
+			}
+
+			// Built station replacement as well.
+			if (StationPanel.Panel is BuiltStationPanel builtStationPanel)
+			{
+				builtStationPanel.ReplacingDone = true;
 			}
 		}
 
@@ -202,7 +208,7 @@ namespace RON
 			// All done - let replacer panel know we're finished (if its still open).
 			if (ReplacerPanel.Panel != null)
 			{
-				ReplacerPanel.Panel.replacingDone = true;
+				ReplacerPanel.Panel.ReplacingDone = true;
 			}
 
 			Logging.KeyMessage("deleting complete");
@@ -239,7 +245,7 @@ namespace RON
 			// Let replacer panel know we're finished (if its still open).
 			if (ReplacerPanel.Panel != null)
 			{
-				ReplacerPanel.Panel.replacingDone = true;
+				ReplacerPanel.Panel.ReplacingDone = true;
 			}
 		}
 

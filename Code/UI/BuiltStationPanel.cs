@@ -21,6 +21,10 @@ namespace RON
 		// WorldInfoPanel button to activate panel.
 		private static UIButton s_panelButton;
 
+		// Status.
+		private bool _replacingDone;
+		private bool _replacing;
+
 		/// <summary>
 		/// Sets selected replacement.  Called by target network list items.
 		/// </summary>
@@ -28,13 +32,23 @@ namespace RON
 		{
 			set
 			{
+				Logging.Message("selectedReplacement set to ", value?.name ?? "null");
+
+
 				// Assign replacement network, if we've got a valid selection.
 				if (selectedIndex > 0)
 				{
+					_replacing = true;
+					_replacingDone = false;
 					Singleton<SimulationManager>.instance.AddAction(() => Replacer.ReplaceNets(GetNetInfo(selectedIndex), value, new List<ushort> { (ushort)selectedIndex }, false));
 				}
 			}
 		}
+
+		/// <summary>
+		/// Sets a value indicating whether replacement work has finished.
+		/// </summary>
+		internal bool ReplacingDone { set => _replacingDone = value; }
 
 		/// <summary>
 		/// Constructor.
@@ -54,6 +68,32 @@ namespace RON
 
 			// Refresh the panel.
 			(Panel as BuiltStationPanel)?.RefreshPanel();
+		}
+
+		/// <summary>
+		/// Called by Unity every tick.  Used here to track state of any in-progress replacments.
+		/// </summary>
+		public override void Update()
+		{
+			base.Update();
+
+			// Is a replacement underway?
+			if (_replacing)
+			{
+				// Yes - is it done?
+				if (_replacingDone)
+				{
+					// Done! Clear flags.
+					_replacing = false;
+					_replacingDone = false;
+
+					// Recheck eligible networks.
+					CheckEligibleNets();
+
+					// Rebuild target list.
+					TargetList();
+				}
+			}
 		}
 
 		/// <summary>

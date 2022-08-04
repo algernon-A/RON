@@ -252,7 +252,7 @@ namespace RON
 			iconSprite.spriteName = "normal";
 
 			// Same width only check.
-			_sameWidthCheck = UICheckBoxes.AddCheckBox(this, Check1X, ControlY + 5f, tooltip: Translations.Translate("RON_PNL_WID"));
+			_sameWidthCheck = UICheckBoxes.AddLabelledCheckBox(this, Check1X, ControlY + 5f, Translations.Translate("RON_PNL_WID"));
 			_sameWidthCheck.isChecked = true;
 			_sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
 
@@ -268,14 +268,16 @@ namespace RON
 			leftPanel.relativePosition = new Vector2(Margin, ListY);
 			_targetList = UIList.AddUIList<RONList, UIStationTargetNetRow>(leftPanel);
 			ListSetup(_targetList);
+			_targetList.EventSelectionChanged += (control, selectedItem) => SelectedIndex = selectedItem is int intItem ? intItem : -1;
 
 			// Loaded network list.
 			UIPanel rightPanel = AddUIComponent<UIPanel>();
 			rightPanel.width = ListWidth;
 			rightPanel.height = ListHeight;
 			rightPanel.relativePosition = new Vector2(RightPanelX, ListY);
-			_loadedList = UIList.AddUIList<RONList, UIStationReplacementNetRow>(rightPanel);
+			_loadedList = UIList.AddUIList<RONList, UINetRow>(rightPanel);
 			ListSetup(_loadedList);
+			_loadedList.EventSelectionChanged += (control, selectedItem) => SelectedReplacement = (selectedItem as NetRowItem)?.prefab;
 		}
 
 		/// <summary>
@@ -449,7 +451,7 @@ namespace RON
 		/// <returns>True if the two provided types are matched, false otherwise.</returns>
 		private bool MatchTrainMetro(Type currentType, Type candidateType)
 		{
-			return 
+			return
 				candidateType == typeof(TrainTrackAI) && currentType == typeof(MetroTrackAI) ||
 				candidateType == typeof(TrainTrackBridgeAI) && currentType == typeof(MetroTrackBridgeAI) ||
 				candidateType == typeof(MetroTrackAI) && currentType == typeof(TrainTrackAI) ||

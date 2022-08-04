@@ -233,7 +233,7 @@ namespace RON
 		private readonly UISprite targetPreviewSprite, replacementPreviewSprite;
 
 		// Status.
-		internal bool replacingDone;
+		private bool _replacingDone;
 		private bool _replacing;
 		private float _timer;
 		private int _timerStep;
@@ -252,11 +252,11 @@ namespace RON
 			if (_replacing)
 			{
 				// Yes - is it done?
-				if (replacingDone)
+				if (_replacingDone)
 				{
 					// Done! Clear flags.
 					_replacing = false;
-					replacingDone = false;
+					_replacingDone = false;
 
 					// Done - hide 'replacing' labels and show button.
 					replacingLabel.Hide();
@@ -337,6 +337,11 @@ namespace RON
 				DisplayNetwork(_selectedReplacement, replacementPreviewSprite);
 			}
 		}
+
+		/// <summary>
+		/// Sets a value indicating whether replacement work has finished.
+		/// </summary>
+		internal bool ReplacingDone { set => _replacingDone = value; }
 
 		/// <summary>
 		/// Gets or sets the currently selected network prefab.
@@ -500,16 +505,18 @@ namespace RON
 			leftPanel.width = LeftWidth;
 			leftPanel.height = ListHeight;
 			leftPanel.relativePosition = new Vector2(Margin, ListY);
-			_targetList = UIList.AddUIList<RONList, UITargetNetRow>(leftPanel);
+			_targetList = UIList.AddUIList<RONList, UINetRow>(leftPanel);
 			ListSetup(_targetList);
+			_targetList.EventSelectionChanged += (control, selectedItem) => SelectedItem = selectedItem as NetRowItem;
 
 			// Loaded network list.
 			UIPanel rightPanel = AddUIComponent<UIPanel>();
 			rightPanel.width = RightWidth;
 			rightPanel.height = ListHeight;
 			rightPanel.relativePosition = new Vector2(RightPanelX, ListY);
-			_loadedList = UIList.AddUIList<RONList, UIReplacementNetRow>(rightPanel);
+			_loadedList = UIList.AddUIList<RONList, UINetRow>(rightPanel);
 			ListSetup(_loadedList);
+			_loadedList.EventSelectionChanged += (control, selectedItem) => SelectedReplacement = (selectedItem as NetRowItem)?.prefab;
 
 			// List titles.
 			UILabels.AddLabel(this, Margin, ListTitleY, Translations.Translate("RON_PNL_MAP"), LeftWidth);
@@ -1031,7 +1038,7 @@ namespace RON
 		{
 			// Set flags and reset timer.
 			_replacing = true;
-			replacingDone = false;
+			_replacingDone = false;
 			_timer = 0;
 
 			// Set UI to 'replacing' state.
