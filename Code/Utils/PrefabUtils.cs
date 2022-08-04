@@ -28,7 +28,7 @@ namespace RON
 
         /// <summary>
         /// Manual thumbnail mapping for vanilla elevated/bridge networks using generic thumbnails.
-        /// Dictionary format is (network name (atlas name, thumbnail name))
+        /// Dictionary format is (network name (atlas name, thumbnail name)).
         /// </summary>
         internal static readonly Dictionary<string, KeyValuePair<string, string>> ThumbnailMaps = new Dictionary<string, KeyValuePair<string, string>>
         {
@@ -48,6 +48,7 @@ namespace RON
             { "Industry Road Medium 01 Elevated", new KeyValuePair<string, string>("ThumbnailsExpansion7", "ThumbRoadtypeIndustryMedium") },
             { "Industry Road Medium 01 Bridge", new KeyValuePair<string, string>("ThumbnailsExpansion7", "ThumbRoadtypeIndustryMedium") },
 
+            // Bike roads.
             { "Basic Road Elevated Bike", new KeyValuePair<string, string>("Thumbnails", "RoadBasicBikelane") },
             { "Basic Road Bridge Bike", new KeyValuePair<string, string>("Thumbnails", "RoadBasicBikelane") },
             { "Medium Road Elevated Bike", new KeyValuePair<string, string>("Thumbnails", "ThumbRoadMediumBike") },
@@ -55,11 +56,13 @@ namespace RON
             { "Large Road Elevated Bike", new KeyValuePair<string, string>("Thumbnails", "ThumbRoadLArgeBike") },
             { "Large Road Bridge Bike", new KeyValuePair<string, string>("Thumbnails", "ThumbRoadLArgeBike") },
 
+            // Bus roads.
             { "Medium Road Elevated Bus", new KeyValuePair<string, string>("Thumbnails", "ThumbRoadMediumBus") },
             { "Medium Road Bridge Bus", new KeyValuePair<string, string>("Thumbnails", "ThumbRoadMediumBus") },
             { "Large Road Elevated Bus", new KeyValuePair<string, string>("Thumbnails", "ThumbRoadLargeBus") },
             { "Large Road Bridge Bus", new KeyValuePair<string, string>("Thumbnails", "ThumbRoadLargeBus") },
 
+            // Tram roads.
             { "Basic Road Elevated Tram", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadTypeTwolaneTram") },
             { "Basic Road Bridge Tram", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadTypeTwolaneTram") },
             { "Oneway Road Elevated Tram", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadTyperTwolaneOnewayTram") },
@@ -71,8 +74,10 @@ namespace RON
             { "Oneway Tram Track Elevated", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadtypeTramtrackOneway") },
             { "Oneway Tram Track Bridge", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadtypeTramtrackOneway") },
 
+            // Monorail roads.
             { "Medium Road Monorail Elevated", new KeyValuePair<string, string>("ThumbnailsExpansion4", "ThumbMonotrackRoad") },
 
+            // Trolleybus roads.
             { "Basic Road Elevated Trolleybus", new KeyValuePair<string, string>("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneTrolleybus") },
             { "Basic Road Bridge Trolleybus", new KeyValuePair<string, string>("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneTrolleybus") },
             { "Oneway Road Bridge Trolleybus", new KeyValuePair<string, string>("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneOnewayTrolleybus") },
@@ -80,6 +85,7 @@ namespace RON
             { "Medium Road Elevated Trolleybus", new KeyValuePair<string, string>("ThumbnailsExpansion9", "ThumbnailRoadTypeFourlaneTrolleybus") },
             { "Medium Road Bridge Trolleybus", new KeyValuePair<string, string>("ThumbnailsExpansion9", "ThumbnailRoadTypeFourlaneTrolleybus") },
 
+            // Oneway roads.
             { "Oneway Road Slope", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadTypeOneway") },
             { "Oneway Road Tunnel", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadTypeOneway") },
             { "Asymmetrical Three Lane Road Slope", new KeyValuePair<string, string>("ThumbnailsExpansion4", "ThumbnailRoadTypeAsymmetrical3lane") },
@@ -91,6 +97,7 @@ namespace RON
             { "HighwayRamp Slope", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadTypeHighwayramp") },
             { "HighwayRamp Tunnel", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadTypeHighwayramp") },
 
+            // Industry roads.
             { "Industry Road Small 01 Slope", new KeyValuePair<string, string>("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmall") },
             { "Industry Road Small 01 Tunnel", new KeyValuePair<string, string>("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmall") },
             { "Industry Road Small 01 Oneway Slope", new KeyValuePair<string, string>("ThumbnailsExpansion7", "ThumbRoadtypeIndustrySmallOneway") },
@@ -98,11 +105,13 @@ namespace RON
             { "Industry Road Medium 01 Slope", new KeyValuePair<string, string>("ThumbnailsExpansion7", "ThumbRoadtypeIndustryMedium") },
             { "Industry Road Medium 01 Tunnel", new KeyValuePair<string, string>("ThumbnailsExpansion7", "ThumbRoadtypeIndustryMedium") },
 
+            // Larger bus roads.
             { "Medium Road Slope Bus", new KeyValuePair<string, string>("Thumbnails", "ThumbRoadMediumBus") },
             { "Medium Road Tunnel Bus", new KeyValuePair<string, string>("Thumbnails", "ThumbRoadMediumBus") },
             { "Large Road Slope Bus", new KeyValuePair<string, string>("Thumbnails", "ThumbRoadLargeBus") },
             { "Large Road Tunnel Bus", new KeyValuePair<string, string>("Thumbnails", "ThumbRoadLargeBus") },
 
+            // Tram roads.
             { "Basic Road Slope Tram", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadTypeTwolaneTram") },
             { "Basic Road Tunnel Tram", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadTypeTwolaneTram") },
             { "Oneway Road Slope Tram", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadTyperTwolaneOnewayTram") },
@@ -114,6 +123,7 @@ namespace RON
             { "Oneway Tram Track Slope", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadtypeTramtrackOneway") },
             { "Oneway Tram Track Tunnel", new KeyValuePair<string, string>("Thumbnails", "ThumbnailRoadtypeTramtrackOneway") },
 
+            // Trolleybus roads.
             { "Basic Road Slope Trolleybus", new KeyValuePair<string, string>("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneTrolleybus") },
             { "Basic Road Tunnel Trolleybus", new KeyValuePair<string, string>("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneTrolleybus") },
             { "Oneway Road Slope Trolleybus", new KeyValuePair<string, string>("ThumbnailsExpansion9", "ThumbnailRoadTypeTwolaneOnewayTrolleybus") },
@@ -135,6 +145,7 @@ namespace RON
             { "BasicRoadTL Slope", new KeyValuePair<string, string>("BASICROADTL", "BASICROADTL") },
             { "BasicRoadTL Tunnel", new KeyValuePair<string, string>("BASICROADTL", "BASICROADTL") },
 
+            // NExt2 oneway roads.
             { "Oneway3L Bridge", new KeyValuePair<string, string>("ONEWAY3L", "ONEWAY3L") },
             { "Oneway3L Elevated", new KeyValuePair<string, string>("ONEWAY3L", "ONEWAY3L") },
             { "Oneway3L Slope", new KeyValuePair<string, string>("ONEWAY3L", "ONEWAY3L") },
@@ -144,6 +155,7 @@ namespace RON
             { "Oneway4L Slope", new KeyValuePair<string, string>("ONEWAY4L", "ONEWAY4L") },
             { "Oneway4L Tunnel", new KeyValuePair<string, string>("ONEWAY4L", "ONEWAY4L") },
 
+            // NExt2 avenues.
             { "Small Avenue Bridge", new KeyValuePair<string, string>("SMALL_AVENUE", "SMALL_AVENUE") },
             { "Small Avenue Elevated", new KeyValuePair<string, string>("SMALL_AVENUE", "SMALL_AVENUE") },
             { "Small Avenue Slope", new KeyValuePair<string, string>("SMALL_AVENUE", "SMALL_AVENUE") },
@@ -165,6 +177,7 @@ namespace RON
             { "Eight-Lane Avenue Slope", new KeyValuePair<string, string>("EIGHT_LANE_AVENUE", "EIGHT_LANE_AVENUE") },
             { "Eight-Lane Avenue Tunnel", new KeyValuePair<string, string>("EIGHT_LANE_AVENUE", "EIGHT_LANE_AVENUE") },
 
+            // NExt2 highways.
             { "Small Rural Highway Bridge", new KeyValuePair<string, string>("SMALL_RURAL_HIGHWAY", "SMALL_RURAL_HIGHWAY") },
             { "Small Rural Highway Elevated", new KeyValuePair<string, string>("SMALL_RURAL_HIGHWAY", "SMALL_RURAL_HIGHWAY") },
             { "Small Rural Highway Slope", new KeyValuePair<string, string>("RURAL_HIGHWAY", "RURAL_HIGHWAY") },
@@ -190,6 +203,7 @@ namespace RON
             { "Large Highway Slope", new KeyValuePair<string, string>("LARGE_HIGHWAY", "LARGE_HIGHWAY") },
             { "Large Highway Tunnel", new KeyValuePair<string, string>("LARGE_HIGHWAY", "LARGE_HIGHWAY") },
 
+            // NExt2 asymmetrical roads.
             { "AsymRoadL1R2 Bridge", new KeyValuePair<string, string>("ASYMROADL1R2", "ASYMROADL1R2") },
             { "AsymRoadL1R2 Elevated", new KeyValuePair<string, string>("ASYMROADL1R2", "ASYMROADL1R2") },
             { "AsymRoadL1R2 Slope", new KeyValuePair<string, string>("ASYMROADL1R2", "ASYMROADL1R2") },
@@ -198,7 +212,6 @@ namespace RON
             { "AsymRoadL1R3 Elevated", new KeyValuePair<string, string>("ASYMROADL1R3", "ASYMROADL1R3") },
             { "AsymRoadL1R3 Slope", new KeyValuePair<string, string>("ASYMROADL1R3", "ASYMROADL1R3") },
             { "AsymRoadL1R3 Tunnel", new KeyValuePair<string, string>("ASYMROADL1R3", "ASYMROADL1R3") },
-
             { "AsymAvenueL2R3 Bridge", new KeyValuePair<string, string>("ASYMAVENUEL2R3", "ASYMAVENUEL2R3") },
             { "AsymAvenueL2R3 Elevated", new KeyValuePair<string, string>("ASYMAVENUEL2R3", "ASYMAVENUEL2R3") },
             { "AsymAvenueL2R3 Slope", new KeyValuePair<string, string>("ASYMAVENUEL2R3", "ASYMAVENUEL2R3") },
@@ -207,12 +220,12 @@ namespace RON
             { "AsymAvenueL2R4 Elevated", new KeyValuePair<string, string>("ASYMAVENUEL2R4", "ASYMAVENUEL2R4") },
             { "AsymAvenueL2R4 Slope", new KeyValuePair<string, string>("ASYMAVENUEL2R4", "ASYMAVENUEL2R4") },
             { "AsymAvenueL2R4 Tunnel", new KeyValuePair<string, string>("ASYMAVENUEL2R4", "ASYMAVENUEL2R4") },
-
             { "AsymHighwayL1R2 Bridge", new KeyValuePair<string, string>("ASYMHIGHWAYL1R2", "ASYMHIGHWAYL1R2") },
             { "AsymHighwayL1R2 Elevated", new KeyValuePair<string, string>("ASYMHIGHWAYL1R2", "ASYMHIGHWAYL1R2") },
             { "AsymHighwayL1R2 Slope", new KeyValuePair<string, string>("ASYMHIGHWAYL1R2", "ASYMHIGHWAYL1R2") },
             { "AsymHighwayL1R2 Tunnel", new KeyValuePair<string, string>("ASYMHIGHWAYL1R2", "ASYMHIGHWAYL1R2") },
 
+            // NExt2 busways.
             { "Small Busway Bridge", new KeyValuePair<string, string>("SMALL_BUSWAY", "SMALL_BUSWAY") },
             { "Small Busway Elevated", new KeyValuePair<string, string>("SMALL_BUSWAY", "SMALL_BUSWAY") },
             { "Small Busway Slope", new KeyValuePair<string, string>("SMALL_BUSWAY", "SMALL_BUSWAY") },
@@ -226,6 +239,7 @@ namespace RON
             { "Large Road Slope With Bus Lanes", new KeyValuePair<string, string>("LARGE_ROAD_WITH_BUS_LANES", "LARGE_ROAD_WITH_BUS_LANES") },
             { "Large Road Tunnel With Bus Lanes", new KeyValuePair<string, string>("LARGE_ROAD_WITH_BUS_LANES", "LARGE_ROAD_WITH_BUS_LANES") },
 
+            // NExt2 pedestrian roads.
             { "Zonable Pedestrian Elevated", new KeyValuePair<string, string>("ZONABLE_PEDESTRIAN_PAVEMENT", "ZONABLE_PEDESTRIAN_PAVEMENT") },
             { "Zonable Pedestrian Gravel Elevated", new KeyValuePair<string, string>("ZONABLE_PEDESTRIAN_GRAVEL", "ZONABLE_PEDESTRIAN_GRAVEL") },
             { "Zonable Pedestrian Gravel Tiny Elevated", new KeyValuePair<string, string>("ZONABLE_PEDESTRIAN_GRAVEL_TINY", "ZONABLE_PEDESTRIAN_GRAVEL_TINY") },
@@ -267,7 +281,7 @@ namespace RON
         /// Gets the name of the creator of the given network.
         /// </summary>
         /// <param name="network">Network to check.</param>
-        /// <returns>Creator name</returns>
+        /// <returns>Creator name.</returns>
         internal static string GetCreator(NetInfo network)
         {
             // See if we can parse network workshop number from network name (number before period).
@@ -333,8 +347,8 @@ namespace RON
         /// <summary>
         /// Checks to see if the given network prefab is a station network.
         /// </summary>
-        /// <param name="network">Network prefab to check</param>
-        /// <returns>True if this is a station network, false otherwise</returns>
+        /// <param name="network">Network prefab to check.</param>
+        /// <returns>True if this is a station network, false otherwise.</returns>
         internal static bool IsStation(NetInfo network)
         {
             // Check to see if this an eligible station network type (TranTrackBase [includes Monorail] or TranTrackBase).

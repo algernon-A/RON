@@ -23,14 +23,13 @@ namespace RON
         /// <summary>
         /// Replacement file nicknames.
         /// </summary>
-        internal static readonly string[]Nicknames = new string[(int)Replacements.NumReplacements]
+        internal static readonly string[] Nicknames = new string[(int)Replacements.NumReplacements]
         {
             "NAR-R2",
             "NAR-BP",
             "NExt2",
             "MOM",
         };
-
 
         /// <summary>
         /// Replacement index enum.
@@ -163,7 +162,7 @@ namespace RON
         /// </summary>
         /// <param name="nickname">File nickname (for logging).</param>
         /// <param name="fileName">File name (full path).</param>
-        /// <returns>Loaded auto-replacement configuration</returns>
+        /// <returns>Loaded auto-replacement configuration.</returns>
         internal static AutoReplaceXML LoadReplacementFile(string nickname, string fileName)
         {
             try

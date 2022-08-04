@@ -1176,7 +1176,6 @@ namespace RON
             };
 
             // Clear current selection.
-            _targetList.SelectedIndex = -1;
             SelectedItem = null;
 
             // Ensure that network type selection dropdown is on top.
@@ -1272,6 +1271,9 @@ namespace RON
                 m_buffer = objectArray,
                 m_size = netList.Count,
             };
+
+            // Clear selected replacement.
+            SelectedReplacement = null;
         }
 
         /// <summary>

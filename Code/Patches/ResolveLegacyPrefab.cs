@@ -22,9 +22,9 @@ namespace RON
         /// <summary>
         /// Harmony Prefix patch for BuildConfig.ResolveLegacyPrefab to substitute named networks on loading.
         /// </summary>
-        /// <param name="__result">Original method result</param>
-        /// <param name="name">Original network name</param>
-        /// <returns>False (don't execute original method) if a replacement was found, true (continue on to original method) otherwise</returns>
+        /// <param name="__result">Original method result.</param>
+        /// <param name="name">Original network name.</param>
+        /// <returns>False (don't execute original method) if a replacement was found, true (continue on to original method) otherwise.</returns>
         public static bool Prefix(ref string __result, string name)
         {
             // Don't do anything without being enabled.

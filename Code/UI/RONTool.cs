@@ -241,8 +241,7 @@ namespace RON
                 tooltip: Translations.Translate("RON_NAM"),
                 tool: this,
                 icon: UUIHelpers.LoadTexture(UUIHelpers.GetFullPath<Mod>("Resources", "ron_uui.png")),
-                hotkeys: new UUIHotKeys { ActivationKey = ModSettings.ToolKey }
-                );
+                hotkeys: new UUIHotKeys { ActivationKey = ModSettings.ToolKey });
         }
 
         /// <summary>

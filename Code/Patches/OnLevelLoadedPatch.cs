@@ -20,7 +20,7 @@ namespace RON
     public static class OnLevelLoadedPatch
     {
         /// <summary>
-        /// Gets or sets the current loaded state.
+        /// Gets or sets a value indicating whether the mod has finished loading.
         /// </summary>
         internal static bool Loaded { get; set; } = false;
 

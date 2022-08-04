@@ -16,6 +16,7 @@ namespace RON
         /// <summary>
         /// Harmony postfix patch to detect when a station building is selected, and if so, display the station track selection panel.
         /// </summary>
+        /// <param name="__instance">BuildingTool instance.</param>
         [HarmonyPatch("OnToolUpdate")]
         [HarmonyPostfix]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]

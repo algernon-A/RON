@@ -245,6 +245,7 @@ namespace RON
                 {
                     nodes.Add(netNode);
                 }
+
                 netNode = nodeBuffer[netNode].m_nextBuildingNode;
             }
 

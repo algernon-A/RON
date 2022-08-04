@@ -71,17 +71,6 @@ namespace RON
         private readonly UILabel _titleLabel;
 
         /// <summary>
-        /// Network type selection enum.
-        /// </summary>
-        private enum TypeIndex : int
-        {
-            RailOnly = 0,
-            MetroOnly,
-            RailMetro,
-        }
-
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="StationPanel"/> class.
         /// </summary>
         internal StationPanel()
@@ -162,6 +151,16 @@ namespace RON
         }
 
         /// <summary>
+        /// Network type selection enum.
+        /// </summary>
+        private enum TypeIndex : int
+        {
+            RailOnly = 0,
+            MetroOnly,
+            RailMetro,
+        }
+
+        /// <summary>
         /// Gets the active panel instance.
         /// </summary>
         internal static StationPanel Panel => s_panel;
@@ -212,7 +211,7 @@ namespace RON
         /// <summary>
         /// Set the target building (first checking validity).
         /// </summary>
-        /// <param name="selectedBuilding">Selected station building</param>
+        /// <param name="selectedBuilding">Selected station building.</param>
         internal static void SetTarget(BuildingInfo selectedBuilding)
         {
             // Don't do anything if selection hasn't changed (this includes after the panel has been closed while the station building is still selected).
@@ -266,30 +265,6 @@ namespace RON
         }
 
         /// <summary>
-        /// Creates the panel object in-game and displays it.
-        /// </summary>
-        protected static void Create<T>() where T : StationPanel
-        {
-            try
-            {
-                // If no GameObject instance already set, create one.
-                if (s_uiGameObject == null)
-                {
-                    // Give it a unique name for easy finding with ModTools.
-                    s_uiGameObject = new GameObject("RONStationPanel");
-                    s_uiGameObject.transform.parent = UIView.GetAView().transform;
-
-                    // Create new panel instance and add it to GameObject.
-                    s_uiGameObject.AddComponent<T>();
-                }
-            }
-            catch (Exception e)
-            {
-                Logging.LogException(e, "exception creating station panel");
-            }
-        }
-
-        /// <summary>
         /// Closes the panel by destroying the object (removing any ongoing UI overhead).
         /// </summary>
         internal static void Close()
@@ -312,6 +287,8 @@ namespace RON
         /// <summary>
         /// Returns the NetInfo of the given target network index.
         /// </summary>
+        /// <param name="index">Target network index.</param>
+        /// <returns>NetInfo of the target network index.</returns>
         internal virtual NetInfo GetNetInfo(int index)
         {
             // Check if the given index is valid.
@@ -326,23 +303,50 @@ namespace RON
         }
 
         /// <summary>
+        /// Creates the panel object in-game and displays it.
+        /// </summary>
+        /// <typeparam name="TPanel">Panel type.</typeparam>
+        protected static void Create<TPanel>()
+            where TPanel : StationPanel
+        {
+            try
+            {
+                // If no GameObject instance already set, create one.
+                if (s_uiGameObject == null)
+                {
+                    // Give it a unique name for easy finding with ModTools.
+                    s_uiGameObject = new GameObject("RONStationPanel");
+                    s_uiGameObject.transform.parent = UIView.GetAView().transform;
+
+                    // Create new panel instance and add it to GameObject.
+                    s_uiGameObject.AddComponent<TPanel>();
+                }
+            }
+            catch (Exception e)
+            {
+                Logging.LogException(e, "exception creating station panel");
+            }
+        }
+
+        /// <summary>
         /// Populates a fastlist with a list of eligible networks in the current building.
         /// </summary>
-        /// <returns>Populated fastlist of eligible networks in the current building.</returns>
         protected void TargetList()
         {
             // Create return fastlist from our list of eligible networks.
             _targetList.Data = new FastList<object>
             {
                 m_buffer = s_eligibleNets.Select(x => (object)x).ToArray(),
-                m_size = s_eligibleNets.Count
+                m_size = s_eligibleNets.Count,
             };
+
+            // Clear selection.
+            m_selectedIndex = -1;
         }
 
         /// <summary>
         /// Populates a fastlist with a list of relevant loaded networks.
         /// </summary>
-        /// <returns>Populated fastlist of networks on map.</returns>
         protected void LoadedList()
         {
             // Clear list if there's no current selection.
@@ -433,16 +437,15 @@ namespace RON
                 }
             }
 
-
             // Create return fastlist from our filtered list, ordering by name.
             _loadedList.Data = new FastList<object>
             {
                 m_buffer = netList.OrderBy(item => item.DisplayName).ToArray(),
-                m_size = netList.Count
+                m_size = netList.Count,
             };
 
-            // Clear current selection.
-            _loadedList.SelectedIndex = -1;
+            // Clear selected replacement.
+            SelectedReplacement = null;
         }
 
         /// <summary>
