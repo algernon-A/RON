@@ -1,4 +1,4 @@
-﻿// <copyright file="OnLevelLoaded.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="OnLevelLoadedPatch.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -30,7 +30,7 @@ namespace RON
         public static void Postfix()
         {
             // Display any missing network notifications.
-            List<string> missingNets = ResolveLegacyPrefabPatch.CheckMissingNets();
+            List<string> missingNets = ResolveLegacyPrefab.CheckMissingNets();
             if (missingNets.Count > 0)
             {
                 ListNotification missingNetNotification = NotificationBase.ShowNotification<ListNotification>();

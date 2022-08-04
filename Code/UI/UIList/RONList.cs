@@ -1,4 +1,4 @@
-﻿// <copyright file="RONFastList.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="RONList.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -16,7 +16,7 @@ namespace RON
         /// Sets the selection to the item matching the given prefab.
         /// If no item is found, clears the selection and resets the list.
         /// </summary>
-        /// <param name="item">The item to find</param>
+        /// <param name="prefab">The prefab to find</param>
         public void FindItem(PrefabInfo prefab)
         {
             // Iterate through the rows list.
@@ -25,7 +25,7 @@ namespace RON
                 if (Data.m_buffer[i] is NetRowItem netItem)
                 {
                     // Look for an index match; individual or grouped (contained within propListItem.indexes list).
-                    if (netItem.prefab != null && netItem.prefab == prefab)
+                    if (netItem.Prefab != null && netItem.Prefab == prefab)
                     {
                         // Found a match; set the selected index to this one.
                         SelectedIndex = i;

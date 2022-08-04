@@ -28,7 +28,7 @@ namespace RON
         private UIDropDown _narModeDropDown;
 
         /// <summary>
-        /// Performs initial setup for the panel; we don't use Start() as that's not sufficiently reliable (race conditions), and is not needed with the dynamic create/destroy process.
+        /// Initializes a new instance of the <see cref="OptionsPanel"/> class.
         /// </summary>
         internal OptionsPanel()
         {
@@ -126,8 +126,8 @@ namespace RON
         /// <summary>
         /// Replace NAR check changed event handler.
         /// </summary>
-        /// <param name="component">Calling component (unused)</param>
-        /// <param name="isChecked">New checked state</param>
+        /// <param name="component">Calling component (unused).</param>
+        /// <param name="isChecked">New checked state.</param>
         private void NARCheckChanged(UIComponent component, bool isChecked)
         {
             ModSettings.ReplaceNAR = isChecked;
@@ -137,8 +137,8 @@ namespace RON
         /// <summary>
         /// Replace NAR dropdown changed event handler.
         /// </summary>
-        /// <param name="component">Calling component (unused)</param>
-        /// <param name="index">New selected index</param>
+        /// <param name="component">Calling component (unused).</param>
+        /// <param name="index">New selected index.</param>
         private void NARModeChanged(UIComponent component, int index)
         {
             ModSettings.ReplaceNARmode = (AutoReplaceXML.Replacements)index;

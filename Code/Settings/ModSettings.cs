@@ -14,7 +14,7 @@ namespace RON
     /// <summary>
     /// Global mod settings.
     /// </summary>
-	[XmlRoot("RON")]
+    [XmlRoot("RON")]
     public class ModSettings : SettingsXMLBase
     {
         /// <summary>
@@ -120,7 +120,9 @@ namespace RON
             set => replaceMOM = value;
         }
 
-        // Auto-replace NAR tracks on load.
+        /// <summary>
+        /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
+        /// </summary>
         [XmlElement("ReplaceNAR")]
         public bool XMLReplaceNAR
         {
@@ -128,7 +130,9 @@ namespace RON
             set => replaceNAR = value;
         }
 
-        // Auto-replace NAR tracks mode.
+        /// <summary>
+        /// Gets or sets the replacement mode selection for NAR auto-replace.
+        /// </summary>
         [XmlElement("ReplaceMode_NAR")]
         public AutoReplaceXML.Replacements XMLReplaceNARmode
         {
@@ -136,18 +140,17 @@ namespace RON
             set => replaceNARmode = value;
         }
 
-        /// Show Railway Repalcer mod.
+        /// <summary>
+        /// Gets or sets a value indicating whether the railway replacer panel should be automatically shown when a station building is selected (true).
         /// </summary>
-		[XmlIgnore]
+        [XmlIgnore]
         internal static bool ShowRailwayReplacer { get => showRailwayReplacer; set => showRailwayReplacer = value; }
 
-
         /// <summary>
-        /// Advanced mode (any network type replacement).
+        /// Gets or sets a value indicating whether advanced mode is active (true) or inactive (false).
         /// </summary>
-		[XmlIgnore]
+        [XmlIgnore]
         internal static bool EnableAdvanced { get => enableAdvanced; set => enableAdvanced = value; }
-
 
         /// <summary>
         /// Gets or sets a value indicating whether Network Extensons 2 roads should be auto-replaced on load (true).
@@ -155,11 +158,10 @@ namespace RON
         [XmlIgnore]
         internal static bool ReplaceNExt2 { get => replaceNExt2; set => replaceNExt2 = value; }
 
-
         /// <summary>
-        /// Replace Metro Overhaul Mod tracks on load.
+        /// Gets or sets a value indicating whether Metro Overhaul Mod tracks should be auto-replaced on load (true).
         /// </summary>
-		[XmlIgnore]
+        [XmlIgnore]
         internal static bool ReplaceMOM { get => replaceMOM; set => replaceMOM = value; }
 
         /// <summary>
@@ -169,7 +171,7 @@ namespace RON
         internal static bool ReplaceNAR { get => replaceNAR; set => replaceNAR = value; }
 
         /// <summary>
-        /// Gets or sets NAR track replacement mode.
+        /// Gets or sets the replacement mode selection for NAR auto-replace.
         /// </summary>
         [XmlIgnore]
         internal static AutoReplaceXML.Replacements ReplaceNARmode { get => replaceNARmode; set => replaceNARmode = value; }

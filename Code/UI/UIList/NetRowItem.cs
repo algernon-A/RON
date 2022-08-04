@@ -5,87 +5,119 @@
 
 namespace RON
 {
-	/// <summary>
-	/// Data structure class for individual net row display lines.
-	/// </summary>
-	public class NetRowItem
-	{
-		// Network prefab.
-		public NetInfo prefab;
+    /// <summary>
+    /// Data structure class for individual net row display lines.
+    /// </summary>
+    public class NetRowItem
+    {
+        // Private fields.
+        private NetInfo _prefab;
+        private string _displayName;
+        private string _creator;
+        private bool _isStation = false;
 
-		// Display name.
-		public string displayName;
+        // Network indicator flags - if this is a vanilla/NExt2/mod asset.
+        private bool _isVanilla = false;
+        private bool _isNExt2 = false;
+        private bool _isMod = false;
 
-		// Creator name.
-		public string creator;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NetRowItem"/> class.
+        /// </summary>
+        /// <param name="network">Network prefab.</param>
+        public NetRowItem(NetInfo network)
+        {
+            _prefab = network;
+            GetDisplayName();
+            _creator = PrefabUtils.GetCreator(network);
+            _isStation = PrefabUtils.IsStation(network);
+        }
 
-		// If this is a station network.
-		public bool isStation = false;
+        /// <summary>
+        /// Gets the network prefab.
+        /// </summary>
+        public NetInfo Prefab => _prefab;
 
-		// Network indicator flags - if this is a vanilla/NExt2/mod asset.
-		public bool isVanilla = false, isNExt2 = false, isMod = false;
+        /// <summary>
+        /// Gets the network display name.
+        /// </summary>
+        public string DisplayName => _displayName;
 
-		// Network type icon.
-		public string typeIcon;
+        /// <summary>
+        /// Gets the creator name.
+        /// </summary>
+        public string Creator => _creator;
 
-		/// <summary>
-		/// Constructor - automatically sets values based on provided network prefab.
-		/// </summary>
-		/// <param name="network">Network prefab</param>
-		public NetRowItem(NetInfo network)
-		{
-			prefab = network;
-			GetDisplayName();
-			creator = PrefabUtils.GetCreator(network);
-			isStation = PrefabUtils.IsStation(network);
-		}
+        /// <summary>
+        /// Gets a value indicating whether this is a station track network.
+        /// </summary>
+        public bool IsStation => _isStation;
 
-		/// <summary>
-		/// Sets displayName to a cleaned-up display name for the given prefab and also sets network indicator flags.
-		/// </summary>
-		private void GetDisplayName()
-		{
-			// Make sure we've got a valid network before doing anything else.
-			string fullName = prefab?.name;
-			if (fullName == null || prefab.m_netAI == null)
-			{
-				displayName = "Null";
-				return;
-			}
+        /// <summary>
+        /// Gets a value indicating whether this is a vanilla network.
+        /// </summary>
+        public bool IsVanilla => _isVanilla;
 
-			// Find any leading period (Steam package number).
-			int period = fullName.IndexOf('.');
+        /// <summary>
+        /// Gets a value indicating whether this is a NExt2 network.
+        /// </summary>
+        public bool IsNExt2 => _isNExt2;
 
-			// If no period, assume it's either vanilla or Mod.
-			if (period < 0)
-			{
-				// Check for NEext prefabs.  NExt prefabs aren't as consistent as would be ideal....
-				isNExt2 = (
-					prefab.m_class.name.StartsWith("NExt") ||
-					prefab.m_class.name.StartsWith("NEXT") ||
-					prefab.name.StartsWith("Small Busway") ||
-					prefab.name.EndsWith("With Bus Lanes") ||
-					prefab.name.Equals("PlainStreet2L") ||
-					prefab.name.StartsWith("Highway2L2W") ||
-					prefab.name.StartsWith("AsymHighwayL1R2")
-				);
+        /// <summary>
+        /// Gets a value indicating whether network is from a mod (other than NExt2).
+        /// </summary>
+        public bool IsMod => _isMod;
 
-				// Check for Extra Train Station Tracks, OneWayTrainTrack, and MOM prefabs; this overrides the NExt2 check due to some OneWayTrainTrack prefabs haveing 'NExtSingleStaitonTrack' ItemClass (and hence being picked up above as NExt2 items).
-				isMod = prefab.name.StartsWith("Station") ||
-				prefab.name.StartsWith("Train Station Track (") ||
-				prefab.name.StartsWith("Rail1L") ||
-				prefab.m_netAI.GetType().Namespace?.Equals("MetroOverhaul") == true;
-				isNExt2 = isNExt2 && !isMod;
+        /// <summary>
+        /// Gets or sets the network type icon.
+        /// </summary>
+        public string TypeIcon { get; set; }
 
-				// Set vanilla flag and display name.
-				isVanilla = !(isNExt2 || isMod);
-				displayName = fullName;
-			}
-			else
-			{
-				// Otherwise, omit the package number, and trim off any trailing _Data.
-				displayName = fullName.Substring(period + 1).Replace("_Data", "");
-			}
-		}
-	}
+        /// <summary>
+        /// Sets displayName to a cleaned-up display name for the given prefab and also sets network indicator flags.
+        /// </summary>
+        private void GetDisplayName()
+        {
+            // Make sure we've got a valid network before doing anything else.
+            string fullName = _prefab?.name;
+            if (fullName == null || _prefab.m_netAI == null)
+            {
+                _displayName = "Null";
+                return;
+            }
+
+            // Find any leading period (Steam package number).
+            int period = fullName.IndexOf('.');
+
+            // If no period, assume it's either vanilla or Mod.
+            if (period < 0)
+            {
+                // Check for NEext prefabs.  NExt prefabs aren't as consistent as would be ideal....
+                _isNExt2 =
+                    _prefab.m_class.name.StartsWith("NExt") ||
+                    _prefab.m_class.name.StartsWith("NEXT") ||
+                    _prefab.name.StartsWith("Small Busway") ||
+                    _prefab.name.EndsWith("With Bus Lanes") ||
+                    _prefab.name.Equals("PlainStreet2L") ||
+                    _prefab.name.StartsWith("Highway2L2W") ||
+                    _prefab.name.StartsWith("AsymHighwayL1R2");
+
+                // Check for Extra Train Station Tracks, OneWayTrainTrack, and MOM prefabs; this overrides the NExt2 check due to some OneWayTrainTrack prefabs haveing 'NExtSingleStaitonTrack' ItemClass (and hence being picked up above as NExt2 items).
+                _isMod = _prefab.name.StartsWith("Station") ||
+                _prefab.name.StartsWith("Train Station Track (") ||
+                _prefab.name.StartsWith("Rail1L") ||
+                _prefab.m_netAI.GetType().Namespace?.Equals("MetroOverhaul") == true;
+                _isNExt2 = _isNExt2 && !_isMod;
+
+                // Set vanilla flag and display name.
+                _isVanilla = !(_isNExt2 || _isMod);
+                _displayName = fullName;
+            }
+            else
+            {
+                // Otherwise, omit the package number, and trim off any trailing _Data.
+                _displayName = fullName.Substring(period + 1).Replace("_Data", string.Empty);
+            }
+        }
+    }
 }
