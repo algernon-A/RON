@@ -208,12 +208,6 @@ namespace RON
             InfoManager.SubInfoMode.None,
         };
 
-        // Current selections.
-        private List<ushort> _selectedSegments;
-        private ushort _currentSegment;
-        private NetInfo _selectedReplacement;
-        private NetRowItem _selectedItem;
-
         // Segment info record.
         private readonly Dictionary<NetInfo, List<ushort>> _segmentDict = new Dictionary<NetInfo, List<ushort>>();
 
@@ -248,6 +242,12 @@ namespace RON
         private readonly UICheckBox _segmentCheck;
         private readonly UISprite _targetPreviewSprite;
         private readonly UISprite _replacementPreviewSprite;
+
+        // Current selections.
+        private List<ushort> _selectedSegments;
+        private ushort _currentSegment;
+        private NetInfo _selectedReplacement;
+        private NetRowItem _selectedItem;
 
         // Status.
         private bool _replacingDone;

@@ -35,8 +35,8 @@ namespace RON
         /// <summary>
         /// Called by the game.  Sets which network segments are ignored by the tool (always returns none, i.e. all segments are selectable by the tool).
         /// </summary>
-        /// <param name="nameOnly">Always set to false</param>
-        /// <returns>NetSegment.Flags.None</returns>
+        /// <param name="nameOnly">Always set to false.</param>
+        /// <returns>NetSegment.Flags.None.</returns>
         public override NetSegment.Flags GetSegmentIgnoreFlags(out bool nameOnly)
         {
             nameOnly = false;
@@ -181,7 +181,7 @@ namespace RON
         /// <summary>
         /// Called by game when overlay is to be rendered.
         /// </summary>
-        /// <param name="cameraInfo">Current camera instance</param>
+        /// <param name="cameraInfo">Current camera instance.</param>
         public override void RenderOverlay(RenderManager.CameraInfo cameraInfo)
         {
             // Colors for rendering.
@@ -279,7 +279,7 @@ namespace RON
         /// Tool GUI event processing.
         /// Called by game every GUI update.
         /// </summary>
-        /// <param name="e">Event</param>
+        /// <param name="e">Event.</param>
         protected override void OnToolGUI(Event e)
         {
             // Don't do anything if mouse is inside UI or if there are any errors other than failed raycast.

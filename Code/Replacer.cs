@@ -21,18 +21,18 @@ namespace RON
         private static NetInfo s_undoPrefab;
 
         /// <summary>
-        /// Checks if we have a valid undo buffer (at least one undo record).
+        /// Gets a value indicating whether the undo buffer has at least one record.
         /// </summary>
-        /// <returns>True if there's a valid undo action to perform, false otherwise</returns>
+        /// <returns>True if there's a valid undo action to perform, false otherwise.</returns>
         internal static bool HasUndo => s_undoPrefab != null && s_undoBuffer != null && s_undoBuffer.Count > 0;
 
         /// <summary>
         /// Perform actual network replacement.
         /// </summary>
-        /// <param name="target">Target netInfo</param>
-        /// <param name="replacement">Replacement netInfo</param>
-        /// <param name="segmentList">Array of segment IDs</param>
-        /// <param name="forceAll">Set to true to force ALL node references to be updated, even phantom nodes</param>
+        /// <param name="target">Target netInfo.</param>
+        /// <param name="replacement">Replacement netInfo.</param>
+        /// <param name="segmentList">Array of segment IDs.</param>
+        /// <param name="forceAll">Set to true to force ALL node references to be updated, even phantom nodes.</param>
         internal static void ReplaceNets(NetInfo target, NetInfo replacement, List<ushort> segmentList, bool forceAll)
         {
             try
@@ -64,7 +64,7 @@ namespace RON
                 s_undoBuffer = new List<ushort>();
                 s_undoPrefab = target;
 
-                // Iterate through each segment ID in our prepared list. 
+                // Iterate through each segment ID in our prepared list.
                 for (int i = 0; i < segmentIDs.Length; ++i)
                 {
                     // Local references.

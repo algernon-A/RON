@@ -113,7 +113,7 @@ namespace RON
                         {
                             new ReplaceEntry
                             {
-                                AiType ="header",
+                                AiType = "header",
                                 TargetName = "thisTarget",
                                 ReplacementName = "thisReplacement",
                             },

@@ -16,7 +16,7 @@ namespace RON
         /// Sets the selection to the item matching the given prefab.
         /// If no item is found, clears the selection and resets the list.
         /// </summary>
-        /// <param name="prefab">The prefab to find</param>
+        /// <param name="prefab">The prefab to find.</param>
         public void FindItem(PrefabInfo prefab)
         {
             // Iterate through the rows list.
