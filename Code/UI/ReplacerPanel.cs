@@ -259,23 +259,6 @@ namespace RON
         private int _targetSearchStatus;
         private int _loadedSearchStatus;
 
-        // Display order state.
-        private enum OrderBy
-        {
-            NameAscending = 0,
-            NameDescending,
-            CreatorAscending,
-            CreatorDescending,
-        }
-
-        // String search type state.
-        private enum SearchTypes
-        {
-            SearchNetwork = 0,
-            SearchCreator,
-            NumTypes,
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ReplacerPanel"/> class.
         /// </summary>
@@ -461,6 +444,23 @@ namespace RON
 
             // Populate parent dictionaries.
             PrefabUtils.GetParents(_slopeParents, _elevatedParents, _bridgeParents, _tunnelParents);
+        }
+
+        // Display order state.
+        private enum OrderBy
+        {
+            NameAscending = 0,
+            NameDescending,
+            CreatorAscending,
+            CreatorDescending,
+        }
+
+        // String search type state.
+        private enum SearchTypes
+        {
+            SearchNetwork = 0,
+            SearchCreator,
+            NumTypes,
         }
 
         /// <summary>

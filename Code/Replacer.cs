@@ -53,7 +53,7 @@ namespace RON
 
                 // Local references.
                 NetManager netManager = Singleton<NetManager>.instance;
-                Randomizer randomizer = new Randomizer();
+                Randomizer randomizer = default(Randomizer);
                 NetSegment[] segmentBuffer = netManager.m_segments.m_buffer;
 
                 // Copy segment IDs from segment list to avoid concurrency issues while replacing.
@@ -181,7 +181,7 @@ namespace RON
                 NetManager netManager = Singleton<NetManager>.instance;
                 NetSegment[] segmentBuffer = netManager.m_segments.m_buffer;
 
-                // Iterate through each segment ID. 
+                // Iterate through each segment ID.
                 for (int i = 0; i < segments.Length; ++i)
                 {
                     // Delete segment.
@@ -215,7 +215,6 @@ namespace RON
             Logging.KeyMessage("deleting complete");
         }
 
-
         /// <summary>
         /// Reverts all segments in the undo list to the set undo prefab.
         /// </summary>
@@ -225,7 +224,7 @@ namespace RON
             {
                 // Local references.
                 NetSegment[] segments = Singleton<NetManager>.instance.m_segments.m_buffer;
-                Randomizer randomizer = new Randomizer();
+                Randomizer randomizer = default(Randomizer);
 
                 // Replace each segment in undo buffer.
                 foreach (ushort segmentID in s_undoBuffer)

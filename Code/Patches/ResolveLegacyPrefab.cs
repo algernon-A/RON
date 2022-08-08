@@ -19,7 +19,6 @@ namespace RON
         private static bool s_attemptedRead = false;
         private static HashSet<AutoReplaceXML.ReplaceEntry> s_attemptedReplacements;
 
-
         /// <summary>
         /// Harmony Prefix patch for BuildConfig.ResolveLegacyPrefab to substitute named networks on loading.
         /// </summary>

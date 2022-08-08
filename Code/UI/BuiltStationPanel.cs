@@ -201,6 +201,8 @@ namespace RON
         /// <summary>
         /// Returns the NetInfo of the given target network index.
         /// </summary>
+        /// <param name="index">Target network index.</param>
+        /// <returns>NetInfo.</returns>
         internal override NetInfo GetNetInfo(int index)
         {
             // Check if the given index is valid.
