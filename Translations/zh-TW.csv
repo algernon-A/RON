@@ -72,7 +72,7 @@
 "KEY_KEY","快鍵"
 "KEY_PRS","按任意鍵"
 "ERR_NXT","RON was unable to replace the following networks on this map as the necessary replacements weren't available (disabled or not subscribed):"
-"MES_CLS","關閉"
+"NOTE_CLOSE","關閉"
 "MES_PAGE","請參閱模組(Mod)在Steam工作坊的頁面以獲得更多資訊。"
 "NO","No"
 "YES","Yes"

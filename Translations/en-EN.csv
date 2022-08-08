@@ -72,7 +72,7 @@
 "KEY_KEY","Hotkey"
 "KEY_PRS","Press any key"
 "ERR_NXT","RON was unable to replace the following networks on this map as the necessary replacements weren't available (disabled or not subscribed):"
-"MES_CLS","Close"
+"NOTE_CLOSE","Close"
 "MES_PAGE","Please refer to the mod's Steam Workshop page for further information."
 "NO","No"
 "YES","Yes
