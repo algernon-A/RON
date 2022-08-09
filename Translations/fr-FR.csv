@@ -70,7 +70,7 @@
 "TRN_CHOICE","Définir la langue"
 "LANGUAGE_GAME","Utiliser la langue du jeu"
 "KEY_KEY","Raccourcis clavier"
-"KEY_PRS","Appuyez sur une touche"
+"PRESS_ANY_KEY","Appuyez sur une touche"
 "ERR_NXT","RON was unable to replace the following networks on this map as the necessary replacements weren't available (disabled or not subscribed):"
 "NOTE_CLOSE","Fermer"
 "MES_PAGE","Veuillez vous référer à la page Steam Workshop du mod pour plus d'informations."

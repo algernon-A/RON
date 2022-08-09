@@ -70,7 +70,7 @@
 "TRN_CHOICE","语言设定"
 "LANGUAGE_GAME","使用游戏默认语言"
 "KEY_KEY","热键"
-"KEY_PRS","请按任意键"
+"PRESS_ANY_KEY","请按任意键"
 "ERR_NXT","RON无法在这张地图上替换道路拓展的道路，因为必需的替换包不可用(禁用或未订阅):"
 "NOTE_CLOSE","关闭"
 "MES_PAGE","请前往该模组的创意工坊详情页查看更多信息。"

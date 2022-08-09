@@ -70,7 +70,7 @@
 "TRN_CHOICE","Установить язык"
 "LANGUAGE_GAME","Использ. системный"
 "KEY_KEY","Горячая клавиша"
-"KEY_PRS","Нажмите любую клавишу"
+"PRESS_ANY_KEY","Нажмите любую клавишу"
 "ERR_NXT","RON was unable to replace the following networks on this map as the necessary replacements weren't available (disabled or not subscribed):"
 "NOTE_CLOSE","Закрыть"
 "MES_PAGE","Дополнительную информацию смотри на странице мода в Steam Workshop"
