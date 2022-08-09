@@ -17,23 +17,15 @@ namespace RON
     /// </summary>
     public class Mod : PatcherMod, IUserMod
     {
-        // Mod name.
-        private static readonly string ModName = "RON - the network replacer";
-
         /// <summary>
-        /// Gets the mod's name for logging purposes.
+        /// Gets the mod's base display name (name only).
         /// </summary>
-        public override string LogName => ModName;
+        public override string BaseName => "RON - the network replacer";
 
         /// <summary>
         /// Gets the mod's unique Harmony identfier.
         /// </summary>
         public override string HarmonyID => "com.github.algernon-A.csl.ron";
-
-        /// <summary>
-        /// Gets the mod's display name.
-        /// </summary>
-        public override string Name => ModName + ' ' + AssemblyUtils.TrimmedCurrentVersion;
 
         /// <summary>
         /// Gets the mod's description for display in the content manager.
