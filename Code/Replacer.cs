@@ -8,6 +8,7 @@ namespace RON
     using System;
     using System.Collections.Generic;
     using AlgernonCommons;
+    using AlgernonCommons.UI;
     using ColossalFramework;
     using ColossalFramework.Math;
 
@@ -53,7 +54,7 @@ namespace RON
 
                 // Local references.
                 NetManager netManager = Singleton<NetManager>.instance;
-                Randomizer randomizer = default(Randomizer);
+                Randomizer randomizer = default;
                 NetSegment[] segmentBuffer = netManager.m_segments.m_buffer;
 
                 // Copy segment IDs from segment list to avoid concurrency issues while replacing.
@@ -150,13 +151,13 @@ namespace RON
             }
 
             // All done - let replacer panel know we're finished (if its still open).
-            if (ReplacerPanel.Panel != null)
+            if (StandalonePanelManager<ReplacerPanel>.Panel is ReplacerPanel replacerPanel)
             {
-                ReplacerPanel.Panel.ReplacingDone = true;
+                replacerPanel.ReplacingDone = true;
             }
 
             // Built station replacement as well.
-            if (StationPanel.Panel is BuiltStationPanel builtStationPanel)
+            if (StandalonePanelManager<BuiltStationPanel>.Panel is BuiltStationPanel builtStationPanel)
             {
                 builtStationPanel.ReplacingDone = true;
             }
@@ -207,9 +208,9 @@ namespace RON
             }
 
             // All done - let replacer panel know we're finished (if its still open).
-            if (ReplacerPanel.Panel != null)
+            if (StandalonePanelManager<ReplacerPanel>.Panel is ReplacerPanel replacerPanel)
             {
-                ReplacerPanel.Panel.ReplacingDone = true;
+                replacerPanel.ReplacingDone = true;
             }
 
             Logging.KeyMessage("deleting complete");
@@ -224,7 +225,7 @@ namespace RON
             {
                 // Local references.
                 NetSegment[] segments = Singleton<NetManager>.instance.m_segments.m_buffer;
-                Randomizer randomizer = default(Randomizer);
+                Randomizer randomizer = default;
 
                 // Replace each segment in undo buffer.
                 foreach (ushort segmentID in s_undoBuffer)
@@ -243,9 +244,9 @@ namespace RON
             s_undoBuffer.Clear();
 
             // Let replacer panel know we're finished (if its still open).
-            if (ReplacerPanel.Panel != null)
+            if (StandalonePanelManager<ReplacerPanel>.Panel is ReplacerPanel replacerPanel)
             {
-                ReplacerPanel.Panel.ReplacingDone = true;
+                replacerPanel.ReplacingDone = true;
             }
         }
 

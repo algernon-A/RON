@@ -19,7 +19,7 @@ namespace RON
     /// <summary>
     /// RON network replacer panel.
     /// </summary>
-    internal class ReplacerPanel : UIPanel
+    internal class ReplacerPanel : StandalonePanel
     {
         // Layout constants - general.
         private const float Margin = 5f;
@@ -30,7 +30,7 @@ namespace RON
         private const float TitleHeight = 45f;
         private const float ToolRowHeight = 35f;
         private const float ToolbarHeight = ToolRowHeight * 3f;
-        private const float ListHeight = 15 * UINetRow.DefaultRowHeight;
+        private const float ListHeight = 15 * UINetRow.CustomRowHeight;
         private const float PreviewHeight = 100f;
         private const float ToolRow1Y = TitleHeight + Margin;
         private const float ToolRow2Y = ToolRow1Y + ToolRowHeight;
@@ -39,7 +39,7 @@ namespace RON
         private const float ListTitleY = SpacerBarY + 15f;
         private const float ListHeaderY = ListTitleY + 30f;
         private const float ListY = ListHeaderY + 20f;
-        private const float PanelHeight = ListY + ListHeight + Margin;
+        private const float CalculatedPanelHeight = ListY + ListHeight + Margin;
         private const float HideVanillaY = ToolRow1Y + 30f;
         private const float SameWidthY = HideVanillaY + 20f;
         private const float AdvancedY = SameWidthY + 20f;
@@ -55,22 +55,18 @@ namespace RON
         private const float RightWidth = 450f;
         private const float MiddlePanelX = Margin + LeftWidth + Margin;
         private const float RightPanelX = MiddlePanelX + MiddleWidth + Margin;
-        private const float PanelWidth = RightPanelX + RightWidth + Margin;
+        private const float CalculatedPanelWidth = RightPanelX + RightWidth + Margin;
         private const float ReplaceWidth = 150f;
-        private const float FilterX = (PanelWidth - Margin) - 360f;
+        private const float FilterX = (CalculatedPanelWidth - Margin) - 360f;
         private const float FilterWidth = 220;
         private const float FilterMenuxX = FilterX + FilterWidth + Margin;
-        private const float FilterMenuWidth = PanelWidth - FilterMenuxX - Margin;
+        private const float FilterMenuWidth = CalculatedPanelWidth - FilterMenuxX - Margin;
         private const float ButtonWidth = 220f;
         private const float PrevX = Margin;
         private const float NextX = LeftWidth + Margin - ButtonWidth;
 
         // Number of network type categories.
         private const int NumTypes = 22;
-
-        // Instance references.
-        private static GameObject s_uiGameObject;
-        private static ReplacerPanel s_panel;
 
         // Network type list.
         private readonly string[] netDescriptions = new string[NumTypes]
@@ -218,8 +214,8 @@ namespace RON
         private readonly Dictionary<NetInfo, NetInfo> _tunnelParents = new Dictionary<NetInfo, NetInfo>();
 
         // Panel components.
-        private readonly RONList _targetList;
-        private readonly RONList _loadedList;
+        private readonly UIList _targetList;
+        private readonly UIList _loadedList;
         private readonly UIButton _replaceButton;
         private readonly UIButton _undoButton;
         private readonly UIButton _deleteButton;
@@ -264,49 +260,8 @@ namespace RON
         /// </summary>
         internal ReplacerPanel()
         {
-            // Basic behaviour.
-            autoLayout = false;
-            canFocus = true;
-            isInteractive = true;
-
-            // Appearance.
-            backgroundSprite = "MenuPanel2";
-            opacity = 1f;
-
-            // Size.
-            width = PanelWidth;
-            height = PanelHeight;
-
-            // Default position - centre in screen.
-            relativePosition = new Vector2(Mathf.Floor((GetUIView().fixedWidth - width) / 2), Mathf.Floor((GetUIView().fixedHeight - height) / 2));
-
-            // Drag bar.
-            UIDragHandle dragHandle = AddUIComponent<UIDragHandle>();
-            dragHandle.width = PanelWidth - 50f;
-            dragHandle.height = PanelHeight;
-            dragHandle.relativePosition = Vector2.zero;
-            dragHandle.target = this;
-
-            // Title label.
-            UILabel titleLabel = AddUIComponent<UILabel>();
-            titleLabel.relativePosition = new Vector2(50f, 13f);
-            titleLabel.text = Translations.Translate("RON_NAM");
-
-            // Close button.
-            UIButton closeButton = AddUIComponent<UIButton>();
-            closeButton.relativePosition = new Vector2(width - 35, 2);
-            closeButton.normalBgSprite = "buttonclose";
-            closeButton.hoveredBgSprite = "buttonclosehover";
-            closeButton.pressedBgSprite = "buttonclosepressed";
-            closeButton.eventClick += (component, clickEvent) => RONTool.ToggleTool();
-
             // Decorative icon (top-left).
-            UISprite iconSprite = AddUIComponent<UISprite>();
-            iconSprite.relativePosition = new Vector2(5, 5);
-            iconSprite.height = 32f;
-            iconSprite.width = 32f;
-            iconSprite.atlas = UITextures.LoadQuadSpriteAtlas("RonButton");
-            iconSprite.spriteName = "normal";
+            SetIcon(UITextures.LoadQuadSpriteAtlas("RonButton"), "normal");
 
             // Network type dropdown.
             _typeDropDown = UIDropDowns.AddLabelledDropDown(this, Margin, ToolRow1Y, Translations.Translate("RON_PNL_TYP"), 250f);
@@ -322,21 +277,11 @@ namespace RON
             spacerPanel.backgroundSprite = "WhiteRect";
 
             // Target network list.
-            UIPanel leftPanel = AddUIComponent<UIPanel>();
-            leftPanel.width = LeftWidth;
-            leftPanel.height = ListHeight;
-            leftPanel.relativePosition = new Vector2(Margin, ListY);
-            _targetList = UIList.AddUIList<RONList, UINetRow>(leftPanel);
-            ListSetup(_targetList);
+            _targetList = UIList.AddUIList<UINetRow>(this, Margin, ListY, LeftWidth, ListHeight);
             _targetList.EventSelectionChanged += (control, selectedItem) => SelectedItem = selectedItem as NetRowItem;
 
             // Loaded network list.
-            UIPanel rightPanel = AddUIComponent<UIPanel>();
-            rightPanel.width = RightWidth;
-            rightPanel.height = ListHeight;
-            rightPanel.relativePosition = new Vector2(RightPanelX, ListY);
-            _loadedList = UIList.AddUIList<RONList, UINetRow>(rightPanel);
-            ListSetup(_loadedList);
+            _loadedList = UIList.AddUIList<UINetRow>(this, RightPanelX, ListY, RightWidth, ListHeight);
             _loadedList.EventSelectionChanged += (control, selectedItem) => SelectedReplacement = (selectedItem as NetRowItem)?.Prefab;
 
             // List titles.
@@ -464,9 +409,14 @@ namespace RON
         }
 
         /// <summary>
-        /// Gets the active panel instance.
+        /// Gets the panel width.
         /// </summary>
-        internal static ReplacerPanel Panel => s_panel;
+        public override float PanelWidth => CalculatedPanelWidth;
+
+        /// <summary>
+        /// Gets the panel height.
+        /// </summary>
+        public override float PanelHeight => CalculatedPanelHeight;
 
         /// <summary>
         /// Gets the current list of selected network segments.
@@ -522,6 +472,11 @@ namespace RON
         /// Sets a value indicating whether replacement work has finished.
         /// </summary>
         internal bool ReplacingDone { set => _replacingDone = value; }
+
+        /// <summary>
+        /// Gets the panel's title.
+        /// </summary>
+        protected override string PanelTitle => Translations.Translate("RON_NAM");
 
         /// <summary>
         /// Gets the currently selected network prefab.
@@ -580,50 +535,6 @@ namespace RON
         }
 
         /// <summary>
-        /// Creates the panel object in-game and displays it.
-        /// </summary>
-        internal static void Create()
-        {
-            try
-            {
-                // If no GameObject instance already set, create one.
-                if (s_uiGameObject == null)
-                {
-                    // Give it a unique name for easy finding with ModTools.
-                    s_uiGameObject = new GameObject("RONPanel");
-                    s_uiGameObject.transform.parent = UIView.GetAView().transform;
-
-                    // Create new panel instance and add it to GameObject.
-                    s_panel = s_uiGameObject.AddComponent<ReplacerPanel>();
-                }
-            }
-            catch (Exception e)
-            {
-                Logging.LogException(e, "exception creating InfoPanel");
-            }
-        }
-
-        /// <summary>
-        /// Closes the panel by destroying the object (removing any ongoing UI overhead).
-        /// </summary>
-        internal static void Close()
-        {
-            // Don't do anything if no panel, or if we're in the middle of replacing.
-            if (s_panel == null || s_panel._replacing)
-            {
-                return;
-            }
-
-            // Destroy game objects.
-            GameObject.Destroy(s_panel);
-            GameObject.Destroy(s_uiGameObject);
-
-            // Let the garbage collector do its work (and also let us know that we've closed the object).
-            s_panel = null;
-            s_uiGameObject = null;
-        }
-
-        /// <summary>
         /// Sets the target segment and updates the display and selection accordingly.
         /// </summary>
         /// <param name="segmentID">Target segment ID.</param>
@@ -654,7 +565,7 @@ namespace RON
                     _typeDropDown.selectedIndex = i;
 
                     // Set target list position.
-                    _targetList.FindItem(selectedNet);
+                    _targetList.FindItem<NetRowItem>(x => x.Prefab == SelectedPrefab);
 
                     // Set selected network segement.
                     _currentSegment = segmentID;
@@ -688,6 +599,12 @@ namespace RON
                 Singleton<SimulationManager>.instance.AddAction(() => Replacer.DeleteNets(segments));
             }
         }
+
+        /// <summary>
+        /// Performs any actions required before closing the panel and checks that it's safe to do so.
+        /// </summary>
+        /// <returns>True if the panel can close now, false otherwise.</returns>
+        protected override bool PreClose() => !_replacing;
 
         /// <summary>
         /// Sets the list of currently selected segments.
@@ -1130,8 +1047,10 @@ namespace RON
                         if (MatchType(segmentInfo))
                         {
                             // Filters passed - get type icon and add to list.
-                            NetRowItem newItem = new NetRowItem(segmentInfo);
-                            newItem.TypeIcon = GetTypeIcon(segmentInfo);
+                            NetRowItem newItem = new NetRowItem(segmentInfo)
+                            {
+                                TypeIcon = GetTypeIcon(segmentInfo),
+                            };
                             netList.Add(segmentInfo, newItem);
                         }
                     }
@@ -1305,22 +1224,6 @@ namespace RON
 
             // If we got here, we didn't get a match.
             return false;
-        }
-
-        /// <summary>
-        /// Performs initial UIList setup.
-        /// </summary>
-        /// <param name="uiList">UIList to set up.</param>
-        private void ListSetup(UIList uiList)
-        {
-            // Appearance, size and position.
-            uiList.BackgroundSprite = "UnlockingPanel";
-            uiList.width = uiList.parent.width;
-            uiList.height = uiList.parent.height;
-            uiList.relativePosition = Vector2.zero;
-
-            // Data.
-            uiList.Data = new FastList<object>();
         }
 
         /// <summary>

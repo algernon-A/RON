@@ -5,6 +5,8 @@
 
 namespace RON
 {
+    using AlgernonCommons.UI;
+
     /// <summary>
     /// Prop row fastlist item for target networks for the station panel.
     /// </summary>
@@ -21,7 +23,7 @@ namespace RON
             if (data is int index)
             {
                 // Display using underlying netinfo of index.
-                base.Display(new NetRowItem(StationPanel.Panel.GetNetInfo(index)), rowIndex);
+                base.Display(new NetRowItem(StandalonePanelManager<StationPanel>.Panel.GetNetInfo(index)), rowIndex);
             }
         }
     }

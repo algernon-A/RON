@@ -5,6 +5,7 @@
 
 namespace RON
 {
+    using AlgernonCommons.UI;
     using HarmonyLib;
 
     /// <summary>
@@ -28,10 +29,18 @@ namespace RON
             }
 
             // Is the station panel open?
-            if (StationPanel.Panel != null)
+            if (StandalonePanelManager<StationPanel>.Panel is StationPanel stationPanel)
             {
                 // Yes; close panel and return false (pre-empt original method).
-                StationPanel.Close();
+                stationPanel.Close();
+                return false;
+            }
+
+            // Is the built station panel open?
+            if (StandalonePanelManager<BuiltStationPanel>.Panel is BuiltStationPanel builtStationPanel)
+            {
+                // Yes; close panel and return false (pre-empt original method).
+                builtStationPanel.Close();
                 return false;
             }
 

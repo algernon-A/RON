@@ -5,7 +5,7 @@
 
 namespace RON
 {
-    using AlgernonCommons;
+    using System.Collections.Generic;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
     using ColossalFramework;
@@ -98,11 +98,11 @@ namespace RON
                 m_buildingService = GetService(),
                 m_propService = GetService(),
                 m_treeService = GetService(),
-                m_districtNameOnly = Singleton<InfoManager>.instance.CurrentMode != InfoManager.InfoMode.Districts,
-                m_ignoreTerrain = GetTerrainIgnore(),
+                m_districtNameOnly = true,
+                m_ignoreTerrain = true,
                 m_ignoreNodeFlags = NetNode.Flags.All,
                 m_ignoreSegmentFlags = GetSegmentIgnoreFlags(out input.m_segmentNameOnly),
-                m_ignoreBuildingFlags = GetBuildingIgnoreFlags(),
+                m_ignoreBuildingFlags = Building.Flags.All,
                 m_ignoreTreeFlags = global::TreeInstance.Flags.All,
                 m_ignorePropFlags = PropInstance.Flags.All,
                 m_ignoreVehicleFlags = GetVehicleIgnoreFlags(),
@@ -110,9 +110,9 @@ namespace RON
                 m_ignoreCitizenFlags = CitizenInstance.Flags.All,
                 m_ignoreTransportFlags = TransportLine.Flags.All,
                 m_ignoreDistrictFlags = District.Flags.All,
-                m_ignoreParkFlags = GetParkIgnoreFlags(),
+                m_ignoreParkFlags = DistrictPark.Flags.All,
                 m_ignoreDisasterFlags = DisasterData.Flags.All,
-                m_transportTypes = GetTransportTypes(),
+                m_transportTypes = 0,
             };
 
             // Enable ferry line selection.
@@ -121,8 +121,7 @@ namespace RON
             ToolErrors errors = ToolErrors.None;
             RaycastOutput output;
 
-            // Cursor is dark by default.
-            m_cursor = _darkCursor;
+            bool validHover = false;
 
             // Is the base mouse ray valid?
             if (m_mouseRayValid)
@@ -141,7 +140,7 @@ namespace RON
                         {
                             // CheckSegment passed - record hit position and set cursor to light cursor.
                             output.m_hitPos = Singleton<NetManager>.instance.m_segments.m_buffer[output.m_netSegment].GetClosestPosition(output.m_hitPos);
-                            m_cursor = _lightCursor;
+                            validHover = true;
                         }
                         else
                         {
@@ -155,6 +154,7 @@ namespace RON
                     if (output.m_netSegment != 0)
                     {
                         hoverInstance.NetSegment = output.m_netSegment;
+                        validHover = true;
                     }
 
                     // Update tool hover instance.
@@ -172,6 +172,9 @@ namespace RON
                 output = default;
                 errors = ToolErrors.RaycastFailed;
             }
+
+            // Set cursor.
+            m_cursor = validHover ? _lightCursor : _darkCursor;
 
             // Set mouse position and record errors.
             m_mousePosition = output.m_hitPos;
@@ -193,9 +196,9 @@ namespace RON
 
             base.RenderOverlay(cameraInfo);
 
-            if (ReplacerPanel.Panel?.SelectedSegments != null)
+            if (StandalonePanelManager<ReplacerPanel>.Panel?.SelectedSegments is List<ushort> segmentList)
             {
-                foreach (ushort segmentID in ReplacerPanel.Panel.SelectedSegments)
+                foreach (ushort segmentID in segmentList)
                 {
                     toolManager.m_drawCallData.m_overlayCalls++;
                     NetTool.RenderOverlay(cameraInfo, ref segmentBuffer[segmentID], segmentColor, segmentColor);
@@ -258,9 +261,10 @@ namespace RON
             {
                 // Loading not complete - deactivate tool by seting default tool.
                 ToolsModifierControl.SetTool<DefaultTool>();
+                return;
             }
 
-            ReplacerPanel.Create();
+            StandalonePanelManager<ReplacerPanel>.Create();
         }
 
         /// <summary>
@@ -270,7 +274,7 @@ namespace RON
         protected override void OnDisable()
         {
             base.OnDisable();
-            ReplacerPanel.Close();
+            StandalonePanelManager<ReplacerPanel>.Panel?.Close();
         }
 
         /// <summary>
@@ -297,7 +301,7 @@ namespace RON
                     UIInput.MouseUsed();
 
                     // Send the result to the panel.
-                    ReplacerPanel.Panel?.SetTarget(segment);
+                    StandalonePanelManager<ReplacerPanel>.Panel?.SetTarget(segment);
                 }
             }
         }

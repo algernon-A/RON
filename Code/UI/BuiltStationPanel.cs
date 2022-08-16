@@ -42,7 +42,7 @@ namespace RON
             }
 
             // Refresh the panel.
-            (Panel as BuiltStationPanel)?.RefreshPanel();
+            RefreshPanel();
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace RON
             s_panelButton.isVisible = s_eligibleNets.Count > 0;
 
             // Close the panel (if it's already open) on change of target.
-            Close();
+            StandalonePanelManager<BuiltStationPanel>.Panel?.Close();
         }
 
         /// <summary>
@@ -178,24 +178,16 @@ namespace RON
             s_panelButton.relativePosition += new Vector3(infoPanel.component.width - 70f - PanelButtonSize, relativeY, 0f);
 
             // Event handler.
-            s_panelButton.eventClick += (control, clickEvent) =>
+            s_panelButton.eventClick += (c, p) =>
             {
-                // Toggle panel visibility.
-                if (s_uiGameObject == null)
-                {
-                    Create<BuiltStationPanel>();
-                    Panel.absolutePosition = s_panelButton.absolutePosition + new Vector3(-PanelWidth / 2f, PanelButtonSize + 200f);
-                }
-                else
-                {
-                    Close();
-                }
+                StandalonePanelManager<BuiltStationPanel>.Create();
+                StandalonePanelManager<BuiltStationPanel>.Panel.absolutePosition = s_panelButton.absolutePosition + new Vector3(-CalculatedPanelWidth / 2f, PanelButtonSize + 200f);
 
                 // Manually unfocus control, otherwise it can stay focused until next UI event (looks untidy).
-                control.Unfocus();
+                c.Unfocus();
             };
 
-            infoPanel.component.eventVisibilityChanged += (control, isVisible) => Close();
+            infoPanel.component.eventVisibilityChanged += (c, isVisible) => StandalonePanelManager<BuiltStationPanel>.Panel?.Close();
         }
 
         /// <summary>

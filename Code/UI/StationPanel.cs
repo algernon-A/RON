@@ -8,7 +8,6 @@ namespace RON
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AlgernonCommons;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
     using ColossalFramework.UI;
@@ -19,17 +18,12 @@ namespace RON
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "Protected internal fields")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1307:Accessible fields should begin with upper-case letter", Justification = "Protected internal fields")]
-    internal class StationPanel : UIPanel
+    internal class StationPanel : StandalonePanel
     {
         /// <summary>
         /// Panel width.
         /// </summary>
-        protected internal const float PanelWidth = RightPanelX + ListWidth + Margin;
-
-        /// <summary>
-        /// GameObject parent.
-        /// </summary>
-        protected internal static GameObject s_uiGameObject;
+        protected internal const float CalculatedPanelWidth = RightPanelX + ListWidth + Margin;
 
         /// <summary>
         /// Currently selected building.
@@ -58,41 +52,19 @@ namespace RON
         private const float RightPanelX = LeftX + ListWidth + Margin;
         private const float Check1X = RightPanelX;
         private const float Check2X = RightPanelX + (ListWidth / 2f);
-        private const float PanelHeight = ListY + ListHeight + Margin;
-
-        // Instance reference.
-        private static StationPanel s_panel;
+        private const float CalculatedPanelHeight = ListY + ListHeight + Margin;
 
         // Panel components.
         private readonly UIDropDown _typeDropDown;
         private readonly UICheckBox _sameWidthCheck;
-        private readonly RONList _targetList;
-        private readonly RONList _loadedList;
-        private readonly UILabel _titleLabel;
+        private readonly UIList _targetList;
+        private readonly UIList _loadedList;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StationPanel"/> class.
         /// </summary>
         internal StationPanel()
         {
-            // Set instance references.
-            s_panel = this;
-
-            // Basic behaviour.
-            autoLayout = false;
-            canFocus = true;
-            isInteractive = true;
-
-            // Appearance.
-            backgroundSprite = "MenuPanel2";
-            opacity = 1f;
-
-            // Size.
-            size = new Vector2(PanelWidth, PanelHeight);
-
-            // Default position - towards top-left of screen, with 50f margins.
-            relativePosition = new Vector2(Mathf.Floor(GetUIView().fixedWidth - width - 50f), 50f);
-
             // Drag bar.
             UIDragHandle dragHandle = AddUIComponent<UIDragHandle>();
             dragHandle.width = this.width - 50f;
@@ -101,25 +73,10 @@ namespace RON
             dragHandle.target = this;
 
             // Title label.
-            _titleLabel = AddUIComponent<UILabel>();
-            _titleLabel.relativePosition = new Vector2(50f, 13f);
             SetTitle();
 
-            // Close button.
-            UIButton closeButton = AddUIComponent<UIButton>();
-            closeButton.relativePosition = new Vector2(width - 35, 2);
-            closeButton.normalBgSprite = "buttonclose";
-            closeButton.hoveredBgSprite = "buttonclosehover";
-            closeButton.pressedBgSprite = "buttonclosepressed";
-            closeButton.eventClick += (component, clickEvent) => Close();
-
             // Decorative icon (top-left).
-            UISprite iconSprite = AddUIComponent<UISprite>();
-            iconSprite.relativePosition = new Vector2(5, 5);
-            iconSprite.height = 32f;
-            iconSprite.width = 32f;
-            iconSprite.atlas = UITextures.LoadQuadSpriteAtlas("RonButton");
-            iconSprite.spriteName = "normal";
+            SetIcon(UITextures.LoadQuadSpriteAtlas("RonButton"), "normal");
 
             // Same width only check.
             _sameWidthCheck = UICheckBoxes.AddLabelledCheckBox(this, Check1X, ControlY + 5f, Translations.Translate("RON_PNL_WID"));
@@ -132,21 +89,11 @@ namespace RON
             _typeDropDown.eventSelectedIndexChanged += (control, index) => LoadedList();
 
             // Target network list.
-            UIPanel leftPanel = AddUIComponent<UIPanel>();
-            leftPanel.width = ListWidth;
-            leftPanel.height = ListHeight;
-            leftPanel.relativePosition = new Vector2(Margin, ListY);
-            _targetList = UIList.AddUIList<RONList, UIStationTargetNetRow>(leftPanel);
-            ListSetup(_targetList);
+            _targetList = UIList.AddUIList<UIStationTargetNetRow>(this, Margin, ListY, ListWidth, ListHeight);
             _targetList.EventSelectionChanged += (control, selectedItem) => SelectedIndex = selectedItem is int intItem ? intItem : -1;
 
             // Loaded network list.
-            UIPanel rightPanel = AddUIComponent<UIPanel>();
-            rightPanel.width = ListWidth;
-            rightPanel.height = ListHeight;
-            rightPanel.relativePosition = new Vector2(RightPanelX, ListY);
-            _loadedList = UIList.AddUIList<RONList, UINetRow>(rightPanel);
-            ListSetup(_loadedList);
+            _loadedList = UIList.AddUIList<UINetRow>(this, RightPanelX, ListY, ListWidth, ListHeight);
             _loadedList.EventSelectionChanged += (control, selectedItem) => SelectedReplacement = (selectedItem as NetRowItem)?.Prefab;
         }
 
@@ -161,9 +108,14 @@ namespace RON
         }
 
         /// <summary>
-        /// Gets the active panel instance.
+        /// Gets the panel width.
         /// </summary>
-        internal static StationPanel Panel => s_panel;
+        public override float PanelWidth => CalculatedPanelWidth;
+
+        /// <summary>
+        /// Gets the panel height.
+        /// </summary>
+        public override float PanelHeight => CalculatedPanelHeight;
 
         /// <summary>
         /// Sets the selected target index.  Called by target network list items.
@@ -202,6 +154,11 @@ namespace RON
                 }
             }
         }
+
+        /// <summary>
+        /// Gets the panel's title.
+        /// </summary>
+        protected override string PanelTitle => Translations.Translate("RON_NAM");
 
         /// <summary>
         /// Gets the target network as NetInfo.
@@ -247,41 +204,19 @@ namespace RON
             // If no eligible nets were found, exit.
             if (s_eligibleNets.Count == 0)
             {
-                // Close panel first if already open.
-                Close();
+                // Close panel if already open.
+                StandalonePanelManager<StationPanel>.Panel?.Close();
                 return;
             }
 
-            // Create panel if not already open.
-            if (s_panel == null)
+            // Create panel and set initial values.
+            StandalonePanelManager<StationPanel>.Create();
+            if (StandalonePanelManager<StationPanel>.Panel is StationPanel stationPanel)
             {
-                Create<StationPanel>();
+                stationPanel.SetTitle();
+                stationPanel.TargetList();
+                stationPanel.SetTypeMenu(selectedBuilding);
             }
-
-            // Update panel.
-            s_panel.SetTitle();
-            s_panel.TargetList();
-            s_panel.SetTypeMenu(selectedBuilding);
-        }
-
-        /// <summary>
-        /// Closes the panel by destroying the object (removing any ongoing UI overhead).
-        /// </summary>
-        internal static void Close()
-        {
-            // Don't do anything if no panel.
-            if (s_panel == null)
-            {
-                return;
-            }
-
-            // Destroy game objects.
-            GameObject.Destroy(s_panel);
-            GameObject.Destroy(s_uiGameObject);
-
-            // Let the garbage collector do its work (and also let us know that we've closed the object).
-            s_panel = null;
-            s_uiGameObject = null;
         }
 
         /// <summary>
@@ -300,32 +235,6 @@ namespace RON
 
             // If we got here, we didn't get a match; return null.
             return null;
-        }
-
-        /// <summary>
-        /// Creates the panel object in-game and displays it.
-        /// </summary>
-        /// <typeparam name="TPanel">Panel type.</typeparam>
-        protected static void Create<TPanel>()
-            where TPanel : StationPanel
-        {
-            try
-            {
-                // If no GameObject instance already set, create one.
-                if (s_uiGameObject == null)
-                {
-                    // Give it a unique name for easy finding with ModTools.
-                    s_uiGameObject = new GameObject("RONStationPanel");
-                    s_uiGameObject.transform.parent = UIView.GetAView().transform;
-
-                    // Create new panel instance and add it to GameObject.
-                    s_uiGameObject.AddComponent<TPanel>();
-                }
-            }
-            catch (Exception e)
-            {
-                Logging.LogException(e, "exception creating station panel");
-            }
         }
 
         /// <summary>
@@ -468,7 +377,7 @@ namespace RON
         /// Sets the panel title, including the building name.
         /// </summary>
         protected void SetTitle() =>
-            _titleLabel.text = (s_currentBuilding?.name != null ? PrefabUtils.GetDisplayName(s_currentBuilding)
+            TitleText = (s_currentBuilding?.name != null ? PrefabUtils.GetDisplayName(s_currentBuilding)
             : Translations.Translate("RON_NAM")) + ": " + Translations.Translate("RON_STA_CUS");
 
         /// <summary>
@@ -485,22 +394,6 @@ namespace RON
                 (candidateType == typeof(MetroTrackAI) && currentType == typeof(TrainTrackAI)) ||
                 (candidateType == typeof(MetroTrackBridgeAI) && currentType == typeof(TrainTrackBridgeAI))
                 ;
-        }
-
-        /// <summary>
-        /// Performs initial UIList setup.
-        /// </summary>
-        /// <param name="uiList">UIList to set up.</param>
-        private void ListSetup(UIList uiList)
-        {
-            // Appearance, size and position.
-            uiList.BackgroundSprite = "UnlockingPanel";
-            uiList.width = uiList.parent.width;
-            uiList.height = uiList.parent.height;
-            uiList.relativePosition = Vector2.zero;
-
-            // Data.
-            uiList.Data = new FastList<object>();
         }
     }
 }

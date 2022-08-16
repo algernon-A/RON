@@ -28,7 +28,7 @@ namespace RON
         /// <summary>
         /// Default row height.
         /// </summary>
-        public new const float DefaultRowHeight = 23f;
+        public const float CustomRowHeight = 23f;
 
         // Layout constants - private.
         private const float IndicatorMargin = 2f;
@@ -56,7 +56,7 @@ namespace RON
         /// <summary>
         /// Gets the height for this row.
         /// </summary>
-        public override float RowHeight => DefaultRowHeight;
+        public override float RowHeight => CustomRowHeight;
 
         /// <summary>
         /// Generates and displays a row.
