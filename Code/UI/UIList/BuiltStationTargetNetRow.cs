@@ -1,16 +1,16 @@
-﻿// <copyright file="UIStationTargetNetRow.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="BuiltStationTargetNetRow.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
 namespace RON
 {
-    using AlgernonCommons.UI;
+    using ColossalFramework;
 
     /// <summary>
     /// Prop row fastlist item for target networks for the station panel.
     /// </summary>
-    public class UIStationTargetNetRow : UINetRow
+    public class BuiltStationTargetNetRow : NetRow
     {
         /// <summary>
         /// Generates and displays a row.
@@ -20,10 +20,9 @@ namespace RON
         public override void Display(object data, int rowIndex)
         {
             // Get index number.
-            if (data is int index)
+            if (data is int segment)
             {
-                // Display using underlying netinfo of index.
-                base.Display(new NetRowItem(StandalonePanelManager<StationPanel>.Panel.GetNetInfo(index)), rowIndex);
+                    base.Display(new NetRowItem(Singleton<NetManager>.instance.m_segments.m_buffer[segment].Info), rowIndex);
             }
         }
     }

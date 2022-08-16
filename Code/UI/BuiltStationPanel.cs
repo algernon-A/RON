@@ -16,7 +16,7 @@ namespace RON
     /// <summary>
     /// RON station track replacer panel for already-built stations.
     /// </summary>
-    internal class BuiltStationPanel : StationPanel
+    internal class BuiltStationPanel : StationPanelBase<BuiltStationTargetNetRow>
     {
         // WorldInfoPanel button to activate panel.
         private static UIButton s_panelButton;
@@ -180,8 +180,12 @@ namespace RON
             // Event handler.
             s_panelButton.eventClick += (c, p) =>
             {
-                StandalonePanelManager<BuiltStationPanel>.Create();
-                StandalonePanelManager<BuiltStationPanel>.Panel.absolutePosition = s_panelButton.absolutePosition + new Vector3(-CalculatedPanelWidth / 2f, PanelButtonSize + 200f);
+                // Don't do anything if no eligible nets.
+                if (s_eligibleNets.Count > 0)
+                {
+                    StandalonePanelManager<BuiltStationPanel>.Create();
+                    StandalonePanelManager<BuiltStationPanel>.Panel.absolutePosition = s_panelButton.absolutePosition + new Vector3(-CalculatedPanelWidth / 2f, PanelButtonSize + 200f);
+                }
 
                 // Manually unfocus control, otherwise it can stay focused until next UI event (looks untidy).
                 c.Unfocus();
@@ -195,18 +199,7 @@ namespace RON
         /// </summary>
         /// <param name="index">Target network index.</param>
         /// <returns>NetInfo.</returns>
-        internal override NetInfo GetNetInfo(int index)
-        {
-            // Check if the given index is valid.
-            if (s_eligibleNets != null && s_eligibleNets.Contains(index))
-            {
-                // Valid index; return NetInfo.
-                return Singleton<NetManager>.instance.m_segments.m_buffer[index].Info;
-            }
-
-            // If we got here, we didn't get a match; return null.
-            return null;
-        }
+        internal override NetInfo GetNetInfo(int index) => Singleton<NetManager>.instance.m_segments.m_buffer[index].Info;
 
         /// <summary>
         /// Checks for eligible networks in this building.

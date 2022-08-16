@@ -43,7 +43,7 @@ namespace RON
             UIFont subLabelFont = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault((UIFont f) => f.name == "OpenSans-Regular");
 
             UIDropDown languageDropDown = UIDropDowns.AddPlainDropDown(this, LeftMargin, currentY, Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index);
-            languageDropDown.eventSelectedIndexChanged += (control, index) =>
+            languageDropDown.eventSelectedIndexChanged += (c, index) =>
             {
                 Translations.Index = index;
                 OptionsPanelManager<OptionsPanel>.LocaleChanged();
@@ -59,14 +59,14 @@ namespace RON
             UICheckBox railwayReplacerCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_RRP"));
             railwayReplacerCheck.relativePosition = new Vector2(LeftMargin, currentY);
             railwayReplacerCheck.isChecked = ModSettings.ShowRailwayReplacer;
-            railwayReplacerCheck.eventCheckChanged += (control, isChecked) => ModSettings.ShowRailwayReplacer = isChecked;
+            railwayReplacerCheck.eventCheckChanged += (c, isChecked) => ModSettings.ShowRailwayReplacer = isChecked;
             currentY += CheckRowHeight + GroupMargin;
 
             // Advanced mode checkbox.
             UICheckBox advancedCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_ADV"));
             advancedCheck.relativePosition = new Vector2(LeftMargin, currentY);
             advancedCheck.isChecked = ModSettings.EnableAdvanced;
-            advancedCheck.eventCheckChanged += (control, isChecked) => ModSettings.EnableAdvanced = isChecked;
+            advancedCheck.eventCheckChanged += (c, isChecked) => ModSettings.EnableAdvanced = isChecked;
             currentY += CheckRowHeight + Margin;
 
             // Advanced mode sub-label.
@@ -78,7 +78,7 @@ namespace RON
             UICheckBox replaceNextCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_NEX"));
             replaceNextCheck.relativePosition = new Vector2(LeftMargin, currentY);
             replaceNextCheck.isChecked = ModSettings.ReplaceNExt2;
-            replaceNextCheck.eventCheckChanged += (control, isChecked) => ModSettings.ReplaceNExt2 = isChecked;
+            replaceNextCheck.eventCheckChanged += (c, isChecked) => ModSettings.ReplaceNExt2 = isChecked;
             currentY += CheckRowHeight + Margin;
 
             // Replace NExt2 roads on load sub-label.
@@ -90,7 +90,7 @@ namespace RON
             UICheckBox replaceMOMCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_MOM"));
             replaceMOMCheck.relativePosition = new Vector2(LeftMargin, currentY);
             replaceMOMCheck.isChecked = ModSettings.ReplaceMOM;
-            replaceMOMCheck.eventCheckChanged += (control, isChecked) => ModSettings.ReplaceMOM = isChecked;
+            replaceMOMCheck.eventCheckChanged += (c, isChecked) => ModSettings.ReplaceMOM = isChecked;
             currentY += CheckRowHeight + Margin;
 
             // Replace MOM tracks on load sub-label.

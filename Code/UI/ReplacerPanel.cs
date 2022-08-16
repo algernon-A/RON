@@ -22,7 +22,6 @@ namespace RON
     internal class ReplacerPanel : StandalonePanel
     {
         // Layout constants - general.
-        private const float Margin = 5f;
         private const float ToggleSpriteSize = 24f;
         private const float ReplaceButtonHeight = 30f;
 
@@ -30,7 +29,7 @@ namespace RON
         private const float TitleHeight = 45f;
         private const float ToolRowHeight = 35f;
         private const float ToolbarHeight = ToolRowHeight * 3f;
-        private const float ListHeight = 15 * UINetRow.CustomRowHeight;
+        private const float ListHeight = 15 * NetRow.CustomRowHeight;
         private const float PreviewHeight = 100f;
         private const float ToolRow1Y = TitleHeight + Margin;
         private const float ToolRow2Y = ToolRow1Y + ToolRowHeight;
@@ -277,28 +276,28 @@ namespace RON
             spacerPanel.backgroundSprite = "WhiteRect";
 
             // Target network list.
-            _targetList = UIList.AddUIList<UINetRow>(this, Margin, ListY, LeftWidth, ListHeight);
-            _targetList.EventSelectionChanged += (control, selectedItem) => SelectedItem = selectedItem as NetRowItem;
+            _targetList = UIList.AddUIList<NetRow>(this, Margin, ListY, LeftWidth, ListHeight, NetRow.CustomRowHeight);
+            _targetList.EventSelectionChanged += (c, selectedItem) => SelectedItem = selectedItem as NetRowItem;
 
             // Loaded network list.
-            _loadedList = UIList.AddUIList<UINetRow>(this, RightPanelX, ListY, RightWidth, ListHeight);
-            _loadedList.EventSelectionChanged += (control, selectedItem) => SelectedReplacement = (selectedItem as NetRowItem)?.Prefab;
+            _loadedList = UIList.AddUIList<NetRow>(this, RightPanelX, ListY, RightWidth, ListHeight, NetRow.CustomRowHeight);
+            _loadedList.EventSelectionChanged += (c, selectedItem) => SelectedReplacement = (selectedItem as NetRowItem)?.Prefab;
 
             // List titles.
             UILabels.AddLabel(this, Margin, ListTitleY, Translations.Translate("RON_PNL_MAP"), LeftWidth);
             UILabels.AddLabel(this, RightPanelX, ListTitleY, Translations.Translate("RON_PNL_AVA"), RightWidth);
 
             // List headers.
-            UILabels.AddLabel(this, Margin + UINetRow.NameX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_NET"), UINetRow.CreatorX - UINetRow.NameX);
-            UILabels.AddLabel(this, Margin + UINetRow.CreatorX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_CRE"), LeftWidth - UINetRow.CreatorX);
-            UILabels.AddLabel(this, RightPanelX + UINetRow.NameX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_NET"), UINetRow.CreatorX - UINetRow.NameX);
-            UILabels.AddLabel(this, RightPanelX + UINetRow.CreatorX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_CRE"), RightWidth - UINetRow.CreatorX);
+            UILabels.AddLabel(this, Margin + NetRow.NameX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_NET"), NetRow.CreatorX - NetRow.NameX);
+            UILabels.AddLabel(this, Margin + NetRow.CreatorX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_CRE"), LeftWidth - NetRow.CreatorX);
+            UILabels.AddLabel(this, RightPanelX + NetRow.NameX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_NET"), NetRow.CreatorX - NetRow.NameX);
+            UILabels.AddLabel(this, RightPanelX + NetRow.CreatorX + OrderArrowWidth, ListHeaderY, Translations.Translate("RON_PNL_CRE"), RightWidth - NetRow.CreatorX);
 
             // Order buttons.
-            _targetNameButton = ArrowButton(this, Margin + UINetRow.NameX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
-            _targetCreatorButton = ArrowButton(this, Margin + UINetRow.CreatorX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
-            _loadedNameButton = ArrowButton(this, RightPanelX + UINetRow.NameX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
-            _loadedCreatorButton = ArrowButton(this, RightPanelX + UINetRow.CreatorX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
+            _targetNameButton = ArrowButton(this, Margin + NetRow.NameX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
+            _targetCreatorButton = ArrowButton(this, Margin + NetRow.CreatorX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
+            _loadedNameButton = ArrowButton(this, RightPanelX + NetRow.NameX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
+            _loadedCreatorButton = ArrowButton(this, RightPanelX + NetRow.CreatorX, ListHeaderY, OrderArrowWidth, ListY - ListHeaderY);
 
             _targetNameButton.eventClicked += SortTargets;
             _targetCreatorButton.eventClicked += SortTargets;
@@ -331,30 +330,30 @@ namespace RON
 
             // Name filter.
             nameFilter = UITextFields.AddLabelledTextField(this, FilterX, ToolRow1Y, Translations.Translate("RON_FIL_NAME"), FilterWidth, 25f, vertPad: 5);
-            nameFilter.eventTextChanged += (control, text) => LoadedList();
-            nameFilter.eventTextSubmitted += (control, text) => LoadedList();
+            nameFilter.eventTextChanged += (c, text) => LoadedList();
+            nameFilter.eventTextSubmitted += (c, text) => LoadedList();
 
             // Search by name/author dropdown.
             _searchTypeMenu = UIDropDowns.AddDropDown(this, FilterMenuxX, ToolRow1Y, FilterMenuWidth);
             _searchTypeMenu.items = new string[(int)SearchTypes.NumTypes] { Translations.Translate("RON_PNL_NET"), Translations.Translate("RON_PNL_CRE") };
             _searchTypeMenu.selectedIndex = (int)SearchTypes.SearchNetwork;
-            _searchTypeMenu.eventSelectedIndexChanged += (control, isChecked) => LoadedList();
+            _searchTypeMenu.eventSelectedIndexChanged += (c, isChecked) => LoadedList();
 
             // Vanilla filter.
             _hideVanillaCheck = UICheckBoxes.AddLabelledCheckBox((UIComponent)(object)this, FilterX, HideVanillaY, Translations.Translate("RON_PNL_HDV"));
             _hideVanillaCheck.isChecked = true;
-            _hideVanillaCheck.eventCheckChanged += (control, isChecked) => LoadedList();
+            _hideVanillaCheck.eventCheckChanged += (c, isChecked) => LoadedList();
 
             // Same width only check.
             _sameWidthCheck = UICheckBoxes.AddLabelledCheckBox(this, FilterX, SameWidthY, Translations.Translate("RON_PNL_WID"));
             _sameWidthCheck.isChecked = true;
-            _sameWidthCheck.eventCheckChanged += (control, isChecked) => LoadedList();
+            _sameWidthCheck.eventCheckChanged += (c, isChecked) => LoadedList();
 
             // Advanced mode check.
             if (ModSettings.EnableAdvanced)
             {
                 _advancedCheck = UICheckBoxes.AddLabelledCheckBox(this, FilterX, AdvancedY, Translations.Translate("RON_PNL_ADV"));
-                _advancedCheck.eventCheckChanged += (control, isChecked) => LoadedList();
+                _advancedCheck.eventCheckChanged += (c, isChecked) => LoadedList();
             }
 
             // Replacing label (starts hidden).
