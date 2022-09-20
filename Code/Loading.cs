@@ -5,23 +5,27 @@
 
 namespace RON
 {
-    using AlgernonCommons;
+    using System.Collections.Generic;
+    using AlgernonCommons.Patching;
     using ICities;
 
     /// <summary>
     /// Main loading class: the mod runs from here.
     /// </summary>
-    public class Loading : LoadingExtensionBase
+    public class Loading : PatcherLoadingBase<OptionsPanel, PatcherBase>
     {
         /// <summary>
-        /// Called by the game when level loading is complete.
+        /// Gets a list of permitted loading modes.
         /// </summary>
-        /// <param name="mode">Loading mode (e.g. game, editor, scenario, etc.)</param>
-        public override void OnLevelLoaded(LoadMode mode)
-        {
-            Logging.KeyMessage("version ", AssemblyUtils.CurrentVersion, " loading");
+        protected override List<AppMode> PermittedModes => new List<AppMode> { AppMode.Game, AppMode.MapEditor, AppMode.AssetEditor, AppMode.ScenarioEditor };
 
-            base.OnLevelLoaded(mode);
+        /// <summary>
+        /// Performs any actions upon successful level loading completion.
+        /// </summary>
+        /// <param name="mode">Loading mode (e.g. game, editor, scenario, etc.).</param>
+        protected override void LoadedActions(LoadMode mode)
+        {
+            base.LoadedActions(mode);
 
             // Add RON tool to tool controller.
             ToolsModifierControl.toolController.gameObject.AddComponent<RONTool>();
