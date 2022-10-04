@@ -574,7 +574,7 @@ namespace RON
                     _typeDropDown.selectedIndex = i;
 
                     // Set target list position.
-                    _targetList.FindItem<NetRowItem>(x => x.Prefab == SelectedPrefab);
+                    _targetList.FindItem<NetRowItem>(x => x.Prefab == selectedNet);
 
                     // Set selected network segement.
                     _currentSegment = segmentID;
