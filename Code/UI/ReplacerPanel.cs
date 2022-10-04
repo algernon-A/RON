@@ -65,7 +65,7 @@ namespace RON
         private const float NextX = LeftWidth + Margin - ButtonWidth;
 
         // Number of network type categories.
-        private const int NumTypes = 22;
+        private const int NumTypes = 24;
 
         // Network type list.
         private readonly string[] netDescriptions = new string[NumTypes]
@@ -73,6 +73,8 @@ namespace RON
             Translations.Translate("RON_PNL_ROA"),
             Translations.Translate("RON_PNL_ROB"),
             Translations.Translate("RON_PNL_ROT"),
+            Translations.Translate("RON_PNL_PZA"),
+            Translations.Translate("RON_PNL_PZB"),
             Translations.Translate("RON_PNL_RAI"),
             Translations.Translate("RON_PNL_RAB"),
             Translations.Translate("RON_PNL_RAT"),
@@ -100,6 +102,8 @@ namespace RON
             typeof(RoadAI),
             typeof(RoadBridgeAI),
             typeof(RoadTunnelAI),
+            typeof(PedestrianZoneRoadAI),
+            typeof(PedestrianZoneBridgeAI),
             typeof(TrainTrackAI),
             typeof(TrainTrackBridgeAI),
             typeof(TrainTrackTunnelAI),
@@ -128,6 +132,8 @@ namespace RON
             typeof(RoadAI),
             typeof(RoadBridgeAI),
             typeof(RoadTunnelAI),
+            typeof(PedestrianZoneRoadAI),
+            typeof(PedestrianZoneBridgeAI),
             typeof(TrainTrackAI),
             typeof(TrainTrackBridgeAI),
             typeof(TrainTrackTunnelAI),
@@ -157,6 +163,8 @@ namespace RON
             InfoManager.InfoMode.Underground, // RoadTunnelAI
             InfoManager.InfoMode.None,
             InfoManager.InfoMode.None,
+            InfoManager.InfoMode.None,
+            InfoManager.InfoMode.None,
             InfoManager.InfoMode.Underground, // TrainTrackTunnelAI
             InfoManager.InfoMode.None,
             InfoManager.InfoMode.None,
@@ -182,6 +190,8 @@ namespace RON
             InfoManager.SubInfoMode.None,
             InfoManager.SubInfoMode.None,
             InfoManager.SubInfoMode.MaintenanceDepots, // Per game implementation.
+            InfoManager.SubInfoMode.None,
+            InfoManager.SubInfoMode.None,
             InfoManager.SubInfoMode.None,
             InfoManager.SubInfoMode.None,
             InfoManager.SubInfoMode.MaintenanceDepots, // Per game implementation.

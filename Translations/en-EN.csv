@@ -22,6 +22,8 @@
 "RON_PNL_ROA","Roads - surface only"
 "RON_PNL_ROB","Roads - elevated and bridge"
 "RON_PNL_ROT","Roads - tunnels"
+"RON_PNL_PZA","Pedestrian zone roads - surface only"
+"RON_PNL_PZB","Pedestrian zone roads - elevated and bridge"
 "RON_PNL_RAI","Rail - surface only"
 "RON_PNL_RAB","Rail - elevated and bridge"
 "RON_PNL_RAT","Rail - tunnels"
