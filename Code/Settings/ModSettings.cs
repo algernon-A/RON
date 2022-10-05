@@ -51,11 +51,13 @@ namespace RON
         [XmlIgnore]
         private static bool replaceNExt2 = true;
 
+        /*
         /// <summary>
         /// Gets or sets a value indicating whether Metro Overhaul Mod tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
         private static bool replaceMOM = true;
+        */
 
         /// <summary>
         /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
@@ -110,6 +112,7 @@ namespace RON
             set => replaceNExt2 = value;
         }
 
+        /*
         /// <summary>
         /// Gets or sets a value indicating whether Metro Overhaul Mod tracks should be auto-replaced on load (true).
         /// </summary>
@@ -119,6 +122,7 @@ namespace RON
             get => replaceMOM;
             set => replaceMOM = value;
         }
+        */
 
         /// <summary>
         /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
@@ -162,7 +166,8 @@ namespace RON
         /// Gets or sets a value indicating whether Metro Overhaul Mod tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
-        internal static bool ReplaceMOM { get => replaceMOM; set => replaceMOM = value; }
+        // internal static bool ReplaceMOM { get => replaceMOM; set => replaceMOM = value; }
+        internal static bool ReplaceMOM => false;
 
         /// <summary>
         /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
