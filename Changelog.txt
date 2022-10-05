@@ -1,5 +1,6 @@
-﻿- Add support for Plazas & Promenades Pedestrian Zone Roads
-- Add auto-rplace-on-load for MOM tracks using the supported replacment collection (does not yet include on-ground or elevated station tracks).
+﻿Version 1.0 -
+
+- Add support for Plazas & Promenades Pedestrian Zone Roads
 - Update translation framework
 - Move auto-network replacement null prefab detection to OnLevelLoaded
 
