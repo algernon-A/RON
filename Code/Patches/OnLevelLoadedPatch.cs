@@ -46,7 +46,7 @@ namespace RON
             }
 
             // Record list of loaded networks.
-            //AutoReplaceXML.SaveFile();
+            // AutoReplaceXML.SaveFile();
 
             // Set up options panel event handler (need to redo this now that options panel has been reset after loading into game).
             OptionsPanelManager<OptionsPanel>.OptionsEventHook();
