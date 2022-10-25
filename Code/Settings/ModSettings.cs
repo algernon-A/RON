@@ -27,11 +27,7 @@ namespace RON
         /// Gets the settings file name.
         /// </summary>
         [XmlIgnore]
-        private static readonly string SettingsFileName = Path.Combine(ColossalFramework.IO.DataLocation.localApplicationData, "RON-settings.xml");
-
-        // User settings directory.
-        [XmlIgnore]
-        private static readonly string UserSettingsDir = ColossalFramework.IO.DataLocation.localApplicationData;
+        private static readonly string SettingsFile = Path.Combine(ColossalFramework.IO.DataLocation.localApplicationData, "RON-settings.xml");
 
         /// <summary>
         /// Gets or sets a value indicating whether advanced mode is active (true) or inactive (false).
@@ -51,13 +47,11 @@ namespace RON
         [XmlIgnore]
         private static bool replaceNExt2 = true;
 
-        /*
         /// <summary>
         /// Gets or sets a value indicating whether Metro Overhaul Mod tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
         private static bool replaceMOM = true;
-        */
 
         /// <summary>
         /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
@@ -166,8 +160,7 @@ namespace RON
         /// Gets or sets a value indicating whether Metro Overhaul Mod tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
-        // internal static bool ReplaceMOM { get => replaceMOM; set => replaceMOM = value; }
-        internal static bool ReplaceMOM => false;
+        internal static bool ReplaceMOM { get => replaceMOM; set => replaceMOM = value; }
 
         /// <summary>
         /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
@@ -190,11 +183,11 @@ namespace RON
         /// <summary>
         /// Loads settings from file.
         /// </summary>
-        internal static void Load() => XMLFileUtils.Load<ModSettings>(SettingsFileName);
+        internal static void Load() => XMLFileUtils.Load<ModSettings>(SettingsFile);
 
         /// <summary>
         /// Saves settings to file.
         /// </summary>
-        internal static void Save() => XMLFileUtils.Save<ModSettings>(SettingsFileName);
+        internal static void Save() => XMLFileUtils.Save<ModSettings>(SettingsFile);
     }
 }
