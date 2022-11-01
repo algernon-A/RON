@@ -1,6 +1,8 @@
 ﻿Version 1.0 -
 
 - Add support for Plazas & Promenades Pedestrian Zone Roads
+- Add auto-replace-on-load for Metro Overhaul Mod (MOM) tracks on load with tracks from the supported replacement collection
+- Update UI style
 - Update translation framework
 - Move auto-network replacement null prefab detection to OnLevelLoaded
 
@@ -30,7 +32,7 @@ Version 0.9.3 -
 
 Version 0.9.2.3 -
 
-- Reclaim hotkey handling from UUI (mod now handles hotkey directly)
+- Reclaim hotkey handling from UUI (mod now handles hotkey directly)str
 - Add check (and fix) for hotkey incorrectly assigned to Alt-B
 
 
