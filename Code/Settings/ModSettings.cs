@@ -21,7 +21,7 @@ namespace RON
         /// UUI key.
         /// </summary>
         [XmlIgnore]
-        private static readonly UnsavedInputKey UUIKey = new UnsavedInputKey(name: "RONr hotkey", keyCode: KeyCode.N, control: false, shift: false, alt: true);
+        private static readonly UnsavedInputKey UUIKey = new UnsavedInputKey(name: "RON hotkey", keyCode: KeyCode.N, control: false, shift: false, alt: true);
 
         /// <summary>
         /// Gets the settings file name.
