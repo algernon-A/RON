@@ -33,37 +33,37 @@ namespace RON
         /// Gets or sets a value indicating whether advanced mode is active (true) or inactive (false).
         /// </summary>
         [XmlIgnore]
-        private static bool enableAdvanced = false;
+        private static bool s_enableAdvanced = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether the railway replacer panel should be automatically shown when a station building is selected (true).
         /// </summary>
         [XmlIgnore]
-        private static bool showRailwayReplacer = true;
+        private static bool s_showRailwayReplacer = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether Network Extensions 2 roads should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
-        private static bool replaceNExt2 = true;
+        private static bool s_replaceNExt2 = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether Metro Overhaul Mod tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
-        private static bool replaceMOM = true;
+        private static bool s_replaceMOM = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
-        private static bool replaceNAR = true;
+        private static bool s_replaceNAR = true;
 
         /// <summary>
         /// Gets or sets NAR track replacement mode.
         /// </summary>
         [XmlIgnore]
-        private static AutoReplaceXML.Replacements replaceNARmode = AutoReplaceXML.Replacements.NAR_R2;
+        private static AutoReplaceXML.Replacements s_replaceNARmode = AutoReplaceXML.Replacements.NAR_R2;
 
         /// <summary>
         /// Gets or sets the RON hotkey.
@@ -82,8 +82,8 @@ namespace RON
         [XmlElement("AdvancedMode")]
         public bool XMLAdvancedMode
         {
-            get => enableAdvanced;
-            set => enableAdvanced = value;
+            get => s_enableAdvanced;
+            set => s_enableAdvanced = value;
         }
 
         /// <summary>
@@ -92,8 +92,8 @@ namespace RON
         [XmlElement("ShowRailwayReplacer")]
         public bool XMLShowRailwayReplacer
         {
-            get => showRailwayReplacer;
-            set => showRailwayReplacer = value;
+            get => s_showRailwayReplacer;
+            set => s_showRailwayReplacer = value;
         }
 
         /// <summary>
@@ -102,21 +102,19 @@ namespace RON
         [XmlElement("ReplaceNExt2")]
         public bool XMLReplaceNext
         {
-            get => replaceNExt2;
-            set => replaceNExt2 = value;
+            get => s_replaceNExt2;
+            set => s_replaceNExt2 = value;
         }
 
-        /*
         /// <summary>
         /// Gets or sets a value indicating whether Metro Overhaul Mod tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlElement("ReplaceMOM")]
         public bool XMLReplaceMOM
         {
-            get => replaceMOM;
-            set => replaceMOM = value;
+            get => s_replaceMOM;
+            set => s_replaceMOM = value;
         }
-        */
 
         /// <summary>
         /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
@@ -124,8 +122,8 @@ namespace RON
         [XmlElement("ReplaceNAR")]
         public bool XMLReplaceNAR
         {
-            get => replaceNAR;
-            set => replaceNAR = value;
+            get => s_replaceNAR;
+            set => s_replaceNAR = value;
         }
 
         /// <summary>
@@ -134,45 +132,45 @@ namespace RON
         [XmlElement("ReplaceMode_NAR")]
         public AutoReplaceXML.Replacements XMLReplaceNARmode
         {
-            get => replaceNARmode;
-            set => replaceNARmode = value;
+            get => s_replaceNARmode;
+            set => s_replaceNARmode = value;
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether the railway replacer panel should be automatically shown when a station building is selected (true).
         /// </summary>
         [XmlIgnore]
-        internal static bool ShowRailwayReplacer { get => showRailwayReplacer; set => showRailwayReplacer = value; }
+        internal static bool ShowRailwayReplacer { get => s_showRailwayReplacer; set => s_showRailwayReplacer = value; }
 
         /// <summary>
         /// Gets or sets a value indicating whether advanced mode is active (true) or inactive (false).
         /// </summary>
         [XmlIgnore]
-        internal static bool EnableAdvanced { get => enableAdvanced; set => enableAdvanced = value; }
+        internal static bool EnableAdvanced { get => s_enableAdvanced; set => s_enableAdvanced = value; }
 
         /// <summary>
         /// Gets or sets a value indicating whether Network Extensons 2 roads should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
-        internal static bool ReplaceNExt2 { get => replaceNExt2; set => replaceNExt2 = value; }
+        internal static bool ReplaceNExt2 { get => s_replaceNExt2; set => s_replaceNExt2 = value; }
 
         /// <summary>
         /// Gets or sets a value indicating whether Metro Overhaul Mod tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
-        internal static bool ReplaceMOM { get => replaceMOM; set => replaceMOM = value; }
+        internal static bool ReplaceMOM { get => s_replaceMOM; set => s_replaceMOM = value; }
 
         /// <summary>
         /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
-        internal static bool ReplaceNAR { get => replaceNAR; set => replaceNAR = value; }
+        internal static bool ReplaceNAR { get => s_replaceNAR; set => s_replaceNAR = value; }
 
         /// <summary>
         /// Gets or sets the replacement mode selection for NAR auto-replace.
         /// </summary>
         [XmlIgnore]
-        internal static AutoReplaceXML.Replacements ReplaceNARmode { get => replaceNARmode; set => replaceNARmode = value; }
+        internal static AutoReplaceXML.Replacements ReplaceNARmode { get => s_replaceNARmode; set => s_replaceNARmode = value; }
 
         /// <summary>
         /// Gets the current hotkey as a UUI UnsavedInputKey.

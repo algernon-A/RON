@@ -1,4 +1,7 @@
-﻿Version 1.0 -
+﻿- Fix MOM auto-replace setting not saving
+
+
+Version 1.0 -
 
 - Add support for Plazas & Promenades Pedestrian Zone Roads
 - Add auto-replace-on-load for Metro Overhaul Mod (MOM) tracks on load with tracks from the supported replacement collection
