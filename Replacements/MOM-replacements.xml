@@ -102,7 +102,7 @@
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope Large" replacement="2808391208.Modern Quad Metro Track Type B Slope0" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel Large" replacement="2808391208.Modern Quad Metro Track Type B Tunnel0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground Small" replacement="2842668814.Metro Station Track MS_Data" />
-		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated Small" replacement="2642668504.Elevated Metro Station MS_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated Small" replacement="2842668504.Elevated Metro Station MS_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Small" replacement="2822386703.Single Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground" replacement="2842206590.Dual Track Metro Station Track_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated" replacement="2842206725.Elevated Metro Station Track_Data" />
