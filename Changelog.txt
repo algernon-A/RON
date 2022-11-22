@@ -1,4 +1,7 @@
-﻿- Fix MOM auto-replace setting not saving
+﻿Version 1.0.1 -
+
+- Fix MOM auto-replace setting not saving
+- Fix MOM elevated metro station track replacement reference (thanks kevinvanrijn!)
 
 
 Version 1.0 -
