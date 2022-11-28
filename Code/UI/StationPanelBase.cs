@@ -66,13 +66,6 @@ namespace RON
         /// </summary>
         internal StationPanelBase()
         {
-            // Drag bar.
-            UIDragHandle dragHandle = AddUIComponent<UIDragHandle>();
-            dragHandle.width = this.width - 50f;
-            dragHandle.height = this.height;
-            dragHandle.relativePosition = Vector3.zero;
-            dragHandle.target = this;
-
             // Title label.
             SetTitle();
 
