@@ -1,4 +1,8 @@
-﻿Version 1.0.1 -
+﻿- Station replacement panel now remembers previous position when opened
+- Remove separate escape key handling for station track replacement panel (placing)
+
+
+Version 1.0.1 -
 
 - Fix MOM auto-replace setting not saving
 - Fix MOM elevated metro station track replacement reference (thanks kevinvanrijn!)

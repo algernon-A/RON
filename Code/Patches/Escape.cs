@@ -28,6 +28,7 @@ namespace RON
                 return false;
             }
 
+            /*
             // Is the station panel open?
             if (StandalonePanelManager<StationPanel>.Panel is StationPanel stationPanel)
             {
@@ -35,6 +36,7 @@ namespace RON
                 stationPanel.Close();
                 return false;
             }
+            */
 
             // Is the built station panel open?
             if (StandalonePanelManager<BuiltStationPanel>.Panel is BuiltStationPanel builtStationPanel)
