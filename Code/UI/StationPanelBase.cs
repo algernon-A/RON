@@ -80,7 +80,8 @@ namespace RON
             // Type dropdown.
             _typeDropDown = UIDropDowns.AddDropDown(this, Check2X, ControlY, ListWidth / 2f);
             _typeDropDown.items = new string[] { Translations.Translate("RON_STA_RAO"), Translations.Translate("RON_STA_MTO"), Translations.Translate("RON_STA_RAM") };
-            _typeDropDown.eventSelectedIndexChanged += (control, index) => LoadedList();
+            _typeDropDown.eventSelectedIndexChanged += (c, index) => LoadedList();
+            _typeDropDown.BringToFront();
 
             // Target network list.
             _targetList = UIList.AddUIList<TRow>(this, Margin, ListY, ListWidth, ListHeight, NetRow.CustomRowHeight);

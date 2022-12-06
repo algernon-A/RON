@@ -1,4 +1,5 @@
 ﻿- Implement common translations
+- Ensure station replacer type menu is always above other controls
 
 
 Version 1.0.2 -
