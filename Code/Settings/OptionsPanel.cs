@@ -120,7 +120,7 @@ namespace RON
             currentY += replaceNARCheckSubLabel.height + GroupMargin;
 
             UICheckBox loggingCheck = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("DETAIL_LOGGING"));
-            loggingCheck.isEnabled = Logging.DetailLogging;
+            loggingCheck.isChecked = Logging.DetailLogging;
             loggingCheck.eventCheckChanged += (c, isChecked) => { Logging.DetailLogging = isChecked; };
         }
 
