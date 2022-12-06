@@ -6,6 +6,7 @@
 namespace RON
 {
     using System.Linq;
+    using AlgernonCommons;
     using AlgernonCommons.Keybinding;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
@@ -56,15 +57,13 @@ namespace RON
             currentY += keyMapping.Panel.height + GroupMargin;
 
             // Show Railway Replacer checkbox.
-            UICheckBox railwayReplacerCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_RRP"));
-            railwayReplacerCheck.relativePosition = new Vector2(LeftMargin, currentY);
+            UICheckBox railwayReplacerCheck = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("RON_OPT_RRP"));
             railwayReplacerCheck.isChecked = ModSettings.ShowRailwayReplacer;
             railwayReplacerCheck.eventCheckChanged += (c, isChecked) => ModSettings.ShowRailwayReplacer = isChecked;
             currentY += CheckRowHeight + GroupMargin;
 
             // Advanced mode checkbox.
-            UICheckBox advancedCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_ADV"));
-            advancedCheck.relativePosition = new Vector2(LeftMargin, currentY);
+            UICheckBox advancedCheck = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("RON_OPT_ADV"));
             advancedCheck.isChecked = ModSettings.EnableAdvanced;
             advancedCheck.eventCheckChanged += (c, isChecked) => ModSettings.EnableAdvanced = isChecked;
             currentY += CheckRowHeight + Margin;
@@ -75,8 +74,7 @@ namespace RON
             currentY += CheckRowHeight + GroupMargin;
 
             // Replace NExt2 roads on load checkbox.
-            UICheckBox replaceNextCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_NEX"));
-            replaceNextCheck.relativePosition = new Vector2(LeftMargin, currentY);
+            UICheckBox replaceNextCheck = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("RON_OPT_NEX"));
             replaceNextCheck.isChecked = ModSettings.ReplaceNExt2;
             replaceNextCheck.eventCheckChanged += (c, isChecked) => ModSettings.ReplaceNExt2 = isChecked;
             currentY += CheckRowHeight + Margin;
@@ -87,8 +85,7 @@ namespace RON
             currentY += CheckRowHeight + GroupMargin;
 
             // Replace MOM tracks on load checkbox.
-            UICheckBox replaceMOMCheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_MOM"));
-            replaceMOMCheck.relativePosition = new Vector2(LeftMargin, currentY);
+            UICheckBox replaceMOMCheck = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("RON_OPT_MOM"));
             replaceMOMCheck.isChecked = ModSettings.ReplaceMOM;
             replaceMOMCheck.eventCheckChanged += (c, isChecked) => ModSettings.ReplaceMOM = isChecked;
             currentY += CheckRowHeight + Margin;
@@ -99,8 +96,7 @@ namespace RON
             currentY += CheckRowHeight + GroupMargin;
 
             // Replace NAR tracks on load checkbox.
-            UICheckBox replaceNARcheck = UICheckBoxes.AddPlainCheckBox(this, Translations.Translate("RON_OPT_NAR"));
-            replaceNARcheck.relativePosition = new Vector2(LeftMargin, currentY);
+            UICheckBox replaceNARcheck = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("RON_OPT_NAR"));
             replaceNARcheck.isChecked = ModSettings.ReplaceNAR;
             replaceNARcheck.eventCheckChanged += NARCheckChanged;
             currentY += CheckRowHeight;
@@ -121,6 +117,11 @@ namespace RON
             // Replace NAR tracks on load sub-label.
             UILabel replaceNARCheckSubLabel = UILabels.AddLabel(this, SubTitleX, currentY, Translations.Translate("RON_OPT_NAR2"), textScale: 1.125f);
             replaceNARCheckSubLabel.font = subLabelFont;
+            currentY += replaceNARCheckSubLabel.height + GroupMargin;
+
+            UICheckBox loggingCheck = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("DETAIL_LOGGING"));
+            loggingCheck.isEnabled = Logging.DetailLogging;
+            loggingCheck.eventCheckChanged += (c, isChecked) => { Logging.DetailLogging = isChecked; };
         }
 
         /// <summary>
