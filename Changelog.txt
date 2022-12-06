@@ -1,4 +1,7 @@
-﻿Version 1.0.2 -
+﻿- Implement common translations
+
+
+Version 1.0.2 -
 
 - Station replacement panel now remembers previous position when opened
 - Remove separate escape key handling for station track replacement panel (placing)
