@@ -1,4 +1,7 @@
-﻿- Implement common translations
+﻿Version 1.0.3 -
+
+- Add detailed logging toggle
+- Implement common translations
 - Ensure station replacer type menu is always above other controls
 
 
