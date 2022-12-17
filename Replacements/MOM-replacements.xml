@@ -101,18 +101,33 @@
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Track Bridge Large" replacement="2808391208.Modern Quad Metro Track Type B Bridge0" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Slope Large" replacement="2808391208.Modern Quad Metro Track Type B Slope0" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel Large" replacement="2808391208.Modern Quad Metro Track Type B Tunnel0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Station Track Ground Small" replacement="2902667093.Classic Metro Station Track S_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Station Track Elevated Small" replacement="2884933566.Classic Metro Station Track ES_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Small" replacement="2902668274.Classic Single Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground Small" replacement="2842668814.Metro Station Track MS_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated Small" replacement="2842668504.Elevated Metro Station MS_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Small" replacement="2822386703.Single Metro Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Station Track Ground" replacement="2902666462.Classic Metro Station Track D_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Station Track Elevated" replacement="2884932908.Classic Metro Station Track ED_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken" replacement="2902668105.Classic Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground" replacement="2842206590.Dual Track Metro Station Track_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated" replacement="2842206725.Elevated Metro Station Track_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel" replacement="2744689515.Base Metro Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Station Track Ground Large" replacement="2902666333.Classic Metro Station Track B_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Station Track Elevated Large" replacement="2884933908.Classic Metro Station Track EB_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Large" replacement="2902667344.Classic Metro Bypass Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground Large" replacement="2843505822.Metro Bypass Station Track_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated Large" replacement="2843506127.Metro Bypass Elevated Station_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Large" replacement="2823908553.Metro Bypass Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Station Track Ground Island" replacement="2902667215.Classic Metro Station Track SI_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Station Track Elevated Island" replacement="2884934340.Classic Metro Station Track ESI_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Island" replacement="2902667601.Classic Single Island Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground Island" replacement="2846687406.S Island Metro Station Track_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated Island" replacement="2846687808.S Island Metro Station Track E_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Island" replacement="2824176664.Single Island Metro Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Station Track Ground Large Dual Island" replacement="2902666580.Classic Metro Station Track DI_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Station Track Elevated Large Dual Island" replacement="2884935079.Classic Metro Station Track EDI_Data" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Large Dual Island" replacement="2902667448.Classic Dual Island Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground Large Dual Island" replacement="2847018940.Dual Island Metro Station Track_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated Large Dual Island" replacement="2847019368.D Island Metro Station Track E_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Large Dual Island" replacement="2838614684.Dual Island Metro Tunnel Station0" />

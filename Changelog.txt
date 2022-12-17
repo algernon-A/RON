@@ -1,4 +1,7 @@
-﻿Version 1.0.3 -
+﻿- Add final MOM track replacements (classic station tracks by cylis)
+
+
+Version 1.0.3 -
 
 - Add detailed logging toggle
 - Implement common translations

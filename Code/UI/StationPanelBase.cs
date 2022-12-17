@@ -354,6 +354,9 @@ namespace RON
                 m_buffer = netList.OrderBy(item => item.DisplayName).ToArray(),
                 m_size = netList.Count,
             };
+
+            // Bring type dropdown to front to ensure it's in front of any created list rows.
+            _typeDropDown.BringToFront();
         }
 
         /// <summary>
