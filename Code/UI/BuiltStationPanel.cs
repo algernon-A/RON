@@ -174,8 +174,8 @@ namespace RON
             }
 
             // Set position.
-            s_panelButton.AlignTo(infoPanel.component, UIAlignAnchor.TopLeft);
-            s_panelButton.relativePosition += new Vector3(infoPanel.component.width - 70f - PanelButtonSize, relativeY, 0f);
+            s_panelButton.AlignTo(infoPanel.component, UIAlignAnchor.TopRight);
+            s_panelButton.relativePosition += new Vector3(-70f, relativeY, 0f);
 
             // Event handler.
             s_panelButton.eventClick += (c, p) =>

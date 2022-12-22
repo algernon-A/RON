@@ -1,4 +1,7 @@
-﻿Version 1.0.4 -
+﻿- Fix station replacer panel button alignment when panel is resized
+
+
+Version 1.0.4 -
 
 - Add final MOM track replacements (classic station tracks by cylis)
 
