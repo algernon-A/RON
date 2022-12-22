@@ -1,4 +1,6 @@
-﻿- Fix station replacer panel button alignment when panel is resized
+﻿Version 1.0.4.1 -
+
+- Fix station track replacer panel button alignment when panel is resized
 
 
 Version 1.0.4 -
