@@ -1,4 +1,6 @@
-﻿- Add NExt2 replacement for cul-de-sac
+﻿Version 1.0.5 -
+
+- Add mapped replacement for NExt2 hidden cul-de-sac road
 
 
 Version 1.0.4.1 -
