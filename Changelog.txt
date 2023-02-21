@@ -1,4 +1,7 @@
-﻿Version 1.0.4.1 -
+﻿- Add NExt2 replacement for cul-de-sac
+
+
+Version 1.0.4.1 -
 
 - Fix station track replacer panel button alignment when panel is resized
 
