@@ -1,6 +1,7 @@
 ﻿Version 1.0.5 -
 
 - Add mapped replacement for NExt2 hidden cul-de-sac road
+- Update bundled CitiesHarmony
 
 
 Version 1.0.4.1 -
