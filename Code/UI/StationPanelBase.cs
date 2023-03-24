@@ -336,7 +336,7 @@ namespace RON
                         if (!(network.name.StartsWith("Station Track Eleva") && currentAIType == typeof(TrainTrackBridgeAI)))
                         {
                             // Still no match - check for metro-train match for station track types.
-                            if (!MatchTrainMetro(currentAIType, candidateType))
+                            if (!MatchTrainMetro(currentAIType, candidateType, network))
                             {
                                 continue;
                             }
@@ -355,7 +355,7 @@ namespace RON
                 m_size = netList.Count,
             };
 
-            // Bring type dropdown to front to ensure it's in front of any created list rows.
+            // Bring type dropdown to front to ensure it's in front of any created list rows
             _typeDropDown.BringToFront();
         }
 
@@ -387,14 +387,16 @@ namespace RON
         /// </summary>
         /// <param name="currentType">Selected track AI type.</param>
         /// <param name="candidateType">Candidate track AI type.</param>
+        /// <param name="candidateInfo">Candidate track NetInfo.</param>
         /// <returns>True if the two provided types are matched, false otherwise.</returns>
-        private bool MatchTrainMetro(Type currentType, Type candidateType)
+        private bool MatchTrainMetro(Type currentType, Type candidateType, NetInfo candidateInfo)
         {
             return
                 (candidateType == typeof(TrainTrackAI) && currentType == typeof(MetroTrackAI)) ||
                 (candidateType == typeof(TrainTrackBridgeAI) && currentType == typeof(MetroTrackBridgeAI)) ||
                 (candidateType == typeof(MetroTrackAI) && currentType == typeof(TrainTrackAI)) ||
-                (candidateType == typeof(MetroTrackBridgeAI) && currentType == typeof(TrainTrackBridgeAI))
+                (candidateType == typeof(MetroTrackBridgeAI) && currentType == typeof(TrainTrackBridgeAI)) ||
+                (candidateType == typeof(TrainTrackAI) && currentType == typeof(MetroTrackTunnelAI) && candidateInfo.name.ToLower().IndexOf("sunken") >= 0)
                 ;
         }
     }

@@ -1,4 +1,7 @@
-﻿Version 1.0.5 -
+﻿- Add support for matching sunken train station tracks against metro station tracks
+
+
+Version 1.0.5 -
 
 - Add mapped replacement for NExt2 hidden cul-de-sac road
 - Update bundled CitiesHarmony
