@@ -237,6 +237,22 @@ namespace RON
                 netNode = nodeBuffer[netNode].m_nextBuildingNode;
             }
 
+            // Check sub-buildings.
+            ushort subBuildingID = buildingBuffer[buildingID].m_subBuilding;
+            if (subBuildingID != 0)
+            {
+                netNode = buildingBuffer[subBuildingID].m_netNode;
+                while (netNode != 0)
+                {
+                    if (!nodes.Contains(netNode))
+                    {
+                        nodes.Add(netNode);
+                    }
+
+                    netNode = nodeBuffer[netNode].m_nextBuildingNode;
+                }
+            }
+
             // Now, check each node in the list.
             foreach (ushort nodeID in nodes)
             {

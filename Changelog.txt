@@ -1,4 +1,5 @@
-﻿- Add support for matching sunken train station tracks against metro station tracks
+﻿- Add station track replacer support for sub-buildings
+- Add support for matching sunken train station tracks against metro station tracks
 
 
 Version 1.0.5 -

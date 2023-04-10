@@ -196,6 +196,30 @@ namespace RON
                 }
             }
 
+            // Check sub-building.
+            if (selectedBuilding?.m_subBuildings != null)
+            {
+                foreach (BuildingInfo.SubInfo subBuilding in selectedBuilding.m_subBuildings)
+                {
+                    if (subBuilding != null && subBuilding.m_buildingInfo.m_paths != null)
+                    {
+                        for (int i = 0; i < subBuilding.m_buildingInfo.m_paths.Length; ++i)
+                        {
+                            if (subBuilding.m_buildingInfo.m_paths[i] != null)
+                            {
+                                // Check for matching track.
+                                NetAI netAI = subBuilding.m_buildingInfo.m_paths[i].m_netInfo.m_netAI;
+                                if (netAI is TrainTrackBaseAI || netAI is MetroTrackBaseAI)
+                                {
+                                    // Found a railway track - add index to list.
+                                    s_eligibleNets.Add(i);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // If no eligible nets were found, exit.
             if (s_eligibleNets.Count == 0)
             {
