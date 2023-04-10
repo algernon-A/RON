@@ -1,5 +1,6 @@
 ﻿- Add station track replacer support for sub-buildings
 - Add support for matching sunken train station tracks against metro station tracks
+- Replace station track type selection dropdown with checkboxes
 - Update AlgernonCommons
 
 

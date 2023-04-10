@@ -56,7 +56,8 @@ namespace RON
         private const float CalculatedPanelHeight = ListY + ListHeight + Margin;
 
         // Panel components.
-        private UIDropDown _typeDropDown;
+        private UICheckBox _trainCheck;
+        private UICheckBox _metroCheck;
         private UICheckBox _sameWidthCheck;
         private UIList _targetList;
         private UIList _loadedList;
@@ -148,11 +149,11 @@ namespace RON
             _sameWidthCheck.isChecked = true;
             _sameWidthCheck.eventCheckChanged += (c, isChecked) => LoadedList();
 
-            // Type dropdown.
-            _typeDropDown = UIDropDowns.AddDropDown(this, Check2X, ControlY, ListWidth / 2f);
-            _typeDropDown.items = new string[] { Translations.Translate("RON_STA_RAO"), Translations.Translate("RON_STA_MTO"), Translations.Translate("RON_STA_RAM") };
-            _typeDropDown.eventSelectedIndexChanged += (c, index) => LoadedList();
-            _typeDropDown.BringToFront();
+            _trainCheck = UICheckBoxes.AddLabelledCheckBox(this, Check2X, ControlY - 20f, Translations.Translate("RON_STA_SRT"));
+            _trainCheck.eventCheckChanged += (c, isChecked) => LoadedList();
+
+            _metroCheck = UICheckBoxes.AddLabelledCheckBox(this, Check2X, ControlY, Translations.Translate("RON_STA_SMT"));
+            _metroCheck.eventCheckChanged += (c, isChecked) => LoadedList();
 
             // Target network list.
             _targetList = UIList.AddUIList<TRow>(this, Margin, ListY, ListWidth, ListHeight, NetRow.CustomRowHeight);
@@ -237,7 +238,7 @@ namespace RON
             {
                 stationPanel.SetTitle();
                 stationPanel.TargetList();
-                stationPanel.SetTypeMenu(selectedBuilding);
+                stationPanel.SetDefaultChecks(selectedBuilding);
             }
         }
 
@@ -336,16 +337,16 @@ namespace RON
                     Type candidateType = network.m_netAI.GetType();
                     if (candidateType.IsSubclassOf(typeof(TrainTrackBaseAI)))
                     {
-                        // Train tracks are included unless 'metro only' is selected.
-                        if (_typeDropDown.selectedIndex == (int)TypeIndex.MetroOnly)
+                        // Don't include train tracks unless train checkbox is selected.
+                        if (!_trainCheck.isChecked)
                         {
                             continue;
                         }
                     }
                     else if (candidateType.IsSubclassOf(typeof(MetroTrackBaseAI)))
                     {
-                        // Metro tracks are included unless 'rail only' is selected.
-                        if (_typeDropDown.selectedIndex == (int)TypeIndex.RailOnly)
+                        // Don't include metro tracks unless metro checkbox is selected.
+                        if (!_metroCheck.isChecked)
                         {
                             continue;
                         }
@@ -381,22 +382,24 @@ namespace RON
                 m_buffer = netList.OrderBy(item => item.DisplayName).ToArray(),
                 m_size = netList.Count,
             };
-
-            // Bring type dropdown to front to ensure it's in front of any created list rows
-            _typeDropDown.BringToFront();
         }
 
         /// <summary>
         /// Sets the type menu index.
         /// </summary>
         /// <param name="buildingInfo">Currently selected prefab.</param>
-        protected void SetTypeMenu(BuildingInfo buildingInfo)
+        protected void SetDefaultChecks(BuildingInfo buildingInfo)
         {
-            int oldIndex = _typeDropDown.selectedIndex;
-            _typeDropDown.selectedIndex = buildingInfo.GetSubService() == ItemClass.SubService.PublicTransportMetro ? (int)TypeIndex.MetroOnly : (int)TypeIndex.RailOnly;
+            // Record previous states.
+            bool oldTrainCheckState = _trainCheck.isChecked;
+            bool oldMetroCheckState = _metroCheck.isChecked;
 
-            // Force LoadedList update if no change in index (so event handler wasn't triggered).
-            if (oldIndex == _typeDropDown.selectedIndex)
+            // Set new states.
+            _trainCheck.isChecked = buildingInfo.GetSubService() != ItemClass.SubService.PublicTransportMetro;
+            _metroCheck.isChecked = !_trainCheck.isChecked;
+
+            // Force LoadedList update if no change in states (so event handler wasn't triggered).
+            if (oldTrainCheckState == _trainCheck.isChecked && oldMetroCheckState == _metroCheck.isChecked)
             {
                 LoadedList();
             }

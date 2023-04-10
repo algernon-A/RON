@@ -288,7 +288,7 @@ namespace RON
         {
             SetTitle();
             TargetList();
-            SetTypeMenu(s_currentBuilding);
+            SetDefaultChecks(s_currentBuilding);
         }
     }
 }
