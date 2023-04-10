@@ -56,41 +56,10 @@ namespace RON
         private const float CalculatedPanelHeight = ListY + ListHeight + Margin;
 
         // Panel components.
-        private readonly UIDropDown _typeDropDown;
-        private readonly UICheckBox _sameWidthCheck;
-        private readonly UIList _targetList;
-        private readonly UIList _loadedList;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StationPanelBase{TRow}"/> class.
-        /// </summary>
-        internal StationPanelBase()
-        {
-            // Title label.
-            SetTitle();
-
-            // Decorative icon (top-left).
-            SetIcon(UITextures.LoadQuadSpriteAtlas("RonButton"), "normal");
-
-            // Same width only check.
-            _sameWidthCheck = UICheckBoxes.AddLabelledCheckBox(this, Check1X, ControlY + 5f, Translations.Translate("RON_PNL_WID"));
-            _sameWidthCheck.isChecked = true;
-            _sameWidthCheck.eventCheckChanged += (c, isChecked) => LoadedList();
-
-            // Type dropdown.
-            _typeDropDown = UIDropDowns.AddDropDown(this, Check2X, ControlY, ListWidth / 2f);
-            _typeDropDown.items = new string[] { Translations.Translate("RON_STA_RAO"), Translations.Translate("RON_STA_MTO"), Translations.Translate("RON_STA_RAM") };
-            _typeDropDown.eventSelectedIndexChanged += (c, index) => LoadedList();
-            _typeDropDown.BringToFront();
-
-            // Target network list.
-            _targetList = UIList.AddUIList<TRow>(this, Margin, ListY, ListWidth, ListHeight, NetRow.CustomRowHeight);
-            _targetList.EventSelectionChanged += (c, selectedItem) => SelectedIndex = selectedItem is int intItem ? intItem : -1;
-
-            // Loaded network list.
-            _loadedList = UIList.AddUIList<NetRow>(this, RightPanelX, ListY, ListWidth, ListHeight, NetRow.CustomRowHeight);
-            _loadedList.EventSelectionChanged += (c, selectedItem) => SelectedReplacement = (selectedItem as NetRowItem)?.Prefab;
-        }
+        private UIDropDown _typeDropDown;
+        private UICheckBox _sameWidthCheck;
+        private UIList _targetList;
+        private UIList _loadedList;
 
         /// <summary>
         /// Network type selection enum.
@@ -159,6 +128,40 @@ namespace RON
         /// Gets the target network as NetInfo.
         /// </summary>
         private NetInfo TargetNet => GetNetInfo(m_selectedIndex);
+
+        /// <summary>
+        /// Called by Unity when the object is created.
+        /// Used to perform setup.
+        /// </summary>
+        public override void Awake()
+        {
+            base.Awake();
+
+            // Title label.
+            SetTitle();
+
+            // Decorative icon (top-left).
+            SetIcon(UITextures.LoadQuadSpriteAtlas("RonButton"), "normal");
+
+            // Same width only check.
+            _sameWidthCheck = UICheckBoxes.AddLabelledCheckBox(this, Check1X, ControlY + 5f, Translations.Translate("RON_PNL_WID"));
+            _sameWidthCheck.isChecked = true;
+            _sameWidthCheck.eventCheckChanged += (c, isChecked) => LoadedList();
+
+            // Type dropdown.
+            _typeDropDown = UIDropDowns.AddDropDown(this, Check2X, ControlY, ListWidth / 2f);
+            _typeDropDown.items = new string[] { Translations.Translate("RON_STA_RAO"), Translations.Translate("RON_STA_MTO"), Translations.Translate("RON_STA_RAM") };
+            _typeDropDown.eventSelectedIndexChanged += (c, index) => LoadedList();
+            _typeDropDown.BringToFront();
+
+            // Target network list.
+            _targetList = UIList.AddUIList<TRow>(this, Margin, ListY, ListWidth, ListHeight, NetRow.CustomRowHeight);
+            _targetList.EventSelectionChanged += (c, selectedItem) => SelectedIndex = selectedItem is int intItem ? intItem : -1;
+
+            // Loaded network list.
+            _loadedList = UIList.AddUIList<NetRow>(this, RightPanelX, ListY, ListWidth, ListHeight, NetRow.CustomRowHeight);
+            _loadedList.EventSelectionChanged += (c, selectedItem) => SelectedReplacement = (selectedItem as NetRowItem)?.Prefab;
+        }
 
         /// <summary>
         /// Set the target building (first checking validity).

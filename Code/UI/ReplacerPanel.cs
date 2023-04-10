@@ -214,39 +214,39 @@ namespace RON
         };
 
         // Segment info record.
-        private readonly Dictionary<NetInfo, List<ushort>> _segmentDict = new Dictionary<NetInfo, List<ushort>>();
+        private Dictionary<NetInfo, List<ushort>> _segmentDict = new Dictionary<NetInfo, List<ushort>>();
 
         // Parent-child network relation dictionaries.
-        private readonly Dictionary<NetInfo, NetInfo> _slopeParents = new Dictionary<NetInfo, NetInfo>();
-        private readonly Dictionary<NetInfo, NetInfo> _elevatedParents = new Dictionary<NetInfo, NetInfo>();
-        private readonly Dictionary<NetInfo, NetInfo> _bridgeParents = new Dictionary<NetInfo, NetInfo>();
-        private readonly Dictionary<NetInfo, NetInfo> _tunnelParents = new Dictionary<NetInfo, NetInfo>();
+        private Dictionary<NetInfo, NetInfo> _slopeParents = new Dictionary<NetInfo, NetInfo>();
+        private Dictionary<NetInfo, NetInfo> _elevatedParents = new Dictionary<NetInfo, NetInfo>();
+        private Dictionary<NetInfo, NetInfo> _bridgeParents = new Dictionary<NetInfo, NetInfo>();
+        private Dictionary<NetInfo, NetInfo> _tunnelParents = new Dictionary<NetInfo, NetInfo>();
 
         // Panel components.
-        private readonly UIList _targetList;
-        private readonly UIList _loadedList;
-        private readonly UIButton _replaceButton;
-        private readonly UIButton _undoButton;
-        private readonly UIButton _deleteButton;
-        private readonly UIButton _prevButton;
-        private readonly UIButton _nextButton;
-        private readonly UIButton _targetNameButton;
-        private readonly UIButton _targetCreatorButton;
-        private readonly UIButton _loadedNameButton;
-        private readonly UIButton _loadedCreatorButton;
-        private readonly UITextField nameFilter;
-        private readonly UIDropDown _typeDropDown;
-        private readonly UIDropDown _searchTypeMenu;
-        private readonly UILabel _replacingLabel;
-        private readonly UILabel _progressLabel;
-        private readonly UICheckBox _sameWidthCheck;
-        private readonly UICheckBox _hideVanillaCheck;
-        private readonly UICheckBox _advancedCheck;
-        private readonly UICheckBox _globalCheck;
-        private readonly UICheckBox _districtCheck;
-        private readonly UICheckBox _segmentCheck;
-        private readonly UISprite _targetPreviewSprite;
-        private readonly UISprite _replacementPreviewSprite;
+        private UIList _targetList;
+        private UIList _loadedList;
+        private UIButton _replaceButton;
+        private UIButton _undoButton;
+        private UIButton _deleteButton;
+        private UIButton _prevButton;
+        private UIButton _nextButton;
+        private UIButton _targetNameButton;
+        private UIButton _targetCreatorButton;
+        private UIButton _loadedNameButton;
+        private UIButton _loadedCreatorButton;
+        private UITextField nameFilter;
+        private UIDropDown _typeDropDown;
+        private UIDropDown _searchTypeMenu;
+        private UILabel _replacingLabel;
+        private UILabel _progressLabel;
+        private UICheckBox _sameWidthCheck;
+        private UICheckBox _hideVanillaCheck;
+        private UICheckBox _advancedCheck;
+        private UICheckBox _globalCheck;
+        private UICheckBox _districtCheck;
+        private UICheckBox _segmentCheck;
+        private UISprite _targetPreviewSprite;
+        private UISprite _replacementPreviewSprite;
 
         // Current selections.
         private List<ushort> _selectedSegments;
@@ -264,11 +264,106 @@ namespace RON
         private int _targetSearchStatus;
         private int _loadedSearchStatus;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReplacerPanel"/> class.
-        /// </summary>
-        internal ReplacerPanel()
+        // Display order state.
+        private enum OrderBy
         {
+            NameAscending = 0,
+            NameDescending,
+            CreatorAscending,
+            CreatorDescending,
+        }
+
+        // String search type state.
+        private enum SearchTypes
+        {
+            SearchNetwork = 0,
+            SearchCreator,
+            NumTypes,
+        }
+
+        /// <summary>
+        /// Gets the panel width.
+        /// </summary>
+        public override float PanelWidth => CalculatedPanelWidth;
+
+        /// <summary>
+        /// Gets the panel height.
+        /// </summary>
+        public override float PanelHeight => CalculatedPanelHeight;
+
+        /// <summary>
+        /// Gets the current list of selected network segments.
+        /// </summary>
+        internal List<ushort> SelectedSegments => _selectedSegments;
+
+        /// <summary>
+        /// Sets the currently selected NetRowItem.  Called by target network list items.
+        /// </summary>
+        internal NetRowItem SelectedItem
+        {
+            private get => _selectedItem;
+
+            set
+            {
+                // Don't do anything if the target hasn't changed.
+                if (_selectedItem != value)
+                {
+                    // Update target reference.
+                    _selectedItem = value;
+
+                    // Reset selected segment.
+                    _currentSegment = 0;
+
+                    // Update selected segments.
+                    SetSelectedSegments();
+
+                    // Update loaded list.
+                    LoadedList();
+
+                    // Update display (preview and button states).
+                    DisplayNetwork(SelectedPrefab, _targetPreviewSprite);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the NetInfo for selected replacement.  Called by target network list items.
+        /// </summary>
+        internal NetInfo SelectedReplacement
+        {
+            set
+            {
+                // Assign new replacement.
+                _selectedReplacement = value;
+
+                // Update display (preview and button states).
+                DisplayNetwork(_selectedReplacement, _replacementPreviewSprite);
+            }
+        }
+
+        /// <summary>
+        /// Sets a value indicating whether replacement work has finished.
+        /// </summary>
+        internal bool ReplacingDone { set => _replacingDone = value; }
+
+        /// <summary>
+        /// Gets the panel's title.
+        /// </summary>
+        protected override string PanelTitle => Translations.Translate("RON_NAM");
+
+        /// <summary>
+        /// Gets the currently selected network prefab.
+        /// </summary>
+        private NetInfo SelectedPrefab => _selectedItem?.Prefab;
+
+        /// <summary>
+        /// Called by Unity when the object is created.
+        /// Used to perform setup.
+        /// </summary>
+        public override void Awake()
+        {
+            base.Awake();
+
             // Decorative icon (top-left).
             SetIcon(UITextures.LoadQuadSpriteAtlas("RonButton"), "normal");
 
@@ -399,98 +494,6 @@ namespace RON
             // Populate parent dictionaries.
             PrefabUtils.GetParents(_slopeParents, _elevatedParents, _bridgeParents, _tunnelParents);
         }
-
-        // Display order state.
-        private enum OrderBy
-        {
-            NameAscending = 0,
-            NameDescending,
-            CreatorAscending,
-            CreatorDescending,
-        }
-
-        // String search type state.
-        private enum SearchTypes
-        {
-            SearchNetwork = 0,
-            SearchCreator,
-            NumTypes,
-        }
-
-        /// <summary>
-        /// Gets the panel width.
-        /// </summary>
-        public override float PanelWidth => CalculatedPanelWidth;
-
-        /// <summary>
-        /// Gets the panel height.
-        /// </summary>
-        public override float PanelHeight => CalculatedPanelHeight;
-
-        /// <summary>
-        /// Gets the current list of selected network segments.
-        /// </summary>
-        internal List<ushort> SelectedSegments => _selectedSegments;
-
-        /// <summary>
-        /// Sets the currently selected NetRowItem.  Called by target network list items.
-        /// </summary>
-        internal NetRowItem SelectedItem
-        {
-            private get => _selectedItem;
-
-            set
-            {
-                // Don't do anything if the target hasn't changed.
-                if (_selectedItem != value)
-                {
-                    // Update target reference.
-                    _selectedItem = value;
-
-                    // Reset selected segment.
-                    _currentSegment = 0;
-
-                    // Update selected segments.
-                    SetSelectedSegments();
-
-                    // Update loaded list.
-                    LoadedList();
-
-                    // Update display (preview and button states).
-                    DisplayNetwork(SelectedPrefab, _targetPreviewSprite);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Sets the NetInfo for selected replacement.  Called by target network list items.
-        /// </summary>
-        internal NetInfo SelectedReplacement
-        {
-            set
-            {
-                // Assign new replacement.
-                _selectedReplacement = value;
-
-                // Update display (preview and button states).
-                DisplayNetwork(_selectedReplacement, _replacementPreviewSprite);
-            }
-        }
-
-        /// <summary>
-        /// Sets a value indicating whether replacement work has finished.
-        /// </summary>
-        internal bool ReplacingDone { set => _replacingDone = value; }
-
-        /// <summary>
-        /// Gets the panel's title.
-        /// </summary>
-        protected override string PanelTitle => Translations.Translate("RON_NAM");
-
-        /// <summary>
-        /// Gets the currently selected network prefab.
-        /// </summary>
-        private NetInfo SelectedPrefab => _selectedItem?.Prefab;
 
         /// <summary>
         /// Called by Unity every tick.  Used here to track state of any in-progress replacments.

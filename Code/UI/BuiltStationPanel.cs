@@ -26,26 +26,6 @@ namespace RON
         private bool _replacing;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BuiltStationPanel"/> class.
-        /// </summary>
-        internal BuiltStationPanel()
-        {
-            // Check for eligible networks in this building.
-            CheckEligibleNets();
-
-            // If no eligible nets were found, exit.
-            if (s_eligibleNets.Count == 0)
-            {
-                // Close panel first if already open.
-                Close();
-                return;
-            }
-
-            // Refresh the panel.
-            RefreshPanel();
-        }
-
-        /// <summary>
         /// Sets selected replacement.  Called by target network list items.
         /// </summary>
         internal override NetInfo SelectedReplacement
@@ -68,6 +48,29 @@ namespace RON
         /// Sets a value indicating whether replacement work has finished.
         /// </summary>
         internal bool ReplacingDone { set => _replacingDone = value; }
+
+        /// <summary>
+        /// Called by Unity when the object is created.
+        /// Used to perform setup.
+        /// </summary>
+        public override void Awake()
+        {
+            base.Awake();
+
+            // Check for eligible networks in this building.
+            CheckEligibleNets();
+
+            // If no eligible nets were found, exit.
+            if (s_eligibleNets.Count == 0)
+            {
+                // Close panel first if already open.
+                Close();
+                return;
+            }
+
+            // Refresh the panel.
+            RefreshPanel();
+        }
 
         /// <summary>
         /// Called by Unity every tick.  Used here to track state of any in-progress replacments.
