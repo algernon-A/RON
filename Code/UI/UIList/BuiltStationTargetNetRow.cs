@@ -20,9 +20,9 @@ namespace RON
         public override void Display(object data, int rowIndex)
         {
             // Get index number.
-            if (data is int segment)
+            if (data is PathIndex index)
             {
-                    base.Display(new NetRowItem(Singleton<NetManager>.instance.m_segments.m_buffer[segment].Info), rowIndex);
+                base.Display(new NetRowItem(Singleton<NetManager>.instance.m_segments.m_buffer[index.m_pathIndex].Info), rowIndex);
             }
         }
     }

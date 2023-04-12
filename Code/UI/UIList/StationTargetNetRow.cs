@@ -20,10 +20,10 @@ namespace RON
         public override void Display(object data, int rowIndex)
         {
             // Get index number.
-            if (data is int index)
+            if (data is PathIndex index)
             {
                 // Display using underlying netinfo of index.
-                if (StandalonePanelManager<StationPanel>.Panel?.GetNetInfo(index) is NetInfo netInfo)
+                if (StandalonePanelManager<StationPanel>.Panel?.IndexedNet(index) is NetInfo netInfo)
                 {
                     base.Display(new NetRowItem(netInfo), rowIndex);
                 }

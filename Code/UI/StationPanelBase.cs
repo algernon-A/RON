@@ -8,10 +8,10 @@ namespace RON
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AlgernonCommons;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
     using ColossalFramework.UI;
-    using UnityEngine;
 
     /// <summary>
     /// RON station track replacer panel for placing stations.
@@ -35,12 +35,12 @@ namespace RON
         /// <summary>
         /// List of eligible networks in the current building.
         /// </summary>
-        protected internal static List<int> s_eligibleNets = new List<int>();
+        protected internal static List<PathIndex> s_eligibleNets = new List<PathIndex>();
 
         /// <summary>
         /// Selected network index number.
         /// </summary>
-        protected internal int m_selectedIndex;
+        protected internal PathIndex m_selectedIndex;
 
         // Layout constants - private.
         private const float TitleHeight = 50f;
@@ -83,10 +83,12 @@ namespace RON
         public override float PanelHeight => CalculatedPanelHeight;
 
         /// <summary>
-        /// Sets the selected target index.  Called by target network list items.
+        /// Gets or sets the selected target index.  Called by target network list items.
         /// </summary>
-        internal int SelectedIndex
+        internal PathIndex SelectedIndex
         {
+            get => m_selectedIndex;
+
             set
             {
                 // Confirm target index validity before setting.
@@ -96,8 +98,8 @@ namespace RON
                 }
                 else
                 {
-                    // Invalid selection; set to -1.
-                    m_selectedIndex = -1;
+                    // Invalid selection; invalidate this entry.
+                    m_selectedIndex.Invalidate();
                 }
 
                 // Regenerate loaded list on selection change.
@@ -113,9 +115,18 @@ namespace RON
             set
             {
                 // Assign replacement network, if we've got a valid selection.
-                if (m_selectedIndex >= 0)
+                if (m_selectedIndex.IsValid)
                 {
-                    s_currentBuilding.m_paths[m_selectedIndex].m_finalNetInfo = value;
+                    if (m_selectedIndex.m_subBuilding >= 0)
+                    {
+                        // Sub-building.
+                        s_currentBuilding.m_subBuildings[m_selectedIndex.m_subBuilding].m_buildingInfo.m_paths[m_selectedIndex.m_pathIndex].m_finalNetInfo = value;
+                    }
+                    else
+                    {
+                        // Main building.
+                        s_currentBuilding.m_paths[m_selectedIndex.m_pathIndex].m_finalNetInfo = value;
+                    }
                 }
             }
         }
@@ -126,9 +137,9 @@ namespace RON
         protected override string PanelTitle => Translations.Translate("RON_NAM");
 
         /// <summary>
-        /// Gets the target network as NetInfo.
+        /// Gets the selected target network as NetInfo.
         /// </summary>
-        private NetInfo TargetNet => GetNetInfo(m_selectedIndex);
+        protected virtual NetInfo TargetNet => GetPathInfo(m_selectedIndex)?.m_netInfo;
 
         /// <summary>
         /// Called by Unity when the object is created.
@@ -157,7 +168,17 @@ namespace RON
 
             // Target network list.
             _targetList = UIList.AddUIList<TRow>(this, Margin, ListY, ListWidth, ListHeight, NetRow.CustomRowHeight);
-            _targetList.EventSelectionChanged += (c, selectedItem) => SelectedIndex = selectedItem is int intItem ? intItem : -1;
+            _targetList.EventSelectionChanged += (c, selectedItem) =>
+            {
+                if (selectedItem is PathIndex pathIndex)
+                {
+                    SelectedIndex = pathIndex;
+                }
+                else
+                {
+                    SelectedIndex.Invalidate();
+                }
+            };
 
             // Loaded network list.
             _loadedList = UIList.AddUIList<NetRow>(this, RightPanelX, ListY, ListWidth, ListHeight, NetRow.CustomRowHeight);
@@ -194,7 +215,7 @@ namespace RON
                         if (netAI is TrainTrackBaseAI || netAI is MetroTrackBaseAI)
                         {
                             // Found a railway track - add index to list.
-                            s_eligibleNets.Add(i);
+                            s_eligibleNets.Add(new PathIndex(-1, i));
                         }
                     }
                 }
@@ -203,20 +224,21 @@ namespace RON
             // Check sub-building.
             if (selectedBuilding?.m_subBuildings != null)
             {
-                foreach (BuildingInfo.SubInfo subBuilding in selectedBuilding.m_subBuildings)
+                for (int i = 0; i < selectedBuilding.m_subBuildings.Length; ++i)
                 {
+                    BuildingInfo.SubInfo subBuilding = selectedBuilding.m_subBuildings[i];
                     if (subBuilding != null && subBuilding.m_buildingInfo.m_paths != null)
                     {
-                        for (int i = 0; i < subBuilding.m_buildingInfo.m_paths.Length; ++i)
+                        for (int pathIndex = 0; pathIndex < subBuilding.m_buildingInfo.m_paths.Length; ++pathIndex)
                         {
-                            if (subBuilding.m_buildingInfo.m_paths[i] != null)
+                            if (subBuilding.m_buildingInfo.m_paths[pathIndex] != null)
                             {
                                 // Check for matching track.
-                                NetAI netAI = subBuilding.m_buildingInfo.m_paths[i].m_netInfo.m_netAI;
+                                NetAI netAI = subBuilding.m_buildingInfo.m_paths[pathIndex].m_netInfo.m_netAI;
                                 if (netAI is TrainTrackBaseAI || netAI is MetroTrackBaseAI)
                                 {
                                     // Found a railway track - add index to list.
-                                    s_eligibleNets.Add(i);
+                                    s_eligibleNets.Add(new PathIndex(i, pathIndex));
                                 }
                             }
                         }
@@ -243,22 +265,11 @@ namespace RON
         }
 
         /// <summary>
-        /// Returns the NetInfo of the given target network index.
+        /// Gets the <see cref="NetInfo"/> prefab indicated by the given <see cref="PathIndex"/> against the currently selected building.
         /// </summary>
-        /// <param name="index">Target network index.</param>
-        /// <returns>NetInfo of the target network index.</returns>
-        internal virtual NetInfo GetNetInfo(int index)
-        {
-            // Check if the given index is valid.
-            if (s_eligibleNets != null && s_eligibleNets.Contains(index))
-            {
-                // Valid index; return NetInfo.
-                return s_currentBuilding.m_paths[index].m_netInfo;
-            }
-
-            // If we got here, we didn't get a match; return null.
-            return null;
-        }
+        /// <param name="pathIndex"><see cref="PathIndex"/> record.</param>
+        /// <returns><see cref="NetInfo"/> prefab, or <c>null</c> if none.</returns>
+        internal NetInfo IndexedNet(PathIndex pathIndex) => GetPathInfo(pathIndex)?.m_netInfo;
 
         /// <summary>
         /// Populates a fastlist with a list of eligible networks in the current building.
@@ -273,7 +284,7 @@ namespace RON
             };
 
             // Clear selection.
-            m_selectedIndex = -1;
+            m_selectedIndex.Invalidate();
         }
 
         /// <summary>
@@ -282,14 +293,14 @@ namespace RON
         protected void LoadedList()
         {
             // Clear list if there's no current selection.
-            if (m_selectedIndex < 0)
+            if (!m_selectedIndex.IsValid)
             {
                 _loadedList.Clear();
                 return;
             }
 
             // Ensure valid target selection before proceeding.
-            NetInfo currentNetInfo = GetNetInfo(m_selectedIndex);
+            NetInfo currentNetInfo = TargetNet;
             if (currentNetInfo == null)
             {
                 _loadedList.Clear();
@@ -428,6 +439,46 @@ namespace RON
                 (candidateType == typeof(MetroTrackBridgeAI) && currentType == typeof(TrainTrackBridgeAI)) ||
                 (candidateType == typeof(TrainTrackAI) && currentType == typeof(MetroTrackTunnelAI) && candidateInfo.name.ToLower().IndexOf("sunken") >= 0)
                 ;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="BuildingInfo.PathInfo"/> indexed by the given <see cref="PathIndex"/>.
+        /// </summary>
+        /// <param name="pathIndex"><see cref="PathIndex"/>.</param>
+        /// <returns><see cref="BuildingInfo.PathInfo"/> indexed by this record (null if none).</returns>
+        private BuildingInfo.PathInfo GetPathInfo(PathIndex pathIndex)
+        {
+            // Validity check.
+            if (!pathIndex.IsValid || !s_currentBuilding)
+            {
+                return null;
+            }
+
+            BuildingInfo.PathInfo[] paths;
+            if (pathIndex.m_subBuilding >= 0)
+            {
+                // Sub-building.
+                if (s_currentBuilding.m_subBuildings == null || pathIndex.m_subBuilding >= s_currentBuilding.m_subBuildings.Length)
+                {
+                    Logging.Error("invalid subBuilding index of ", pathIndex.m_subBuilding, " with sub-building array size of ", s_currentBuilding.m_subBuildings.Length);
+                    return null;
+                }
+
+                paths = s_currentBuilding.m_subBuildings[pathIndex.m_subBuilding].m_buildingInfo.m_paths;
+            }
+            else
+            {
+                // Main building.
+                paths = s_currentBuilding.m_paths;
+            }
+
+            if (pathIndex.m_pathIndex >= paths.Length)
+            {
+                Logging.Error("invalid pathIndex of ", pathIndex.m_pathIndex, " with path array size of ", paths.Length);
+                return null;
+            }
+
+            return paths[pathIndex.m_pathIndex];
         }
     }
 }

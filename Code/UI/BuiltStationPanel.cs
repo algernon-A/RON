@@ -35,11 +35,11 @@ namespace RON
                 Logging.Message("selectedReplacement set to ", value?.name ?? "null");
 
                 // Assign replacement network, if we've got a valid selection.
-                if (m_selectedIndex > 0)
+                if (m_selectedIndex.IsValid)
                 {
                     _replacing = true;
                     _replacingDone = false;
-                    Singleton<SimulationManager>.instance.AddAction(() => Replacer.ReplaceNets(GetNetInfo(m_selectedIndex), value, new List<ushort> { (ushort)m_selectedIndex }, false));
+                    Singleton<SimulationManager>.instance.AddAction(() => Replacer.ReplaceNets(GetNetInfo(m_selectedIndex.m_pathIndex), value, new List<ushort> { (ushort)m_selectedIndex.m_pathIndex }, false));
                 }
             }
         }
@@ -48,6 +48,11 @@ namespace RON
         /// Sets a value indicating whether replacement work has finished.
         /// </summary>
         internal bool ReplacingDone { set => _replacingDone = value; }
+
+        /// <summary>
+        /// Gets the selected target network as NetInfo.
+        /// </summary>
+        protected override NetInfo TargetNet => m_selectedIndex.IsValid ? GetNetInfo(m_selectedIndex.m_pathIndex) : null;
 
         /// <summary>
         /// Called by Unity when the object is created.
@@ -202,7 +207,7 @@ namespace RON
         /// </summary>
         /// <param name="index">Target network index.</param>
         /// <returns>NetInfo.</returns>
-        internal override NetInfo GetNetInfo(int index) => Singleton<NetManager>.instance.m_segments.m_buffer[index].Info;
+        internal NetInfo GetNetInfo(int index) => Singleton<NetManager>.instance.m_segments.m_buffer[index].Info;
 
         /// <summary>
         /// Checks for eligible networks in this building.
@@ -242,7 +247,7 @@ namespace RON
 
             // Check sub-buildings.
             ushort subBuildingID = buildingBuffer[buildingID].m_subBuilding;
-            if (subBuildingID != 0)
+            while (subBuildingID != 0)
             {
                 netNode = buildingBuffer[subBuildingID].m_netNode;
                 while (netNode != 0)
@@ -254,6 +259,8 @@ namespace RON
 
                     netNode = nodeBuffer[netNode].m_nextBuildingNode;
                 }
+
+                subBuildingID = buildingBuffer[subBuildingID].m_subBuilding;
             }
 
             // Now, check each node in the list.
@@ -266,15 +273,20 @@ namespace RON
                     ushort segmentID = nodeBuffer[nodeID].GetSegment(i);
                     if (segmentID != 0 &&
                         nodes.Contains(segmentBuffer[segmentID].m_startNode) &&
-                        nodes.Contains(segmentBuffer[segmentID].m_endNode) &&
-                        !s_eligibleNets.Contains(segmentID))
+                        nodes.Contains(segmentBuffer[segmentID].m_endNode))
                     {
-                        // Check to ensure that we only use train and metro track networks (e.g. no invisible pedestrian paths!)
-                        NetAI netAI = segmentBuffer[segmentID].Info.m_netAI;
-                        if (netAI is TrainTrackBaseAI || netAI is MetroTrackBaseAI)
                         {
-                            // Eligible segment - add to our list.
-                            s_eligibleNets.Add(segmentID);
+                            // Check to ensure that we only use train and metro track networks (e.g. no invisible pedestrian paths!)
+                            NetAI netAI = segmentBuffer[segmentID].Info.m_netAI;
+                            if (netAI is TrainTrackBaseAI || netAI is MetroTrackBaseAI)
+                            {
+                                // Eligible segment - add to our list, if we haven't already.
+                                PathIndex newPathIndex = new PathIndex(-1, segmentID);
+                                if (!s_eligibleNets.Contains(newPathIndex))
+                                {
+                                    s_eligibleNets.Add(newPathIndex);
+                                }
+                            }
                         }
                     }
                 }
