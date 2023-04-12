@@ -84,6 +84,17 @@ namespace RON
         {
             base.Update();
 
+            // Set selected segment for highlighting.
+            int pathIndex = m_selectedIndex.m_pathIndex;
+            if (pathIndex > 0)
+            {
+                ToolBasePatch.SelectedSegment = (ushort)pathIndex;
+            }
+            else
+            {
+                ToolBasePatch.SelectedSegment = 0;
+            }
+
             // Is a replacement underway?
             if (_replacing)
             {
@@ -101,6 +112,17 @@ namespace RON
                     TargetList();
                 }
             }
+        }
+
+        /// <summary>
+        /// Called by Unity when the panel is destroyed.
+        /// </summary>
+        public override void OnDestroy()
+        {
+            // Cancel any segment highlighting.
+            ToolBasePatch.SelectedSegment = 0;
+
+            base.OnDestroy();
         }
 
         /// <summary>
