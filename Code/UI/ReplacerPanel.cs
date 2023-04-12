@@ -1129,7 +1129,7 @@ namespace RON
                 {
                     // Get network and add to our list, if it isn't null.
                     NetInfo network = PrefabCollection<NetInfo>.GetLoaded(i);
-                    if (network?.name != null)
+                    if (network && network.name != null)
                     {
                         // Create new NetRowItem from this network.
                         NetRowItem newItem = new NetRowItem(network);

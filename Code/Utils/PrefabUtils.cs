@@ -352,7 +352,7 @@ namespace RON
         internal static bool IsStation(NetInfo network)
         {
             // Check to see if this an eligible station network type (TranTrackBase [includes Monorail] or TranTrackBase).
-            PrefabAI netAI = network?.GetAI();
+            PrefabAI netAI = network.GetAI();
             if (netAI is TrainTrackBaseAI || netAI is MetroTrackBaseAI)
             {
                 // Check lanes for stations.
