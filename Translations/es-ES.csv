@@ -45,6 +45,8 @@
 "RON_PNL_CON","Pasillos aeroportuarios"
 "RON_PNL_RIP","Reemplazo en progreso"
 "RON_STA_CUS","Personalizar vías"
+"RON_STA_SRT","Mostrar todas las vías de tren"
+"RON_STA_SMT","Mostrar vías de metro"
 "RON_STA_RAO","Sólo trenes"
 "RON_STA_MTO","Sólo metro"
 "RON_STA_RAM","Trenes y metro"

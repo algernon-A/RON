@@ -45,6 +45,8 @@
 "RON_PNL_CON","Saguões do aeroporto"
 "RON_PNL_RIP","Substituição em andamento"
 "RON_STA_CUS","Personalizar faixas"
+"RON_STA_SRT","Show rail tracks"
+"RON_STA_SMT","Show metro tracks"
 "RON_STA_RAO","Somente trilho"
 "RON_STA_MTO","Somente Metro"
 "RON_STA_RAM","Trilho e metrô"

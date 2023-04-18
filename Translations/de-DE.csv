@@ -45,6 +45,8 @@
 "RON_PNL_CON","Flughafenkorridore"
 "RON_PNL_RIP","Austausch wird vorgenommen"
 "RON_STA_CUS","Gleise anpassen"
+"RON_STA_SRT","Zeige Zug-Gleise"
+"RON_STA_SMT","Zeige Metro-Gleise"
 "RON_STA_RAO","Nur Bahn"
 "RON_STA_MTO","Nur Metro"
 "RON_STA_RAM","Bahn und Metro"

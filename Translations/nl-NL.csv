@@ -45,6 +45,8 @@
 "RON_PNL_CON","Hallen van luchthaven"
 "RON_PNL_RIP","Vervanging aan de gang"
 "RON_STA_CUS","Sporen aanpassen"
+"RON_STA_SRT","Toon treinsporen"
+"RON_STA_SMT","Toon metrosporen"
 "RON_STA_RAO","Alleen spoor"
 "RON_STA_MTO","Alleen metro"
 "RON_STA_RAM","Spoor en metro"

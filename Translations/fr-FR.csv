@@ -45,6 +45,8 @@
 "RON_PNL_CON","Jetées aéroportuaires"
 "RON_PNL_RIP","Remplacement en cours"
 "RON_STA_CUS","Personnaliser les pistes"
+"RON_STA_SRT","Show rail tracks"
+"RON_STA_SMT","Show metro tracks"
 "RON_STA_RAO","Rail uniquement"
 "RON_STA_MTO","Métro uniquement"
 "RON_STA_RAM","Rail et métro"

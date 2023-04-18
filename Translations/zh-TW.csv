@@ -45,6 +45,8 @@
 "RON_PNL_CON","航空城特區 - 機場大廳"
 "RON_PNL_RIP","替換中......"
 "RON_STA_CUS","自訂軌道"
+"RON_STA_SRT","Show rail tracks"
+"RON_STA_SMT","Show metro tracks"
 "RON_STA_RAO","Rail only"
 "RON_STA_MTO","僅捷運"
 "RON_STA_RAM","Rail and metro"

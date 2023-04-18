@@ -45,6 +45,8 @@
 "RON_PNL_CON","Airport concourses"
 "RON_PNL_RIP","Replacement in progress"
 "RON_STA_CUS","Customize tracks"
+"RON_STA_SRT","Show rail tracks"
+"RON_STA_SMT","Show metro tracks"
 "RON_STA_RAO","Pouze železnice"
 "RON_STA_MTO","Pouze metro"
 "RON_STA_RAM","Železnice a metro"

@@ -45,6 +45,8 @@
 "RON_PNL_CON","空港のコンコース"
 "RON_PNL_RIP","置換中"
 "RON_STA_CUS","軌道のカスタマイズ"
+"RON_STA_SRT","鉄道の線路を表示"
+"RON_STA_SMT","地下鉄の軌道を表示"
 "RON_STA_RAO","鉄道の線路用"
 "RON_STA_MTO","メトロの軌道用"
 "RON_STA_RAM","鉄道とメトロ"
