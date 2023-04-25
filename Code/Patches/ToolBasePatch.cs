@@ -5,13 +5,12 @@
 
 namespace RON
 {
-    using AlgernonCommons.UI;
     using ColossalFramework;
     using HarmonyLib;
     using UnityEngine;
 
     /// <summary>
-    /// Harmony patches to implement station track highlighting
+    /// Harmony patches to implement station track highlighting.
     /// </summary>
     [HarmonyPatch(typeof(ToolBase))]
     public static class ToolBasePatch
@@ -27,12 +26,10 @@ namespace RON
         /// <summary>
         /// Harmony postfix patch to highlight the selected station track (if any).
         /// </summary>
-        /// <param name="__instance">BuildingTool instance.</param>
         /// <param name="cameraInfo">Camera instance.</param>
         [HarmonyPatch(nameof(ToolBase.RenderOverlay))]
         [HarmonyPostfix]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
-        public static void RenderOverlayPostfix(ToolBase __instance, RenderManager.CameraInfo cameraInfo)
+        public static void RenderOverlayPostfix(RenderManager.CameraInfo cameraInfo)
         {
             if (s_selectedSegment > 0)
             {
