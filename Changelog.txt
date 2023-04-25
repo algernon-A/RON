@@ -1,4 +1,9 @@
-﻿Version 1.1 -
+﻿Version 1.1.0.1 -
+
+- Fix options panel going blank when language is changed
+
+
+Version 1.1 -
 
 - Add station track replacer support for sub-buildings
 - Add support for matching sunken train station tracks against metro station tracks
