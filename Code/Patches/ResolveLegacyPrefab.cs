@@ -42,7 +42,7 @@ namespace RON
                     s_attemptedReplacements = new HashSet<AutoReplaceXML.ReplaceEntry>();
                 }
 
-                // Did we sucessfully read the auto replace file?
+                // Did we successfully read the auto replace file?
                 if (s_autoReplaceFiles != null)
                 {
                     // Yes - iterate through file list.
@@ -109,7 +109,7 @@ namespace RON
             // Don't do anything if we haven't attempted any replacements.
             if (s_attemptedReplacements != null)
             {
-                // Iterate through each attempted replacemnt.
+                // Iterate through each attempted replacement.
                 foreach (AutoReplaceXML.ReplaceEntry entry in s_attemptedReplacements)
                 {
                     // Check if this prefab was loaded.

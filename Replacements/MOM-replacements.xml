@@ -103,33 +103,115 @@
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Track Tunnel Large" replacement="2808391208.Modern Quad Metro Track Type B Tunnel0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Station Track Ground Small" replacement="2902667093.Classic Metro Station Track S_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Station Track Elevated Small" replacement="2884933566.Classic Metro Station Track ES_Data" />
-		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Small" replacement="2902668274.Classic Single Metro Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Tunnel Small" replacement="2902668274.Classic Single Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground Small" replacement="2842668814.Metro Station Track MS_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated Small" replacement="2842668504.Elevated Metro Station MS_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Small" replacement="2822386703.Single Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Station Track Ground" replacement="2902666462.Classic Metro Station Track D_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Station Track Elevated" replacement="2884932908.Classic Metro Station Track ED_Data" />
-		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken" replacement="2902668105.Classic Metro Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Tunnel" replacement="2902668105.Classic Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground" replacement="2842206590.Dual Track Metro Station Track_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated" replacement="2842206725.Elevated Metro Station Track_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel" replacement="2744689515.Base Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Station Track Ground Large" replacement="2902666333.Classic Metro Station Track B_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Station Track Elevated Large" replacement="2884933908.Classic Metro Station Track EB_Data" />
-		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Large" replacement="2902667344.Classic Metro Bypass Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Tunnel Large" replacement="2902667344.Classic Metro Bypass Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground Large" replacement="2843505822.Metro Bypass Station Track_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated Large" replacement="2843506127.Metro Bypass Elevated Station_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Large" replacement="2823908553.Metro Bypass Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Station Track Ground Island" replacement="2902667215.Classic Metro Station Track SI_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Station Track Elevated Island" replacement="2884934340.Classic Metro Station Track ESI_Data" />
-		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Island" replacement="2902667601.Classic Single Island Metro Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Tunnel Island" replacement="2902667601.Classic Single Island Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground Island" replacement="2846687406.S Island Metro Station Track_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated Island" replacement="2846687808.S Island Metro Station Track E_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Island" replacement="2824176664.Single Island Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Steel Metro Station Track Ground Large Dual Island" replacement="2902666580.Classic Metro Station Track DI_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Steel Metro Station Track Elevated Large Dual Island" replacement="2884935079.Classic Metro Station Track EDI_Data" />
-		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Large Dual Island" replacement="2902667448.Classic Dual Island Metro Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Tunnel Large Dual Island" replacement="2902667448.Classic Dual Island Metro Tunnel Station0" />
 		<replace type="MetroOverhaul.MOMMetroTrackAI" target="Metro Station Track Ground Large Dual Island" replacement="2847018940.Dual Island Metro Station Track_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackBridgeAI" target="Metro Station Track Elevated Large Dual Island" replacement="2847019368.D Island Metro Station Track E_Data" />
 		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Tunnel Large Dual Island" replacement="2838614684.Dual Island Metro Tunnel Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Sunken Small" replacement="3023999310.Single Metro Sunken Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Sunken" replacement="3023998936.Dual Metro Sunken Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Sunken Large" replacement="3023999049.Metro Bypass Sunken Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Sunken Island" replacement="3023999211.Single Island Metro Sunken Station0" />worw
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Metro Station Track Sunken Large Dual Island" replacement="3023998848.Dual Island Metro Sunken Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Small" replacement="3023998660.Classic Single Metro Sunken Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken" replacement="3023998178.Classic Metro Sunken Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Large" replacement="3023998285.Classic Metro Bypass Sunken Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Island" replacement="3023998751.Classic Single Island Metro Sunken Station0" />
+		<replace type="MetroOverhaul.MOMMetroTrackTunnelAI" target="Steel Metro Station Track Sunken Large Dual Island" replacement="3023998377.Classic Dual Island Metro Sunken Station0" />
+		<replace type="Pillar" target="816260433.Classic 1L Pillar (Bridge)_Data" replacement="2797427350.Classic Bridge Pillar Single_Data" />
+		<replace type="Pillar" target="816260433.Classic 1L Pillar (High)_Data" replacement="2797427350.Classic Bridge Pillar Single_Data" />
+		<replace type="Pillar" target="816260433.Classic 1L Pillar (Low)_Data" replacement="2797427350.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic 2L Pillar (Bridge)_Data" replacement="2902666462.Classic Bridge Pillar Dual_Data" />
+		<replace type="Pillar" target="816260433.Classic 4L Pillar (Bridge)_Data" replacement="2810302219.Classic Bridge Pillar Quad_Data" />
+		<replace type="Pillar" target="816260433.Classic Median (High)_Data" replacement="2797427350.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Median (High) NoCol_Data" replacement="2797427350.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Median (Low)_Data" replacement="2797427350.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Median (Low) NoCol_Data" replacement="2797427350.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Narrow (High)_Data" replacement="2902666462.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Narrow (High) NoCol_Data" replacement="2902666462.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Narrow (Low)_Data" replacement="2902666462.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Narrow (Low) NoCol_Data" replacement="2902666462.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Wide (High)_Data" replacement="2810302219.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Wide (High) NoCol_Data" replacement="2810302219.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Wide (Low)_Data" replacement="2810302219.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Wide (Low) NoCol_Data" replacement="2810302219.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Wide Median (High)_Data" replacement="2810302219.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Wide Median (High) NoCol_Data" replacement="2810302219.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Wide Median (Low)_Data" replacement="2810302219.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.Classic Wide Median (Low) NoCol_Data" replacement="2810302219.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="2797427350.Overground Metro Bridge Pillar 01_Data" replacement="2797427350.Classic Bridge Pillar Single_Data" />
+		<replace type="Pillar" target="2797427350.Overground Metro Elevated Pillar 01_Data" replacement="2797427350.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="2798560519.Overground Metro Bridge Pillar 01_Data" replacement="2798560519.Classic Bridge Pillar Single_Data" />
+		<replace type="Pillar" target="2798560519.Overground Metro Elevated Pillar 01_Data" replacement="2798560519.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="2797893221.Overground Metro Bridge Pillar 01_Data" replacement="2797893221.Classic Bridge Pillar Single_Data" />
+		<replace type="Pillar" target="2797893221.Overground Metro Elevated Pillar 01_Data" replacement="2797893221.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="2798561239.Overground Metro Bridge Pillar 01_Data" replacement="2798561239.Classic Bridge Pillar Single_Data" />
+		<replace type="Pillar" target="2798561239.Overground Metro Elevated Pillar 01_Data" replacement="2798561239.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="2754468110.Overground Metro Bridge Pillar 01_Data" replacement="2754468110.Classic Bridge Pillar Dual_Data" />
+		<replace type="Pillar" target="2754468110.Overground Metro Elevated Pillar 01_Data" replacement="2754468110.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="2818223776.Overground Metro Bridge Pillar 01_Data" replacement="2818223776.Classic Bridge Pillar Dual_Data" />
+		<replace type="Pillar" target="2818223776.Overground Metro Elevated Pillar 01_Data" replacement="2818223776.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="2757700019.Overground Metro Bridge Pillar 01_Data" replacement="2757700019.Classic Bridge Pillar Dual_Data" />
+		<replace type="Pillar" target="757700019.Overground Metro Elevated Pillar 01_Data" replacement="2757700019.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="2818224247.Overground Metro Bridge Pillar 01_Data" replacement="2818224247.Classic Bridge Pillar Dual_Data" />
+		<replace type="Pillar" target="2818224247.Overground Metro Elevated Pillar 01_Data" replacement="2818224247.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="2810302219.Overground Metro Bridge Pillar 01_Data" replacement="2810302219.Classic Bridge Pillar Quad_Data" />
+		<replace type="Pillar" target="2810302219.Overground Metro Elevated Pillar 01_Data" replacement="2810302219.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="2812549905.Overground Metro Bridge Pillar 01_Data" replacement="2812549905.Classic Bridge Pillar Quad_Data" />
+		<replace type="Pillar" target="2812549905.Overground Metro Elevated Pillar 01_Data" replacement="2812549905.Classic Elevated Pillar_Data" />
+		<replace type="Pillar" target="816260433.MetroBridgePillarsmall_Data" replacement="2774572178.Modern Bridge Pillar Single_Data" />
+		<replace type="Pillar" target="816260433.MetroBridgePillar_Data" replacement="2740570543.Modern Bridge Pillar Dual_Data" />
+		<replace type="Pillar" target="816260433.MetroBridgePillarLarge_Data" replacement="2808163915.Modern Bridge Pillar Quad_Data" />
+		<replace type="Pillar" target="816260433.Modern Median_Data" replacement="2774572178.Modern Elevated Pillar Single_Data" />
+		<replace type="Pillar" target="816260433.Modern Median NoCol_Data" replacement="2774572178.Modern Elevated Pillar Single_Data" />
+		<replace type="Pillar" target="816260433.Modern Narrow_Data" replacement="2740570543.Modern Elevated Pillar Dual_Data" />
+		<replace type="Pillar" target="816260433.Modern Narrow NoCol_Data" replacement="2740570543.Modern Elevated Pillar Dual_Data" />
+		<replace type="Pillar" target="816260433.Modern Wide_Data" replacement="2808163915.Modern Elevated Pillar Dual_Data" />
+		<replace type="Pillar" target="816260433.Modern Wide NoCol_Data" replacement="2808163915.Modern Elevated Pillar Dual_Data" />
+		<replace type="Pillar" target="816260433.Modern Wide Median_Data" replacement="2808163915.Modern Elevated Pillar Dual_Data" />
+		<replace type="Pillar" target="816260433.Modern Wide Median NoCol_Data" replacement="2808163915.Modern Elevated Pillar Dual_Data" />
+		<replace type="Pillar" target="2774572178.Overground Metro Bridge Pillar 01_Data" replacement="2774572178.Modern Bridge Pillar Single_Data" />
+		<replace type="Pillar" target="2774572178.Overground Metro Elevated Pillar 01_Data" replacement="2774572178.Modern Elevated Pillar Single_Data" />
+		<replace type="Pillar" target="2776460547.Overground Metro Bridge Pillar 01_Data" replacement="2776460547.Modern Bridge Pillar Single_Data" />
+		<replace type="Pillar" target="2776460547.Overground Metro Elevated Pillar 01_Data" replacement="2776460547.Modern Elevated Pillar Single_Data" />
+		<replace type="Pillar" target="2776828181.Overground Metro Bridge Pillar 01_Data" replacement="2776828181.Modern Bridge Pillar Single_Data" />
+		<replace type="Pillar" target="2776828181.Overground Metro Elevated Pillar 01_Data" replacement="2776828181.Modern Elevated Pillar Single_Data" />
+		<replace type="Pillar" target="2776841994.Overground Metro Bridge Pillar 01_Data" replacement="2776841994.Modern Bridge Pillar Single_Data" />
+		<replace type="Pillar" target="2776841994.Overground Metro Elevated Pillar 01_Data" replacement="2776841994.Modern Elevated Pillar Single_Data" />
+		<replace type="Pillar" target="2740570543.Overground Metro Bridge Pillar 01_Data" replacement="2740570543.Modern Bridge Pillar Dual_Data" />
+		<replace type="Pillar" target="2740570543.Overground Metro Elevated Pillar 01_Data" replacement="2740570543.Modern Elevated Pillar Dual_Data" />
+		<replace type="Pillar" target="2818222743.Overground Metro Bridge Pillar 01_Data" replacement="2818222743.Modern Bridge Pillar Dual_Data" />
+		<replace type="Pillar" target="2818222743.Overground Metro Elevated Pillar 01_Data" replacement="2818222743.Modern Elevated Pillar Dual_Data" />
+		<replace type="Pillar" target="2748045511.Overground Metro Bridge Pillar 01_Data" replacement="2748045511.Modern Bridge Pillar Dual_Data" />
+		<replace type="Pillar" target="2748045511.Overground Metro Elevated Pillar 01_Data" replacement="2748045511.Modern Elevated Pillar Dual_Data" />
+		<replace type="Pillar" target="2818223272.Overground Metro Bridge Pillar 01_Data" replacement="2818223272.Modern Bridge Pillar Dual_Data" />
+		<replace type="Pillar" target="2818223272.Overground Metro Elevated Pillar 01_Data" replacement="2818223272.Modern Elevated Pillar Dual_Data" />
+		<replace type="Pillar" target="2808163915.Overground Metro Bridge Pillar 01_Data" replacement="2808163915.Modern Bridge Pillar Quad_Data" />
+		<replace type="Pillar" target="2808163915.Overground Metro Elevated Pillar 01_Data" replacement="2808163915.Modern Elevated Pillar Dual_Data" />
+		<replace type="Pillar" target="2808391208.Overground Metro Bridge Pillar 01_Data" replacement="2808391208.Modern Bridge Pillar Quad_Data" />
+		<replace type="Pillar" target="2808391208.Overground Metro Elevated Pillar 01_Data" replacement="2808391208.Modern Elevated Pillar Dual_Data" />
 	</autoreplace>
 </RONAutoReplace>

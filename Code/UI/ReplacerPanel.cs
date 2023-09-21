@@ -373,6 +373,14 @@ namespace RON
             _typeDropDown.selectedIndex = 0;
             _typeDropDown.eventSelectedIndexChanged += TypeChanged;
 
+            // Bring dropdown to front when opened.
+            _typeDropDown.eventDropdownOpen += (UIDropDown c, UIListBox p, ref bool o) =>
+            {
+                this.BringToFront();
+                c.BringToFront();
+                p.BringToFront();
+            };
+
             // Spacer panel.
             UIPanel spacerPanel = AddUIComponent<UIPanel>();
             spacerPanel.width = PanelWidth - (Margin * 2);
@@ -496,7 +504,7 @@ namespace RON
         }
 
         /// <summary>
-        /// Called by Unity every tick.  Used here to track state of any in-progress replacments.
+        /// Called by Unity every tick.  Used here to track state of any in-progress replacements.
         /// </summary>
         public override void Update()
         {
@@ -704,7 +712,7 @@ namespace RON
                 _deleteButton.text = Translations.Translate("RON_PNL_DEL");
             }
 
-            // Update selected segements.
+            // Update selected segments.
             SetSelectedSegments();
         }
 

@@ -1,4 +1,9 @@
-﻿Version 1.1.0.1 -
+﻿- Additional sunken MOM station track replacements
+- Add MOM pillar replacements
+- Fix dropdown menu items sometimes not being selectable
+
+
+Version 1.1.0.1 -
 
 - Fix options panel going blank when language is changed
 
