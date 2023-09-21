@@ -20,7 +20,7 @@ namespace RON
         public override string BaseName => "RON - the network replacer";
 
         /// <summary>
-        /// Gets the mod's unique Harmony identfier.
+        /// Gets the mod's unique Harmony identifier.
         /// </summary>
         public override string HarmonyID => "com.github.algernon-A.csl.ron";
 

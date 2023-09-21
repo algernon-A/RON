@@ -57,7 +57,7 @@ namespace RON
             MOM,
 
             /// <summary>
-            /// Number of replacment types.
+            /// Number of replacement types.
             /// </summary>
             NumReplacements,
         }

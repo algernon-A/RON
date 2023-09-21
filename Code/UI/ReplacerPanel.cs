@@ -58,8 +58,8 @@ namespace RON
         private const float ReplaceWidth = 150f;
         private const float FilterX = (CalculatedPanelWidth - Margin) - 360f;
         private const float FilterWidth = 220;
-        private const float FilterMenuxX = FilterX + FilterWidth + Margin;
-        private const float FilterMenuWidth = CalculatedPanelWidth - FilterMenuxX - Margin;
+        private const float FilterMenuX = FilterX + FilterWidth + Margin;
+        private const float FilterMenuWidth = CalculatedPanelWidth - FilterMenuX - Margin;
         private const float ButtonWidth = 220f;
         private const float PrevX = Margin;
         private const float NextX = LeftWidth + Margin - ButtonWidth;
@@ -214,13 +214,13 @@ namespace RON
         };
 
         // Segment info record.
-        private Dictionary<NetInfo, List<ushort>> _segmentDict = new Dictionary<NetInfo, List<ushort>>();
+        private readonly Dictionary<NetInfo, List<ushort>> _segmentDict = new Dictionary<NetInfo, List<ushort>>();
 
         // Parent-child network relation dictionaries.
-        private Dictionary<NetInfo, NetInfo> _slopeParents = new Dictionary<NetInfo, NetInfo>();
-        private Dictionary<NetInfo, NetInfo> _elevatedParents = new Dictionary<NetInfo, NetInfo>();
-        private Dictionary<NetInfo, NetInfo> _bridgeParents = new Dictionary<NetInfo, NetInfo>();
-        private Dictionary<NetInfo, NetInfo> _tunnelParents = new Dictionary<NetInfo, NetInfo>();
+        private readonly Dictionary<NetInfo, NetInfo> _slopeParents = new Dictionary<NetInfo, NetInfo>();
+        private readonly Dictionary<NetInfo, NetInfo> _elevatedParents = new Dictionary<NetInfo, NetInfo>();
+        private readonly Dictionary<NetInfo, NetInfo> _bridgeParents = new Dictionary<NetInfo, NetInfo>();
+        private readonly Dictionary<NetInfo, NetInfo> _tunnelParents = new Dictionary<NetInfo, NetInfo>();
 
         // Panel components.
         private UIList _targetList;
@@ -447,7 +447,7 @@ namespace RON
             nameFilter.eventTextSubmitted += (c, text) => LoadedList();
 
             // Search by name/author dropdown.
-            _searchTypeMenu = UIDropDowns.AddDropDown(this, FilterMenuxX, ToolRow1Y, FilterMenuWidth);
+            _searchTypeMenu = UIDropDowns.AddDropDown(this, FilterMenuX, ToolRow1Y, FilterMenuWidth);
             _searchTypeMenu.items = new string[(int)SearchTypes.NumTypes] { Translations.Translate("RON_PNL_NET"), Translations.Translate("RON_PNL_CRE") };
             _searchTypeMenu.selectedIndex = (int)SearchTypes.SearchNetwork;
             _searchTypeMenu.eventSelectedIndexChanged += (c, isChecked) => LoadedList();
@@ -587,7 +587,7 @@ namespace RON
                     // Set target list position.
                     _targetList.FindItem<NetRowItem>(x => x.Prefab == selectedNet);
 
-                    // Set selected network segement.
+                    // Set selected network segment.
                     _currentSegment = segmentID;
 
                     // Set selected segments.
@@ -651,7 +651,7 @@ namespace RON
                 // Get district of selected segment.
                 ushort districtID = districtManager.GetDistrict(segmentBuffer[_currentSegment].m_middlePosition);
 
-                // Iterate through each segment of this type in our dictionary, adding to our list of selected segments if both start and end nodes are in the same district as the initial segement.
+                // Iterate through each segment of this type in our dictionary, adding to our list of selected segments if both start and end nodes are in the same district as the initial segment.
                 foreach (ushort districtSegment in _segmentDict[SelectedPrefab])
                 {
                     if (districtManager.GetDistrict(nodeBuffer[segmentBuffer[districtSegment].m_startNode].m_position) == districtID && districtManager.GetDistrict(nodeBuffer[segmentBuffer[districtSegment].m_endNode].m_position) == districtID)
@@ -764,7 +764,7 @@ namespace RON
                 YesNoNotification warningNotification = NotificationBase.ShowNotification<YesNoNotification>();
                 warningNotification.YesButton.eventClicked += (button, clickEvent) => DeleteNets();
 
-                // Singlular or plural?
+                // Singular or plural?
                 warningNotification.AddParas(
                     Translations.Translate(_selectedSegments.Count > 1 ? "RON_WAR_DEL" : "RON_WAR_DES"),
                     Translations.Translate("RON_WAR_UND"));
@@ -815,7 +815,7 @@ namespace RON
                     // Is the selected segment ahead of this?
                     if (segmentID > _currentSegment)
                     {
-                        // 'Fresh' segment - update target to this and finish looping, since we've found our taget.
+                        // 'Fresh' segment - update target to this and finish looping, since we've found our target.
                         targetSegment = segmentID;
                         break;
                     }
@@ -825,7 +825,7 @@ namespace RON
             // Did we find a valid target?
             if (targetSegment != 0)
             {
-                ViewSegement(targetSegment);
+                ViewSegment(targetSegment);
             }
         }
 
@@ -855,7 +855,7 @@ namespace RON
                     // Is the previously-shown segment counter ahead of this?
                     if (segmentID < _currentSegment)
                     {
-                        // 'Fresh' segment - update target to this and finish looping, since we've found our taget.
+                        // 'Fresh' segment - update target to this and finish looping, since we've found our target.
                         targetSegment = segmentID;
                         break;
                     }
@@ -865,7 +865,7 @@ namespace RON
             // Did we find a valid target?
             if (targetSegment != 0)
             {
-                ViewSegement(targetSegment);
+                ViewSegment(targetSegment);
             }
         }
 
@@ -971,7 +971,7 @@ namespace RON
         /// Moves the camera to view the given segment.
         /// </summary>
         /// <param name="segmentID">Segment ID of target segment.</param>
-        private void ViewSegement(ushort segmentID)
+        private void ViewSegment(ushort segmentID)
         {
             // Yes - set camera position.
             Vector3 cameraPosition = NetManager.instance.m_segments.m_buffer[segmentID].m_middlePosition;
@@ -1048,7 +1048,7 @@ namespace RON
             NetSegment[] segments = netManager.m_segments.m_buffer;
             for (ushort i = 0; i < segments.Length; ++i)
             {
-                // Skip any inleigible flags.
+                // Skip any ineligible flags.
                 if ((segments[i].m_flags & NetSegment.Flags.Created) == 0)
                 {
                     continue;
@@ -1089,7 +1089,7 @@ namespace RON
                 }
             }
 
-            // Create new object list for fastlist, ordering as approprite.
+            // Create new object list for fastlist, ordering as appropriate.
             object[] objectArray;
             switch (_targetSearchStatus)
             {
@@ -1186,7 +1186,7 @@ namespace RON
                 }
             }
 
-            // Create new object list for fastlist, ordering as approprite.
+            // Create new object list for fastlist, ordering as appropriate.
             object[] objectArray;
             switch (_loadedSearchStatus)
             {
@@ -1276,7 +1276,7 @@ namespace RON
         }
 
         /// <summary>
-        /// Retuns the type icon filename for the given network.
+        /// Returns the type icon filename for the given network.
         /// </summary>
         /// <param name="network">Network to get icon for.</param>
         /// <returns>Type icon filename, or null if no type icon is available.</returns>
@@ -1436,7 +1436,7 @@ namespace RON
         /// Adds an arrow button.
         /// </summary>
         /// <param name="parent">Parent component.</param>
-        /// <param name="posX">Relative X postion.</param>
+        /// <param name="posX">Relative X position.</param>
         /// <param name="posY">Relative Y position.</param>
         /// <param name="width">Button width (default 32).</param>
         /// <param name="height">Button height (default 20).</param>

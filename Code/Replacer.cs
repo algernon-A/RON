@@ -79,7 +79,7 @@ namespace RON
                         // Check that this is an active network before we do actual replacement.
                         if (segment.m_flags != NetSegment.Flags.None)
                         {
-                            // Get segment name and prority.
+                            // Get segment name and priority.
                             bool priority = netManager.IsPriorityRoad(segmentID, out bool _);
                             ushort nameSeed = segment.m_nameSeed;
                             bool customNameFlag = (segment.m_flags & NetSegment.Flags.CustomName) != 0;

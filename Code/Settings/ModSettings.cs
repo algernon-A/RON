@@ -54,7 +54,7 @@ namespace RON
         private static bool s_replaceMOM = true;
 
         /// <summary>
-        /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
+        /// Gets or sets a value indicating whether North American Rail tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
         private static bool s_replaceNAR = true;
@@ -97,7 +97,7 @@ namespace RON
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Network Extensons 2 roads should be auto-replaced on load (true).
+        /// Gets or sets a value indicating whether Network Extensions 2 roads should be auto-replaced on load (true).
         /// </summary>
         [XmlElement("ReplaceNExt2")]
         public bool XMLReplaceNext
@@ -117,7 +117,7 @@ namespace RON
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
+        /// Gets or sets a value indicating whether North American Rail tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlElement("ReplaceNAR")]
         public bool XMLReplaceNAR
@@ -149,7 +149,7 @@ namespace RON
         internal static bool EnableAdvanced { get => s_enableAdvanced; set => s_enableAdvanced = value; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Network Extensons 2 roads should be auto-replaced on load (true).
+        /// Gets or sets a value indicating whether Network Extensions 2 roads should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
         internal static bool ReplaceNExt2 { get => s_replaceNExt2; set => s_replaceNExt2 = value; }
@@ -161,7 +161,7 @@ namespace RON
         internal static bool ReplaceMOM { get => s_replaceMOM; set => s_replaceMOM = value; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether North Americal Rail tracks should be auto-replaced on load (true).
+        /// Gets or sets a value indicating whether North American Rail tracks should be auto-replaced on load (true).
         /// </summary>
         [XmlIgnore]
         internal static bool ReplaceNAR { get => s_replaceNAR; set => s_replaceNAR = value; }

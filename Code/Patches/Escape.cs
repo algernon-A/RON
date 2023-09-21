@@ -17,13 +17,13 @@ namespace RON
         /// <summary>
         /// Harmony prefix patch to cancel the RON tool when it's active and the escape key is pressed.
         /// </summary>
-        /// <returns>True (continue on to game method) if the zoning tool isn't already active, false (pre-empt game method) otherwise.</returns>
+        /// <returns>True (continue on to game method) if the zoning tool isn't already active, false (preempt game method) otherwise.</returns>
         public static bool Prefix()
         {
             // Is the RON tool active?
             if (RONTool.IsActiveTool)
             {
-                // Yes; toggle tool status and return false (pre-empt original method).
+                // Yes; toggle tool status and return false (preempt original method).
                 RONTool.ToggleTool();
                 return false;
             }
@@ -32,7 +32,7 @@ namespace RON
             // Is the station panel open?
             if (StandalonePanelManager<StationPanel>.Panel is StationPanel stationPanel)
             {
-                // Yes; close panel and return false (pre-empt original method).
+                // Yes; close panel and return false (preempt original method).
                 stationPanel.Close();
                 return false;
             }
@@ -41,7 +41,7 @@ namespace RON
             // Is the built station panel open?
             if (StandalonePanelManager<BuiltStationPanel>.Panel is BuiltStationPanel builtStationPanel)
             {
-                // Yes; close panel and return false (pre-empt original method).
+                // Yes; close panel and return false (preempt original method).
                 builtStationPanel.Close();
                 return false;
             }

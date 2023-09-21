@@ -44,7 +44,7 @@ namespace RON
         }
 
         /// <summary>
-        /// Sets vehicle ingore flags to ignore all vehicles.
+        /// Sets vehicle ignore flags to ignore all vehicles.
         /// </summary>
         /// <returns>Vehicle flags ignoring all vehicles.</returns>
         public override Vehicle.Flags GetVehicleIgnoreFlags() =>
@@ -259,7 +259,7 @@ namespace RON
             // Make sure that game is loaded before activating tool.
             if (!OnLevelLoadedPatch.Loaded)
             {
-                // Loading not complete - deactivate tool by seting default tool.
+                // Loading not complete - deactivate tool by setting default tool.
                 ToolsModifierControl.SetTool<DefaultTool>();
                 return;
             }

@@ -78,7 +78,7 @@ namespace RON
         }
 
         /// <summary>
-        /// Called by Unity every tick.  Used here to track state of any in-progress replacments.
+        /// Called by Unity every tick.  Used here to track state of any in-progress replacements.
         /// </summary>
         public override void Update()
         {

@@ -5,7 +5,6 @@
 
 namespace RON
 {
-    using System;
     using System.Collections.Generic;
     using ColossalFramework;
     using ColossalFramework.Packaging;
@@ -308,8 +307,8 @@ namespace RON
         /// </summary>
         /// <param name="slopeParents">Slope parent dictionary.</param>
         /// <param name="elevatedParents">Elevated parent dictionary.</param>
-        /// <param name="bridgeParents">Brige parent dictionary.</param>
-        /// <param name="tunnelParents">Tunnel arent dictionary.</param>
+        /// <param name="bridgeParents">Bridge parent dictionary.</param>
+        /// <param name="tunnelParents">Tunnel parent dictionary.</param>
         internal static void GetParents(Dictionary<NetInfo, NetInfo> slopeParents, Dictionary<NetInfo, NetInfo> elevatedParents, Dictionary<NetInfo, NetInfo> bridgeParents, Dictionary<NetInfo, NetInfo> tunnelParents)
         {
             // Iterate through all loaded net prefabs.
@@ -404,7 +403,7 @@ namespace RON
         /// <param name="parent">Parent prefab.</param>
         private static void RecordParent(Dictionary<NetInfo, NetInfo> dictionary, NetInfo child, NetInfo parent)
         {
-            // Null checks - child is routine, but the othes shouldn't be.
+            // Null checks - child is routine, but the others shouldn't be.
             if (child == null || parent == null || dictionary == null)
             {
                 return;

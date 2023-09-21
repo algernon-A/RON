@@ -223,7 +223,7 @@ namespace RON
                 _stationLabel.relativePosition = new Vector2(StationX, (RowHeight - LabelHeight) / 2f);
                 _categoryLabel.relativePosition = new Vector2(CategoryX, (RowHeight - LabelHeight) / 2f);
 
-                // Set icon sprice position.
+                // Set icon sprite position.
                 _typeIconSprite.relativePosition = new Vector2(TypeX, (RowHeight - SpriteSize) / 2f);
             }
         }

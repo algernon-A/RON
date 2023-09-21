@@ -15,7 +15,7 @@ namespace RON
     [HarmonyPatch(typeof(ToolBase))]
     public static class ToolBasePatch
     {
-        // Setment to highlight (0 for none).
+        // Segment to highlight (0 for none).
         private static ushort s_selectedSegment = 0;
 
         /// <summary>

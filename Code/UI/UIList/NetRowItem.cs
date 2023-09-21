@@ -11,10 +11,10 @@ namespace RON
     public class NetRowItem
     {
         // Private fields.
-        private NetInfo _prefab;
+        private readonly NetInfo _prefab;
+        private readonly string _creator;
+        private readonly bool _isStation = false;
         private string _displayName;
-        private string _creator;
-        private bool _isStation = false;
 
         // Network indicator flags - if this is a vanilla/NExt2/mod asset.
         private bool _isVanilla = false;
@@ -92,7 +92,7 @@ namespace RON
             // If no period, assume it's either vanilla or Mod.
             if (period < 0)
             {
-                // Check for NEext prefabs.  NExt prefabs aren't as consistent as would be ideal....
+                // Check for NExt prefabs.  NExt prefabs aren't as consistent as would be ideal....
                 _isNExt2 =
                     _prefab.m_class.name.StartsWith("NExt") ||
                     _prefab.m_class.name.StartsWith("NEXT") ||
@@ -102,7 +102,7 @@ namespace RON
                     _prefab.name.StartsWith("Highway2L2W") ||
                     _prefab.name.StartsWith("AsymHighwayL1R2");
 
-                // Check for Extra Train Station Tracks, OneWayTrainTrack, and MOM prefabs; this overrides the NExt2 check due to some OneWayTrainTrack prefabs haveing 'NExtSingleStaitonTrack' ItemClass (and hence being picked up above as NExt2 items).
+                // Check for Extra Train Station Tracks, OneWayTrainTrack, and MOM prefabs; this overrides the NExt2 check due to some OneWayTrainTrack prefabs having 'NExtSingleStationTrack' ItemClass (and hence being picked up above as NExt2 items).
                 _isMod = _prefab.name.StartsWith("Station") ||
                 _prefab.name.StartsWith("Train Station Track (") ||
                 _prefab.name.StartsWith("Rail1L") ||
